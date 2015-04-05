@@ -1,11 +1,12 @@
 
-var mime = require('mime');
-var remote = require('remote'),
+var mime = require('mime'),
+    remote = require('remote'),
     fs = require('fs'),
     Menu = remote.require('menu'),
     BrowserWindow = remote.require('browser-window'),
     AbrDocument = loadComponent('AbrDocument'),
     Abricotine = loadComponent('Abricotine'),
+    config =  loadComponent('config'),
     argv = remote.process.argv;
 
 module.exports = function () {
@@ -31,7 +32,18 @@ module.exports = function () {
         }
         return false;
     }
-    function initMenu () {
+    function initUi (config) {
+        if (config.autoHideMenuBar) {
+            Abricotine.exec("autoHideMenuBar");
+        }
+        if (config.showBlocks) {
+            Abricotine.exec("showBlocks");
+        }
+        if (config.showHiddenCharacters) {
+            Abricotine.exec("showHiddenCharacters");
+        }
+    }
+    function initMenu (config) {
         function preprocessTemplate (element) {
             function replaceAttributes (item) {
                 if (item.command) {
@@ -39,7 +51,11 @@ module.exports = function () {
                         return function () { Abricotine.exec(command); };
                     })(item.command);
                     delete item.command;
-                } else if (item.submenu) {
+                }
+                if (item.checked && typeof item.checked === "string") {
+                    item.checked = config[item.checked] || false;
+                }
+                if (item.submenu) {
                     preprocessTemplate(item.submenu);
                 }
                 return item;
@@ -69,12 +85,16 @@ module.exports = function () {
     if (!window) {
         console.error('window is not defined');
     }
-    var fileToOpen = getFileToOpen(argv);
     window.Abricotine = Abricotine;
-    initMenu();
+    var fileToOpen = getFileToOpen(argv),
+        fullConfig = config.getFullConfig();
+    initUi(fullConfig);
+    initMenu(fullConfig);
+    Abricotine.config = fullConfig;
     Abricotine.documents.push(new AbrDocument(fileToOpen));
     
     window.onbeforeunload = function(e) {
+        config.saveUserConfig(Abricotine.config);
         return Abricotine.currentDocument().cmdClose();
     };
 };

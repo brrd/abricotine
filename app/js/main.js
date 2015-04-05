@@ -3,8 +3,6 @@ function loadComponent (componentName, ext) {
     return component;
 }
 
-
-
 $(function() {  
     var init = loadComponent('init');
     init();

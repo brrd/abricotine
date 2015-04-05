@@ -185,7 +185,7 @@
                 "label": "Hide menu bar",
                 "command": "autoHideMenuBar",
                 "type": "checkbox",
-                "checked": false
+                "checked": "autoHideMenuBar"
             },
             {
                 "type": "separator"
@@ -194,13 +194,13 @@
                 "label": "Block delimiters",
                 "command": "showBlocks",
                 "type": "checkbox",
-                "checked": false
+                "checked": "showBlocks"
             },
             {
                 "label": "Hidden characters",
                 "command": "showHiddenCharacters",
                 "type": "checkbox",
-                "checked": false
+                "checked": "showHiddenCharacters"
             },
             {
                 "type": "separator"

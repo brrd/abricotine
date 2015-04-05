@@ -103,14 +103,18 @@ module.exports = (function () {
         },
         showBlocks: function () {
             $('body').toggleClass('show-blocks');
+            Abricotine.config.showBlocks = $('body').hasClass('show-blocks');
+            
         },
         showHiddenCharacters: function () {
             $('body').toggleClass('show-hidden-characters');
+            Abricotine.config.showHiddenCharacters = $('body').hasClass('show-hidden-characters');
         },
         autoHideMenuBar: function () {
             var focusedWindow = BrowserWindow.getFocusedWindow(),
                 flag = focusedWindow.isMenuBarAutoHide();
             focusedWindow.setAutoHideMenuBar(!flag);
+            Abricotine.config.autoHideMenuBar = !flag;
         },
         toggleFullscreen: function () {
             var focusedWindow = BrowserWindow.getFocusedWindow(),

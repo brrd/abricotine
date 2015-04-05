@@ -2,7 +2,27 @@
 
 var AbrEditor = loadComponent('AbrEditor'),
     dialogs = loadComponent('dialogs'),
-    file = loadComponent('file');
+    fs = require('fs');
+
+function writeFile (data, path, callback) {
+    fs.writeFile(path, data, function (err) {
+        if (err) {
+            return console.error(err);
+        } else if (typeof callback === 'function') {
+            callback();
+        }
+    });
+}
+
+function readFile (path, callback) {
+    fs.readFile(path, 'utf8', function (err,data) {
+        if (err) {
+            return console.error(err);
+        } else if (typeof callback === 'function') {
+            callback(data, path);
+        }
+    });
+}
 
 function AbrDocument (fileToOpen) {
     this.editor = new AbrEditor(this);
@@ -71,7 +91,7 @@ AbrDocument.prototype.open = function (path) {
                 that.update(data, path);
             };
         })(this);
-    return file.read(path, callback);
+    return readFile(path, callback);
 };
 
 AbrDocument.prototype.cmdOpen = function (path) {
@@ -97,7 +117,7 @@ AbrDocument.prototype.save = function (path, data) {
                 that.updateWindowTitle();
             };
         })(this, path);
-    return file.write(data, path, callback);
+    return writeFile(data, path, callback);
 };
 
 AbrDocument.prototype.cmdSave = function () {
@@ -133,7 +153,7 @@ AbrDocument.prototype.cmdExportHtml = function (path, callback) { // NOTE: path 
     }
     var data = this.editor.getData(),
         pageContent = getHtmlPageContent(data);
-    return file.write(pageContent, path, callback);
+    return writeFile(pageContent, path, callback);
 };
 
 module.exports = AbrDocument;
