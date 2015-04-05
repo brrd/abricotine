@@ -3,6 +3,9 @@ function loadComponent (componentName, ext) {
     return component;
 }
 
-$(function() {    
-    loadComponent('Abricotine');
+
+
+$(function() {  
+    var init = loadComponent('init');
+    init();
 });

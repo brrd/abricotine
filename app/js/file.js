@@ -1,5 +1,6 @@
 var fs = require('fs');
 
+// TODO: utiliser directement fs dans le code => ce js est à supprimer
 module.exports = {
     read: function (path, callback) {
         fs.readFile(path, 'utf8', function (err,data) {

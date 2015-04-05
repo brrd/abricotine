@@ -19,6 +19,7 @@ app.on('ready', function() {
         icon: __dirname + '/abricotine.png'
     });
     mainWindow.loadUrl('file://' + __dirname + '/index.html');
+    
     mainWindow.on('closed', function() {
         mainWindow = null;
     });
