@@ -81,6 +81,26 @@ module.exports = function () {
             contextMenu.popup(BrowserWindow.getFocusedWindow());
         });
     }
+    function initDragAndDrop () {
+        document.body.ondragover = function () {
+            return false;
+        };
+        document.body.ondragleave = document.body.ondragend = function () {
+            return false;
+        };
+        document.body.ondrop = function (e) {
+            e.preventDefault();
+            var file = e.dataTransfer.files[0];
+            Abricotine.currentDocument().cmdOpen(file.path);
+            return false;
+        };
+    }
+    function initCloseEvent () {
+        window.onbeforeunload = function(e) {
+            config.saveUserConfig(Abricotine.config);
+            return Abricotine.currentDocument().cmdClose();
+        };
+    }
     
     if (!window) {
         console.error('window is not defined');
@@ -90,11 +110,8 @@ module.exports = function () {
         fullConfig = config.getFullConfig();
     initUi(fullConfig);
     initMenu(fullConfig);
+    initDragAndDrop();
+    initCloseEvent();
     Abricotine.config = fullConfig;
     Abricotine.documents.push(new AbrDocument(fileToOpen));
-    
-    window.onbeforeunload = function(e) {
-        config.saveUserConfig(Abricotine.config);
-        return Abricotine.currentDocument().cmdClose();
-    };
 };
