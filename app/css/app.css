@@ -1,0 +1,101 @@
+html, body {
+    height: 100%;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+body {
+    padding: 50px 0;
+}
+
+.CodeMirror {
+    height: auto;
+    min-height: 100%;
+    width: 80%;
+    max-width: 900px;
+    display: block;
+    margin: 0 auto;
+    border: none;
+    font-family: Monaco, "DejaVu Sans Mono", "Lucida Console", "Andale Mono", monospace;
+    font-size: 18px;
+    line-height: 30px;
+}
+
+.CodeMirror-lines {
+}
+
+.cm-header, .cm-s-default .cm-header {
+    font-family: "Lucida Sans", "Lucida Grande", "Lucida Sans Unicode", "Luxi Sans", sans-serif;
+    color: #111;
+}
+.cm-header-1 { font-size: 300%; line-height: 100%; }
+.cm-header-2 { font-size: 170%; }
+.cm-header-3 { font-size: 125%; }
+.cm-header-4 { font-size: 110%; }
+.cm-header-5 { font-size: 100%; }
+.cm-header-6 { font-size: 90%; }
+
+/* Listes */
+.cm-variable-2, .cm-variable-3 {
+    padding-left: 30px;
+    color: #000 !important;
+}
+
+.cm-variable-2 + .cm-variable-2, .cm-variable-3 + .cm-variable-3 {
+	padding-left: 0;
+}
+
+.cm-s-default .cm-quote {
+    color: #888;
+}
+
+/* Retours chariot */
+body.show-hidden-characters .cm-trailing-whitespace { }
+body.show-hidden-characters .cm-trailing-whitespace:last-child:after { content: '↵'; color: #8F058F; font-family: Monaco, "DejaVu Sans Mono", "Lucida Console", "Andale Mono", monospace; font-weight: normal; font-style: normal;}
+
+/* Tabs 
+FIXME: s'affiche pas bien
+*/
+body.show-hidden-characters .cm-tab {}
+body.show-hidden-characters .cm-tab:after { content: '⇥'; color: #8F058F; font-family: Monaco, "DejaVu Sans Mono", "Lucida Console", "Andale Mono", monospace; font-weight: normal; font-style: normal; margin-left: -50%;}
+
+/* Blocks */
+.CodeMirror-wrap pre {
+    padding-left: 20px;
+}
+body.show-blocks pre.not-blank {
+    border-left: 5px solid #ddd;
+}
+
+.cm-s-default .cm-hr {
+    color: #999;
+    width: 100%;
+    display: inline-block;
+    text-align: center;
+}
+
+
+/* Preview test */
+.selection-preview {display: inline;}
+
+body {
+    margin-right: calc(100% - 100vw); /* http://aykevl.nl/2014/09/fix-jumping-scrollbar */
+    margin-left: 0;
+    overflow-x: hidden;
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+    -webkit-user-select: none;
+    user-select: none;
+}
+
+p {
+    cursor: default;
+}
+
+/* Focusmode */
+body.focus-mode .CodeMirror-code > div:not(.CodeMirror-activeline), body.focus-mode .CodeMirror-code > pre:not(.CodeMirror-activeline) {
+    opacity: .3;
+}
+.CodeMirror-activeline-background {
+    background: transparent;
+}

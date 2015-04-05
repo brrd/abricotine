@@ -1,0 +1,19 @@
+{
+    "main": "index.js",
+    "name": "Abricotine",
+    "description": "Abricotine text editor",
+    "version": "0.0.0",
+    "keywords": [
+        "markdown",
+        "text",
+        "editor"
+    ],
+    "directories": {
+        "doc": "docs"
+    },
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "author": "brrd",
+    "license": ""
+}

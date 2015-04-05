@@ -1,0 +1,34 @@
+{
+  "name": "abricotine",
+  "version": "0.0.0",
+  "authors": [
+    "brrd"
+  ],
+  "description": "Abricotine text editor",
+  "main": "index.html",
+  "moduleType": [
+    "amd",
+    "es6",
+    "globals",
+    "node",
+    "yui"
+  ],
+  "keywords": [
+    "markdown"
+  ],
+  "license": "",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "codemirror": "~4.8.0",
+    "jquery": "2.1.1",
+    "marked": "~0.3.2",
+    "picoModal": "~2.0.1"
+  }
+}

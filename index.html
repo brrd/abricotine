@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Abricotine</title>
+    <meta charset="utf-8"/>
+    
+    <!-- CSS -->
+    
+    <link rel="stylesheet" href="bower_components/codemirror/lib/codemirror.css">
+    
+    <link rel="stylesheet" href="app/css/app.css">
+    
+    <!-- Javascript -->
+    
+    <script>
+        /* jQuery fix : https://github.com/atom/atom-shell/issues/254 */
+        window.$ = window.jQuery = require("./bower_components/jquery/dist/jquery.min.js");
+    </script> <!-- TODO: Finalement je ne l'utilise presque pas : à sortir -->
+
+    <script src="bower_components/codemirror/lib/codemirror.js"></script>
+    <script src="bower_components/codemirror/mode/markdown/markdown.js"></script>
+    <script src="bower_components/codemirror/mode/xml/xml.js"></script>
+    <script src="bower_components/codemirror/mode/gfm/gfm.js"></script>
+    <script src="bower_components/codemirror/mode/javascript/javascript.js"></script>
+    <script src="bower_components/codemirror/mode/css/css.js"></script>
+    <script src="bower_components/codemirror/mode/htmlmixed/htmlmixed.js"></script>
+    <script src="bower_components/codemirror/addon/mode/overlay.js"></script>
+    <script src="bower_components/codemirror/addon/selection/active-line.js"></script>
+    <script src="bower_components/codemirror/addon/edit/continuelist.js"></script>
+    
+    <script src="bower_components/picoModal/src/picoModal.js"></script>
+    
+    <script src="bower_components/marked/lib/marked.js"></script>
+    
+    <script src="app/js/main.js"></script>
+    
+</head>
+<body>
+    <div id="editor">
+        <textarea style="display:none" id="cm"></textarea>
+    </div>
+
+    <div id="clipboard-hack" style="display: block; position: absolute; width: 1px; height: 1px; top: -99999px; left: -99999px;" contenteditable="true"></div>
+
+</body>
+</html>

@@ -1,0 +1,35 @@
+[
+    {
+        "label": "Undo",
+        "accelerator": "CmdOrCtrl+Z",
+        "command": "undo"
+    },
+    {
+        "label": "Redo",
+        "accelerator": "CmdOrCtrl+Y",
+        "command": "redo"
+    },
+    {
+        "type": "separator"
+    },
+    {
+        "label": "Cut",
+        "command": "cut"
+    },
+    {
+        "label": "Copy",
+        "command": "copy"
+    },
+    {
+        "label": "Paste",
+        "command": "paste"
+    },
+    {
+    "type": "separator"
+    },
+    {
+    "label": "Select all",
+    "accelerator": "CmdOrCtrl+A",
+    "command": "selectAll"
+    }
+]

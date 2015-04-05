@@ -1,0 +1,11 @@
+{
+    "undef": true,
+    "globals": {
+        "CodeMirror": false,
+        "loadComponent": true,
+        "Abricotine": true
+    },
+    "browser": true,
+    "node": true,
+    "jquery": true
+}
