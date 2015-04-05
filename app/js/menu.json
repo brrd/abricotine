@@ -81,6 +81,13 @@
                 "label": "Select all",
                 "accelerator": "CmdOrCtrl+A",
                 "command": "selectAll"
+            },
+            {
+                "type": "separator"
+            },
+            {
+                "label": "Edit preferences",
+                "command": "editConfigFile"
             }
         ]
     },
@@ -215,7 +222,7 @@
         ]
     },
     {
-        "label": "Developer",
+        "label": "Debug",
         "submenu": [
             {
                 "label": "Reload", 
@@ -234,10 +241,21 @@
                 "type": "separator"
             },
             {
-                "label": "Run command...",
-                "accelerator": "F2",
-                "command": "run",
-                "enabled": false
+                "label": "View in explorer",
+                "submenu": [
+                    {
+                        "label": "Config folder",
+                        "command": "openConfigDir"
+                    },
+                    {
+                        "label": "Temp folder",
+                        "command": "openTempDir"
+                    },
+                    {
+                        "label": "Application folder",
+                        "command": "openAppDir"
+                    }
+                ]
             }
         ]
     }

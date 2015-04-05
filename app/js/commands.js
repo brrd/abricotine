@@ -46,6 +46,10 @@ module.exports = (function () {
         selectAll: function () {
             Abricotine.currentDocument().editor.execCommand("selectAll");
         },
+        editConfigFile: function () {
+            var userConfigPath = app.getPath('userData') + "/config.json";
+            shell.openItem(userConfigPath);
+        },
         italic: function () {
             Abricotine.currentDocument().editor.toggle("italic");
         },
@@ -132,6 +136,18 @@ module.exports = (function () {
         reload: function () {
             Abricotine.currentDocument().close();
             BrowserWindow.getFocusedWindow().reloadIgnoringCache();
-        }
+        },
+        openConfigDir: function () {
+            var dirPath = app.getPath('userData');
+            shell.openItem(dirPath);
+        },
+        openTempDir: function () {
+            var dirPath = app.getPath('temp') + '/abricotine';
+            shell.openItem(dirPath);
+        },
+        openAppDir: function () {
+            var dirPath = __dirname;
+            shell.openItem(dirPath);
+        },
     };
 })();
