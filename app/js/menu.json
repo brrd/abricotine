@@ -78,6 +78,41 @@
                 "type": "separator"
             },
             {
+                "label": "Search",
+                "accelerator": "CmdOrCtrl+F",
+                "command": "find"
+            },
+            {
+                "label": "Find next",
+                "accelerator": "F3",
+                "command": "findNext",
+                "enabled": true
+            },
+            {
+                "label": "Find previous",
+                "accelerator": "Shift+F3",
+                "command": "findPrev",
+                "enabled": true
+            },
+            {
+                "label": "Replace",
+                "accelerator": "CmdOrCtrl+H",
+                "command": "replace"
+            },
+            {
+                "label": "Replace all",
+                "accelerator": "CmdOrCtrl+Shift+H",
+                "command": "replaceAll"
+            },
+            {
+                "label": "Clear search",
+                "accelerator": "CmdOrCtrl+Shift+F",
+                "command": "clearSearch"
+            },
+            {
+                "type": "separator"
+            },
+            {
                 "label": "Select all",
                 "accelerator": "CmdOrCtrl+A",
                 "command": "selectAll"
@@ -172,7 +207,7 @@
             },
             {
                 "label": "Horizontal rule",
-                "accelerator": "CmdOrCtrl+H",
+                "accelerator": "CmdOrCtrl+R",
                 "command": "hr"
             }
         ]
@@ -225,12 +260,14 @@
         "label": "Debug",
         "submenu": [
             {
-                "label": "Reload", 
+                "label": "Reload shell", 
                 "accelerator": "F5",
                 "command": "reload"
             },
             {
-                "type": "separator"
+                "label": "Run command",
+                "accelerator": "F2",
+                "command": "execCommand"
             },
             {
                 "label": "Developer tools",
@@ -256,7 +293,7 @@
                         "command": "openAppDir"
                     }
                 ]
-            }
+            }            
         ]
     }
 ]

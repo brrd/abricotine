@@ -5,15 +5,15 @@ html, body {
 }
 
 body {
-    padding: 50px 0;
+    padding: 0;
 }
 
 .CodeMirror {
     height: auto;
     min-height: 100%;
-    width: 80%;
-    max-width: 900px;
+    width: 100%;
     display: block;
+    padding-top: 70px;
     margin: 0 auto;
     border: none;
     font-family: Monaco, "DejaVu Sans Mono", "Lucida Console", "Andale Mono", monospace;
@@ -21,7 +21,68 @@ body {
     line-height: 30px;
 }
 
-.CodeMirror-lines {
+.CodeMirror-scroll {
+    width: 100%;
+}
+
+.CodeMirror-sizer {
+    width: 90%;
+    max-width: 900px;
+    margin: 0 auto !important;
+}
+
+.CodeMirror-dialog {
+    left: 0; 
+    right: 0;
+    z-index: 15;
+    padding: .1em .8em;
+    overflow: hidden;
+    color: #333;
+    position: fixed;
+    font-family: Arial, sans-serif;
+    cursor: default;
+    background: #BF7FBF;
+    background: #0095dd;
+    color: #fff;
+}
+
+.CodeMirror-dialog-top {
+    border-bottom: 1px solid #eee;
+    top: 0;
+}
+
+.CodeMirror-dialog-bottom {
+    border-top: 1px solid #eee;
+    bottom: 0;
+}
+
+.CodeMirror-dialog input {
+    border: none;
+    outline: none;
+    background: transparent;
+    min-width: 300px !important;
+    margin: auto 10px;
+    color: inherit;
+    font-family: Monaco, "DejaVu Sans Mono", "Lucida Console", "Andale Mono", monospace;
+    font-size: inherit;
+    color: #fff;
+    cursor: text;
+}
+
+.CodeMirror-dialog button {
+    font-size: 70%;
+}
+
+.CodeMirror-dialog span {
+    color: #eee !important;
+    font-size: .8em;
+    float: right;
+    clear: none;
+}
+
+.CodeMirror-selected, .CodeMirror-focused .CodeMirror-selected {
+    background-color: #dce9f3;
+    color: #FFF
 }
 
 .cm-header, .cm-s-default .cm-header {
@@ -38,7 +99,7 @@ body {
 /* Listes */
 .cm-variable-2, .cm-variable-3 {
     padding-left: 30px;
-    color: #000 !important;
+    color: #000 !important; /* FIXME: surcharge la coloration syntaxique */
 }
 
 .cm-variable-2 + .cm-variable-2, .cm-variable-3 + .cm-variable-3 {
@@ -51,13 +112,13 @@ body {
 
 /* Retours chariot */
 body.show-hidden-characters .cm-trailing-whitespace { }
-body.show-hidden-characters .cm-trailing-whitespace:last-child:after { content: '↵'; color: #8F058F; font-family: Monaco, "DejaVu Sans Mono", "Lucida Console", "Andale Mono", monospace; font-weight: normal; font-style: normal;}
+body.show-hidden-characters .cm-trailing-whitespace:last-child:after { content: '↵'; color: #0095dd; font-family: Monaco, "DejaVu Sans Mono", "Lucida Console", "Andale Mono", monospace; font-weight: normal; font-style: normal;}
 
 /* Tabs 
 FIXME: s'affiche pas bien
 */
 body.show-hidden-characters .cm-tab {}
-body.show-hidden-characters .cm-tab:after { content: '⇥'; color: #8F058F; font-family: Monaco, "DejaVu Sans Mono", "Lucida Console", "Andale Mono", monospace; font-weight: normal; font-style: normal; margin-left: -50%;}
+body.show-hidden-characters .cm-tab:after { content: '⇥'; color: #0095dd; font-family: Monaco, "DejaVu Sans Mono", "Lucida Console", "Andale Mono", monospace; font-weight: normal; font-style: normal; margin-left: -50%;}
 
 /* Blocks */
 .CodeMirror-wrap pre {

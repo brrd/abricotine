@@ -26,9 +26,9 @@
     "tests"
   ],
   "dependencies": {
-    "codemirror": "~4.8.0",
+    "codemirror": "~5.1.0",
     "jquery": "2.1.1",
     "marked": "~0.3.2",
     "picoModal": "~2.0.1"
-  }
+  },
 }

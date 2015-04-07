@@ -74,12 +74,17 @@ module.exports = function () {
                 menu = Menu.buildFromTemplate(preprocessedMenuTemplate);
             return menu;
         }     
+        /* Menu */
         var menu = createMenuFromJSON('menu');
         Menu.setApplicationMenu(menu);
+        /* Context Menu */
         var contextMenu = createMenuFromJSON('contextMenu');
         document.addEventListener("contextmenu", function () {
             contextMenu.popup(BrowserWindow.getFocusedWindow());
         });
+        /* Reference in Abricotine */
+        Abricotine.menu = menu;
+        Abricotine.contextMenu = contextMenu;
     }
     function initDragAndDrop () {
         document.body.ondragover = function () {

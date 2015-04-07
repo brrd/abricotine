@@ -2,6 +2,7 @@
     TODO: harmoniser les commandes en .execCommand() puisque c'est le standard :
         * AbrDocument.execCommand()
         * toggle() et draw() doivent être convertis en commandes execCommand()
+        * on pourra alors utiliser des commandes raccourcies du type editor.undo dans les menus
 */
 module.exports = (function () {
     var remote = require('remote'),
@@ -42,6 +43,27 @@ module.exports = (function () {
         },
         paste: function () {
             document.execCommand("paste");
+        },
+        find: function () {
+            Abricotine.currentDocument().editor.execCommand("clearSearch");
+            Abricotine.currentDocument().editor.execCommand("find");
+        },
+        findNext: function () {
+            Abricotine.currentDocument().editor.execCommand("findNext");
+        },
+        findPrev: function () {
+            Abricotine.currentDocument().editor.execCommand("findPrev");
+        },
+        replace: function () {
+            Abricotine.currentDocument().editor.execCommand("clearSearch");
+            Abricotine.currentDocument().editor.execCommand("replace");
+        },
+        replaceAll: function () {
+            Abricotine.currentDocument().editor.execCommand("clearSearch");
+            Abricotine.currentDocument().editor.execCommand("replaceAll");
+        },
+        clearSearch: function () {
+            Abricotine.currentDocument().editor.execCommand("clearSearch");
         },
         selectAll: function () {
             Abricotine.currentDocument().editor.execCommand("selectAll");
@@ -149,5 +171,14 @@ module.exports = (function () {
             var dirPath = __dirname;
             shell.openItem(dirPath);
         },
+        execCommand: function () {
+            var cm = Abricotine.currentDocument().editor.cm,
+                html = "Command: <input type='text'/>",
+                callback = function (query) {
+                    if (!query) return;
+                    Abricotine.exec(query);
+                };
+            cm.openDialog(html, callback);
+        }
     };
 })();

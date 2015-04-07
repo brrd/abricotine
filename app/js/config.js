@@ -2,7 +2,15 @@ var fs = require('fs'),
     remote = require('remote'),
     app = remote.require('app'),
     defaultConfig = loadComponent('defaultConfig', 'json'),
-    userConfigPath = app.getPath('userData') + "/config.json";
+    appPath = app.getPath('userData') + '/app/',
+    userConfigPath = appPath + "/user.json";
+
+/* Create the app folder if it doesn't exist */
+try {
+    fs.mkdirSync(appPath);
+} catch(err) {
+    if ( err.code != 'EEXIST' ) throw err;
+}
 
 module.exports = {
     getUserConfig: function () {

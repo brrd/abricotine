@@ -56,14 +56,14 @@ AbrEditor.prototype.init = function () {
             lineWrapping: true,
             styleActiveLine: true, // Focusmode
             autofocus: true,
-            scrollbarStyle: "null",
+            //scrollbarStyle: "null",
             mode: "gfm",
             extraKeys: {
                 "Enter": "newlineAndIndentContinueMarkdownList",
                 "Home": "goLineLeft", 
                 "End": "goLineRight"
             }
-        },
+        }, // FIXME: replace default keymap by a custom one which removes most of hotkeys (CodeMirror interferences with menu accelerators)
         target = document.getElementById("cm"),        
         cm = CodeMirror.fromTextArea(target, options);
     
@@ -105,6 +105,10 @@ AbrEditor.prototype.getGeneration = function () {
 
 AbrEditor.prototype.setClean = function () {
     this.latestGeneration = this.getGeneration();
+};
+
+AbrEditor.prototype.execCommand = function (cmd) {
+    this.cm.execCommand(cmd);
 };
 
 module.exports = AbrEditor;
