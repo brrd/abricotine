@@ -1,19 +1,34 @@
-html, body {
+html,body {
+
     height: 100%;
     margin: 0;
+    padding: 0;
     box-sizing: border-box;
 }
 
 body {
+    overflow: hidden;
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+    -webkit-user-select: none;
+    user-select: none;
+}
+
+#editor {
     padding: 0;
+    margin: 0;
+    min-height: 100%;
+    position: relative;
+    min-height: calc(100% - 4px);
 }
 
 .CodeMirror {
-    height: auto;
-    min-height: 100%;
-    width: 100%;
+    height: 100%;
+    position: absolute;
+    top:0;
+    left: 0;
+    right: 0;
     display: block;
-    padding-top: 70px;
     margin: 0 auto;
     border: none;
     font-family: Monaco, "DejaVu Sans Mono", "Lucida Console", "Andale Mono", monospace;
@@ -21,8 +36,42 @@ body {
     line-height: 30px;
 }
 
-.CodeMirror-scroll {
-    width: 100%;
+.CodeMirror-code {
+    margin-top: 50px;
+}
+
+.CodeMirror-overlayscroll-horizontal, .CodeMirror-overlayscroll-vertical {
+
+}
+
+.CodeMirror-overlayscroll-horizontal div, .CodeMirror-overlayscroll-vertical div {
+    box-shadow:inset 0px 4px 0px 0px #FFF; /* top border hack on scrollbar */
+    background: #7fcaee
+}
+
+.CodeMirror-overlayscroll-horizontal div:hover, .CodeMirror-overlayscroll-vertical div:hover {
+    background: #0095dd
+}
+
+.CodeMirror-overlayscroll-vertical {
+    right: 4px;
+    width: 8px;
+}
+
+.CodeMirror-overlayscroll-horizontal {
+    bottom: 4px;
+    height: 8px;
+}
+
+.CodeMirror-search-match {
+    background: orange;
+    border-top: none;
+    border-bottom: none;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    opacity: .7;
+    margin-right: 4px;
+    width: 8px !important;
 }
 
 .CodeMirror-sizer {
@@ -41,7 +90,6 @@ body {
     position: fixed;
     font-family: Arial, sans-serif;
     cursor: default;
-    background: #BF7FBF;
     background: #0095dd;
     color: #fff;
 }
@@ -70,7 +118,29 @@ body {
 }
 
 .CodeMirror-dialog button {
-    font-size: 70%;
+    font-size: 0.7em;
+    background: #0077b0;
+    border-radius: 1px;
+    border: none;
+    display: inline-block;
+    cursor: pointer;
+    color: #fff;
+    font-weight: bold;
+    text-decoration: none;
+    padding: 4px 12px;
+    vertical-align: top;
+    margin: 4px 0 0 6px;
+    text-align: center;
+    border: none;
+    outline: none;
+}
+
+.CodeMirror-dialog button:hover, .CodeMirror-dialog button:active {
+    box-shadow: #333 0px -1px 1px 0px inset;
+}
+
+.CodeMirror-dialog button:focus {
+    background: #00689a;
 }
 
 .CodeMirror-dialog span {
@@ -103,7 +173,7 @@ body {
 }
 
 .cm-variable-2 + .cm-variable-2, .cm-variable-3 + .cm-variable-3 {
-	padding-left: 0;
+    padding-left: 0;
 }
 
 .cm-s-default .cm-quote {
@@ -138,16 +208,6 @@ body.show-blocks pre.not-blank {
 
 /* Preview test */
 .selection-preview {display: inline;}
-
-body {
-    margin-right: calc(100% - 100vw); /* http://aykevl.nl/2014/09/fix-jumping-scrollbar */
-    margin-left: 0;
-    overflow-x: hidden;
-    font-family: Arial, sans-serif;
-    font-size: 14px;
-    -webkit-user-select: none;
-    user-select: none;
-}
 
 p {
     cursor: default;

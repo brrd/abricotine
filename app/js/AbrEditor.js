@@ -56,7 +56,7 @@ AbrEditor.prototype.init = function () {
             lineWrapping: true,
             styleActiveLine: true, // Focusmode
             autofocus: true,
-            //scrollbarStyle: "null",
+            scrollbarStyle: "overlay",
             mode: "gfm",
             extraKeys: {
                 "Enter": "newlineAndIndentContinueMarkdownList",
