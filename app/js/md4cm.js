@@ -40,21 +40,27 @@ function getState (cm, pos) {
                 }
                 break;
             case 'header-1':
+                ret.header = 1;
                 ret.h1 = true;
                 break;
             case 'header-2':
+                ret.header = 2;
                 ret.h2 = true;
                 break;
             case 'header-3':
+                ret.header = 3;
                 ret.h3 = true;
                 break;
             case 'header-4':
+                ret.header = 4;
                 ret.h4 = true;
                 break;
             case 'header-5':
+                ret.header = 5;
                 ret.h5 = true;
                 break;
             case 'header-6':
+                ret.header = 6;
                 ret.h6 = true;
                 break;
             case 'string':

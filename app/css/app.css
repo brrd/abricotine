@@ -1,5 +1,4 @@
-html,body {
-
+html, body {
     height: 100%;
     margin: 0;
     padding: 0;
@@ -20,6 +19,26 @@ body {
     min-height: 100%;
     position: relative;
     min-height: calc(100% - 4px);
+    transition: margin .1s linear;
+}
+
+#pane {
+    position: absolute;
+    top: 0;
+    left: -220px;
+    bottom: 0;
+    width: 200px;
+    display: block;
+    background: #ddd;
+    transition: left .1s linear;
+}
+
+.pane-visible #editor {
+    margin-left: 200px;
+}
+
+.pane-visible #pane {
+    left: 0;
 }
 
 .CodeMirror {

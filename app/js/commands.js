@@ -216,6 +216,65 @@ module.exports = (function () {
                     }
                 }
             });
+        },
+        pane: function () {
+            function getToc () {
+                var cm = Abricotine.currentDocument().editor.cm,
+                    doc = cm.doc,
+                    toc = [];
+                // TODO: une idée serait de rassembler les événements de mise à jour (preview image, toc...) dans un seul doc.eachLine et de les appeler (ou pas selon la config) quand cm.onchange. Ce serait mieux niveau perf je pense.
+                doc.eachLine( function (line) {
+                    var getState = loadComponent('md4cm').getState,
+                        lineNumber = doc.getLineNumber(line),
+                        lineContent = line.text,
+                        state = getState(cm, {line: lineNumber, ch: 1});
+                    if (state.header) {
+                        toc.push ({
+                            content: lineContent,
+                            level: state.header,
+                            line: lineNumber
+                        });
+                    }
+                });
+                return toc;
+            }
+            function getTocHtml (toc) {
+                if (toc.length === 0) {
+                    return;
+                }
+                var html = "<ul>";
+                for (var i=0; i<toc.length; i++) {
+                    html += '\n<li class="toc-h' + toc[i].level + '" data-abricotine-gotoline="' + toc[i].line + '">' + toc[i].content + '</li>';
+                }
+                html += "</ul>";
+                return html;
+            }
+            function isPaneVisible () {
+                return $('body').hasClass('pane-visible');
+            }
+            function setTocEvent () {
+                // TODO: This is a test using a dirty Abricotine.paneEvent trick. This should be set once during app init.
+                if (Abricotine.paneEvent) {
+                    return;
+                }
+                $("#pane").on("click", "li", function () {
+                    var line = parseInt($(this).attr('data-abricotine-gotoline')),
+                        cm = Abricotine.currentDocument().editor.cm,
+                        doc = cm.doc;
+                    doc.setCursor({
+                        line: line,
+                        ch: null
+                    })
+                });
+                Abricotine.paneEvent = true;
+            }
+            if (!isPaneVisible()) {
+                var toc = getToc(),
+                    html = getTocHtml(toc);
+                $('#pane').html(html);
+                setTocEvent();
+            }
+            $('body').toggleClass('pane-visible');
         }
     };
 })();

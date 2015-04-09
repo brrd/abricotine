@@ -25,7 +25,7 @@ module.exports = function () {
                 return false;
             }
         }
-        for (var i=0; i<=argv.length; i++) {
+        for (var i=0; i<argv.length; i++) {
             if (isTextFile(argv[i])) {
                 return argv[i];
             }
