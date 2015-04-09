@@ -57,6 +57,9 @@ function getState (cm, pos) {
             case 'header-6':
                 ret.h6 = true;
                 break;
+            case 'string':
+                ret.string = true;
+                break;
             default:
                 break;
         }

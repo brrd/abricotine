@@ -55,6 +55,7 @@ module.exports = (function () {
             Abricotine.currentDocument().editor.execCommand("findPrev");
         },
         replace: function () {
+            // FIXME: very bad UX in codemirror search & replace (it closes after the first replace)
             Abricotine.currentDocument().editor.execCommand("clearSearch");
             Abricotine.currentDocument().editor.execCommand("replace");
         },
@@ -179,6 +180,42 @@ module.exports = (function () {
                     Abricotine.exec(query);
                 };
             cm.openDialog(html, callback);
+        },
+        testimg: function () {
+            function replaceImg (doc, url, pos) {
+                var from = pos,
+                    to = {
+                        line: pos.line,
+                        ch: pos.ch + url.length
+                    },
+                    element = $('<img>').attr('src', url).get(0);
+                doc.markText(from, to, {
+                    replacedWith: element,
+                    clearOnEnter: true,
+                    handleMouseEvents: true,
+                    inclusiveLeft: true,
+                    inclusiveRight: true
+                });
+            }
+            var cm = Abricotine.currentDocument().editor.cm,
+                doc = cm.doc;
+            doc.eachLine(function (line) {
+                var getState = loadComponent('md4cm').getState,
+                    lineNumber = doc.getLineNumber(line),
+                    re = /[-a-zA-Z0-9@:%._\+~#=\./]+\.(jpg|jpeg|png|gif|svg)/gi,
+                    str = line.text,
+                    match,
+                    pos;
+                while ((match = re.exec(str)) !== null) {
+                    pos = {
+                        line: lineNumber,
+                        ch: match.index
+                    };
+                    if (getState(cm, pos).string) {
+                        replaceImg(doc, match[0], pos);
+                    }
+                }
+            });
         }
     };
 })();
