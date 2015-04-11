@@ -152,13 +152,13 @@ module.exports = function () {
                 var from = startPos,
                     to = endPos,
                     element = $('<img>').attr('src', url).attr('alt', alt).get(0);
-                doc.markText(from, to, {
+                var textMarker = doc.markText(from, to, {
                     replacedWith: element,
                     clearOnEnter: true,
                     handleMouseEvents: true,
                     inclusiveLeft: true,
                     inclusiveRight: true
-                });
+                });                
             }
             var abrEditor = this.abrEditor,
                 doc = abrEditor.cm.doc,
@@ -173,7 +173,7 @@ module.exports = function () {
                 return;
             }
             var alt, url, startPos, endPos; // TODO: cleaner
-            while ((match = re.exec(str)) !== null) { // TODO: Il faudrait zapper les markers déjà présents (je sais pas s'ils sont pris en compte par cm)
+            while ((match = re.exec(str)) !== null) {
                 alt = match[1];
                 url = match[2];
                 startPos = {
@@ -184,6 +184,9 @@ module.exports = function () {
                     line: lineNumber,
                     ch: startPos.ch + match[0].length
                 };
+                if (doc.findMarks(startPos, endPos).length > 0) {
+                    continue;
+                }
                 replaceImg(doc, startPos, endPos, url, alt);
                 // TODO: une idée qu'elle est bonne :
                 // Replace source
