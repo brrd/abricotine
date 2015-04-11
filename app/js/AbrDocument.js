@@ -25,7 +25,7 @@ function readFile (path, callback) {
 }
 
 function AbrDocument (fileToOpen) {
-    this.editor = new AbrEditor(this);
+    this.editor = new AbrEditor(this); // TODO: ce nom n'est pas consistant
     if (fileToOpen) {
         this.open(fileToOpen);
     } else {

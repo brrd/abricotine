@@ -6,7 +6,8 @@ var md4cm = loadComponent('md4cm');
 
 function AbrEditor (abrDocument) {
     this.init();
-    this.abrDocument = abrDocument;  
+    this.abrDocument = abrDocument;
+    this.parseRoutines = {};
 }
 
 AbrEditor.prototype.init = function () {
@@ -83,6 +84,10 @@ AbrEditor.prototype.draw = function (type) {
     md4cm.draw(type)(this.cm);
 };
 
+AbrEditor.prototype.getStateAt = function (pos) {
+    return md4cm.getState(this.cm, pos);
+};
+
 AbrEditor.prototype.getData = function () {
     return this.cm.doc.getValue();
 };
@@ -109,6 +114,38 @@ AbrEditor.prototype.setClean = function () {
 
 AbrEditor.prototype.execCommand = function (cmd) {
     this.cm.execCommand(cmd);
+};
+
+// ----
+// Les routines sont des opérations qui sont effectuées sur chaque ligne quand des évenements sont déclanché. Utiliser les routines permet de ne parser le texte qu'une seule fois pour plusieurs opérations.
+
+AbrEditor.prototype.execParseRoutines = function (eventName) {
+    function eachRoutine (routines, methodName, args) {
+        var routine,
+            result;
+        for (var i=0; i<routines.length; i++) {
+            routine = routines[i];
+            if (typeof routine[methodName] === "function") {
+                result = routine[methodName](args);  
+                routine.context = result || routine.context;
+            }
+        }
+    }
+    var routines = this.parseRoutines[eventName],
+        doc = this.cm.doc;
+    if (!routines) {
+        console.log("No parseRoutines found for " + eventName + " event");
+        return false;
+    }
+    eachRoutine(routines, 'prepare');
+    doc.eachLine( function (line) {
+        var args = {
+            line: line,
+            lineNumber: doc.getLineNumber(line)
+        };
+        eachRoutine(routines, 'eachLine', args);
+    });
+    eachRoutine(routines, 'callback');
 };
 
 module.exports = AbrEditor;

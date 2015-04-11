@@ -181,42 +181,6 @@ module.exports = (function () {
                 };
             cm.openDialog(html, callback);
         },
-        testimg: function () {
-            function replaceImg (doc, url, pos) {
-                var from = pos,
-                    to = {
-                        line: pos.line,
-                        ch: pos.ch + url.length
-                    },
-                    element = $('<img>').attr('src', url).get(0);
-                doc.markText(from, to, {
-                    replacedWith: element,
-                    clearOnEnter: true,
-                    handleMouseEvents: true,
-                    inclusiveLeft: true,
-                    inclusiveRight: true
-                });
-            }
-            var cm = Abricotine.currentDocument().editor.cm,
-                doc = cm.doc;
-            doc.eachLine(function (line) {
-                var getState = loadComponent('md4cm').getState,
-                    lineNumber = doc.getLineNumber(line),
-                    re = /[-a-zA-Z0-9@:%._\+~#=\./]+\.(jpg|jpeg|png|gif|svg)/gi,
-                    str = line.text,
-                    match,
-                    pos;
-                while ((match = re.exec(str)) !== null) {
-                    pos = {
-                        line: lineNumber,
-                        ch: match.index
-                    };
-                    if (getState(cm, pos).string) {
-                        replaceImg(doc, match[0], pos);
-                    }
-                }
-            });
-        },
         pane: function () {
             function getToc () {
                 var cm = Abricotine.currentDocument().editor.cm,
@@ -264,7 +228,7 @@ module.exports = (function () {
                     doc.setCursor({
                         line: line,
                         ch: null
-                    })
+                    });
                 });
                 Abricotine.paneEvent = true;
             }
