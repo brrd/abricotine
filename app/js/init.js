@@ -151,14 +151,21 @@ module.exports = function () {
                 alt = alt || '';
                 var from = startPos,
                     to = endPos,
-                    element = $('<img>').attr('src', url).attr('alt', alt).get(0);
+                    element = $('<img>').attr('src', url).attr('alt', alt).error(function(){
+                        $(this).attr('src', 'https://cdn2.iconfinder.com/data/icons/windows-8-metro-style/32/error.png'); // TODO: plutot utiliser une classe à styler
+                    }).get(0);
                 var textMarker = doc.markText(from, to, {
                     replacedWith: element,
-                    clearOnEnter: true,
+                    clearOnEnter: false,
                     handleMouseEvents: true,
                     inclusiveLeft: true,
                     inclusiveRight: true
-                });                
+                });
+                textMarker.on("beforeCursorEnter", function () {
+                    if (!doc.somethingSelected()) { // Fix blink on selection
+                        textMarker.clear();
+                    }
+                });              
             }
             var abrEditor = this.abrEditor,
                 doc = abrEditor.cm.doc,
@@ -173,7 +180,7 @@ module.exports = function () {
                 return;
             }
             var alt, url, startPos, endPos; // TODO: cleaner
-            while ((match = re.exec(str)) !== null) {
+            while ((match = re.exec(str)) !== null) { // TODO: transformer en fonction générique autoPreview() afin de pouvoir prévisulaiser d'autres choses (maths par exemple)
                 alt = match[1];
                 url = match[2];
                 startPos = {
@@ -188,14 +195,6 @@ module.exports = function () {
                     continue;
                 }
                 replaceImg(doc, startPos, endPos, url, alt);
-                // TODO: une idée qu'elle est bonne :
-                // Replace source
-                /*$('img').error(function(){
-                    $(this).attr('src', 'missing.png');
-                });*/
-                // Ou encore mieux : http://stackoverflow.com/questions/92720/jquery-javascript-to-replace-broken-images
-                // TODO: Fixer le blink quand ou sélectionne. Une piste : http://stackoverflow.com/questions/322378/javascript-check-if-mouse-button-down
-                // Ou alors en gérant la disparition moi-même avec beforeCursorEnter() (voir manual)
             }
         }
     }).attachTo("cursorActivity", abrDoc.editor);
@@ -204,6 +203,6 @@ module.exports = function () {
     abrDoc.editor.cm.on("cursorActivity", function (cm, changeObj) {
         abrDoc.editor.execParseRoutines("cursorActivity");
     });
-    // FIXME: c'est méga complexe, les routines c'est une connerie, il faut réfléchir à quelque chose de plus simple (une boucle qui appelle des fonctions toutes connes)
+    // FIXME: c'est complexe les routines > réfléchir à quelque chose de plus simple (une boucle qui appelle des fonctions ?)
     
 };
