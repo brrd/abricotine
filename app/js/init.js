@@ -143,10 +143,18 @@ module.exports = function () {
             function lineIsSelected (lineNumber, cursor) { // FIXME: ne fonctionne pas en cas de sélection multiple (on peut l'interdire pour simplifier ?)
                 return !(cursor.begin.line > lineNumber || cursor.end.line < lineNumber);
             }
+            function isAbsoluteUrl (url) {
+                var r = new RegExp('^(?:[a-z]+:)?//', 'i');
+                return r.test(url);
+            }
             // TODO: prendre en compte ![Alt text](/path/to/img.jpg "Optional title")
+            // TODO: chercher l'image dans le répertoire d'enregistrement (s'il existe) si le chemin n'est pas une url
             function replaceImg (doc, startPos, endPos, url, alt) {
                 if (!url) {
                     return;
+                }
+                if (!isAbsoluteUrl(url) && abrEditor.abrDocument.path) {
+                    url = abrEditor.abrDocument.getDir() + '/' + url;
                 }
                 alt = alt || '';
                 var from = startPos,

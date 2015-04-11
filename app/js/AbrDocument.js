@@ -41,6 +41,7 @@ AbrDocument.prototype.setClean = function () {
     this.editor.setClean();
 };
 
+// FIXME: quand on ouvre le doc depuis un chemin relatif au dossier en cours, c'est le mauvais chemin qui est ouvert. Il faut tester si le path part de la racine et corriger si ce n'est pas le cas.
 AbrDocument.prototype.setPath = function (path) {
     this.path = path || '';
     this.updateWindowTitle();
@@ -133,6 +134,12 @@ AbrDocument.prototype.cmdSaveAs = function () {
         return false;
     }
     return this.save(path);
+};
+
+AbrDocument.prototype.getDir = function (path) {
+    path = path || this.path;
+    if (!path) { return undefined; }
+    return path.substring(0, path.lastIndexOf("/") + 1);
 };
 
 // TODO: Tout un travail : ces fonctions sont à rendre génériques, utiliser des templates, voire même factoriser avec .save()
