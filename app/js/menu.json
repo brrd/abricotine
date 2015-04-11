@@ -140,6 +140,16 @@
                 "command": "bold"
             },
             {
+                "label": "Strikethrough",
+                "accelerator": "CmdOrCtrl+,",
+                "command": "strikethrough"
+            },
+            {
+                "label": "Code",
+                "accelerator": "CmdOrCtrl+.",
+                "command": "code"
+            },
+            {
                 "type": "separator"
             },
             {

@@ -79,6 +79,12 @@ module.exports = (function () {
         bold: function () {
             Abricotine.currentDocument().editor.toggle("bold");
         },
+        strikethrough: function () {
+            Abricotine.currentDocument().editor.toggle("strikethrough");
+        },
+        code: function () {
+            Abricotine.currentDocument().editor.toggle("code");
+        },
         ul: function () { // TODO: incohérence de nommage
             Abricotine.currentDocument().editor.toggle("unordered-list");
         },

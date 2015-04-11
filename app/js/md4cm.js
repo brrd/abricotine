@@ -66,6 +66,12 @@ function getState (cm, pos) {
             case 'string':
                 ret.string = true;
                 break;
+            case 'comment':
+                ret.code = true;
+                break;
+            case 'strikethrough':
+                ret.strikethrough = true;
+                break;
             default:
                 break;
         }
@@ -288,6 +294,24 @@ function toggle (type) {
                     end: /^(.*\S+)?(\*|\_)(\s+.*)?$/
                 },
                 offset: 1
+            },
+            strikethrough: {
+                start: '~~',
+                end: '~~',
+                re: {
+                    start: /^(.*)?(~){2}(\S+.*)?$/,
+                    end: /^(.*\S+)?(~){2}(\s+.*)?$/
+                },
+                offset: 2
+            },
+            code: {
+                start: '`',
+                end: '`',
+                re: {
+                    start: /^(.*)?(`)(\S+.*)?$/,
+                    end: /^(.*\S+)?(`)(\s+.*)?$/
+                },
+                offset: 1
             }
         };
         return toggleTextByStyle;
@@ -303,7 +327,7 @@ function toggle (type) {
             return toggleBlock(type, cm);
         }  
     }
-    var toggleTextList = ['bold', 'italic'];
+    var toggleTextList = ['bold', 'italic', 'strikethrough', 'code'];
     return toggleWhatever;
 }
 
@@ -326,6 +350,7 @@ function draw(type) {
         image: ['![', '](http://)'],
         hr: ['\n***\n']
     };
+    // TODO: ajouter blockcode, éventuellement par langage. Le problème c'est que c'est forcément des paragraphes donc il faut détecter si on saute des lignes ou non.
     return drawWhatever;
 }
 
