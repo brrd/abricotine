@@ -7,7 +7,6 @@ var mime = require('mime'),
     AbrDocument = loadComponent('AbrDocument'),
     Abricotine = loadComponent('Abricotine'),
     config =  loadComponent('config'),
-    ParseRoutine =  loadComponent('ParseRoutine'),
     argv = remote.process.argv;
 
 module.exports = function () {
@@ -122,95 +121,5 @@ module.exports = function () {
     initCloseEvent();
     Abricotine.config = fullConfig;
     abrDoc = new AbrDocument(fileToOpen);
-    Abricotine.documents.push(abrDoc);
-    
-    var event = "cursorActivity"; // TODO: changes possible (plus léger)
-    
-    new ParseRoutine ({
-        name: "livePreview",
-        context: {
-            re: /!\[([-a-zA-Z0-9@:%._\+~#=\.\/! ]*)\]\(([-a-zA-Z0-9@:%._\+~#=\.\/]+\.(jpg|jpeg|png|gif|svg))\)/gi
-        },
-        prepare: function (args) {
-            var abrEditor = this.abrEditor,
-                doc = abrEditor.cm.doc;
-            this.context.cursor = {
-                begin: doc.getCursor("from"),
-                end: doc.getCursor("to")
-            };
-        },
-        eachLine: function (args) {
-            function lineIsSelected (lineNumber, cursor) { // FIXME: ne fonctionne pas en cas de sélection multiple (on peut l'interdire pour simplifier ?)
-                return !(cursor.begin.line > lineNumber || cursor.end.line < lineNumber);
-            }
-            function isAbsoluteUrl (url) {
-                var r = new RegExp('^(?:[a-z]+:)?//', 'i');
-                return r.test(url);
-            }
-            // TODO: prendre en compte ![Alt text](/path/to/img.jpg "Optional title")
-            // TODO: chercher l'image dans le répertoire d'enregistrement (s'il existe) si le chemin n'est pas une url
-            function replaceImg (doc, startPos, endPos, url, alt) {
-                if (!url) {
-                    return;
-                }
-                if (!isAbsoluteUrl(url) && abrEditor.abrDocument.path) {
-                    url = abrEditor.abrDocument.getDir() + '/' + url;
-                }
-                alt = alt || '';
-                var from = startPos,
-                    to = endPos,
-                    element = $('<img>').attr('src', url).attr('alt', alt).error(function(){
-                        $(this).attr('src', 'https://cdn2.iconfinder.com/data/icons/windows-8-metro-style/32/error.png'); // TODO: plutot utiliser une classe à styler
-                    }).get(0);
-                var textMarker = doc.markText(from, to, {
-                    replacedWith: element,
-                    clearOnEnter: false,
-                    handleMouseEvents: true,
-                    inclusiveLeft: true,
-                    inclusiveRight: true
-                });
-                textMarker.on("beforeCursorEnter", function () {
-                    if (!doc.somethingSelected()) { // Fix blink on selection
-                        textMarker.clear();
-                    }
-                });              
-            }
-            var abrEditor = this.abrEditor,
-                doc = abrEditor.cm.doc,
-                line = args.line,
-                lineNumber = args.lineNumber,
-                selections = args.selections,
-                re = this.context.re,
-                cursor = this.context.cursor,
-                str = line.text,
-                match;
-            if (lineIsSelected(lineNumber, cursor)){
-                return;
-            }
-            var alt, url, startPos, endPos; // TODO: cleaner
-            while ((match = re.exec(str)) !== null) { // TODO: transformer en fonction générique autoPreview() afin de pouvoir prévisulaiser d'autres choses (maths par exemple)
-                alt = match[1];
-                url = match[2];
-                startPos = {
-                    line: lineNumber,
-                    ch: match.index
-                };
-                endPos = {
-                    line: lineNumber,
-                    ch: startPos.ch + match[0].length
-                };
-                if (doc.findMarks(startPos, endPos).length > 0) {
-                    continue;
-                }
-                replaceImg(doc, startPos, endPos, url, alt);
-            }
-        }
-    }).attachTo("cursorActivity", abrDoc.editor);
-    
-    // À coder dans l'objet Editor
-    abrDoc.editor.cm.on("cursorActivity", function (cm, changeObj) {
-        abrDoc.editor.execParseRoutines("cursorActivity");
-    });
-    // FIXME: c'est complexe les routines > réfléchir à quelque chose de plus simple (une boucle qui appelle des fonctions ?)
-    
+    Abricotine.documents.push(abrDoc);    
 };
