@@ -174,6 +174,15 @@ body {
     color: #FFF
 }
 
+.CodeMirror-widget span.autopreview-error {
+    color: #FFF;
+    background: url(../svg/notification.svg) no-repeat 10px #C00;
+    border-radius: 6px;
+    padding: 6px 10px 6px 30px;
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+}
+
 .cm-header, .cm-s-default .cm-header {
     font-family: "Lucida Sans", "Lucida Grande", "Lucida Sans Unicode", "Luxi Sans", sans-serif;
     color: #111;

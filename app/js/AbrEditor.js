@@ -47,7 +47,7 @@ AbrEditor.prototype.init = function () {
     }
     
     function fixFocus (cm) {
-        // var watch = cm.getWrapperElement();
+        // var watch = document.getElementById("editor");
         // FUTURE: Pour l'instant il n'y a rien d'autre dans le body donc :
         var watch = document.body;
         watch.addEventListener('click', function() {
@@ -177,9 +177,8 @@ AbrEditor.prototype.execRoutines = function (eventName) {
     eachRoutine(routines, 'callback');
 };
 
-// TODO: prendre en compte ![Alt text](/path/to/img.jpg "Optional title")
 // TODO: chercher l'image dans le répertoire d'enregistrement (s'il existe) si le chemin n'est pas une url
-AbrEditor.prototype.replaceImage = function (startPos, endPos, url, alt) {
+AbrEditor.prototype.replaceImage = function (startPos, endPos, url, alt, title) {
     function isAbsoluteUrl (url) { // TODO: placer dans utils
         var r = new RegExp('^(?:[a-z]+:)?//', 'i');
         return r.test(url);
@@ -191,17 +190,22 @@ AbrEditor.prototype.replaceImage = function (startPos, endPos, url, alt) {
     alt = alt || '';
     var from = startPos,
         to = endPos,
-        element = $('<img>').attr('src', url).attr('alt', alt).error(function(){
-            $(this).attr('src', 'https://cdn2.iconfinder.com/data/icons/windows-8-metro-style/32/error.png'); // TODO: plutot utiliser une classe à styler
-        }).get(0);
-    var doc = this.cm.doc,
+        $element = $('<img>').attr('src', url).attr('alt', alt);
+        if (title) {
+            $element.attr("title", title);
+        }
+        $element.error(function(){
+            $(this).replaceWith("<span class='autopreview-error'>Image not found: " + url + "</span>");
+        });
+    var element = $element.get(0),
+        doc = this.cm.doc,
         textMarker = doc.markText(from, to, {
-        replacedWith: element,
-        clearOnEnter: false,
-        handleMouseEvents: true,
-        inclusiveLeft: true,
-        inclusiveRight: true
-    });
+            replacedWith: element,
+            clearOnEnter: false,
+            handleMouseEvents: true,
+            inclusiveLeft: true,
+            inclusiveRight: true
+        });
     textMarker.on("beforeCursorEnter", function () {
         if (!doc.somethingSelected()) { // Fix blink on selection
             textMarker.clear();
@@ -220,9 +224,7 @@ AbrEditor.prototype.replaceInLine = function (line, regex, callback) {
     var doc = this.cm.doc,
         lineNumber,
         match,
-        alt, 
-        url, 
-        startPos, 
+        startPos,
         endPos;
     if (typeof line === 'number') {
         lineNumber = line;
@@ -232,8 +234,6 @@ AbrEditor.prototype.replaceInLine = function (line, regex, callback) {
     }
     if (lineIsSelected(lineNumber)){ return; }
     while ((match = regex.exec(line.text)) !== null) {
-        alt = match[1];
-        url = match[2];
         startPos = {
             line: lineNumber,
             ch: match.index
@@ -245,7 +245,7 @@ AbrEditor.prototype.replaceInLine = function (line, regex, callback) {
         if (doc.findMarks(startPos, endPos).length > 0) {
             continue;
         }
-        callback(startPos, endPos, url, alt);
+        callback(startPos, endPos, match);
     }
     
 };
@@ -257,9 +257,12 @@ AbrEditor.prototype.defaultRoutines = function () {
             {
                 name: "livePreview",
                 eachLine: function (line) {
-                    var regex = /!\[([-a-zA-Z0-9@:%._\+~#=\.\/! ]*)\]\(([-a-zA-Z0-9@:%._\+~#=\.\/]+\.(jpg|jpeg|png|gif|svg))\)/gi;
-                    var callback = function () {
-                        return that.replaceImage.apply(that, arguments);
+                    var regex = /!\[(["'-a-zA-Z0-9@:%._\+~#=\.\/! ]*)\]\(([-a-zA-Z0-9@:%._\+~#=\.\/]+\.(jpg|jpeg|png|gif|svg))(\s("|')([-a-zA-Z0-9@:%._\+~#=\.\/! ]*)("|')\s?)?\)/gi;
+                    var callback = function (startPos, endPos, match) {
+                        var alt = match[1],
+                            url = match[2],
+                            title= match[6];
+                        return that.replaceImage(startPos, endPos, url, alt, title);
                     };
                     that.replaceInLine(line, regex, callback);
                 }
