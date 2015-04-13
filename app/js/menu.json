@@ -240,10 +240,16 @@
                 "checked": "autoHideMenuBar"
             },
             {
+                "label": "Show table of contents",
+                "command": "showTocPane",
+                "type": "checkbox",
+                "checked": "showTocPane"
+            },
+            {
                 "type": "separator"
             },
             {
-                "label": "Block delimiters",
+                "label": "Show blocks",
                 "command": "showBlocks",
                 "type": "checkbox",
                 "checked": "showBlocks"
@@ -253,6 +259,12 @@
                 "command": "showHiddenCharacters",
                 "type": "checkbox",
                 "checked": "showHiddenCharacters"
+            },
+            {
+                "label": "Auto preview images",
+                "command": "autoPreviewImages",
+                "type": "checkbox",
+                "checked": "autoPreviewImages"
             },
             {
                 "type": "separator"

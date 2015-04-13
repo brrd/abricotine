@@ -33,6 +33,7 @@ module.exports = function () {
         return false;
     }
     function initUi (config) {
+        // TODO: mettre ces entrées dans un parent "startup" du fichier config histoire de pas avoir a les énumérer
         if (config.autoHideMenuBar) {
             Abricotine.exec("autoHideMenuBar");
         }
@@ -41,6 +42,9 @@ module.exports = function () {
         }
         if (config.showHiddenCharacters) {
             Abricotine.exec("showHiddenCharacters");
+        }
+        if (config.showTocPane) {
+            Abricotine.exec("showTocPane");
         }
     }
     function initMenu (config) {
@@ -102,7 +106,17 @@ module.exports = function () {
             return false;
         };
     }
-    function initCloseEvent () {
+    function initEvents () {
+        // ToC links
+        $("#pane").on("click", "li", function () {
+            var line = parseInt($(this).attr('data-abricotine-gotoline')),
+                doc = Abricotine.currentDocument().editor.cm.doc;
+            doc.setCursor({
+                line: line,
+                ch: null
+            });
+        });
+        // Close event
         window.onbeforeunload = function(e) {
             config.saveUserConfig(Abricotine.config);
             return Abricotine.currentDocument().cmdClose();
@@ -118,7 +132,7 @@ module.exports = function () {
     initUi(fullConfig);
     initMenu(fullConfig);
     initDragAndDrop();
-    initCloseEvent();
+    initEvents();
     Abricotine.config = fullConfig;
     abrDoc = new AbrDocument(fileToOpen);
     Abricotine.documents.push(abrDoc);    

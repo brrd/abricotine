@@ -3,6 +3,10 @@
         * AbrDocument.execCommand()
         * toggle() et draw() doivent être convertis en commandes execCommand()
         * on pourra alors utiliser des commandes raccourcies du type editor.undo dans les menus
+    On peut également envisager une recherche par priorité dans :
+        1. Abricotine.execCommand(cmd)
+        2. AbrDocument.execCommand(cmd)
+        3. AbrEditor.execCommand(cmd) qui lui-même reconvertit en AbrEditor.cm.execCommand(cmd) s'il ne trouve pas, puis encore AbrEditor.execRoutine(cmd)
 */
 module.exports = (function () {
     var remote = require('remote'),
@@ -143,11 +147,24 @@ module.exports = (function () {
             $('body').toggleClass('show-hidden-characters');
             Abricotine.config.showHiddenCharacters = $('body').hasClass('show-hidden-characters');
         },
+        autoPreviewImages: function() {
+            var flag = Abricotine.config.autoPreviewImages = !Abricotine.config.autoPreviewImages,
+                editor = Abricotine.currentDocument().editor;
+            if (flag) {
+                editor.execRoutine("imageAutoPreview");
+            } else {
+                editor.clearMarkers("img");
+            }
+        },
         autoHideMenuBar: function () {
             var focusedWindow = BrowserWindow.getFocusedWindow(),
                 flag = focusedWindow.isMenuBarAutoHide();
             focusedWindow.setAutoHideMenuBar(!flag);
             Abricotine.config.autoHideMenuBar = !flag;
+        },
+        showTocPane: function () {
+            $('body').toggleClass('pane-visible');
+            Abricotine.config.showTocPane = $('body').hasClass('pane-visible');
         },
         toggleFullscreen: function () {
             var focusedWindow = BrowserWindow.getFocusedWindow(),
@@ -155,9 +172,6 @@ module.exports = (function () {
             focusedWindow.setFullScreen(!flag);
             focusedWindow.setMenuBarVisibility(flag);
             // TODO: ESC > exit Fullscreen
-        },
-        focusMode: function () {
-            $('body').toggleClass('focus-mode');
         },
         devtools: function () {
             BrowserWindow.getFocusedWindow().toggleDevTools();
@@ -186,65 +200,6 @@ module.exports = (function () {
                     Abricotine.exec(query);
                 };
             cm.openDialog(html, callback);
-        },
-        pane: function () {
-            function getToc () {
-                var cm = Abricotine.currentDocument().editor.cm,
-                    doc = cm.doc,
-                    toc = [];
-                // TODO: une idée serait de rassembler les événements de mise à jour (preview image, toc...) dans un seul doc.eachLine et de les appeler (ou pas selon la config) quand cm.onchange. Ce serait mieux niveau perf je pense.
-                doc.eachLine( function (line) {
-                    var getState = loadComponent('md4cm').getState,
-                        lineNumber = doc.getLineNumber(line),
-                        lineContent = line.text,
-                        state = getState(cm, {line: lineNumber, ch: 1});
-                    if (state.header) {
-                        toc.push ({
-                            content: lineContent,
-                            level: state.header,
-                            line: lineNumber
-                        });
-                    }
-                });
-                return toc;
-            }
-            function getTocHtml (toc) {
-                if (toc.length === 0) {
-                    return;
-                }
-                var html = "<ul>";
-                for (var i=0; i<toc.length; i++) {
-                    html += '\n<li class="toc-h' + toc[i].level + '" data-abricotine-gotoline="' + toc[i].line + '">' + toc[i].content + '</li>';
-                }
-                html += "</ul>";
-                return html;
-            }
-            function isPaneVisible () {
-                return $('body').hasClass('pane-visible');
-            }
-            function setTocEvent () {
-                // TODO: This is a test using a dirty Abricotine.paneEvent trick. This should be set once during app init.
-                if (Abricotine.paneEvent) {
-                    return;
-                }
-                $("#pane").on("click", "li", function () {
-                    var line = parseInt($(this).attr('data-abricotine-gotoline')),
-                        cm = Abricotine.currentDocument().editor.cm,
-                        doc = cm.doc;
-                    doc.setCursor({
-                        line: line,
-                        ch: null
-                    });
-                });
-                Abricotine.paneEvent = true;
-            }
-            if (!isPaneVisible()) {
-                var toc = getToc(),
-                    html = getTocHtml(toc);
-                $('#pane').html(html);
-                setTocEvent();
-            }
-            $('body').toggleClass('pane-visible');
         }
     };
 })();

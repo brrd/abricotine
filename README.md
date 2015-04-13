@@ -1,8 +1,8 @@
 # Abricotine
 
-**Markdown editor**
+Abricotine is a markdown editor app for desktop. It aims to introduce a new way of editing markdown by previewing content direcly in the text rather than in a side pane. 
 
-Abricotine is markdown editor based on [CodeMirror](http://codemirror.net/) and [atom-shell](https://github.com/atom/atom-shell/).
+Abricotine is based on modern web technologies (HTML5, CSS3 & Node.js).
 
 ![Abricotine logo](http://localhost/abricotine.png)
 

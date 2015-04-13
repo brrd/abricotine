@@ -19,7 +19,7 @@ body {
     min-height: 100%;
     position: relative;
     min-height: calc(100% - 4px);
-    transition: margin .1s linear;
+    /*transition: margin .1s linear;*/
 }
 
 #pane {
@@ -30,7 +30,7 @@ body {
     width: 200px;
     display: block;
     background: #ddd;
-    transition: left .1s linear;
+    /*transition: left .1s linear;*/
 }
 
 .pane-visible #editor {

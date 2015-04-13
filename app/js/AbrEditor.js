@@ -9,10 +9,13 @@ function AbrEditor (abrDocument) {
     this.abrDocument = abrDocument;
     this.routines = this.defaultRoutines();
     
-    // TODO: Ranger et factoriser
+    // TODO: Ranger et automatiser/factoriser
     var that = this;
     this.cm.on("cursorActivity", function (cm, changeObj) {
-        that.execRoutines("cursorActivity");
+        that.execEventRoutines("cursorActivity");
+    });
+    this.cm.on("changes", function (cm, changeObj) {
+        that.execEventRoutines("changes");
     });
 }
 
@@ -122,60 +125,7 @@ AbrEditor.prototype.execCommand = function (cmd) {
     this.cm.execCommand(cmd);
 };
 
-// ----
-// Les routines sont des opérations qui sont effectuées sur chaque ligne quand des évenements sont déclanché. Utiliser les routines permet de ne parser le texte qu'une seule fois pour plusieurs opérations.
-/*
-    routine = {
-        name: string,
-        context: {},
-        prepare: function (),
-        eachLine: function (line),
-        callback: function (),
-        editor: abrEditor (created when attachRoutine())
-    }
-*/
-
-// Unused
-AbrEditor.prototype.attachRoutine = function (routine, eventName) {
-    if (!routine || !eventName || !routine.name) { return; }
-    if (!this.routines[eventName]) {
-        this.routines[eventName] = [];
-    }
-    routine.editor = this;
-    this.routines[eventName].push(routine);
-};
-
-AbrEditor.prototype.execRoutines = function (eventName) {
-    function eachRoutine (routines, methodName, args) {
-        var routine,
-            result;
-        for (var i=0; i<routines.length; i++) {
-            routine = routines[i];
-            if (!routine.context) {
-                routine.context = {};
-            }
-            if (!routine.editor) {
-                routine.editor = that;
-            }
-            if (routine[methodName] && typeof routine[methodName] === "function") {
-                result = routine[methodName](args);  
-                routine.context = result || routine.context;
-            }
-        }
-    }
-    var that = this,
-        routines = this.routines[eventName],
-        doc = this.cm.doc;
-    if (!routines) {
-        console.log("No routine found for " + eventName + " event");
-        return false;
-    }
-    eachRoutine(routines, 'prepare');
-    doc.eachLine( function (line) {
-        eachRoutine(routines, 'eachLine', line);
-    });
-    eachRoutine(routines, 'callback');
-};
+// Batch markText functions
 
 // TODO: chercher l'image dans le répertoire d'enregistrement (s'il existe) si le chemin n'est pas une url
 AbrEditor.prototype.replaceImage = function (startPos, endPos, url, alt, title) {
@@ -191,12 +141,12 @@ AbrEditor.prototype.replaceImage = function (startPos, endPos, url, alt, title) 
     var from = startPos,
         to = endPos,
         $element = $('<img>').attr('src', url).attr('alt', alt);
-        if (title) {
-            $element.attr("title", title);
-        }
-        $element.error(function(){
-            $(this).replaceWith("<span class='autopreview-error'>Image not found: " + url + "</span>");
-        });
+    if (title) {
+        $element.attr("title", title);
+    }
+    $element.error(function(){
+        $(this).replaceWith("<span class='autopreview-error'>Image not found: " + url + "</span>");
+    });
     var element = $element.get(0),
         doc = this.cm.doc,
         textMarker = doc.markText(from, to, {
@@ -247,27 +197,151 @@ AbrEditor.prototype.replaceInLine = function (line, regex, callback) {
         }
         callback(startPos, endPos, match);
     }
-    
+};
+
+AbrEditor.prototype.getMarkers = function (selector) {
+    var doc = this.cm.doc,
+        markers = doc.getAllMarks(),
+        collection = [],
+        element;
+    if (!selector) {
+        return markers;
+    }
+    for (var i=0; i<markers.length; i++) {
+        element = markers[i].replacedWith;
+        if (element.matches(selector)) {
+            collection.push(markers[i]);
+        }
+    }
+    return collection;
+};
+
+AbrEditor.prototype.clearMarkers = function (selector) {
+    var doc = this.cm.doc,
+        markers = this.getMarkers(selector);
+    for (var i=0; i<markers.length; i++) {
+        markers[i].clear();
+    }
+};
+
+// Routines
+// Les routines sont des opérations qui sont effectuées sur chaque ligne quand des évenements sont déclanché. Utiliser les routines permet de ne parser le texte qu'une seule fois pour plusieurs opérations.
+/*
+    routine = {
+        variables: {}, // NOTE: Be aware that variable will NOT be reset before the routine runs again. If you want to reset variables you must do it in the beforeLoop() function.
+        condition: function () > bool,
+        beforeLoop: function (),
+        loop: function (line),
+        afterLoop: function (),
+    }
+*/
+
+AbrEditor.prototype.execRoutines = function (routines, checkConfig) {
+    function hasExecutableRoutines (routines) {
+        var isExecutableRoutine = false,
+            routine;
+        for (var i=0; i<routines.length; i++) {
+            routine = routines[i];
+            isExecutableRoutine = !routine.condition || (typeof routine.condition === "function" && routine.condition());
+            if (isExecutableRoutine) {
+                break;
+            }
+        }
+        return isExecutableRoutine;
+    }
+    function eachRoutine (routines, methodName, args) {
+        var routine;
+        for (var i=0; i<routines.length; i++) {
+            routine = routines[i];
+            if (!routine.variables) {
+                routine.variables = {};
+            }
+            if (routine[methodName] && typeof routine[methodName] === "function") {
+                routine[methodName](args);  
+            }
+        }
+        return;
+    }
+    var that = this,
+        doc = this.cm.doc;
+    if (checkConfig && !hasExecutableRoutines(routines)) {
+        return;
+    }
+    eachRoutine(routines, 'beforeLoop');
+    doc.eachLine( function (line) {
+        eachRoutine(routines, 'loop', line);
+    });
+    eachRoutine(routines, 'afterLoop');
+};
+
+AbrEditor.prototype.execRoutine = function (routineName) {
+    var routine = this.routines[routineName];
+    if (!routine) {
+        console.error("Routine '" + routineName + "' not found");
+        return;
+    }
+    this.execRoutines([routine]);
+};
+
+AbrEditor.prototype.execEventRoutines = function (eventName) {
+    var routines = this.routines,
+        eventRoutines = [];
+    for (var key in routines) {
+        if (routines.hasOwnProperty(key) && routines[key].events && routines[key].events.indexOf(eventName) > -1) {
+            eventRoutines.push(routines[key]);
+        }
+    }
+    if (eventRoutines.length === 0) {
+        console.log("No routine found for " + eventName + " event");
+        return false;
+    }
+    this.execRoutines(eventRoutines, true);
 };
 
 AbrEditor.prototype.defaultRoutines = function () {
     var that = this;
     return {
-        cursorActivity: [
-            {
-                name: "livePreview",
-                eachLine: function (line) {
-                    var regex = /!\[(["'-a-zA-Z0-9@:%._\+~#=\.\/! ]*)\]\(([-a-zA-Z0-9@:%._\+~#=\.\/]+\.(jpg|jpeg|png|gif|svg))(\s("|')([-a-zA-Z0-9@:%._\+~#=\.\/! ]*)("|')\s?)?\)/gi;
-                    var callback = function (startPos, endPos, match) {
-                        var alt = match[1],
-                            url = match[2],
-                            title= match[6];
-                        return that.replaceImage(startPos, endPos, url, alt, title);
-                    };
-                    that.replaceInLine(line, regex, callback);
+        imageAutoPreview:
+        {
+            events: ["cursorActivity"],
+            condition: function () { return Abricotine.config.autoPreviewImages; },
+            variables: {
+                regex: /!\[(["'-a-zA-Z0-9@:%._\+~#=\.\/! ]*)\]\(([-a-zA-Z0-9@:%._\+~#=\.\/]+\.(jpg|jpeg|png|gif|svg))(\s("|')([-a-zA-Z0-9@:%._\+~#=\.\/! ]*)("|')\s?)?\)/gi,
+                lineCallback: function (startPos, endPos, match) {
+                    var alt = match[1],
+                        url = match[2],
+                        title= match[6];
+                    return that.replaceImage(startPos, endPos, url, alt, title);
                 }
+            },
+            loop: function (line) {
+                that.replaceInLine(line, this.variables.regex, this.variables.lineCallback);
             }
-        ]
+        },
+        updateToc: {
+            events: ["changes"],
+            condition: function () { return true; },
+            variables: {
+                toc: []
+            },
+            beforeLoop: function () {
+                this.variables.toc = [];
+            },
+            loop: function (line) {
+                var lineNumber = that.cm.doc.getLineNumber(line),
+                    state = that.getStateAt({line: lineNumber, ch: 1});
+                if (state.header) {
+                    this.variables.toc.push ({
+                        content: line.text,
+                        level: state.header,
+                        line: lineNumber
+                    });
+                }
+            },
+            afterLoop: function () {
+                Abricotine.setTocHtml(this.variables.toc);
+            }
+        }
     };
 };
 
