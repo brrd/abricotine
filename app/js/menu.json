@@ -196,6 +196,11 @@
                 "command": "ol"
             },
             {
+                "label": "Todo list",
+                "accelerator": "CmdOrCtrl+Shift+T",
+                "command": "todo"
+            },
+            {
                 "label": "Quote",
                 "accelerator": "CmdOrCtrl+Q",
                 "command": "quote"
@@ -265,6 +270,12 @@
                 "command": "autoPreviewImages",
                 "type": "checkbox",
                 "checked": "autoPreviewImages"
+            },
+            {
+                "label": "Auto preview todolists",
+                "command": "autoPreviewTodo",
+                "type": "checkbox",
+                "checked": "autoPreviewTodo"
             },
             {
                 "type": "separator"

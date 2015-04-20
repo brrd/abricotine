@@ -188,15 +188,15 @@ body {
     color: #111;
 }
 .cm-header-1 { font-size: 300%; line-height: 100%; }
-.cm-header-2 { font-size: 170%; }
-.cm-header-3 { font-size: 125%; }
-.cm-header-4 { font-size: 110%; }
-.cm-header-5 { font-size: 100%; }
-.cm-header-6 { font-size: 90%; }
+.cm-header-2 { font-size: 220%; }
+.cm-header-3 { font-size: 180%; }
+.cm-header-4 { font-size: 150%; }
+.cm-header-5 { font-size: 130%; }
+.cm-header-6 { font-size: 110%; }
 
 /* Listes */
 .cm-variable-2, .cm-variable-3 {
-    padding-left: 30px;
+    padding-left: 20px;
     color: #000 !important; /* FIXME: surcharge la coloration syntaxique */
 }
 
@@ -206,6 +206,23 @@ body {
 
 .cm-s-default .cm-quote {
     color: #888;
+}
+
+/* Todolists */
+
+span.checkbox {
+    width: 20px;
+    height: 20px;
+    margin-right: 20px;
+    display: inline-block;
+    vertical-align: text-top;
+    background: transparent no-repeat center center;
+    background-image: url('../svg/checkbox-unchecked.svg');
+    cursor: pointer;
+}
+
+span.checkbox.checked {
+    background-image: url('../svg/checkbox-checked.svg');
 }
 
 /* Retours chariot */

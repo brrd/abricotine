@@ -1,131 +1,123 @@
-/*
-    TODO: harmoniser les commandes en .execCommand() puisque c'est le standard :
-        * AbrDocument.execCommand()
-        * toggle() et draw() doivent être convertis en commandes execCommand()
-        * on pourra alors utiliser des commandes raccourcies du type editor.undo dans les menus
-    On peut également envisager une recherche par priorité dans :
-        1. Abricotine.execCommand(cmd)
-        2. AbrDocument.execCommand(cmd)
-        3. AbrEditor.execCommand(cmd) qui lui-même reconvertit en AbrEditor.cm.execCommand(cmd) s'il ne trouve pas, puis encore AbrEditor.execRoutine(cmd)
-*/
 module.exports = (function () {
     var remote = require('remote'),
-        BrowserWindow = remote.require('browser-window'),
-        app = remote.require('app'),
+        app = remote.require('app'), // TODO: à entrer dans Abricotine
         shell = require('shell');
     
     return {
-        new: function () {
-            Abricotine.currentDocument().cmdClose();
+        new: function (win, doc) {
+            doc.cmdClose();
         },
-        open: function () {
-            Abricotine.currentDocument().cmdOpen();
+        open: function (win, doc) {
+            doc.cmdOpen();
         },
-        save: function () {
-            Abricotine.currentDocument().cmdSave();
+        save: function (win, doc) {
+            doc.cmdSave();
         },
-        saveAs: function () {
-            Abricotine.currentDocument().cmdSaveAs();
+        saveAs: function (win, doc) {
+            doc.cmdSaveAs();
         },
-        exportHtml: function () {
-            Abricotine.currentDocument().cmdExportHtml();
+        exportHtml: function (win, doc) {
+            doc.cmdExportHtml();
         },
-        quit: function () {
-            BrowserWindow.getFocusedWindow().close();
+        quit: function (win, doc) {
+            win.close();
         },
-        undo: function () {
-            Abricotine.currentDocument().editor.execCommand("undo");
+        undo: function (win, doc) {
+            doc.editor.execCommand("undo");
         },
-        redo: function () {
-            Abricotine.currentDocument().editor.execCommand("redo");
+        redo: function (win, doc) {
+            doc.editor.execCommand("redo");
         },
-        copy: function () {
+        copy: function (win, doc) {
             document.execCommand("copy");
         },
-        cut: function () {
+        cut: function (win, doc) {
             document.execCommand("cut");
         },
-        paste: function () {
+        paste: function (win, doc) {
             document.execCommand("paste");
         },
-        find: function () {
-            Abricotine.currentDocument().editor.execCommand("clearSearch");
-            Abricotine.currentDocument().editor.execCommand("find");
+        find: function (win, doc) {
+            doc.editor.execCommand("clearSearch");
+            doc.editor.execCommand("find");
         },
-        findNext: function () {
-            Abricotine.currentDocument().editor.execCommand("findNext");
+        findNext: function (win, doc) {
+            doc.editor.execCommand("findNext");
         },
-        findPrev: function () {
-            Abricotine.currentDocument().editor.execCommand("findPrev");
+        findPrev: function (win, doc) {
+            doc.editor.execCommand("findPrev");
         },
-        replace: function () {
+        replace: function (win, doc) {
             // FIXME: very bad UX in codemirror search & replace (it closes after the first replace)
-            Abricotine.currentDocument().editor.execCommand("clearSearch");
-            Abricotine.currentDocument().editor.execCommand("replace");
+            doc.editor.execCommand("clearSearch");
+            doc.editor.execCommand("replace");
         },
-        replaceAll: function () {
-            Abricotine.currentDocument().editor.execCommand("clearSearch");
-            Abricotine.currentDocument().editor.execCommand("replaceAll");
+        replaceAll: function (win, doc) {
+            doc.editor.execCommand("clearSearch");
+            doc.editor.execCommand("replaceAll");
         },
-        clearSearch: function () {
-            Abricotine.currentDocument().editor.execCommand("clearSearch");
+        clearSearch: function (win, doc) {
+            doc.editor.execCommand("clearSearch");
         },
-        selectAll: function () {
-            Abricotine.currentDocument().editor.execCommand("selectAll");
+        selectAll: function (win, doc) {
+            doc.editor.execCommand("selectAll");
         },
-        editConfigFile: function () {
+        editConfigFile: function (win, doc) {
             var userConfigPath = app.getPath('userData') + "/config.json";
             shell.openItem(userConfigPath);
         },
-        italic: function () {
-            Abricotine.currentDocument().editor.toggle("italic");
+        italic: function (win, doc) {
+            doc.editor.toggle("italic");
         },
-        bold: function () {
-            Abricotine.currentDocument().editor.toggle("bold");
+        bold: function (win, doc) {
+            doc.editor.toggle("bold");
         },
-        strikethrough: function () {
-            Abricotine.currentDocument().editor.toggle("strikethrough");
+        strikethrough: function (win, doc) {
+            doc.editor.toggle("strikethrough");
         },
-        code: function () {
-            Abricotine.currentDocument().editor.toggle("code");
+        code: function (win, doc) {
+            doc.editor.toggle("code");
         },
-        ul: function () { // TODO: incohérence de nommage
-            Abricotine.currentDocument().editor.toggle("unordered-list");
+        ul: function (win, doc) { // TODO: incohérence de nommage
+            doc.editor.toggle("unordered-list");
         },
-        ol: function () { // TODO: incohérence de nommage
-            Abricotine.currentDocument().editor.toggle("ordered-list");
+        ol: function (win, doc) { // TODO: incohérence de nommage
+            doc.editor.toggle("ordered-list");
         },
-        quote: function () {
-            Abricotine.currentDocument().editor.toggle("quote");
+        todo: function (win, doc) { // TODO: incohérence de nommage
+            doc.editor.toggle("todo-list");
         },
-        h1: function () {
-            Abricotine.currentDocument().editor.toggle("h1");
+        quote: function (win, doc) {
+            doc.editor.toggle("quote");
         },
-        h2: function () {
-            Abricotine.currentDocument().editor.toggle("h2");
+        h1: function (win, doc) {
+            doc.editor.toggle("h1");
         },
-        h3: function () {
-            Abricotine.currentDocument().editor.toggle("h3");
+        h2: function (win, doc) {
+            doc.editor.toggle("h2");
         },
-        h4: function () {
-            Abricotine.currentDocument().editor.toggle("h4");
+        h3: function (win, doc) {
+            doc.editor.toggle("h3");
         },
-        h5: function () {
-            Abricotine.currentDocument().editor.toggle("h5");
+        h4: function (win, doc) {
+            doc.editor.toggle("h4");
         },
-        h6: function () {
-            Abricotine.currentDocument().editor.toggle("h6");
+        h5: function (win, doc) {
+            doc.editor.toggle("h5");
         },
-        link: function () {
-            Abricotine.currentDocument().editor.draw("link");
+        h6: function (win, doc) {
+            doc.editor.toggle("h6");
         },
-        image: function () {
-            Abricotine.currentDocument().editor.draw("image");
+        link: function (win, doc) {
+            doc.editor.draw("link");
         },
-        hr: function () {
-            Abricotine.currentDocument().editor.draw("hr");
+        image: function (win, doc) {
+            doc.editor.draw("image");
         },
-        preview: function () {
+        hr: function (win, doc) {
+            doc.editor.draw("hr");
+        },
+        preview: function (win, doc) {
             // TODO: à ranger
             var fs = require('fs');
             var dir = app.getPath('temp') + '/abricotine',
@@ -134,66 +126,75 @@ module.exports = (function () {
             if (!fs.existsSync(dir)){
                 fs.mkdirSync(dir);
             }
-            Abricotine.currentDocument().cmdExportHtml(path, function () {
+            doc.cmdExportHtml(path, function () {
                 shell.openExternal('file://' + path);
             });
         },
-        showBlocks: function () {
+        showBlocks: function (win, doc) {
             $('body').toggleClass('show-blocks');
             Abricotine.config.showBlocks = $('body').hasClass('show-blocks');
             
         },
-        showHiddenCharacters: function () {
+        showHiddenCharacters: function (win, doc) {
             $('body').toggleClass('show-hidden-characters');
             Abricotine.config.showHiddenCharacters = $('body').hasClass('show-hidden-characters');
         },
-        autoPreviewImages: function() {
+        autoPreviewImages: function(win, doc) {
             var flag = Abricotine.config.autoPreviewImages = !Abricotine.config.autoPreviewImages,
-                editor = Abricotine.currentDocument().editor;
+                editor = doc.editor;
             if (flag) {
                 editor.execRoutine("imageAutoPreview");
             } else {
                 editor.clearMarkers("img");
             }
         },
-        autoHideMenuBar: function () {
-            var focusedWindow = BrowserWindow.getFocusedWindow(),
+        autoPreviewTodo: function(win, doc) {
+            var flag = Abricotine.config.autoPreviewTodo = !Abricotine.config.autoPreviewTodo,
+                editor = doc.editor;
+            if (flag) {
+                editor.execRoutine("autoPreviewTodo");
+            } else {
+                editor.clearMarkers("span.checkbox");
+            }
+        },
+        autoHideMenuBar: function (win, doc) {
+            var focusedWindow = win,
                 flag = focusedWindow.isMenuBarAutoHide();
             focusedWindow.setAutoHideMenuBar(!flag);
             Abricotine.config.autoHideMenuBar = !flag;
         },
-        showTocPane: function () {
+        showTocPane: function (win, doc) {
             $('body').toggleClass('pane-visible');
             Abricotine.config.showTocPane = $('body').hasClass('pane-visible');
         },
-        toggleFullscreen: function () {
-            var focusedWindow = BrowserWindow.getFocusedWindow(),
+        toggleFullscreen: function (win, doc) {
+            var focusedWindow = win,
                 flag = focusedWindow.isFullScreen();
             focusedWindow.setFullScreen(!flag);
             focusedWindow.setMenuBarVisibility(flag);
             // TODO: ESC > exit Fullscreen
         },
-        devtools: function () {
-            BrowserWindow.getFocusedWindow().toggleDevTools();
+        devtools: function (win, doc) {
+            win.toggleDevTools();
         },
-        reload: function () {
-            Abricotine.currentDocument().close();
-            BrowserWindow.getFocusedWindow().reloadIgnoringCache();
+        reload: function (win, doc) {
+            doc.close();
+            win.reloadIgnoringCache();
         },
-        openConfigDir: function () {
+        openConfigDir: function (win, doc) {
             var dirPath = app.getPath('userData');
             shell.openItem(dirPath);
         },
-        openTempDir: function () {
+        openTempDir: function (win, doc) {
             var dirPath = app.getPath('temp') + '/abricotine';
             shell.openItem(dirPath);
         },
-        openAppDir: function () {
+        openAppDir: function (win, doc) {
             var dirPath = __dirname;
             shell.openItem(dirPath);
         },
-        execCommand: function () {
-            var cm = Abricotine.currentDocument().editor.cm,
+        execCommand: function (win, doc) {
+            var cm = doc.editor.cm,
                 html = "Command: <input type='text'/>",
                 callback = function (query) {
                     if (!query) return;

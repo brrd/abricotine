@@ -35,16 +35,16 @@ module.exports = function () {
     function initUi (config) {
         // TODO: mettre ces entrées dans un parent "startup" du fichier config histoire de pas avoir a les énumérer
         if (config.autoHideMenuBar) {
-            Abricotine.exec("autoHideMenuBar");
+            Abricotine.execCommand("autoHideMenuBar");
         }
         if (config.showBlocks) {
-            Abricotine.exec("showBlocks");
+            Abricotine.execCommand("showBlocks");
         }
         if (config.showHiddenCharacters) {
-            Abricotine.exec("showHiddenCharacters");
+            Abricotine.execCommand("showHiddenCharacters");
         }
         if (config.showTocPane) {
-            Abricotine.exec("showTocPane");
+            Abricotine.execCommand("showTocPane");
         }
     }
     function initMenu (config) {
@@ -52,7 +52,7 @@ module.exports = function () {
             function replaceAttributes (item) {
                 if (item.command) {
                     item.click = (function (command) {
-                        return function () { Abricotine.exec(command); };
+                        return function () { Abricotine.execCommand(command); };
                     })(item.command);
                     delete item.command;
                 }
@@ -101,7 +101,7 @@ module.exports = function () {
             e.preventDefault();
             var file = e.dataTransfer.files[0];
             if (file && file.path) {
-                Abricotine.currentDocument().cmdOpen(file.path);
+                Abricotine.getCurrentDocument().cmdOpen(file.path);
             }
             return false;
         };
@@ -110,7 +110,7 @@ module.exports = function () {
         // ToC links
         $("#pane").on("click", "li", function () {
             var line = parseInt($(this).attr('data-abricotine-gotoline')),
-                doc = Abricotine.currentDocument().editor.cm.doc;
+                doc = Abricotine.getCurrentDocument().editor.cm.doc;
             doc.setCursor({
                 line: line,
                 ch: null
@@ -119,7 +119,7 @@ module.exports = function () {
         // Close event
         window.onbeforeunload = function(e) {
             config.saveUserConfig(Abricotine.config);
-            return Abricotine.currentDocument().cmdClose();
+            return Abricotine.getCurrentDocument().cmdClose();
         };
     }
     if (!window) {

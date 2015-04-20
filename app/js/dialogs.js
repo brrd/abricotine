@@ -13,7 +13,7 @@ module.exports = {
             });
         switch (userChoice) {
             case 1:
-                return Abricotine.currentDocument().save();
+                return Abricotine.getCurrentDocument().save();
             case 2:
                 return true;
         }

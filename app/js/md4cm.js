@@ -35,33 +35,35 @@ function getState (cm, pos) {
                 text = cm.getLine(pos.line);
                 if (/^\s*\d+\.\s/.test(text)) {
                     ret['ordered-list'] = true;
+                } else if (/^\s*(\*|\-|\+)\s+\[x?\]\s/.test(text)) {
+                    ret['todo-list'] = true;
                 } else {
                     ret['unordered-list'] = true;
                 }
                 break;
             case 'header-1':
-                ret.header = 1;
                 ret.h1 = true;
+                ret.header = 1;
                 break;
             case 'header-2':
-                ret.header = 2;
                 ret.h2 = true;
+                ret.header = 2;
                 break;
             case 'header-3':
-                ret.header = 3;
                 ret.h3 = true;
+                ret.header = 3;
                 break;
             case 'header-4':
-                ret.header = 4;
                 ret.h4 = true;
+                ret.header = 4;
                 break;
             case 'header-5':
-                ret.header = 5;
                 ret.h5 = true;
+                ret.header = 5;
                 break;
             case 'header-6':
-                ret.header = 6;
                 ret.h6 = true;
+                ret.header = 6;
                 break;
             case 'string':
                 ret.string = true;
@@ -172,6 +174,10 @@ function toggle (type) {
                 re: /^(\s*)\d+\.\s+/,
                 prepend: '. '
             },
+            'todo-list': {
+                re: /^(\s*)(\*|\-|\+)\s+\[x?\]\s+/,
+                prepend: '* [] '
+            },
             'h1': {
                 re: /^(\s*)#\s+/,
                 prepend: '# '
@@ -199,33 +205,31 @@ function toggle (type) {
         };
         var style = styleMap[type];
         for (var i = startPoint.line; i <= endPoint.line; i++) {
-            (function(i) {
-                var text = cm.getLine(i);
+            var text = cm.getLine(i);
 
-                var olderTypes = Object.keys(stat);
-                var hasTypeBefore = olderTypes.length > 0 && type !== olderTypes[0];
+            var olderTypes = Object.keys(stat);
+            var hasTypeBefore = olderTypes.length > 0 && type !== olderTypes[0];
 
-                if (hasTypeBefore && styleMap[olderTypes[0]]) {
-                    text = text.replace(styleMap[olderTypes[0]].re, '$1');
-                }
-                
-                if (stat[type]) {
-                    text = text.replace(style.re, '$1'); // FIXME: absurde car $1 === " " ???
-                } else {
-                    if (type === 'ordered-list') {
-                        // count how many line we want to add order.
-                        if (gap !== 0) {
-                            text = count + style.prepend + text;
-                            count ++;
-                        } else {
-                            text = 1 + style.prepend + text;
-                        }
+            if (hasTypeBefore && styleMap[olderTypes[0]]) {
+                text = text.replace(styleMap[olderTypes[0]].re, '$1');
+            }
+
+            if (stat[type]) {
+                text = text.replace(style.re, '$1'); // FIXME: absurde car $1 === " " ???
+            } else {
+                if (type === 'ordered-list') {
+                    // count how many line we want to add order.
+                    if (gap !== 0) {
+                        text = count + style.prepend + text;
+                        count ++;
                     } else {
-                        text = style.prepend + text;
+                        text = 1 + style.prepend + text;
                     }
+                } else {
+                    text = style.prepend + text;
                 }
-                setLine(i, text, cm);
-            })(i);
+            }
+            setLine(i, text, cm);
         }
         cm.focus();
     }

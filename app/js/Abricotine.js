@@ -1,19 +1,48 @@
-var commands = loadComponent('commands');
+var remote = require('remote'),
+    BrowserWindow = remote.require('browser-window'),
+    commands = loadComponent('commands');
 
 module.exports = {
     version: "0.0.1", // TODO: get from package.json (or grunt)
     commands: commands || {},
-    exec : function (command) { // TODO: execCommand = standard
+    execCommand : function (command) {
         if (this.commands && this.commands[command]) {
-            this.commands[command]();
+            var currentDocument = this.getCurrentDocument(),
+                browserWindow = this.browserWindow;
+            this.commands[command](browserWindow, currentDocument);
         } else {
             console.log("Unknown command '" + command + "'");
         }
     },
+    registerCommand: function (name, func) {
+        function alreadyExists (commandName) {
+            return ;
+        }
+        function register (name, func) {
+            if (this.commands[name] !== undefined) {
+                console.log("Warning: command '" + name + "' already exists. Older command has been overwritten.");
+            }
+            this.commands[name] = func;
+        }
+        if (typeof name === 'object' && !func) {
+            var commands = name;
+            for (var commandName in commands) {
+                if (!commands.hasOwnProperty(commandName)) {
+                    continue;
+                }
+                register(commandName, commands[commandName]);
+            }
+        } else if (typeof name === 'string' && typeof func === 'function') {
+            register(name, func);
+        } else {
+            console.error('Bad arguments in register() function.');
+        }
+    },
     documents: [],
-    currentDocument: function () {
+    getCurrentDocument: function () {
         return Abricotine.documents[0];
     },
+    browserWindow: BrowserWindow.getFocusedWindow(),
     config: {},
     menu: {},
     contextMenu: {},

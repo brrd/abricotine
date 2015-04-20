@@ -4,6 +4,7 @@ var AbrEditor = loadComponent('AbrEditor'),
     dialogs = loadComponent('dialogs'),
     fs = require('fs');
 
+// TODO: dans utils
 function writeFile (data, path, callback) {
     fs.writeFile(path, data, function (err) {
         if (err) {
@@ -33,14 +34,6 @@ function AbrDocument (fileToOpen) {
     }
 }
 
-AbrDocument.prototype.isClean = function () {
-    return this.editor.isClean();
-};
-
-AbrDocument.prototype.setClean = function () {
-    this.editor.setClean();
-};
-
 // FIXME: quand on ouvre le doc depuis un chemin relatif au dossier en cours, c'est le mauvais chemin qui est ouvert. Il faut tester si le path part de la racine et corriger si ce n'est pas le cas.
 AbrDocument.prototype.setPath = function (path) {
     this.path = path || '';
@@ -50,7 +43,7 @@ AbrDocument.prototype.setPath = function (path) {
 AbrDocument.prototype.updateWindowTitle = function () {
     var appName = 'Abricotine',
         path = this.path || "New document",
-        isClean = this.isClean(),
+        isClean = this.editor.isClean(),
         saveSymbol = "*",
         title = path + " - " + appName;
     if (!isClean) {
@@ -64,17 +57,17 @@ AbrDocument.prototype.update = function (value, path) {
     path = path || '';
     this.editor.cm.doc.setValue(value);
     this.editor.cm.refresh(); // fix CM scrollbar bug
-    this.setClean();
+    this.editor.setClean();
     this.setPath(path);
     this.editor.cm.doc.clearHistory();
 };
 
 AbrDocument.prototype.close = function (force) { 
-    this.update();    
+    this.update();
 };
 
 AbrDocument.prototype.cmdClose = function () {
-    if (this.isClean() || dialogs.askClose(this.path)) {
+    if (this.editor.isClean() || dialogs.askClose(this.path)) {
         this.close();
         return true;
     } else {
@@ -96,7 +89,7 @@ AbrDocument.prototype.open = function (path) {
 };
 
 AbrDocument.prototype.cmdOpen = function (path) {
-    var isClosable = this.isClean() || dialogs.askClose(this.path);
+    var isClosable = this.editor.isClean() || dialogs.askClose(this.path);
     if (!isClosable) {
         return false;
     }
@@ -113,7 +106,7 @@ AbrDocument.prototype.save = function (path, data) {
     data = data || this.editor.getData();
     var callback = (function (that, path) {
             return function () {
-                that.setClean();
+                that.editor.setClean();
                 that.setPath(path);
                 that.updateWindowTitle();
             };

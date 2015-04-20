@@ -318,6 +318,49 @@ AbrEditor.prototype.defaultRoutines = function () {
                 that.replaceInLine(line, this.variables.regex, this.variables.lineCallback);
             }
         },
+        autoPreviewTodo: // TODO: harmoniser le lexique checkbox/todo
+        {
+            events: ["cursorActivity"],
+            condition: function () { return Abricotine.config.autoPreviewTodo; },
+            variables: {
+                regex: /^(\*|-|\+)\s+\[(x?)\]\s+/g,
+                lineCallback: function (startPos, endPos, match) {
+                    var isChecked = match[2] === "x";
+                    return (function (startPos, endPos, isChecked) {
+                        var from = startPos,
+                            to = endPos;
+                        var checkedClass = isChecked ? " checked" : "",
+                            $element = $("<span class='checkbox" + checkedClass +"'></span>");
+                        var element = $element.get(0),
+                            doc = that.cm.doc,
+                            textMarker = doc.markText(from, to, {
+                                replacedWith: element,
+                                clearOnEnter: false,
+                                handleMouseEvents: false,
+                                inclusiveLeft: true,
+                                inclusiveRight: true
+                            });
+                        textMarker.on("beforeCursorEnter", function () {
+                            if (!doc.somethingSelected()) { // Fix blink on selection
+                                textMarker.clear();
+                            }
+                        });
+                        $element.click( function () {
+                            // Toggle
+                            // TODO: func générique
+                            var pos = textMarker.find(),
+                                isChecked = $(this).hasClass("checked"),
+                                newText = isChecked ? "* [] " : "* [x] ";
+                            doc.replaceRange(newText, pos.from, pos.to);
+                            $(this).toggleClass("checked");
+                        });
+                    })(startPos, endPos, isChecked);
+                }
+            },
+            loop: function (line) {
+                that.replaceInLine(line, this.variables.regex, this.variables.lineCallback);
+            }
+        },
         updateToc: {
             events: ["changes"],
             condition: function () { return true; },
