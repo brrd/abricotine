@@ -193,11 +193,23 @@ body {
 .cm-header-4 { font-size: 150%; }
 .cm-header-5 { font-size: 130%; }
 .cm-header-6 { font-size: 110%; }
+.header-underline .cm-header-1, .header-underline .cm-header-2 { font-size: 100%; }
+
+/* Test */
+.toto {color: red !important;}
 
 /* Listes */
-.cm-variable-2, .cm-variable-3 {
+.cm-variable-2:first-child, .cm-variable-3:first-child {
     padding-left: 20px;
-    color: #000 !important; /* FIXME: surcharge la coloration syntaxique */
+}
+
+.cm-s-default .cm-variable-2, .cm-s-default .cm-variable-3 {
+    color:  #000;
+}
+
+.cm-s-default .checkbox-checked .cm-variable-2, .cm-s-default .checkbox-checked .cm-variable-3 {
+    color:  #999;
+    text-decoration: line-through;
 }
 
 .cm-variable-2 + .cm-variable-2, .cm-variable-3 + .cm-variable-3 {

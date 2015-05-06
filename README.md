@@ -4,7 +4,7 @@ Abricotine is a markdown editor app for desktop. It aims to introduce a new way 
 
 Abricotine is based on modern web technologies (HTML5, CSS3 & Node.js).
 
-![Abricotine logo](http://localhost/abricotine.png)
+![Abricotine logo](http://localhost/abricotine-banner.png)
 
 ## Features
 

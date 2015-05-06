@@ -354,7 +354,7 @@ function draw(type) {
         image: ['![', '](http://)'],
         hr: ['\n***\n']
     };
-    // TODO: ajouter blockcode, éventuellement par langage. Le problème c'est que c'est forcément des paragraphes donc il faut détecter si on saute des lignes ou non.
+    // TODO: ajouter blockcode, éventuellement par langage. Le problème c'est que c'est forcément des paragraphes donc il faut détecter si on saute des lignes ou non. RQ: c'est ce qu'il aurait déjà fallu faire pour hr.
     return drawWhatever;
 }
 

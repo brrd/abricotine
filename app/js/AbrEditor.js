@@ -323,7 +323,7 @@ AbrEditor.prototype.defaultRoutines = function () {
             events: ["cursorActivity"],
             condition: function () { return Abricotine.config.autoPreviewTodo; },
             variables: {
-                regex: /^(\*|-|\+)\s+\[(x?)\]\s+/g,
+                regex: /^(\*|-|\+)\s+\[(\s*|x)?\]\s+/g,
                 lineCallback: function (startPos, endPos, match) {
                     var isChecked = match[2] === "x";
                     return (function (startPos, endPos, isChecked) {
@@ -335,16 +335,13 @@ AbrEditor.prototype.defaultRoutines = function () {
                             doc = that.cm.doc,
                             textMarker = doc.markText(from, to, {
                                 replacedWith: element,
-                                clearOnEnter: false,
+                                clearOnEnter: true,
                                 handleMouseEvents: false,
                                 inclusiveLeft: true,
                                 inclusiveRight: true
                             });
-                        textMarker.on("beforeCursorEnter", function () {
-                            if (!doc.somethingSelected()) { // Fix blink on selection
-                                textMarker.clear();
-                            }
-                        });
+                        var className = isChecked ? "checkbox-checked" : "checkbox-unchecked";
+                        doc.addLineClass(startPos.line, "text", className); // TODO: remove (mais il faut que le remove soit fait au tout début du traitement, ça nécessite donc une réécriture des routine...)
                         $element.click( function () {
                             // Toggle
                             // TODO: func générique
@@ -384,8 +381,84 @@ AbrEditor.prototype.defaultRoutines = function () {
             afterLoop: function () {
                 Abricotine.setTocHtml(this.variables.toc);
             }
+        }, 
+        paragraphs: { // NOTE: pas rééllement des paraa (les différents paragraphes de blockquotes ne sont pas joints par exemple)
+            events: ["changes"], // TODO: il faudrait utiliser l'API de CM pour connaitre ces changements et ainsi éviter de tout reprocess à chaque fois
+            condition: function () { return true; },
+            variables: {
+                paragraphs: [],
+                firstLine: false,
+                fixUnderlinedHeaders: function (paragraph) { // FIXME: en fait c'est la merde car ces routines sont dépendantes les unes des autres : paragraphs (qui n'est pas utile en fait) > fixUnderlinedHeaders > updateToc. Il faut donc gérer les dépendances ou alors tout gérer dans une même routine.
+                    var doc = that.cm.doc,
+                        lineNumber = paragraph.to,
+                        line = doc.getLineHandle(lineNumber),
+                        state = that.getStateAt({line: lineNumber, ch: 1});
+                    if (state.header && (state.h1 || state.h2) && /^(=|-){2,}$/.test(line.text.trim())) {
+                        doc.addLineClass(lineNumber, "text", "header-underline"); // FIXME: il faut remove aussi ! Horrible ! Mieux vaut modifier le mode.
+                        that.applyClassToParagraph(paragraph, "toto");
+                    }
+                }
+            },
+            beforeLoop: function () {
+                this.variables.paragraphs = [];
+                this.variables.firstLine = false;
+            },
+            loop: function (line) { // TODO: plutôt passer cm.lineInfo en param
+                var lineNumber = that.cm.doc.getLineNumber(line);
+                if (/^\s*$/.test(line.text)) {
+                    if (this.variables.firstLine !== false) {
+                        var firstLine = this.variables.firstLine,
+                            paragraph = {
+                                from: firstLine,
+                                to: lineNumber - 1,
+                                lines: lineNumber - firstLine
+                            };
+                        this.variables.paragraphs.push(paragraph);
+                        this.variables.fixUnderlinedHeaders(paragraph);
+                        this.variables.firstLine = false;
+                    }
+                    return;
+                }
+                if (this.variables.firstLine === false) {
+                    this.variables.firstLine = lineNumber;
+                }
+            },
+            afterLoop: function () {
+                if (this.variables.firstLine) {
+                    var firstLine = this.variables.firstLine,
+                        paragraph = {
+                            from: firstLine,
+                            to: that.cm.doc.lastLine(),
+                            lines: that.cm.doc.lastLine() - firstLine + 1
+                        };
+                    this.variables.paragraphs.push(paragraph);
+                    this.variables.fixUnderlinedHeaders(paragraph);
+                }
+                that.paragraphs = this.variables.paragraphs;
+            }
         }
     };
+};
+
+AbrEditor.prototype.getParagraph = function (lineNumber) {
+    var p = this.paragraphs;
+    if (typeof lineNumber === "undefined") {
+        lineNumber = this.cm.doc.getCursor().line;
+    }
+    for (var i=0; i<p.length; i++) {
+        if (lineNumber >= p[i].from && lineNumber <= p[i].to) {
+            return i;
+        }
+    }
+};
+
+AbrEditor.prototype.applyClassToParagraph = function (paragraph, className, where) {
+    where = where || "text";
+    var doc = this.cm.doc;
+    for (var i=paragraph.from; i<=paragraph.to+1; i++) {
+        doc.addLineClass(i, where, className);
+        
+    }
 };
 
 module.exports = AbrEditor;
