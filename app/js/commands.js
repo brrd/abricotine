@@ -198,9 +198,70 @@ module.exports = (function () {
                 html = "Command: <input type='text'/>",
                 callback = function (query) {
                     if (!query) return;
-                    Abricotine.exec(query);
+                    Abricotine.execCommand(query);
                 };
             cm.openDialog(html, callback);
+        },
+        pasteAndPreview: function (win, doc) {
+            function preview (cm, changeObject) {
+                cm.off("change", preview);
+                var lines = changeObject.text.length,
+                    from = changeObject.from,
+                    to = {
+                        line: from.line + lines,
+                        ch: null
+                    }, 
+                    element = $(changeObject.text.join("\n")).get(0) ;
+                // TODO: redondant, faire une fonction pour preview le HTML
+                cm.doc.markText(from, to, {
+                    clearOnEnter: true,
+                    inclusiveLeft: true,
+                    inclusiveRight: true,
+                    replacedWith: element
+                });
+            }
+            var cm = doc.editor.cm;
+            cm.on("change", preview);
+            document.execCommand("paste");
+        },
+        previewLine: function (win, doc) { // Peut-être à transformer en 'autopreview iframe' >>> faire une func générique qui permette de preview à partir des balises trouvées (iframe, object et autres ?)
+            var cm = doc.editor.cm,
+                lineNumber = cm.doc.getCursor().line,
+                content = cm.getLine(lineNumber),
+                from = {
+                    line: lineNumber,
+                    ch: 0
+                },
+                to = {
+                    line: lineNumber,
+                    ch: null
+                },
+                // element = $(content).get(0); // TODO: il faudrait tester si c'est du html (pour ça on peut utiliser la colo syntaxique de CM). (...) En fait si c'est pas du HTML jquery ne l'interprète pas. Juste le problème en cas de <span>Toto</span><span>Hey !</span> seul le premier élément est interprété à cause du get(0). A ce moment là il faudrait le wrapper dans une div pour avoir tout. Je pense que la modif suivante fait le job :
+                element = (function (html) {
+                    var e = $(html);
+                    if (!e) {
+                        return null;
+                    }
+                    if (e.length > 1) {
+                        e = $("<div style='display: inline-block'></div>").append(e);
+                    }
+                    return e.get(0);
+                })(content);
+            if (!element) {
+                return;
+            }
+            // Move the cursor at the end of line because markText.clearOnEnter = true
+            cm.doc.setCursor({
+               line: lineNumber,
+                ch: null
+            });
+            // TODO: redondant, faire une fonction pour preview le HTML
+            cm.doc.markText(from, to, {
+                clearOnEnter: true,
+                inclusiveLeft: false,
+                inclusiveRight: false,
+                replacedWith: element
+            });                
         }
     };
 })();
