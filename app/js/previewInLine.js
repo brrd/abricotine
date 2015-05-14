@@ -100,6 +100,25 @@ function previewInLine (cm, line, types) {
                         $(this).toggleClass("checked");
                     });
                 }
+            },
+            iframe: {
+                regex: /^\s*<iframe[^<>]*src=["']https?:\/\/(?:www\.)?([-a-zA-Z0-9@:%._\+~#=\.! ]*)[-a-zA-Z0-9@:%._\+~#=\.\/! ]*["'][^<>]*>\s*<\/iframe>\s*$/gi,
+                createElement: function (match) {
+                    var whitelist = ["youtube.com", "google.com"],
+                        url = match[1],
+                        allowed = false;
+                    for (var i=0; i<whitelist.length; i++) {
+                        if (url.trim() !== whitelist[i]) {
+                            continue;
+                        }
+                        return $(match[0]).get(0);
+                    }
+                },
+                marker: {
+                    clearOnEnter: true,
+                    inclusiveLeft: false,
+                    inclusiveRight: false
+                }
             }
             // TODO: anchor, iframe (whitelist), maths
         };

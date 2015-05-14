@@ -48,7 +48,7 @@ function AbrEditor (abrDocument) {
     this.cm.on("cursorActivity", function (cm) {
         var previewInLine = loadComponent("previewInLine");
         that.cm.doc.eachLine( function (line) {
-            previewInLine(that.cm, line, ["image", "checkbox"]);
+            previewInLine(that.cm, line, ["image", "checkbox", "iframe"]);
         });
     });
     this.cm.on("changes", function (cm, changeObj) {
