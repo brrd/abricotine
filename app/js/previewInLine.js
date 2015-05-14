@@ -115,9 +115,16 @@ function previewInLine (cm, line, types) {
                     }
                 },
                 marker: {
-                    clearOnEnter: true,
+                    clearOnEnter: false,
                     inclusiveLeft: false,
                     inclusiveRight: false
+                },
+                callback: function (textMarker, element) {
+                    textMarker.on("beforeCursorEnter", function () {
+                        if (!doc.somethingSelected()) { // Fix blink on selection
+                            textMarker.clear();
+                        }
+                    });
                 }
             },
             anchor: {
@@ -133,8 +140,28 @@ function previewInLine (cm, line, types) {
                     inclusiveLeft: true,
                     inclusiveRight: true
                 }
+            },
+            math: {
+                regex: /\${2,3}[^$]*\${2,3}/gi, // FIXME: trick for display:block problem = show everything as inline
+                createElement: function (match) {
+                    var $element = $("<span class='math'>" + match[0] + "</span>");
+                    return $element.get(0);
+                },
+                marker: {
+                    clearOnEnter: false,
+                    handleMouseEvents: true,
+                    inclusiveLeft: true,
+                    inclusiveRight: true
+                },
+                callback: function (textMarker, element) {
+                    window.MathJax.Hub.Queue(["Typeset", window.MathJax.Hub, element]);
+                    textMarker.on("beforeCursorEnter", function () {
+                        if (!doc.somethingSelected()) { // Fix blink on selection
+                            textMarker.clear();
+                        }
+                    });
+                }
             }
-            // TODO: maths
         };
     if (types === undefined || types.length === 0) {
         return;

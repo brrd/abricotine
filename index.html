@@ -36,8 +36,22 @@
     <script src="bower_components/codemirror/addon/scroll/simplescrollbars.js"></script>
     <script src="bower_components/codemirror/addon/scroll/annotatescrollbar.js"></script>
     <script src="bower_components/codemirror/addon/search/matchesonscrollbar.js"></script>
-    
-    <script src="bower_components/picoModal/src/picoModal.js"></script>
+      
+    <script>
+        window.MathJax = {
+            jax: ["input/TeX", "output/HTML-CSS"],
+            extensions: ["tex2jax.js", "CHTML-preview.js", "TeX/AMSmath.js", "TeX/AMSsymbols.js", "TeX/noErrors.js", "TeX/noUndefined.js"],
+            tex2jax: {
+                inlineMath: [ ['$$$','$$$'] ],
+                displayMath: [ ['$$','$$'] ]
+            },
+            showProcessingMessages: false,
+            messageStyle: "none",
+            showMathMenu: false,
+            showMathMenuMSIE: false
+        };
+    </script>
+    <script src="bower_components/MathJax/MathJax.js?config=TeX-AMS_HTML"></script>
     
     <script src="bower_components/marked/lib/marked.js"></script>
     
