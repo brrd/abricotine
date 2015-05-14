@@ -237,6 +237,16 @@ span.checkbox.checked {
     background-image: url('../svg/checkbox-checked.svg');
 }
 
+/* Anchors */
+a.anchor {
+    display: inline-block;
+    width: 24px;
+    height: 24px;
+    overflow: hidden;
+    background: url('../svg/anchor.svg') no-repeat center;    
+    cursor: default;
+}
+
 /* Retours chariot */
 body.show-hidden-characters .cm-trailing-whitespace { }
 body.show-hidden-characters .cm-trailing-whitespace:last-child:after { content: '↵'; color: #0095dd; font-family: Monaco, "DejaVu Sans Mono", "Lucida Console", "Andale Mono", monospace; font-weight: normal; font-style: normal;}

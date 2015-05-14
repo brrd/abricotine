@@ -48,7 +48,7 @@ function previewInLine (cm, line, types) {
     var doc = cm.doc,
         config = {
             image: {
-                regex: /!\[(["'-a-zA-Z0-9@:%._\+~#=\.\/! ]*)\]\(([-a-zA-Z0-9@:%._\+~#=\.\/]+\.(jpg|jpeg|png|gif|svg))(\s("|')([-a-zA-Z0-9@:%._\+~#=\.\/! ]*)("|')\s?)?\)/gi,
+                regex: /!\[(["'-a-zA-Z0-9@:%._\+~#=\.\/! ]*)\]\(([-a-zA-Z0-9@:%_\+~#=\.\/]+\.(jpg|jpeg|png|gif|svg))(\s("|')([-a-zA-Z0-9@:%_\+~#=\.\/! ]*)("|')\s?)?\)/gi,
                 createElement: function (match) {
                     var alt = match[1] || '',
                         url = match[2],
@@ -102,7 +102,7 @@ function previewInLine (cm, line, types) {
                 }
             },
             iframe: {
-                regex: /^\s*<iframe[^<>]*src=["']https?:\/\/(?:www\.)?([-a-zA-Z0-9@:%._\+~#=\.! ]*)[-a-zA-Z0-9@:%._\+~#=\.\/! ]*["'][^<>]*>\s*<\/iframe>\s*$/gi,
+                regex: /^\s*<iframe[^<>]*src=["']https?:\/\/(?:www\.)?([-a-zA-Z0-9@:%_\+~#=\.! ]*)[-a-zA-Z0-9@:%_\+~#=\.\/! ]*["'][^<>]*>\s*<\/iframe>\s*$/gi,
                 createElement: function (match) {
                     var whitelist = ["youtube.com", "google.com"],
                         url = match[1],
@@ -111,7 +111,7 @@ function previewInLine (cm, line, types) {
                         if (url.trim() !== whitelist[i]) {
                             continue;
                         }
-                        return $(match[0]).get(0);
+                        return $(match[0]).get(0); // TODO: maybe better/safer to reprocess an iframe from scratch ?
                     }
                 },
                 marker: {
@@ -119,8 +119,22 @@ function previewInLine (cm, line, types) {
                     inclusiveLeft: false,
                     inclusiveRight: false
                 }
+            },
+            anchor: {
+                regex: /<a\s+name=["']([-a-zA-Z0-9@%_\+~#=!]+)["']\s*(\/>|>\s*<\/a>)/gi,
+                createElement: function (match) {
+                    var name = match[1],
+                        $element = $("<a class='anchor' name='" + name + "' title='Anchor: " + name + "'></a>");
+                    return $element.get(0);
+                },
+                marker: {
+                    clearOnEnter: true,
+                    handleMouseEvents: true,
+                    inclusiveLeft: true,
+                    inclusiveRight: true
+                }
             }
-            // TODO: anchor, iframe (whitelist), maths
+            // TODO: maths
         };
     if (types === undefined || types.length === 0) {
         return;
