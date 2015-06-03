@@ -24,6 +24,18 @@ function AbrEditor (abrDocument) {
             }
         });
     }
+    
+    // Ignore content into $$ delimiters (inline MathJax)
+    // FIXME: This is dirty. We lose highlight until the end of the line. I should rewrite the markdown mode instead.
+    CodeMirror.defineMode("abricotine", function(config) {
+        return CodeMirror.multiplexingMode(
+            CodeMirror.getMode(config, "gfm"),
+            {open: "$$", close: "\n",
+             mode: CodeMirror.getMode(config, "text/plain")}
+            // .. more multiplexed styles can follow here
+        );
+    });
+    
     var that = this, 
         options= {
             lineNumbers: false,
@@ -31,7 +43,7 @@ function AbrEditor (abrDocument) {
             styleActiveLine: true, // Focusmode
             autofocus: true,
             scrollbarStyle: "overlay",
-            mode: "gfm",
+            mode: "abricotine",
             extraKeys: {
                 "Enter": "newlineAndIndentContinueMarkdownList",
                 "Home": "goLineLeft", 
@@ -40,13 +52,13 @@ function AbrEditor (abrDocument) {
         }; // FIXME: replace default keymap by a custom one which removes most of hotkeys (CodeMirror interferences with menu accelerators)
     this.cm = CodeMirror.fromTextArea(document.getElementById("cm"), options);
     addTrailingWhitespace(this.cm);
-    notBlankLines(this.cm);
+    // notBlankLines(this.cm); // TODO: remove this function if unused
     this.setClean();
     this.abrDocument = abrDocument;
     
     // Events
     this.cm.on("cursorActivity", function (cm) {
-        var previewInLine = loadComponent("previewInLine");
+        var previewInLine = loadComponent("previewInLine"); // TODO: to clean
         that.cm.doc.eachLine( function (line) {
             previewInLine(that.cm, line, ["image", "checkbox", "iframe", "anchor", "math"]);
         });
@@ -122,25 +134,37 @@ AbrEditor.prototype.clearMarkers = function (selector) {
     }
 };
 
-AbrEditor.prototype.getParagraph = function (lineNumber) {
-    var p = this.paragraphs;
-    if (typeof lineNumber === "undefined") {
-        lineNumber = this.cm.doc.getCursor().line;
+// Returns false if line is blank or a {from: lineNumber, to: lineNumber} object otherwise
+AbrEditor.prototype.getParagraph = function (posOrLine) {
+    function isEmptyLine (lineNumber) {
+        return doc.getLine(lineNumber).trim() === "";
     }
-    for (var i=0; i<p.length; i++) {
-        if (lineNumber >= p[i].from && lineNumber <= p[i].to) {
-            return i;
+    function getBoundary (lineNumber, step) {
+        var i = lineNumber,
+            min = doc.firstLine(),
+            max = doc.lastLine();
+        step = step < 0 ? step = -1 : step = 1;
+        while (i >= min && i<= max) {
+            if (isEmptyLine(i)) {
+                return i - step;
+            }
+            i += step;
         }
+        return step === -1 ? min : max;
     }
-};
-
-AbrEditor.prototype.applyClassToParagraph = function (paragraph, className, where) {
-    where = where || "text";
-    var doc = this.cm.doc;
-    for (var i=paragraph.from; i<=paragraph.to+1; i++) {
-        doc.addLineClass(i, where, className);
-        
+    var doc = this.cm.doc,
+        lineNumber;
+    if (typeof posOrLine === "object" && posOrLine.line) {
+        lineNumber = posOrLine.line;
+    } else if (typeof posOrLine === "number") {
+        lineNumber = posOrLine;
+    } else {
+        lineNumber = doc.getCursor().line;
     }
+    return isEmptyLine(lineNumber) ? false : {
+        from: getBoundary(lineNumber, -1),
+        to: getBoundary(lineNumber, 1)
+    };
 };
 
 AbrEditor.prototype.updateToc = function () {

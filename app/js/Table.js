@@ -210,41 +210,47 @@ Table.prototype = {
     }
 };
 
-/*
-    Playing with it ! 
-*/
+if (!module.parent) { 
+    /*
+        Playing with it ! 
+    */
 
-var arr = [
+    var arr = [
         ["Premier", "Deuxième", "Troisième"],
         ["---", ":--", "--:"],
         ["Salut", "Une cellule", "Une autre !"],
         ["Encore une ligne", "Coucou", "Après j'arrête..."],
     ],
-    str = "|Premier|Deuxième|Troisième|\n" +
-            "|--|--|--|\n" +
-            "|Salut|Une cellule|Une autre !|\n" +
-            "|Encore une ligne|Coucou|Après j'arrête...|";
+        str = "|Premier|Deuxième|Troisième|\n" +
+        "|--|--|--|\n" +
+        "|Salut|Une cellule|Une autre !|\n" +
+        "|Encore une ligne|Coucou|Après j'arrête...|",
+        tabSeparated = "Lorem\tIpsum\tDolorn" +
+                        "aaaaa\tbbbb\tcccc"; // TODO: ajouter la possibilité d'importer des données avec un séprateur. Il faut alors ajouter un header (ou pas)
 
-function show (table, msg) {
-    if (msg) {
-        console.log(msg + "\n");
-    }
-    console.log(table.get() + "\n\n");
+    var show = function (table, msg) {
+        if (msg) {
+            console.log(msg + "\n");
+        }
+        console.log(table.get() + "\n\n");
+    };
+
+    var t1 = new Table(5, 4, true);
+    show(t1, "t1: Empty table");
+
+    var t2 = new Table(arr);
+    t2.align(1).align(0, "center");
+    show(t2, "t2: Table from array with custom cols align");
+
+    var t3 = new Table(str);
+    t3.beautify();
+    show(t3, "t3: Table from string + beautify");
+
+    t3.addCol(2).addRow(4).beautify();
+    show(t3, "Adding a col and a row to t3");
+
+    t3.removeCol(1).removeRow(3).beautify();
+    show(t3, "Removing a col and a row from t3");
+} else {
+    module.exports = Table;
 }
-
-var t1 = new Table(5, 4, true);
-show(t1, "t1: Empty table");
-
-var t2 = new Table(arr);
-t2.align(1).align(0, "center");
-show(t2, "t2: Table from array with custom cols align");
-
-var t3 = new Table(str);
-t3.beautify();
-show(t3, "t3: Table from string + beautify");
-
-t3.addCol(2).addRow(4).beautify();
-show(t3, "Adding a col and a row to t3");
-
-t3.removeCol(1).removeRow(3).beautify();
-show(t3, "Removing a col and a row from t3");

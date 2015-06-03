@@ -287,3 +287,9 @@ body.focus-mode .CodeMirror-code > div:not(.CodeMirror-activeline), body.focus-m
 .CodeMirror-activeline-background {
     background: transparent;
 }
+
+/* Mathjax fix */
+.CodeMirror-widget div.MathJax_Display {
+    margin-top: -1em;
+    margin-bottom: -1em;
+}
