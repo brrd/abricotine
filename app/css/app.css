@@ -33,7 +33,7 @@ body:not(.pane-visible) #editor {
     bottom: 0;
     width: 200px;
     display: none;
-    background: #ddd;
+    background: #eee;
 }
 
 #pane-divider {
@@ -307,4 +307,65 @@ body.focus-mode .CodeMirror-code > div:not(.CodeMirror-activeline), body.focus-m
 .CodeMirror-widget div.MathJax_Display {
     margin-top: -1em;
     margin-bottom: -1em;
+}
+
+/* Pane */
+#pane {
+    cursor: default;
+}
+
+#pane h2 {
+    padding-left: 10px;
+    background-color: #ccc;
+    font-size: 14px;
+}
+
+#pane ul {
+    list-style: none;
+    padding-left: 0;
+    margin: 0;
+}
+
+#pane ul li {
+    cursor: pointer;
+    line-height: 1.5em;
+    border-top: 1px solid #ddd;
+}
+
+#pane ul li:first-child {
+    border-top: none;
+}
+
+#pane ul li:hover, #pane ul li:focus {
+    background: #0095dd;
+    border-color: #0095dd;
+    color: #fff;
+}
+
+#pane ul li:hover + li, #pane ul li:focus + li {
+    border-color: #0095dd;
+}
+
+#pane ul li.toc-h1 {
+    padding-left: 10px;
+}
+
+#pane ul li.toc-h2 {
+    padding-left: 20px;
+}
+
+#pane ul li.toc-h3 {
+    padding-left: 30px;
+}
+
+#pane ul li.toc-h4 {
+    padding-left: 40px;
+}
+
+#pane ul li.toc-h5 {
+    padding-left: 50px;
+}
+
+#pane ul li.toc-h6 {
+    padding-left: 60px;
 }

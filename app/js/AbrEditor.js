@@ -183,8 +183,10 @@ AbrEditor.prototype.updateToc = function () {
                     line: lineNumber - 1
                 });
             } else {
+                var text = line.text.match(/^#+\s(.*)$/);
+                text = text && text[1] ? text[1] : line.text;
                 toc.push ({
-                    content: line.text,
+                    content: text,
                     level: state.header,
                     line: lineNumber
                 });
