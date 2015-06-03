@@ -31,6 +31,14 @@ module.exports = (function () {
         copy: function (win, doc) {
             document.execCommand("copy");
         },
+        copyHtml: function (win, doc) {
+            var clipboard = require('clipboard'),
+            data = doc.editor.cm.doc.getSelection("\n"),
+            html = window.marked(data);
+            // FIXME: Looks like clipboard.writeHtml(html) is not working properly.
+            // TODO: Add this command to the menu when fixed.
+            clipboard.writeHtml(html);
+        },
         cut: function (win, doc) {
             document.execCommand("cut");
         },
