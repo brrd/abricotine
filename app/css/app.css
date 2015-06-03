@@ -1,4 +1,5 @@
 html, body {
+    min-height: 100%;
     height: 100%;
     margin: 0;
     padding: 0;
@@ -17,28 +18,42 @@ body {
     padding: 0;
     margin: 0;
     min-height: 100%;
-    position: relative;
-    min-height: calc(100% - 4px);
-    /*transition: margin .1s linear;*/
+    margin-left: 5px;  /* Same as divider width */
+    left: 0;
+}
+
+body:not(.pane-visible) #editor {
+    left: 0 !important;
 }
 
 #pane {
     position: absolute;
     top: 0;
-    left: -220px;
+    left: 0;
     bottom: 0;
     width: 200px;
-    display: block;
+    display: none;
     background: #ddd;
-    /*transition: left .1s linear;*/
+}
+
+#pane-divider {
+    left: 200px; /* Same as left component width */
+    width: 5px;
+    background: transparent;
+    border-left: 1px solid #999;
+    display: none;
 }
 
 .pane-visible #editor {
-    margin-left: 200px;
+    left: 200px;  /* Same as left component width */
 }
 
 .pane-visible #pane {
-    left: 0;
+    display: block;
+}
+
+.pane-visible #pane-divider {
+    display: block;
 }
 
 .CodeMirror {

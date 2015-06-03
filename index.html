@@ -6,6 +6,7 @@
     
     <!-- CSS -->
     
+    <link rel="stylesheet" href="bower_components/split-pane/split-pane.css" />
     <link rel="stylesheet" href="bower_components/codemirror/lib/codemirror.css">
     <link rel="stylesheet" href="bower_components/codemirror/addon/dialog/dialog.css">
     <link rel="stylesheet" href="bower_components/codemirror/addon/scroll/simplescrollbars.css">
@@ -18,6 +19,8 @@
         /* jQuery fix : https://github.com/atom/atom-shell/issues/254 */
         window.$ = window.jQuery = require("./bower_components/jquery/dist/jquery.min.js");
     </script> <!-- TODO: Finalement je ne l'utilise presque pas : à sortir -->
+    
+    <script src="bower_components/split-pane/split-pane.js"></script>
 
     <script src="bower_components/codemirror/lib/codemirror.js"></script>
     <script src="bower_components/codemirror/mode/markdown/markdown.js"></script>
@@ -60,12 +63,20 @@
     
 </head>
 <body>
-    <id id="pane"></id>
-    <div id="editor">
-        <textarea style="display:none" id="cm"></textarea>
+    <div class="split-pane fixed-left">
+        <id class="split-pane-component" id="pane"></id>
+        <div class="split-pane-divider" id="pane-divider"></div>
+        <div class="split-pane-component" id="editor">
+            <textarea style="display:none" id="cm"></textarea>
+        </div>
     </div>
-
     <div id="clipboard-hack" style="display: block; position: absolute; width: 1px; height: 1px; top: -99999px; left: -99999px;" contenteditable="true"></div>
+
+    <script>
+        $(function() {
+            $('div.split-pane').splitPane();
+        });
+    </script>
 
 </body>
 </html>
