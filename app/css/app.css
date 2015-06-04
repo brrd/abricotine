@@ -34,6 +34,12 @@ body:not(.pane-visible) #editor {
     width: 200px;
     display: none;
     border: none;
+    overflow: hidden;
+    box-sizing: border-box;
+}
+
+#pane:hover {
+    overflow-y: auto;
 }
 
 #pane-divider {
@@ -374,4 +380,21 @@ body.focus-mode .CodeMirror-code > div:not(.CodeMirror-activeline), body.focus-m
     cursor: default;
     margin-bottom: 10px;
     display: block;
+}
+
+/* Let's get this party started */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    display: none;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    box-shadow:inset 0px 4px 0px 0px #FFF; /* top border hack on scrollbar */
+    background: #7fcaee;
+    border-radius: 3px;
 }
