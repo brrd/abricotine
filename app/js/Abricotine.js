@@ -79,11 +79,10 @@ module.exports = {
         if (toc.length === 0) {
             return;
         }
-        var html = "<h2>Table of contents</h2>\n<ul>";
+        var html = "";
         for (var i=0; i<toc.length; i++) {
-            html += '\n<li class="toc-h' + toc[i].level + '" data-abricotine-gotoline="' + toc[i].line + '">' + toc[i].content + '</li>';
+            html += '\n<li class="toc-h' + toc[i].level + '" data-abricotine-gotoline="' + toc[i].line + '"><a>' + toc[i].content + '</a></li>';
         }
-        html += "</ul>";
-        $('#pane').html(html);
+        $('#pane ul#toc-container').html(html);
     }
 };

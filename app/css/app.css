@@ -33,14 +33,14 @@ body:not(.pane-visible) #editor {
     bottom: 0;
     width: 200px;
     display: none;
-    background: #eee;
+    border: none;
 }
 
 #pane-divider {
     left: 200px; /* Same as left component width */
     width: 5px;
     background: transparent;
-    border-left: 1px solid #999;
+    border-right: 1px solid #999;
     display: none;
 }
 
@@ -320,7 +320,7 @@ body.focus-mode .CodeMirror-code > div:not(.CodeMirror-activeline), body.focus-m
     font-size: 14px;
 }
 
-#pane ul {
+/*#pane ul {
     list-style: none;
     padding-left: 0;
     margin: 0;
@@ -344,28 +344,34 @@ body.focus-mode .CodeMirror-code > div:not(.CodeMirror-activeline), body.focus-m
 
 #pane ul li:hover + li, #pane ul li:focus + li {
     border-color: #0095dd;
-}
+}*/
 
-#pane ul li.toc-h1 {
+#pane ul li.toc-h1 a {
     padding-left: 10px;
 }
 
-#pane ul li.toc-h2 {
+#pane ul li.toc-h2 a {
     padding-left: 20px;
 }
 
-#pane ul li.toc-h3 {
+#pane ul li.toc-h3 a {
     padding-left: 30px;
 }
 
-#pane ul li.toc-h4 {
+#pane ul li.toc-h4 a {
     padding-left: 40px;
 }
 
-#pane ul li.toc-h5 {
+#pane ul li.toc-h5 a {
     padding-left: 50px;
 }
 
-#pane ul li.toc-h6 {
+#pane ul li.toc-h6 a {
     padding-left: 60px;
+}
+
+#pane-select {
+    cursor: default;
+    margin-bottom: 10px;
+    display: block;
 }

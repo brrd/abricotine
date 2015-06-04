@@ -11,6 +11,9 @@
     <link rel="stylesheet" href="bower_components/codemirror/addon/dialog/dialog.css">
     <link rel="stylesheet" href="bower_components/codemirror/addon/scroll/simplescrollbars.css">
     <link rel="stylesheet" href="bower_components/codemirror/addon/search/matchesonscrollbar.css">
+    
+    <link rel="stylesheet" href="bower_components/uikit/css/uikit.gradient.min.css">
+    
     <link rel="stylesheet" href="app/css/app.css">
     
     <!-- Javascript -->
@@ -41,6 +44,9 @@
     <script src="bower_components/codemirror/addon/scroll/annotatescrollbar.js"></script>
     <script src="bower_components/codemirror/addon/search/matchesonscrollbar.js"></script>
       
+    <!-- TODO: voir si necessaire ou pas. Est-ce lourd ? -->
+    <script src="bower_components/uikit/js/uikit.min.js"></script>
+      
     <script>
         window.MathJax = {
             jax: ["input/TeX", "output/HTML-CSS"],
@@ -64,7 +70,11 @@
 </head>
 <body>
     <div class="split-pane fixed-left">
-        <id class="split-pane-component" id="pane"></id>
+        <div class="split-pane-component uk-panel uk-panel-box" id="pane">
+            <a class="uk-panel-title" id="pane-select"><span class="uk-icon-book"></span> Table of contents</a>
+            
+                <ul id="toc-container" class="uk-nav uk-nav-side"></ul>
+        </div>
         <div class="split-pane-divider" id="pane-divider"></div>
         <div class="split-pane-component" id="editor">
             <textarea style="display:none" id="cm"></textarea>
