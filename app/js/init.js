@@ -77,7 +77,7 @@ module.exports = function () {
                 preprocessedMenuTemplate = preprocessTemplate(menuTemplate),
                 menu = Menu.buildFromTemplate(preprocessedMenuTemplate);
             return menu;
-        }     
+        }
         /* Menu */
         var menu = createMenuFromJSON('menu');
         Menu.setApplicationMenu(menu);
@@ -110,11 +110,23 @@ module.exports = function () {
         // ToC links
         $("#pane").on("click", "li", function () {
             var line = parseInt($(this).attr('data-abricotine-gotoline')),
-                doc = Abricotine.getCurrentDocument().editor.cm.doc;
+                cm = Abricotine.getCurrentDocument().editor.cm,
+                doc = cm.doc,
+                height = cm.getScrollInfo().clientHeight,
+                top = cm.heightAtLine(line, "local"),
+                marginTop = 10;
             doc.setCursor({
                 line: line,
                 ch: null
             });
+            // Scoll to show target at the top of the window
+            cm.scrollIntoView({
+                top: top - marginTop,
+                bottom: top + height - marginTop,
+                left: 0,
+                right: 0
+            });
+            cm.focus();
         });
         // Close event
         window.onbeforeunload = function(e) {
@@ -135,5 +147,5 @@ module.exports = function () {
     initEvents();
     Abricotine.config = fullConfig;
     abrDoc = new AbrDocument(fileToOpen);
-    Abricotine.documents.push(abrDoc);    
+    Abricotine.documents.push(abrDoc);
 };

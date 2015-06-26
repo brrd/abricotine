@@ -1,4 +1,4 @@
-// Wrapper CodeMirror    
+// Wrapper CodeMirror
 // C'est ici qu'on a les fonctions ital, bold, etc.
 // Most of the methods are aliases to CodeMirror functions
 
@@ -24,7 +24,7 @@ function AbrEditor (abrDocument) {
             }
         });
     }
-    
+
     // Ignore content into $$ delimiters (inline MathJax)
     // FIXME: This is dirty. We lose highlight until the end of the line. I should rewrite the markdown mode instead.
     CodeMirror.defineMode("abricotine", function(config) {
@@ -35,8 +35,8 @@ function AbrEditor (abrDocument) {
             // .. more multiplexed styles can follow here
         );
     });
-    
-    var that = this, 
+
+    var that = this,
         options= {
             lineNumbers: false,
             lineWrapping: true,
@@ -46,7 +46,7 @@ function AbrEditor (abrDocument) {
             mode: "abricotine",
             extraKeys: {
                 "Enter": "newlineAndIndentContinueMarkdownList",
-                "Home": "goLineLeft", 
+                "Home": "goLineLeft",
                 "End": "goLineRight"
             }
         }; // FIXME: replace default keymap by a custom one which removes most of hotkeys (CodeMirror interferences with menu accelerators)
@@ -55,13 +55,33 @@ function AbrEditor (abrDocument) {
     // notBlankLines(this.cm); // TODO: remove this function if unused
     this.setClean();
     this.abrDocument = abrDocument;
-    
+
     // Events
     this.cm.on("cursorActivity", function (cm) {
+        // Inline preview
         var previewInLine = loadComponent("previewInLine"); // TODO: to clean
         that.cm.doc.eachLine( function (line) {
             previewInLine(that.cm, line, ["image", "checkbox", "iframe", "anchor", "math"]);
         });
+        // Cursorspy (like scrollspy but with cursor)
+        var currentLine = that.cm.doc.getCursor().line,
+            $prevHeaderLi = (function(line) {
+                var $header;
+                $("#toc-container li").each(function() {
+                    var linkedLine = $(this).attr("data-abricotine-gotoline");
+                    if (linkedLine !== undefined && linkedLine <= line) {
+                        $header = $(this);
+                    } else {
+                        return false; // break
+                    }
+                });
+                return $header;
+            })(currentLine);
+        if ($prevHeaderLi && !$prevHeaderLi.hasClass("uk-active")) {
+            $("#toc-container li.uk-active").removeClass("uk-active");
+            $prevHeaderLi.addClass("uk-active");
+            // TODO: auto scroll to $prevHeaderLi if hidden in pane
+        }
     });
     this.cm.on("changes", function (cm, changeObj) {
         that.abrDocument.updateWindowTitle();
@@ -169,8 +189,8 @@ AbrEditor.prototype.getParagraph = function (posOrLine) {
 
 AbrEditor.prototype.updateToc = function () {
     var that = this,
-        toc = [],    
-        prevLine; 
+        toc = [],
+        prevLine;
     this.cm.doc.eachLine( function (line) {
         var lineNumber = that.cm.doc.getLineNumber(line),
             state = that.getStateAt({line: lineNumber, ch: 1});

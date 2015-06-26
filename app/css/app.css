@@ -36,6 +36,7 @@ body:not(.pane-visible) #editor {
     border: none;
     overflow: hidden;
     box-sizing: border-box;
+    padding: 15px 0 15px 15px;
 }
 
 #pane:hover {
@@ -46,7 +47,7 @@ body:not(.pane-visible) #editor {
     left: 200px; /* Same as left component width */
     width: 5px;
     background: transparent;
-    border-right: 1px solid #999;
+    border-left: 1px solid #999;
     display: none;
 }
 
@@ -121,7 +122,7 @@ body:not(.pane-visible) #editor {
 }
 
 .CodeMirror-dialog {
-    left: 0; 
+    left: 0;
     right: 0;
     z-index: 15;
     padding: .1em .8em;
@@ -264,7 +265,7 @@ a.anchor {
     width: 24px;
     height: 24px;
     overflow: hidden;
-    background: url('../svg/anchor.svg') no-repeat center;    
+    background: url('../svg/anchor.svg') no-repeat center;
     cursor: default;
 }
 
@@ -272,7 +273,7 @@ a.anchor {
 body.show-hidden-characters .cm-trailing-whitespace { }
 body.show-hidden-characters .cm-trailing-whitespace:last-child:after { content: '↵'; color: #0095dd; font-family: Monaco, "DejaVu Sans Mono", "Lucida Console", "Andale Mono", monospace; font-weight: normal; font-style: normal;}
 
-/* Tabs 
+/* Tabs
 FIXME: s'affiche pas bien
 */
 body.show-hidden-characters .cm-tab {}
