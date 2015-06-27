@@ -2,7 +2,7 @@ module.exports = (function () {
     var remote = require('remote'),
         app = remote.require('app'), // TODO: à entrer dans Abricotine
         shell = require('shell');
-    
+
     return {
         new: function (win, doc) {
             doc.cmdClose();
@@ -141,7 +141,7 @@ module.exports = (function () {
         showBlocks: function (win, doc) {
             $('body').toggleClass('show-blocks');
             Abricotine.config.showBlocks = $('body').hasClass('show-blocks');
-            
+
         },
         showHiddenCharacters: function (win, doc) {
             $('body').toggleClass('show-hidden-characters');
@@ -209,6 +209,15 @@ module.exports = (function () {
                     Abricotine.execCommand(query);
                 };
             cm.openDialog(html, callback);
+        },
+        tableCreate: function (win, doc) {
+            doc.editor.tableCreate();
+        },
+        tableBeautify: function (win, doc) {
+            doc.editor.tableDo("beautify");
+        },
+        test: function (win, doc) {
+            doc.editor.tableDo("addCols", 1, 2);
         }
     };
 })();
