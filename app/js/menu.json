@@ -224,6 +224,38 @@
                 "label": "Horizontal rule",
                 "accelerator": "CmdOrCtrl+R",
                 "command": "hr"
+            },
+            {
+                "type": "separator"
+            },
+            {
+                "label": "New table",
+                "submenu": [
+                    {
+                        "label": "2×2",
+                        "command": "tableCreate",
+                        "parameters": [2, 2]
+                    },
+                    {
+                        "label": "3×3",
+                        "command": "tableCreate",
+                        "parameters": [3, 3]
+                    },
+                    {
+                        "label": "4×4",
+                        "command": "tableCreate",
+                        "parameters": [4, 4]
+                    },
+                    {
+                        "label": "5×5",
+                        "command": "tableCreate",
+                        "parameters": [5, 5]
+                    }
+                ]
+            },
+            {
+                "label": "Beautify table",
+                "command": "tableBeautify"
             }
         ]
     },
@@ -293,7 +325,7 @@
         "label": "Debug",
         "submenu": [
             {
-                "label": "Reload shell", 
+                "label": "Reload shell",
                 "accelerator": "F5",
                 "command": "reload"
             },
@@ -326,7 +358,7 @@
                         "command": "openAppDir"
                     }
                 ]
-            }            
+            }
         ]
     }
 ]

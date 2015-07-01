@@ -297,7 +297,10 @@ AbrEditor.prototype.tableInject = function (table) {
 AbrEditor.prototype.tableDo = function (action) {
     var args = [],
         table = this.tableGet();
-    if (!table) { return; }
+    if (!table) {
+        console.log("No markdown table found in text"); // TODO: celldown should have an option for automatically converting text into table when string is not a valid markdown table
+        return;
+    }
     if (!table[action] || typeof table[action] !== "function") {
         console.error("'" + action + "' is not a valid Table (celldown.js) method");
         return;

@@ -51,10 +51,11 @@ module.exports = function () {
         function preprocessTemplate (element) {
             function replaceAttributes (item) {
                 if (item.command) {
-                    item.click = (function (command) {
-                        return function () { Abricotine.execCommand(command); };
-                    })(item.command);
+                    item.click = (function (command, parameters) {
+                        return function () { Abricotine.execCommand(command, parameters); };
+                    })(item.command, item.parameters);
                     delete item.command;
+                    delete item.parameters;
                 }
                 if (item.checked && typeof item.checked === "string") {
                     item.checked = config[item.checked] || false;

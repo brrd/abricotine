@@ -210,14 +210,15 @@ module.exports = (function () {
                 };
             cm.openDialog(html, callback);
         },
-        tableCreate: function (win, doc) {
-            doc.editor.tableCreate();
+        tableCreate: function (win, doc, parameters) {
+            if (typeof parameters === "undefined") {
+                doc.editor.tableCreate();
+            } else {
+                doc.editor.tableCreate.apply(doc.editor, parameters);
+            }
         },
         tableBeautify: function (win, doc) {
             doc.editor.tableDo("beautify");
-        },
-        test: function (win, doc) {
-            doc.editor.tableDo("addCols", 1, 2);
         }
     };
 })();

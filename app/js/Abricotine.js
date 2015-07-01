@@ -5,11 +5,11 @@ var remote = require('remote'),
 module.exports = {
     version: "0.0.1", // TODO: get from package.json (or grunt)
     commands: commands || {},
-    execCommand : function (command) {
+    execCommand : function (command, parameters) {
         if (this.commands && this.commands[command]) {
             var currentDocument = this.getCurrentDocument(),
                 browserWindow = this.browserWindow;
-            this.commands[command](browserWindow, currentDocument);
+            this.commands[command](browserWindow, currentDocument, parameters);
         } else {
             console.log("Unknown command '" + command + "'");
         }
