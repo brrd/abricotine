@@ -219,6 +219,30 @@ module.exports = (function () {
         },
         tableBeautify: function (win, doc) {
             doc.editor.tableDo("beautify");
+        },
+        tableAlignLeft: function (win, doc) {
+            doc.editor.tableDo("align", null, "left");
+        },
+        tableAlignCenter: function (win, doc) {
+            doc.editor.tableDo("align", null, "center");
+        },
+        tableAlignRight: function (win, doc) {
+            doc.editor.tableDo("align", null, "right");
+        },
+        tableAlignClear: function (win, doc) {
+            doc.editor.tableDo("align", null, null);
+        },
+        tableAddRowBefore: function (win, doc, parameters) {
+            doc.editor.tableDo("addRowsBeforeCursor");
+        },
+        tableAddRowAfter: function (win, doc, parameters) {
+            doc.editor.tableDo("addRowsAfterCursor");
+        },
+        tableAddColBefore: function (win, doc, parameters) {
+            doc.editor.tableDo("addColsBeforeCursor");
+        },
+        tableAddColAfter: function (win, doc, parameters) {
+            doc.editor.tableDo("addColsAfterCursor");
         }
     };
 })();

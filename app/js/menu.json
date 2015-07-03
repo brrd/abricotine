@@ -224,10 +224,12 @@
                 "label": "Horizontal rule",
                 "accelerator": "CmdOrCtrl+R",
                 "command": "hr"
-            },
-            {
-                "type": "separator"
-            },
+            }
+        ]
+    },
+    {
+        "label": "Table",
+        "submenu": [
             {
                 "label": "New table",
                 "submenu": [
@@ -254,8 +256,74 @@
                 ]
             },
             {
-                "label": "Beautify table",
-                "command": "tableBeautify"
+                "type": "separator"
+            },
+            {
+                "label": "Rows",
+                "submenu": [
+                    {
+                        "label": "Add row before",
+                        "command": "tableAddRowBefore"
+                    },
+                    {
+                        "label": "Add row after",
+                        "command": "tableAddRowAfter"
+                    },
+                    {
+                        "type": "separator"
+                    },
+                    {
+                        "label": "Remove row",
+                        "command": "tableRemoveRow"
+                    }
+                ]
+            },
+            {
+                "label": "Columns",
+                "submenu": [
+                    {
+                        "label": "Add column before",
+                        "command": "tableAddColBefore"
+                    },
+                    {
+                        "label": "Add column after",
+                        "command": "tableAddColAfter"
+                    },
+                    {
+                        "type": "separator"
+                    },
+                    {
+                        "label": "Remove column",
+                        "command": "tableRemoveCol"
+                    },
+                    {
+                        "type": "separator"
+                    },
+                    {
+                        "label": "Align left",
+                        "command": "tableAlignLeft"
+                    },
+                    {
+                        "label": "Align center",
+                        "command": "tableAlignCenter"
+                    },
+                    {
+                        "label": "Align right",
+                        "command": "tableAlignRight"
+                    },
+                    {
+                        "label": "Clear align",
+                        "command": "tableAlignClear"
+                    }
+                ]
+            },
+            {
+                "type": "separator"
+            },
+            {
+                "label": "Beautify",
+                "command": "tableBeautify",
+                "accelerator": "CmdOrCtrl+Shift+B"
             }
         ]
     },

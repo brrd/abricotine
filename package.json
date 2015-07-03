@@ -17,7 +17,7 @@
   "author": "brrd",
   "license": "",
   "dependencies": {
-    "celldown.js": "0.0.4",
+    "celldown.js": "latest",
     "mime": "^1.3.4"
   }
 }

@@ -239,8 +239,39 @@ AbrEditor.prototype.updateToc = function () {
 AbrEditor.prototype.tableCreate = function (cols, rows) {
     cols = cols || 2;
     rows = rows || 1;
-    var table = celldown.new(cols, rows).get().table;
-    this.cm.doc.replaceSelection(table);
+    var doc = this.cm.doc,
+        table = celldown.new(cols, rows).get().table,
+        cursorPos = doc.getCursor(),
+        // CodeMirror's getCursor() returns a reference to cursor object, so we need to copy it before writing in it otherwise it would confuse CM for the next operations
+        newCursorPos = {
+            line: cursorPos.line,
+            ch: cursorPos.ch
+        },
+        lineContent = doc.getLine(cursorPos.line);
+    // Manage spaces before and after the table
+    if (lineContent.trim() === "") {
+        doc.replaceRange("", {line: cursorPos.line, ch: 0}, {line: cursorPos.line, ch: null});
+        if (cursorPos.line !== doc.firstLine() && doc.getLine(cursorPos.line-1).trim() !== "") {
+            table = "\n" + table;
+        }
+        if (cursorPos.line !== doc.lastLine() && doc.getLine(cursorPos.line+1).trim() !== "") {
+            table = table + "\n";
+        }
+    } else {
+        table = "\n\n" + table + "\n\n";
+        newCursorPos.line += 2;
+    }
+    // Move cursor in the first cell
+    newCursorPos.ch = 0;
+    if (celldown.config.extraPipes) {
+        newCursorPos.ch += 1;
+    }
+    if (celldown.config.extraSpaces) {
+        newCursorPos.ch += 1;
+    }
+    // Inject table
+    doc.replaceSelection(table);
+    doc.setCursor(newCursorPos);
 };
 
 AbrEditor.prototype.paragraphIsTable = function (arg) {
@@ -270,7 +301,7 @@ AbrEditor.prototype.tableGet = function () {
 AbrEditor.prototype.tableInject = function (table) {
     var cm = this.cm,
         pCoord = table.abrParagraph,
-        t = table.get(),
+        t = table.beautify().get(),
         text = t.table,
         relativeCursor = t.cursor;
     cm.replaceRange(text,
