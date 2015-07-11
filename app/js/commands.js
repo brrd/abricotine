@@ -243,6 +243,12 @@ module.exports = (function () {
         },
         tableAddColAfter: function (win, doc, parameters) {
             doc.editor.tableDo("addColsAfterCursor");
+        },
+        tableRemoveRow: function (win, doc, parameters) {
+            doc.editor.tableDo("removeRows");
+        },
+        tableRemoveCol: function (win, doc, parameters) {
+            doc.editor.tableDo("removeCols");
         }
     };
 })();
