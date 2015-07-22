@@ -1,6 +1,7 @@
 module.exports = (function () {
     var remote = require('remote'),
         app = remote.require('app'), // TODO: à entrer dans Abricotine
+        clipboard = remote.require('clipboard');
         shell = require('shell');
 
     return {
@@ -32,12 +33,10 @@ module.exports = (function () {
             document.execCommand("copy");
         },
         copyHtml: function (win, doc) {
-            var clipboard = require('clipboard'),
-            data = doc.editor.cm.doc.getSelection("\n"),
-            html = window.marked(data);
-            // FIXME: Looks like clipboard.writeHtml(html) is not working properly.
-            // TODO: Add this command to the menu when fixed.
-            clipboard.writeHtml(html);
+            var data = doc.editor.cm.doc.getSelection("\n"),
+            html = window.marked(data),
+            text = $(html).text(); // TODO: better use something like https://www.npmjs.com/package/html-to-text
+            clipboard.write({text: text, html: html});
         },
         cut: function (win, doc) {
             document.execCommand("cut");

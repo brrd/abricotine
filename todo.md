@@ -3,7 +3,6 @@
 ## Pas terminé
 
 * Le titre du pane ne devrait pas être dans la partie scrollable
-* Intégrer les ajouts récents aux menus
 * Whitelist Iframe
 * Alias de commandes
 * Refactoring CSS => vraiment, dont les scrollbars à harmoniser (cf atom). Peut-être que c'est pas la peine d'avoir des scrollbars custom ?
@@ -12,21 +11,19 @@
 
 ## Fonctionnalités prévues
 
-* Tableaux
 * De la même façn que ToC, faire anchors, notes, images... => problème avec les notes : ne sont pas interprétées par marked. Il vaut mieux réserver ça à plus tard, quand on sera passé à Pandoc.
-* Status bar avec des infos sur le doc (ou dans le pannel)
+* Status bar avec des infos sur le doc (ou dans le pannel) + INS
 * Ameliorer le toogle des mises en formes (inclure les balises quand elles sont sélectionnées)
 * Coller des éléments (listes, quote...) : virer la puce si elle est déjà dans le presse papier
 * CTRL + Haut/Bas pour changer de §
 * Améliorer les ancres de la ToC pour afficher l'écran dessous plutôt que dessus.
 * Option : supprimer le retour à la ligne (tableaux par exemple). Idéalment il faudrait aussi pouvoir le faire localement pour les tableaux.
 * Notes
-* Copier le HTML (voir release d'electron)
 * Ajout automatique des extensions de fichier
 * Gérer les fichiers relatifs (toujours utiliser les url absolues dès le chargement)
 * Permettre les images relatives
 * Permettre d'enregistrer les images liés sur le disque (à priori même système que les navigateurs pour eenregistrer les pages web = dossier document_name_files) 
-* Popups
+* Popups (mais problème sous gnome)
 * Fenêtres de configuration, d'export
 * Export HTML et EPUB avec Pandoc (ne plus utiliser marked qui ne sipporte pas toutes les syntaxes) et impression PDF avec possibilité d'utiliser des templates (http://getskeleton.com/)
 * Plus de langage en highlight (faire une option)
@@ -68,6 +65,8 @@
 * Le cursorSpy bug quand on a une modification (plutôt qu'un simple move du curseur)
 * mathjax fiche le bazar dans les listes
 * les quotations ">" ne se toggle pas correctement
+* electron 0.30 ajoute un raccourci clavier par défaut pour l'inspecteur webkit
+* electron 0.30 utilise maintenant des fenêtres natives pour les popups, c'est mieux mais je peux focus la fenêtre derrière (en tout cas sur gnome) !! Le problème n'apparait pas avec ouvrir/fermer.
 
 ## Notes
 

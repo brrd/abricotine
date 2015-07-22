@@ -70,6 +70,11 @@
                 "command": "copy"
             },
             {
+                "label": "Copy as Html",
+                "accelerator": "CmdOrCtrl+Shift+C",
+                "command": "copyHtml"
+            },
+            {
                 "label": "Paste",
                 "accelerator": "CmdOrCtrl+V",
                 "command": "paste"
