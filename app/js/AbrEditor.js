@@ -58,13 +58,8 @@ function AbrEditor (abrDocument) {
     this.abrDocument = abrDocument;
 
     // Events
-    this.cm.on("cursorActivity", function (cm) {
-        // Inline preview
-        var previewInLine = loadComponent("previewInLine"); // TODO: to clean
-        that.cm.doc.eachLine( function (line) {
-            previewInLine(that.cm, line, ["image", "checkbox", "iframe", "anchor", "math"]);
-        });
-        // Cursorspy (like scrollspy but with cursor)
+    // Cursorspy (like scrollspy but with cursor)
+    var spyCursor = function () {
         var currentLine = that.cm.doc.getCursor().line,
             $prevHeaderLi = (function(line) {
                 var $header;
@@ -83,10 +78,23 @@ function AbrEditor (abrDocument) {
             $prevHeaderLi.addClass("uk-active");
             // TODO: auto scroll to $prevHeaderLi if hidden in pane
         }
+        that.latestSpyCursorUpdate = that.getGeneration();
+    };
+    this.cm.on("cursorActivity", function (cm) {
+        // Inline preview
+        var previewInLine = loadComponent("previewInLine"); // TODO: to clean
+        that.cm.doc.eachLine( function (line) {
+            previewInLine(that.cm, line, ["image", "checkbox", "iframe", "anchor", "math"]);
+        });
+        // Trigger spyCursor() now only if nothing changed (otherwise do it later, during changes event)
+        if (typeof that.latestSpyCursorUpdate === "undefined" || that.getGeneration() === that.latestSpyCursorUpdate) {
+            spyCursor();
+        }
     });
     this.cm.on("changes", function (cm, changeObj) {
         that.abrDocument.updateWindowTitle();
         that.updateToc();
+        spyCursor();
     });
 }
 
