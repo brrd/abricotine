@@ -14,12 +14,11 @@
 * Status bar avec des infos sur le doc (ou dans le pannel) + INS (voir brackets : https://github.com/adobe/brackets/pull/6670)
 * Ameliorer le toogle des mises en formes (inclure les balises quand elles sont sélectionnées)
 * Coller des éléments (listes, quote...) : virer la puce si elle est déjà dans le presse papier
-* CTRL + Haut/Bas pour changer de §
 * Option : supprimer le retour à la ligne (tableaux par exemple). Idéalment il faudrait aussi pouvoir le faire localement pour les tableaux.
 * Ajout automatique des extensions de fichier
 * Gérer les fichiers relatifs (toujours utiliser les url absolues dès le chargement)
 * Permettre les images relatives
-* Permettre d'enregistrer les images liés sur le disque (à priori même système que les navigateurs pour eenregistrer les pages web = dossier document_name_files) 
+* Permettre d'enregistrer les images liés sur le disque (à priori même système que les navigateurs pour eenregistrer les pages web = dossier document_name_files)
 * Popups (mais problème sous gnome)
 * Fenêtres de configuration
 * Export HTML : possibilité d'utiliser des templates (http://getskeleton.com/)
@@ -82,9 +81,9 @@ Je voulais introduire la fonction suivante pour gérer des modales.
             // NOTE: Bug on linux https://github.com/atom/electron/issues/953
             var BrowserWindow = remote.require('browser-window');
             var parent = win;
-            var modal = new BrowserWindow({ 
-                width: 600, 
-                height: 400, 
+            var modal = new BrowserWindow({
+                width: 600,
+                height: 400,
                 resizable: false,
                 center: true,
                 show: false,
@@ -121,7 +120,7 @@ Une idée que je ne pousse pas jusqu'au bout car il faudrait revoir toute la CSS
 
 1) Pour chaque passage qui a changé dans le texte, tester si c'est une tableau (avec celldown.js). Si c'est un tableau, ajouter une classe à la ligne.
 
-J'ai simulé ce comportement pour des tests dans `commands.js` : 
+J'ai simulé ce comportement pour des tests dans `commands.js` :
 
 ```javascript
 	test: function (win, doc, parameters) {

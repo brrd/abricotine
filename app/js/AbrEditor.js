@@ -37,6 +37,38 @@ function AbrEditor (abrDocument) {
         );
     });
 
+    // Additional moves
+    var goParagraph = function (direction, cm) {
+        if (direction !== "up" && direction !== "down") {
+            return;
+        }
+        var currentPos = cm.doc.getCursor(),
+            currentParagraph = cm.abrEditor.getParagraphCoord(currentPos),
+            line = currentParagraph ? (direction === "up" ? currentParagraph.from : currentParagraph.to) : currentPos.line,
+            paragraphToGo = false,
+            nextPos = {
+                line: line,
+                ch: 0
+            };
+        while (paragraphToGo === false &&
+            (
+                (direction === "up" && line > cm.doc.firstLine()) ||
+                (direction === "down" && line < cm.doc.lastLine())
+            )) {
+            line += direction === "up" ? -1 : 1;
+            paragraphToGo = cm.abrEditor.getParagraphCoord(line);
+        }
+        if (paragraphToGo !== false) {
+            nextPos.line = paragraphToGo.from;
+        }
+        cm.doc.setCursor(nextPos);
+    };
+    CodeMirror.commands.goPrevParagraph = function (cm) {
+        goParagraph("up", cm);
+    };
+    CodeMirror.commands.goNextParagraph = function (cm) {
+        goParagraph("down", cm);
+    };
     var that = this,
         options= {
             lineNumbers: false,
@@ -48,10 +80,13 @@ function AbrEditor (abrDocument) {
             extraKeys: {
                 "Enter": "newlineAndIndentContinueMarkdownList",
                 "Home": "goLineLeft",
-                "End": "goLineRight"
+                "End": "goLineRight",
+                "Ctrl-Up": "goPrevParagraph",
+                "Ctrl-Down": "goNextParagraph"
             }
         }; // FIXME: replace default keymap by a custom one which removes most of hotkeys (CodeMirror interferences with menu accelerators)
     this.cm = CodeMirror.fromTextArea(document.getElementById("cm"), options);
+    this.cm.abrEditor = this;
     addTrailingWhitespace(this.cm);
     // notBlankLines(this.cm); // TODO: remove this function if unused
     this.setClean();
