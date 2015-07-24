@@ -222,8 +222,17 @@
             },
             {
                 "label": "Image",
-                "accelerator": "CmdOrCtrl+Alt+I",
-                "command": "image"
+                "submenu": [
+                    {
+                        "label": "Insert from computer",
+                        "accelerator": "CmdOrCtrl+Alt+I",
+                        "command": "imageFromComputer"
+                    },
+                    {
+                        "label": "Insert from URL",
+                        "command": "imageFromUrl"
+                    }
+                ]
             },
             {
                 "label": "Horizontal rule",

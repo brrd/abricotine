@@ -1,11 +1,11 @@
-/* 
-    Markdown functions for CodeMirror 
+/*
+    Markdown functions for CodeMirror
     ==========
     Inspiration : https://github.com/airpub/ninja
 */
 // TODO: à intégrer dans AbrEditor
 /**
-* 
+*
 * The state of CodeMirror at the given position.
 *
 */
@@ -95,9 +95,9 @@ function inject (cm, texts, triggered) {
     var startPoint = cm.getCursor('start');
     var endPoint = cm.getCursor('end');
     var text = cm.getSelection();
-    // todo: toggle link/image 
+    // todo: toggle link/image
     cm.replaceSelection(
-        texts.length > 1 ? 
+        texts.length > 1 ?
         texts[0] + text + texts[1] :
         text + texts.join()
     );
@@ -329,7 +329,7 @@ function toggle (type) {
             return toggleText(type)(cm);
         } else {
             return toggleBlock(type, cm);
-        }  
+        }
     }
     var toggleTextList = ['bold', 'italic', 'strikethrough', 'code'];
     return toggleWhatever;
@@ -344,14 +344,15 @@ function toggle (type) {
 *   draw('image'); => ![<cursor>](http://)
 *
 **/
-function draw(type) {
+function draw(type, url) {
     function drawWhatever(cm) {
         var stat = getState(cm);
         inject(cm, placeholders[type], stat[type]);
     }
+    url = url || "http://";
     var placeholders = {
-        link: ['[', '](http://)'],
-        image: ['![', '](http://)'],
+        link: ['[', '](' + url + ')'],
+        image: ['![', '](' + url + ')'],
         hr: ['\n***\n']
     };
     // TODO: ajouter blockcode, éventuellement par langage. Le problème c'est que c'est forcément des paragraphes donc il faut détecter si on saute des lignes ou non. RQ: c'est ce qu'il aurait déjà fallu faire pour hr.

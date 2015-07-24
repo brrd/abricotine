@@ -72,7 +72,7 @@ AbrDocument.prototype.update = function (value, path) {
     this.editor.cm.doc.clearHistory();
 };
 
-AbrDocument.prototype.close = function (force) {
+AbrDocument.prototype.close = function () {
     this.update();
 };
 
@@ -165,6 +165,14 @@ AbrDocument.prototype.cmdExportHtml = function (path, callback) { // NOTE: path 
     var data = this.editor.getData(),
         pageContent = getHtmlPageContent(data);
     return writeFile(pageContent, path, callback);
+};
+
+AbrDocument.prototype.openImage = function () {
+    var path = dialogs.askOpenImage();
+    if (!path) {
+        return false;
+    }
+    this.editor.draw("image", path);
 };
 
 module.exports = AbrDocument;

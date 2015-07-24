@@ -5,6 +5,7 @@
 * Le titre du pane ne devrait pas être dans la partie scrollable
 * Whitelist Iframe
 * Alias de commandes
+* Menu : maths
 * Refactoring CSS => vraiment, dont les scrollbars à harmoniser (cf atom). Peut-être que c'est pas la peine d'avoir des scrollbars custom ?
 * Après le refactoring CSS, reprendre l'integration des tables pour que les lignes des tables ne soient pas retournées à la ligne (voir plus bas wrap table)
 * UI : volet latéral
@@ -16,7 +17,8 @@
 * Coller des éléments (listes, quote...) : virer la puce si elle est déjà dans le presse papier
 * Option : supprimer le retour à la ligne (tableaux par exemple). Idéalment il faudrait aussi pouvoir le faire localement pour les tableaux.
 * Ajout automatique des extensions de fichier on save
-* Permettre d'enregistrer les images liés sur le disque (à priori même système que les navigateurs pour eenregistrer les pages web = dossier document_name_files)
+* Permettre d'enregistrer les images liés sur le disque (à priori même système que les navigateurs pour eenregistrer les pages web = dossier document_name_files). Plutôt que deux modes d'insertion différents, il faudrait une option qui permette d'"importer" toutes les images du doc (+ du coup changer les Url). Il faudrait aussi une option pour activer ça automatiquement on save.
+* Gérer les images relatives lors de l'export html
 * Popups (mais problème sous gnome)
 * Fenêtres de configuration
 * Export HTML : possibilité d'utiliser des templates (http://getskeleton.com/)
@@ -44,6 +46,7 @@
 * Permettre l'insertion HTML > MD avec https://www.npmjs.com/package/to-markdown et clipboard.readHtml()
 * Système de plugins (mathjax en serait un)
 * Tout recoder avec Coffeescript + éventuellement un framework (?)
+* Permettre d'éditer facilement les images insérées (ouvrir le dossier d'insertion, etc.)
 
 ## Bugs
 

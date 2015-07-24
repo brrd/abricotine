@@ -1,7 +1,7 @@
 module.exports = (function () {
     var remote = require('remote'),
         app = remote.require('app'), // TODO: à entrer dans Abricotine
-        clipboard = remote.require('clipboard');
+        clipboard = remote.require('clipboard'),
         shell = require('shell');
 
     return {
@@ -118,8 +118,11 @@ module.exports = (function () {
         link: function (win, doc) {
             doc.editor.draw("link");
         },
-        image: function (win, doc) {
+        imageFromUrl: function (win, doc) {
             doc.editor.draw("image");
+        },
+        imageFromComputer: function (win, doc) {
+            doc.openImage();
         },
         hr: function (win, doc) {
             doc.editor.draw("hr");

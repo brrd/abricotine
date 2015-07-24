@@ -137,8 +137,8 @@ AbrEditor.prototype.toggle = function (type) {
     md4cm.toggle(type)(this.cm);
 };
 
-AbrEditor.prototype.draw = function (type) {
-    md4cm.draw(type)(this.cm);
+AbrEditor.prototype.draw = function (type, param) {
+    md4cm.draw(type, param)(this.cm);
 };
 
 AbrEditor.prototype.getStateAt = function (pos) {
