@@ -2,7 +2,8 @@
 
 var AbrEditor = loadComponent('AbrEditor'),
     dialogs = loadComponent('dialogs'),
-    fs = require('fs');
+    fs = require('fs'),
+    parsePath = require('parse-filepath');
 
 // TODO: dans utils
 function writeFile (data, path, callback) {
@@ -41,11 +42,17 @@ AbrDocument.prototype.setPath = function (path) {
 };
 
 AbrDocument.prototype.updateWindowTitle = function () {
-    var appName = 'Abricotine',
-        path = this.path || "New document",
+    var appName = "Abricotine",
         isClean = this.editor.isClean(),
         saveSymbol = "*",
-        title = path + " - " + appName;
+        parsedPath,
+        title;
+    if (this.path) {
+        parsedPath = parsePath(this.path);
+        title = parsedPath.basename + " - " + parsedPath.dirname + " - " + appName;
+    } else {
+        title = "New document - " + appName;
+    }
     if (!isClean) {
         title = saveSymbol + title;
     }
@@ -62,7 +69,7 @@ AbrDocument.prototype.update = function (value, path) {
     this.editor.cm.doc.clearHistory();
 };
 
-AbrDocument.prototype.close = function (force) { 
+AbrDocument.prototype.close = function (force) {
     this.update();
 };
 
@@ -84,8 +91,9 @@ AbrDocument.prototype.open = function (path) {
             return function (data, path) {
                 that.update(data, path);
             };
-        })(this);
-    return readFile(path, callback);
+        })(this),
+        absolutePath = parsePath(path).absolute;
+    return readFile(absolutePath, callback);
 };
 
 AbrDocument.prototype.cmdOpen = function (path) {
@@ -141,10 +149,10 @@ AbrDocument.prototype.cmdExportHtml = function (path, callback) { // NOTE: path 
         var firstLine = /^#*(.*)$/m, // FIXME: not working (image par exemple)
             test = firstLine.exec(data),
             title = test !== null ? test[1].trim() : "Abricotine document";
-        return "<!doctype html>\n <html>\n <head>\n <title>" + 
-            title + 
+        return "<!doctype html>\n <html>\n <head>\n <title>" +
+            title +
             "</title>\n <meta charset='utf-8'/>\n </head>\n <body>\n" +
-            window.marked(data) + 
+            window.marked(data) +
             "\n</body>\n</html>";
     }
     path = path || dialogs.askSavePath();
