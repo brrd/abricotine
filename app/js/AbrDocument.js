@@ -35,10 +35,13 @@ function AbrDocument (fileToOpen) {
     }
 }
 
-// FIXME: quand on ouvre le doc depuis un chemin relatif au dossier en cours, c'est le mauvais chemin qui est ouvert. Il faut tester si le path part de la racine et corriger si ce n'est pas le cas.
 AbrDocument.prototype.setPath = function (path) {
-    this.path = path || '';
+    this.path = path || ''; // TODO: may store the parsed path in here for better perfs
     this.updateWindowTitle();
+    if (this.path) {
+        var dir = parsePath(this.path).dirname;
+        process.chdir(dir);
+    }
 };
 
 AbrDocument.prototype.updateWindowTitle = function () {
@@ -62,10 +65,10 @@ AbrDocument.prototype.updateWindowTitle = function () {
 AbrDocument.prototype.update = function (value, path) {
     value = value || '';
     path = path || '';
-    this.editor.cm.doc.setValue(value);
-    this.editor.cm.refresh(); // fix CM scrollbar bug
     this.editor.setClean();
     this.setPath(path);
+    this.editor.cm.doc.setValue(value);
+    this.editor.cm.refresh(); // NOTE: fix CM scrollbar bug
     this.editor.cm.doc.clearHistory();
 };
 

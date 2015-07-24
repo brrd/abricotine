@@ -1,5 +1,9 @@
+var path = require("path"),
+    isUrl = require("is-url"),
+    parsePath = require('parse-filepath');
+
 function previewInLine (cm, line, types) {
-    
+
     function lineIsSelected (lineNumber) { // FIXME: doesnt work in case of multiple selection
         var cursor = {
             begin: doc.getCursor("from"),
@@ -7,7 +11,7 @@ function previewInLine (cm, line, types) {
         };
         return !(cursor.begin.line > lineNumber || cursor.end.line < lineNumber);
     }
-    
+
     function replaceInLine (line, typeConfig) {
         var lineNumber,
             regex = typeConfig.regex,
@@ -44,14 +48,25 @@ function previewInLine (cm, line, types) {
             }
         }
     }
-    
+
     var doc = cm.doc,
         config = {
             image: {
                 regex: /!\[(["'-a-zA-Z0-9@:%._\+~#=\.\/! ]*)\]\(([-a-zA-Z0-9@:%_\+~#=\.\/]+\.(jpg|jpeg|png|gif|svg))(\s("|')([-a-zA-Z0-9@:%_\+~#=\.\/! ]*)("|')\s?)?\)/gi,
                 createElement: function (match) {
+                    function getImageUrl (href) {
+                        if (isUrl(href)) {
+                            return href;
+                        }
+                        var parsedPath = parsePath(href);
+                        if (parsedPath.isAbsolute) {
+                            return parsedPath.absolute;
+                        } else {
+                            return path.join(process.cwd(), href);
+                        }
+                    }
                     var alt = match[1] || '',
-                        url = match[2],
+                        url = getImageUrl(match[2]),
                         title = match[6],
                         $element = $('<img>').attr('src', url).attr('alt', alt);
                     if (title) {

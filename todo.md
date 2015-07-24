@@ -15,8 +15,7 @@
 * Ameliorer le toogle des mises en formes (inclure les balises quand elles sont sélectionnées)
 * Coller des éléments (listes, quote...) : virer la puce si elle est déjà dans le presse papier
 * Option : supprimer le retour à la ligne (tableaux par exemple). Idéalment il faudrait aussi pouvoir le faire localement pour les tableaux.
-* Ajout automatique des extensions de fichier
-* Permettre les images relatives
+* Ajout automatique des extensions de fichier on save
 * Permettre d'enregistrer les images liés sur le disque (à priori même système que les navigateurs pour eenregistrer les pages web = dossier document_name_files)
 * Popups (mais problème sous gnome)
 * Fenêtres de configuration

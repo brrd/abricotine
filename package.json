@@ -18,6 +18,7 @@
   "license": "",
   "dependencies": {
     "celldown.js": "latest",
+    "is-url": "^1.2.1",
     "mime": "^1.3.4",
     "parse-filepath": "^0.6.2"
   }
