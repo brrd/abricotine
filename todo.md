@@ -62,7 +62,6 @@
 * le pane peut glisser car il déborde sous le overflow (ça vient de box-sizing: border-box + padding)
 * fixer une limite à la taille du pane
 * Les anchors ne fonctionnent pas car les balises autofermantes n'existent pas en html5. Il faut soit changer le charset soit corriger ça au moment de la conversion.
-* Le cursorSpy bug quand on a une modification (plutôt qu'un simple move du curseur)
 * mathjax fiche le bazar dans les listes
 * les quotations ">" ne se toggle pas correctement (notamment quand plusieurs lignes)
 * electron 0.30 ajoute un raccourci clavier par défaut pour l'inspecteur webkit

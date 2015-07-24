@@ -37,7 +37,6 @@ function AbrDocument (fileToOpen) {
 
 AbrDocument.prototype.setPath = function (path) {
     this.path = path || ''; // TODO: may store the parsed path in here for better perfs
-    this.updateWindowTitle();
     if (this.path) {
         var dir = parsePath(this.path).dirname;
         process.chdir(dir);
@@ -65,11 +64,12 @@ AbrDocument.prototype.updateWindowTitle = function () {
 AbrDocument.prototype.update = function (value, path) {
     value = value || '';
     path = path || '';
-    this.editor.setClean();
-    this.setPath(path);
+    this.setPath(path); // Must be done before everything else because it sets process.chdir
     this.editor.cm.doc.setValue(value);
-    this.editor.cm.refresh(); // NOTE: fix CM scrollbar bug
     this.editor.cm.doc.clearHistory();
+    this.editor.setClean();
+    this.updateWindowTitle();
+    this.editor.cm.refresh(); // fix CM scrollbar bug
 };
 
 AbrDocument.prototype.close = function () {
@@ -140,6 +140,7 @@ AbrDocument.prototype.cmdSaveAs = function () {
     return this.save(path);
 };
 
+// TODO: obsolete. Please remove
 AbrDocument.prototype.getDir = function (path) {
     path = path || this.path;
     if (!path) { return undefined; }
