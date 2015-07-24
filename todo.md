@@ -56,7 +56,6 @@
 * CSS images et iframe max size
 * execRoutine est encore dans commands.js ça fait des erreurs
 * la preview d'image ne matche pas quand il y a des ccents dans le titre : élargir la regex
-* la toc ne se met pas à jour quand on supprime tout le contenu
 * Problème avec les racourcis quand on est sur le ch = 0 d'une ligne
 * le pane peut glisser car il déborde sous le overflow (ça vient de box-sizing: border-box + padding)
 * fixer une limite à la taille du pane

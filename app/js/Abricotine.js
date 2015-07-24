@@ -76,9 +76,6 @@ module.exports = {
         return $('body').hasClass('pane-visible');
     },
     setTocHtml: function (toc) {
-        if (toc.length === 0) {
-            return;
-        }
         var html = "";
         for (var i=0; i<toc.length; i++) {
             html += '\n<li class="toc-h' + toc[i].level + '" data-abricotine-gotoline="' + toc[i].line + '"><a>' + toc[i].content + '</a></li>';
