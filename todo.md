@@ -11,33 +11,28 @@
 
 ## Fonctionnalités prévues
 
-* De la même façn que ToC, faire anchors, notes, images... => problème avec les notes : ne sont pas interprétées par marked. Il vaut mieux réserver ça à plus tard, quand on sera passé à Pandoc.
-* Status bar avec des infos sur le doc (ou dans le pannel) + INS
+* Status bar avec des infos sur le doc (ou dans le pannel) + INS (voir brackets : https://github.com/adobe/brackets/pull/6670)
 * Ameliorer le toogle des mises en formes (inclure les balises quand elles sont sélectionnées)
 * Coller des éléments (listes, quote...) : virer la puce si elle est déjà dans le presse papier
 * CTRL + Haut/Bas pour changer de §
-* Améliorer les ancres de la ToC pour afficher l'écran dessous plutôt que dessus.
 * Option : supprimer le retour à la ligne (tableaux par exemple). Idéalment il faudrait aussi pouvoir le faire localement pour les tableaux.
-* Notes
 * Ajout automatique des extensions de fichier
 * Gérer les fichiers relatifs (toujours utiliser les url absolues dès le chargement)
 * Permettre les images relatives
 * Permettre d'enregistrer les images liés sur le disque (à priori même système que les navigateurs pour eenregistrer les pages web = dossier document_name_files) 
 * Popups (mais problème sous gnome)
-* Fenêtres de configuration, d'export
-* Export HTML et EPUB avec Pandoc (ne plus utiliser marked qui ne sipporte pas toutes les syntaxes) et impression PDF avec possibilité d'utiliser des templates (http://getskeleton.com/)
+* Fenêtres de configuration
+* Export HTML : possibilité d'utiliser des templates (http://getskeleton.com/)
+* Prévisu MathJax dans l'export HMTL
 * Plus de langage en highlight (faire une option)
-* détecter quand le fichier a changé dans un autre éditeur et proposer reload
-
-## Dev
-
+* Détecter quand le fichier a changé dans un autre éditeur et proposer reload
 * Utiliser webview pour isoler le contenu du contexte de node
-* Système de plugins (mathjax en serait un)
-* Tout recoder avec Coffeescript + éventuellement un framework (?)
 
 ## Idées (pour plus tard)
 
 * Insérer la date
+* Étendre le pane aux ancres et autres ?
+* Ajouter les résultats de recherche dans la toc ?
 * Correcteur orthogaphique, voir : http://stackoverflow.com/questions/12343922/codemirror-with-spell-checker ou encore https://www.npmjs.com/package/codemirror-spellckecker
 * Opérations sur le texte (inverser la casse, etc)
 * Commentaires du document (on peut utiliser les commentaires html)
@@ -46,6 +41,12 @@
 * Revoir la recherche
 * Un affichage des blocks de code plus élégant (genre avec un fond gris)
 * Gestion de différents templates pour la coloration
+* Utiliser Pandoc
+* Notes. Problème avec les notes : ne sont pas interprétées par marked. Il vaut mieux réserver ça à plus tard, quand on sera passé à Pandoc.
+* Export EPUB avec Pandoc (ne plus utiliser marked qui ne sipporte pas toutes les syntaxes) et impression PDF.
+* Permettre l'insertion HTML > MD avec https://www.npmjs.com/package/to-markdown et clipboard.readHtml()
+* Système de plugins (mathjax en serait un)
+* Tout recoder avec Coffeescript + éventuellement un framework (?)
 
 ## Bugs
 
@@ -64,9 +65,11 @@
 * Les anchors ne fonctionnent pas car les balises autofermantes n'existent pas en html5. Il faut soit changer le charset soit corriger ça au moment de la conversion.
 * Le cursorSpy bug quand on a une modification (plutôt qu'un simple move du curseur)
 * mathjax fiche le bazar dans les listes
-* les quotations ">" ne se toggle pas correctement
+* les quotations ">" ne se toggle pas correctement (notamment quand plusieurs lignes)
 * electron 0.30 ajoute un raccourci clavier par défaut pour l'inspecteur webkit
 * electron 0.30 utilise maintenant des fenêtres natives pour les popups, c'est mieux mais je peux focus la fenêtre derrière (en tout cas sur gnome) !! Le problème n'apparait pas avec ouvrir/fermer.
+* la boîte de recherche est vraiment mauvaise. CM 5.5v a un peu amélioré ça : http://codemirror.net/doc/releases.html à voir
+* corriger l'indentation qui fait soit des tabs soit des spaces et ne fait pas le même nombre selon que du texte est sélectionné ou pas.
 
 ## Notes
 

@@ -191,6 +191,12 @@ body:not(.pane-visible) #editor {
     clear: none;
 }
 
+.CodeMirror-cursors.CodeMirror-overwrite .CodeMirror-cursor {
+    border-left: none !important;
+    border-bottom: 1px solid black !important;
+    width: 1.2ex;
+}
+
 .CodeMirror-selected, .CodeMirror-focused .CodeMirror-selected {
     background-color: #dce9f3;
     color: #FFF
