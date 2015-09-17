@@ -75,6 +75,7 @@ function AbrEditor (abrDocument) {
             lineWrapping: true,
             styleActiveLine: true, // Focusmode
             autofocus: true,
+            autoCloseBrackets: typeof Abricotine.config.autoCloseBrackets !== "undefined" ? Abricotine.config.autoCloseBrackets : false, // TODO: config: donner la possibilité de toggle
             scrollbarStyle: "overlay",
             mode: "abricotine",
             extraKeys: {

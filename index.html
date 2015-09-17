@@ -3,26 +3,26 @@
 <head>
     <title>Abricotine</title>
     <meta charset="utf-8"/>
-    
+
     <!-- CSS -->
-    
+
     <link rel="stylesheet" href="bower_components/split-pane/split-pane.css" />
     <link rel="stylesheet" href="bower_components/codemirror/lib/codemirror.css">
     <link rel="stylesheet" href="bower_components/codemirror/addon/dialog/dialog.css">
     <link rel="stylesheet" href="bower_components/codemirror/addon/scroll/simplescrollbars.css">
     <link rel="stylesheet" href="bower_components/codemirror/addon/search/matchesonscrollbar.css">
-    
+
     <link rel="stylesheet" href="bower_components/uikit/css/uikit.gradient.min.css">
-    
+
     <link rel="stylesheet" href="app/css/app.css">
-    
+
     <!-- Javascript -->
-    
+
     <script>
         /* jQuery fix : https://github.com/atom/atom-shell/issues/254 */
         window.$ = window.jQuery = require("./bower_components/jquery/dist/jquery.min.js");
     </script> <!-- TODO: Finalement je ne l'utilise presque pas : à sortir -->
-    
+
     <script src="bower_components/split-pane/split-pane.js"></script>
 
     <script src="bower_components/codemirror/lib/codemirror.js"></script>
@@ -36,17 +36,17 @@
     <script src="bower_components/codemirror/addon/mode/multiplex.js"></script>
     <script src="bower_components/codemirror/addon/selection/active-line.js"></script>
     <script src="bower_components/codemirror/addon/edit/continuelist.js"></script>
-    
     <script src="bower_components/codemirror/addon/dialog/dialog.js"></script>
     <script src="bower_components/codemirror/addon/search/searchcursor.js"></script>
     <script src="bower_components/codemirror/addon/search/search.js"></script>
     <script src="bower_components/codemirror/addon/scroll/simplescrollbars.js"></script>
     <script src="bower_components/codemirror/addon/scroll/annotatescrollbar.js"></script>
     <script src="bower_components/codemirror/addon/search/matchesonscrollbar.js"></script>
-      
+    <script src="bower_components/codemirror/addon/edit/closebrackets.js"></script>
+
     <!-- TODO: voir si necessaire ou pas. Est-ce lourd ? -->
     <script src="bower_components/uikit/js/uikit.min.js"></script>
-      
+
     <script>
         window.MathJax = {
             jax: ["input/TeX", "output/HTML-CSS"],
@@ -62,17 +62,17 @@
         };
     </script>
     <script src="bower_components/MathJax/MathJax.js?config=TeX-AMS_HTML"></script>
-    
+
     <script src="bower_components/marked/lib/marked.js"></script>
-    
+
     <script src="app/js/main.js"></script>
-    
+
 </head>
 <body>
     <div class="split-pane fixed-left">
         <div class="split-pane-component uk-panel uk-panel-box" id="pane">
             <a class="uk-panel-title" id="pane-select"><span class="uk-icon-book"></span> Table of contents</a>
-            
+
                 <ul id="toc-container" class="uk-nav uk-nav-side"></ul>
         </div>
         <div class="split-pane-divider" id="pane-divider"></div>

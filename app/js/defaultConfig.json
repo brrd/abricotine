@@ -1,5 +1,7 @@
 {
     "autoHideMenuBar": false,
     "showBlocks": false,
-    "showHiddenCharacters": false
+    "showHiddenCharacters": false,
+    "showTocPane": false,
+    "autoCloseBrackets": true
 }
