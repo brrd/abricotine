@@ -231,6 +231,13 @@
                     {
                         "label": "Insert from URL",
                         "command": "imageFromUrl"
+                    },
+                    {
+                        "type": "separator"
+                    },
+                    {
+                        "label": "Copy all images in a folder",
+                        "command": "imagesImportAll"
                     }
                 ]
             },

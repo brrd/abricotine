@@ -2,72 +2,94 @@
 
 ## Pas terminé
 
-* Le titre du pane ne devrait pas être dans la partie scrollable
-* Whitelist Iframe
-* Alias de commandes
-* Menu : maths
-* Refactoring CSS => vraiment, dont les scrollbars à harmoniser (cf atom). Peut-être que c'est pas la peine d'avoir des scrollbars custom ?
-* Après le refactoring CSS, reprendre l'integration des tables pour que les lignes des tables ne soient pas retournées à la ligne (voir plus bas wrap table)
-* UI : volet latéral
+* [] Le titre du pane ne devrait pas être dans la partie scrollable
+* [] Whitelist Iframe
+* [] Alias de commandes
+* [] Menu : maths
+* [] Refactoring CSS => vraiment, dont les scrollbars à harmoniser (cf atom). Peut-être que c'est pas la peine d'avoir des scrollbars custom ?
+* [] Après le refactoring CSS, reprendre l'integration des tables pour que les lignes des tables ne soient pas retournées à la ligne (voir plus bas wrap table)
+* [] UI : volet latéral
 
 ## Fonctionnalités prévues
 
-* Status bar avec des infos sur le doc (ou dans le pannel) + INS (voir brackets : https://github.com/adobe/brackets/pull/6670)
-* Ameliorer le toogle des mises en formes (inclure les balises quand elles sont sélectionnées)
-* Coller des éléments (listes, quote...) : virer la puce si elle est déjà dans le presse papier
-* Option : supprimer le retour à la ligne (tableaux par exemple). Idéalment il faudrait aussi pouvoir le faire localement pour les tableaux.
-* Ajout automatique des extensions de fichier on save
-* Permettre d'enregistrer les images liés sur le disque (à priori même système que les navigateurs pour eenregistrer les pages web = dossier document_name_files). Plutôt que deux modes d'insertion différents, il faudrait une option qui permette d'"importer" toutes les images du doc (+ du coup changer les Url). Il faudrait aussi une option pour activer ça automatiquement on save.
-* Gérer les images relatives lors de l'export html
-* Popups (mais problème sous gnome)
-* Fenêtres de configuration
-* Export HTML : possibilité d'utiliser des templates (http://getskeleton.com/)
-* Prévisu MathJax dans l'export HMTL
-* Plus de langage en highlight (faire une option)
-* Détecter quand le fichier a changé dans un autre éditeur et proposer reload
-* Utiliser webview pour isoler le contenu du contexte de node
+* [] Status bar avec des infos sur le doc (ou dans le pannel) + INS (voir brackets : https://github.com/adobe/brackets/pull/6670)
+* [] Ameliorer le toogle des mises en formes (inclure les balises quand elles sont sélectionnées)
+* [] Coller des éléments (listes, quote...) : virer la puce si elle est déjà dans le presse papier
+* [] Option : supprimer le retour à la ligne (tableaux par exemple). Idéalment il faudrait aussi pouvoir le faire localement pour les tableaux.
+* [] Ajout automatique des extensions de fichier on save
+* [] Permettre d'enregistrer les images liés sur le disque (à priori même système que les navigateurs pour eenregistrer les pages web = dossier document_name_files). Plutôt que deux modes d'insertion différents, il faudrait une option qui permette d'"importer" toutes les images du doc (+ du coup changer les Url). Il faudrait aussi une option pour activer ça automatiquement on save.
+* [] Gérer les images relatives lors de l'export html
+* [] Popups (mais problème sous gnome, peut-être créer un ticket electron)
+* [] Fenêtres de configuration (ou alors embed dans la même fenêtre)
+* [] Export HTML : possibilité d'utiliser des templates (http://getskeleton.com/)
+* [] Prévisu MathJax dans l'export HMTL
+* [] Plus de langage en highlight (faire une option)
+* [] Détecter quand le fichier a changé dans un autre éditeur et proposer reload
+* [] Utiliser webview pour isoler le contenu du contexte de node
+* [] Permettre de remplacer les tabs par des pipes lors de la création d'un tableau (celldown). Idem : quand le tableau n'a pas de ligne |-|-| alors l'ajouter => il faut une option : convertir en tableau
+* [] Barrer les todolists terminées
+* [] Autoclose les différents types de brackets
 
 ## Idées (pour plus tard)
 
-* Insérer la date
-* Étendre le pane aux ancres et autres ?
-* Ajouter les résultats de recherche dans la toc ?
-* Correcteur orthogaphique, voir : http://stackoverflow.com/questions/12343922/codemirror-with-spell-checker ou encore https://www.npmjs.com/package/codemirror-spellckecker
-* Opérations sur le texte (inverser la casse, etc)
-* Commentaires du document (on peut utiliser les commentaires html)
-* Dark mode
-* Raccourcis clavier cool (parentheses auto, déplacer line, colonne, etc)
-* Revoir la recherche
-* Un affichage des blocks de code plus élégant (genre avec un fond gris)
-* Gestion de différents templates pour la coloration
-* Utiliser Pandoc
-* Notes. Problème avec les notes : ne sont pas interprétées par marked. Il vaut mieux réserver ça à plus tard, quand on sera passé à Pandoc.
-* Export EPUB avec Pandoc (ne plus utiliser marked qui ne sipporte pas toutes les syntaxes) et impression PDF.
-* Permettre l'insertion HTML > MD avec https://www.npmjs.com/package/to-markdown et clipboard.readHtml()
-* Système de plugins (mathjax en serait un)
-* Tout recoder avec Coffeescript + éventuellement un framework (?)
-* Permettre d'éditer facilement les images insérées (ouvrir le dossier d'insertion, etc.)
+* [] Insérer la date
+* [] Étendre le pane aux ancres et autres ?
+* [] Ajouter les résultats de recherche dans la toc ?
+* [] Correcteur orthogaphique, voir : http://stackoverflow.com/questions/12343922/codemirror-with-spell-checker ou encore https://www.npmjs.com/package/codemirror-spellckecker
+* [] Opérations sur le texte (inverser la casse, etc)
+* [] Commentaires du document (on peut utiliser les commentaires html)
+* [] Dark mode
+* [] Raccourcis clavier cool (parentheses auto, déplacer line, colonne, etc)
+* [] Revoir la recherche
+* [] Un affichage des blocks de code plus élégant (genre avec un fond gris)
+* [] Gestion de différents templates pour la coloration
+* [] Utiliser Pandoc
+* [] Notes. Problème avec les notes : ne sont pas interprétées par marked. Il vaut mieux réserver ça à plus tard, quand on sera passé à Pandoc.
+* [] Export EPUB avec Pandoc (ne plus utiliser marked qui ne sipporte pas toutes les syntaxes) et impression PDF.
+* [] Permettre l'insertion HTML > MD avec https://www.npmjs.com/package/to-markdown et clipboard.readHtml()
+* [] Système de plugins (mathjax en serait un)
+* [] Tout recoder avec Coffeescript + éventuellement un framework (?)
+* [] Permettre d'éditer facilement les images insérées (ouvrir le dossier d'insertion, etc.)
+* [] Inverser l'ordre des lignes avec Ctrl-Shift-Up/Down
+* [] Ajouter des préprocesseurs : possibilité de convertir des chaînes custom en html avant la conversion en markdown (ce qui fait qu'il est possible de s'ajouter des styles custom, des blocks persos, etc.)
 
 ## Bugs
 
-* Fix éléments blocs ex. Math (peut-être qu'on peut les preview dans une iframe comme la preview d'iframe)
-* Fix: C'est ultra chiant quand on déplace une liste par copier-coller d'avoir un doublon de la puce
-* Fix: Mathjax devrait couper la colorisation syntaxique (gras, italique)
-* Compléter les todolists
-* Fix underlinish headers (CodeMirror)
-* CSS images et iframe max size
-* execRoutine est encore dans commands.js ça fait des erreurs
-* la preview d'image ne matche pas quand il y a des ccents dans le titre : élargir la regex
-* Problème avec les racourcis quand on est sur le ch = 0 d'une ligne
-* le pane peut glisser car il déborde sous le overflow (ça vient de box-sizing: border-box + padding)
-* fixer une limite à la taille du pane
-* Les anchors ne fonctionnent pas car les balises autofermantes n'existent pas en html5. Il faut soit changer le charset soit corriger ça au moment de la conversion.
-* mathjax fiche le bazar dans les listes
-* les quotations ">" ne se toggle pas correctement (notamment quand plusieurs lignes)
-* electron 0.30 ajoute un raccourci clavier par défaut pour l'inspecteur webkit
-* electron 0.30 utilise maintenant des fenêtres natives pour les popups, c'est mieux mais je peux focus la fenêtre derrière (en tout cas sur gnome) !! Le problème n'apparait pas avec ouvrir/fermer.
-* la boîte de recherche est vraiment mauvaise. CM 5.5v a un peu amélioré ça : http://codemirror.net/doc/releases.html à voir
-* corriger l'indentation qui fait soit des tabs soit des spaces et ne fait pas le même nombre selon que du texte est sélectionné ou pas.
+* [] Fix éléments blocs ex. Math (peut-être qu'on peut les preview dans une iframe comme la preview d'iframe)
+* [] Double puce quant on faire return depuis un début de liste à puce
+* [] Fix: C'est ultra chiant quand on déplace une liste par copier-coller d'avoir un doublon de la puce
+* [] De même, il faudrait que la touche Home renvoit juste après la puce "\* ".
+* [] Fix: Mathjax devrait couper la colorisation syntaxique (gras, italique)
+* [] Compléter les todolists
+* [] Fix underlinish headers (CodeMirror)
+* [] CSS images et iframe max size
+* [] execRoutine est encore dans commands.js ça fait des erreurs
+* [] la preview d'image ne matche pas quand il y a des ccents dans le titre : élargir la regex
+* [] Problème avec les racourcis quand on est sur le ch = 0 d'une ligne
+* [] le pane peut glisser car il déborde sous le overflow (ça vient de box-sizing: border-box + padding)
+* [] fixer une limite à la taille du pane
+* [] Les anchors ne fonctionnent pas car les balises autofermantes n'existent pas en html5. Il faut soit changer le charset soit corriger ça au moment de la conversion.
+* [] mathjax fiche le bazar dans les listes
+* [] La recherche actuelle peut être conservée en l'état en attendant de réécrire  un truc plus complet, mais il faut au moins corriger plusieurs bugs : empêcher un dialogue de s'ouvrir si un précédent l'est déjà (où alors le fermer, car si on a plusieurs Ctrl+F alors ça devient le bazar) ; appuyer sur echap nettoie les résultats de la recherche, etc.
+* [] les quotations ">" ne se toggle pas correctement (notamment quand plusieurs lignes)
+* [] electron 0.30 ajoute un raccourci clavier par défaut pour l'inspecteur webkit
+* [] electron 0.30 utilise maintenant des fenêtres natives pour les popups, c'est mieux mais je peux focus la fenêtre derrière (en tout cas sur gnome) !! Le problème n'apparait pas avec ouvrir/fermer.
+* [] la boîte de recherche est vraiment mauvaise. CM 5.5v a un peu amélioré ça : http://codemirror.net/doc/releases.html à voir
+* [] corriger l'indentation qui fait soit des tabs soit des spaces et ne fait pas le même nombre selon que du texte est sélectionné ou pas.
+* [] Depuis electron 30.1: Fix minimum and maximum size of BrowserWindow not working. Fix resizable option of BrowserWindow not working.
+* [] Problème avec le curseur multiple qui n'est pas supporté : à désactiver en attendant un support correct.
+* [] beautify ne fonctionne pas avec :
+
+> Joueurs|Rang 3|Rang 4|Rang 5|Total
+> - | - | - | - | -
+> 2|3|3|2|8
+> 3|4|4|4|12
+> 4|6|5|5|16
+> 5|7|7|6|20
+> 6|8|8|8|24
+
+* [] Lorsqu'on ouvre un fichier par drag & drop, ça ouvre le fichier + doublonne le texte dans une 2e action (controle Z annule le doublon)
+* [] Il faudrait pouvoir insérer des images par drag and drop
 
 ## Notes
 
@@ -182,6 +204,6 @@ Il faudrait revoir toute la CSS de toutes façons.
 
 Problèmes :
 
-* CSS : on ne voit pas les fin de ligne
-* Scroll lors de l'édition/move du curseur : le scroll n'est pas complet, de sorte qu'on ne voit pas toujours bien le curseur. C'est peut-être dû au fait que CM n'ai pas enregistré la bonne position du curseur...
-* Comportements qui semblent parfois vraiment bizarres, mais il faudrait déjà débugger les deux premiers points pour vérifier ça.
+* [] CSS : on ne voit pas les fin de ligne
+* [] Scroll lors de l'édition/move du curseur : le scroll n'est pas complet, de sorte qu'on ne voit pas toujours bien le curseur. C'est peut-être dû au fait que CM n'ai pas enregistré la bonne position du curseur...
+* [] Comportements qui semblent parfois vraiment bizarres, mais il faudrait déjà débugger les deux premiers points pour vérifier ça.

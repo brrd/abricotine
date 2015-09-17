@@ -1,6 +1,6 @@
 var path = require("path"),
     isUrl = require("is-url"),
-    parsePath = require('parse-filepath');
+    parsePath = require("parse-filepath");
 
 function previewInLine (cm, line, types) {
 
@@ -52,7 +52,7 @@ function previewInLine (cm, line, types) {
     var doc = cm.doc,
         config = {
             image: {
-                regex: /!\[(["'-a-zA-Z0-9@:%._\+~#=\.\/! ]*)\]\(([-a-zA-Z0-9@:%_\+~#=\.\/]+\.(jpg|jpeg|png|gif|svg))(\s("|')([-a-zA-Z0-9@:%_\+~#=\.\/! ]*)("|')\s?)?\)/gi,
+                regex: /!\[(["'-a-zA-Z0-9@:%._\+~#=\.\/! ]*)\]\(([-a-zA-Z0-9@:%_\+~#=\.\/ ]+\.(jpg|jpeg|png|gif|svg))(\s("|')([-a-zA-Z0-9@:%_\+~#=\.\/! ]*)("|')\s?)?\)/gi,
                 createElement: function (match) {
                     function getImageUrl (href) {
                         if (isUrl(href)) {

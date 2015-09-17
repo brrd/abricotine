@@ -124,6 +124,9 @@ module.exports = (function () {
         imageFromComputer: function (win, doc) {
             doc.openImage();
         },
+        imagesImportAll: function (win, doc) {
+            doc.cmdImagesImportAll();
+        },
         hr: function (win, doc) {
             doc.editor.draw("hr");
         },
@@ -133,7 +136,7 @@ module.exports = (function () {
             var dir = app.getPath('temp') + '/abricotine',
                 file = 'preview-' + Date.now() + '.html', // TODO: il faudrait plutot un nom de fichier constant (et donc le timestamp est un dir)
                 path = dir + '/' + file;
-            if (!fs.existsSync(dir)){
+            if (!fs.existsSync(dir)){ // FIXME: deprecated
                 fs.mkdirSync(dir);
             }
             doc.cmdExportHtml(path, function () {
@@ -234,22 +237,22 @@ module.exports = (function () {
         tableAlignClear: function (win, doc) {
             doc.editor.tableDo("align", null, null);
         },
-        tableAddRowBefore: function (win, doc, parameters) {
+        tableAddRowBefore: function (win, doc) {
             doc.editor.tableDo("addRowsBeforeCursor");
         },
-        tableAddRowAfter: function (win, doc, parameters) {
+        tableAddRowAfter: function (win, doc) {
             doc.editor.tableDo("addRowsAfterCursor");
         },
-        tableAddColBefore: function (win, doc, parameters) {
+        tableAddColBefore: function (win, doc) {
             doc.editor.tableDo("addColsBeforeCursor");
         },
-        tableAddColAfter: function (win, doc, parameters) {
+        tableAddColAfter: function (win, doc) {
             doc.editor.tableDo("addColsAfterCursor");
         },
-        tableRemoveRow: function (win, doc, parameters) {
+        tableRemoveRow: function (win, doc) {
             doc.editor.tableDo("removeRows");
         },
-        tableRemoveCol: function (win, doc, parameters) {
+        tableRemoveCol: function (win, doc) {
             doc.editor.tableDo("removeCols");
         }
     };

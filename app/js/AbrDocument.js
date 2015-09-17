@@ -3,7 +3,10 @@
 var AbrEditor = loadComponent('AbrEditor'),
     dialogs = loadComponent('dialogs'),
     fs = require('fs'),
-    parsePath = require('parse-filepath');
+    isUrl = require("is-url"),
+    path = require("path"),
+    parsePath = require("parse-filepath"),
+    http = require("http");
 
 // TODO: dans utils
 function writeFile (data, path, callback) {
@@ -24,6 +27,73 @@ function readFile (path, callback) {
             callback(data, path);
         }
     });
+}
+
+// Copier un fichier vers target
+// Callback a l'éventuelle error en paramètre
+function copyFile(source, target, mainCallback) {
+    // TODO: suffixer les images quand elles ont des homonymes
+
+    // Vérifier l'existence du dossier de destination et le créer si nécessaire
+    function setDestDir (target) {
+        // Create dest dir if doesnt exist
+        var destDir = parsePath(target).dirname;
+        try {
+            fs.mkdirSync(destDir);
+        } catch (e) {
+            if (e.code !== "EEXIST") throw e;
+        }
+    }
+
+    // Executer callback avec readstream en parametre sauf si erreur de lecture
+    function localReadStream (source, callback) {
+        // Test if file exists and is readable
+        fs.access(source, fs.F_OK | fs.R_OK, function (err) {
+            if (!err) {
+                var readStream = fs.createReadStream(source);
+                readStream.on("error", function (err) {
+                    mainCallback(err);
+                });
+                callback(readStream);
+            } else {
+                callback(null);
+            }
+        });
+    }
+
+    // Idem en ligne
+    function remoteReadStream (source, callback) {
+        var request = http.get(source, function(response) {
+            if (response.statusCode === 200) {
+                callback(response);
+            } else {
+                mainCallback(false);
+            }
+        }).on('error', function(err) {
+            fs.unlink(target);
+            mainCallback(err);
+        });
+    }
+
+    function pipeStreams (readStream) {
+        if (readStream === null) {
+            mainCallback(null);
+            return;
+        }
+        var writeStream = fs.createWriteStream(target);
+        readStream.pipe(writeStream);
+        writeStream.on('finish', function() {
+            writeStream.close(mainCallback);
+        });
+    }
+
+    mainCallback = typeof mainCallback === "function" ? mainCallback : function () { return; };
+    setDestDir(target);
+    if (!isUrl(source)) {
+        localReadStream(source, pipeStreams);
+    } else {
+        remoteReadStream(source, pipeStreams);
+    }
 }
 
 function AbrDocument (fileToOpen) {
@@ -174,6 +244,68 @@ AbrDocument.prototype.openImage = function () {
         return false;
     }
     this.editor.draw("image", path);
+};
+
+// Importe toutes les images.
+// Deux façons d'utiliser : auto on save ou ponctuellement. Dans tous les cas il faudra calculer
+AbrDocument.prototype.imagesImportAll = function (destFolder) {
+    if (!destFolder) {
+        return;
+    }
+    // TODO: factoriser avec previewInLine.js (getImageUrl et donc module path). Attention la regex n'est pas la même. Il faudrait peut etre avoir regex.js et utils.js. Ou alors séparer encore replaceInLine avec un cb.
+    function getImageUrl (href) {
+        if (isUrl(href)) {
+            return href;
+        }
+        var parsedPath = parsePath(href);
+        if (parsedPath.isAbsolute) {
+            return parsedPath.absolute;
+        } else {
+            return path.join(process.cwd(), href);
+        }
+    }
+    function processMatch (match, destFolder, cm, line) {
+        var url = match[2],
+            filename = parsePath(url).basename,
+            target = path.join(destFolder, filename);
+        // Si l'url correspond déjà au dest folder alors continue
+        if (url === target) {
+            return;
+        }
+        // Copier l'image dans le destFolder
+        var source = getImageUrl(url);
+        copyFile(source, target);
+        // Changer l'url dans l'éditeur
+        var lineNumber = cm.doc.getLineNumber(line),
+            from = {
+                line: lineNumber,
+                ch: match.index + match[1].length
+            },
+            to = {
+                line: lineNumber,
+                ch: from.ch + match[2].length
+            };
+        cm.doc.replaceRange(target, from, to, "*");
+    }
+    var regex = /(!\[["'-a-zA-Z0-9@:%._\+~#=\.\/! ]*\]\()([-a-zA-Z0-9@:%_\+~#=\.\/ ]+\.(?:jpg|jpeg|png|gif|svg))(?:\s(?:"|')(?:[-a-zA-Z0-9@:%_\+~#=\.\/! ]*)(?:"|')\s?)?\)/gi,
+    match,
+    cm = this.editor.cm;
+    cm.doc.eachLine( function (line) {
+        while ((match = regex.exec(line.text)) !== null) {
+            processMatch(match, destFolder, cm, line);
+            // TODO: tell user when it's done
+        }
+    });
+};
+
+// TODO: ajouter une config pour faire ça automatiquement on save
+AbrDocument.prototype.cmdImagesImportAll = function () {
+    if (!this.path) {
+        console.log("Le doc doit être enregistré avant.");
+        return; // TODO: écrire une notification utilisateur, etc. voir cmdClose
+    }
+    var filename = parsePath(this.path).basename;
+    this.imagesImportAll(filename + "_files");
 };
 
 module.exports = AbrDocument;
