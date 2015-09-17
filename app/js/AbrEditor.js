@@ -25,7 +25,17 @@ function AbrEditor (abrDocument) {
             }
         });
     }
-
+    function strikeCheckedListItems (cm) {
+        cm.addOverlay({
+            token: function(stream) {
+                if (stream.match(/^\* \[x\].*/)) {
+                    return "checked-list-item";
+                }
+                stream.match(/^\s*\S*/);
+                return null;
+            }
+        });
+    }
     // Ignore content into $$ delimiters (inline MathJax)
     // FIXME: This is dirty. We lose highlight until the end of the line. I should rewrite the markdown mode instead.
     CodeMirror.defineMode("abricotine", function(config) {
@@ -90,6 +100,7 @@ function AbrEditor (abrDocument) {
     this.cm.abrEditor = this;
     addTrailingWhitespace(this.cm);
     // notBlankLines(this.cm); // TODO: remove this function if unused
+    strikeCheckedListItems(this.cm);
     this.setClean();
     this.abrDocument = abrDocument;
 

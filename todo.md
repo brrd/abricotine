@@ -9,6 +9,7 @@
 * [] Refactoring CSS => vraiment, dont les scrollbars à harmoniser (cf atom). Peut-être que c'est pas la peine d'avoir des scrollbars custom ?
 * [] Après le refactoring CSS, reprendre l'integration des tables pour que les lignes des tables ne soient pas retournées à la ligne (voir plus bas wrap table)
 * [] UI : volet latéral
+* [] Gestion de la config : il y a actuellement 3 fichiers de config différents et contradictoires !
 
 ## Fonctionnalités prévues
 
@@ -27,8 +28,8 @@
 * [] Détecter quand le fichier a changé dans un autre éditeur et proposer reload
 * [] Utiliser webview pour isoler le contenu du contexte de node
 * [] Permettre de remplacer les tabs par des pipes lors de la création d'un tableau (celldown). Idem : quand le tableau n'a pas de ligne |-|-| alors l'ajouter => il faut une option : convertir en tableau
-* [] Barrer les todolists terminées
-* [] Autoclose les différents types de brackets
+* [x] Barrer les todolists terminées
+* [x] Autoclose les différents types de brackets
 
 ## Idées (pour plus tard)
 

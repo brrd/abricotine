@@ -265,6 +265,20 @@ span.checkbox.checked {
     background-image: url('../svg/checkbox-checked.svg');
 }
 
+.cm-s-default .cm-checked-list-item {
+    text-decoration: line-through;
+    color: #999999;
+}
+
+.cm-s-default .cm-checked-list-item.cm-trailing-whitespace, .cm-s-default .cm-checked-list-item.cm-property, .cm-s-default .cm-checked-list-item.cm-variable-2:first-child {
+    text-decoration: none;
+    color: #999999;
+}
+
+.cm-s-default .cm-checked-list-item > .cm-variable-2 {
+    color: #999999;
+}
+
 /* Anchors */
 a.anchor {
     display: inline-block;
