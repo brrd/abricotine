@@ -1,5 +1,4 @@
-// Wrapper CodeMirror
-// C'est ici qu'on a les fonctions ital, bold, etc.
+// CodeMirror Wrapper
 // Most of the methods are aliases to CodeMirror functions
 
 var md4cm = loadComponent('md4cm'),

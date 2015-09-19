@@ -48,6 +48,7 @@ module.exports = {
     contextMenu: {},
     /* getMenuItem("file:open"). FIXME: Uses labels: no good for i18n */
     // TODO: use it (undo, redo, save, findNext, findPrev, clearSearch...)
+    // FIXME: obolete. Electron introced its own ids for menuItems
     getMenuItem: function (label, menu) {
         function findMenuItem (menu) {
             if (!menu.items || !label || typeof label !== "string") {

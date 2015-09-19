@@ -18,18 +18,44 @@
 * [] Coller des éléments (listes, quote...) : virer la puce si elle est déjà dans le presse papier
 * [] Option : supprimer le retour à la ligne (tableaux par exemple). Idéalment il faudrait aussi pouvoir le faire localement pour les tableaux.
 * [] Ajout automatique des extensions de fichier on save
-* [] Permettre d'enregistrer les images liés sur le disque (à priori même système que les navigateurs pour eenregistrer les pages web = dossier document_name_files). Plutôt que deux modes d'insertion différents, il faudrait une option qui permette d'"importer" toutes les images du doc (+ du coup changer les Url). Il faudrait aussi une option pour activer ça automatiquement on save.
+* [x] Permettre d'enregistrer les images liés sur le disque (à priori même système que les navigateurs pour eenregistrer les pages web = dossier document_name_files). Plutôt que deux modes d'insertion différents, il faudrait une option qui permette d'"importer" toutes les images du doc (+ du coup changer les Url). 
+* [] Il faudrait aussi une option pour activer ça automatiquement on save.
 * [] Gérer les images relatives lors de l'export html
-* [] Popups (mais problème sous gnome, peut-être créer un ticket electron)
-* [] Fenêtres de configuration (ou alors embed dans la même fenêtre)
 * [] Export HTML : possibilité d'utiliser des templates (http://getskeleton.com/)
 * [] Prévisu MathJax dans l'export HMTL
 * [] Plus de langage en highlight (faire une option)
 * [] Détecter quand le fichier a changé dans un autre éditeur et proposer reload
 * [] Utiliser webview pour isoler le contenu du contexte de node
-* [] Permettre de remplacer les tabs par des pipes lors de la création d'un tableau (celldown). Idem : quand le tableau n'a pas de ligne |-|-| alors l'ajouter => il faut une option : convertir en tableau
+* [] Permettre de remplacer les tabs par des pipes lors de la création d'un tableau (celldown). 
+* [] Idem : quand le tableau n'a pas de ligne |-|-| alors l'ajouter => il faut une option : convertir en tableau
 * [x] Barrer les todolists terminées
 * [x] Autoclose les différents types de brackets
+* [] Gérer le GFM pour les retours à la ligne
+
+## Commandes sublime à récupérer
+
+Voir le plugin http://codemirror.net/demo/sublime.html
+
+Il faut récupérer des fonctions de ce plugin (mais pas tout le plugin qui définit trop de choses, dont des raccourcis clavier dont on ne veut pas). 
+
+Fontions intéressantes qui ne sont pas par défaut dans CM :
+
+* "Ctrl-L": "selectLine",
+* "Shift-Ctrl-K": "deleteLine",
+* "Ctrl-Enter": "insertLineAfter",
+* "Shift-Ctrl-Enter": "insertLineBefore",
+* "Shift-Ctrl-Up": "swapLineUp",
+* "Shift-Ctrl-Down": "swapLineDown",
+* "Ctrl-J": "joinLines",
+* "Shift-Ctrl-D": "duplicateLine",
+* "F9": "sortLines",
+* "Ctrl-F9": "sortLinesInsensitive",
+* (...) raccourcis sur les bookmarks
+* "Alt-Q": "wrapLines",
+* "Backspace": "smartBackspace", ???
+* "Ctrl-K Ctrl-U": "upcaseAtCursor" et "Ctrl-K Ctrl-L": "downcaseAtCursor" qui peuvent devenir toggleCase comme dans Word
+* "Ctrl-F3": "findUnder",
+* "Shift-Ctrl-F3": "findUnderPrevious",
 
 ## Idées (pour plus tard)
 
@@ -51,8 +77,9 @@
 * [] Système de plugins (mathjax en serait un)
 * [] Tout recoder avec Coffeescript + éventuellement un framework (?)
 * [] Permettre d'éditer facilement les images insérées (ouvrir le dossier d'insertion, etc.)
-* [] Inverser l'ordre des lignes avec Ctrl-Shift-Up/Down
 * [] Ajouter des préprocesseurs : possibilité de convertir des chaînes custom en html avant la conversion en markdown (ce qui fait qu'il est possible de s'ajouter des styles custom, des blocks persos, etc.)
+* [] Popups (mais problème sous gnome, peut-être créer un ticket electron)
+* [] Fenêtres de configuration (ou alors embed dans la même fenêtre)
 
 ## Bugs
 
@@ -65,7 +92,7 @@
 * [] Fix underlinish headers (CodeMirror)
 * [] CSS images et iframe max size
 * [] execRoutine est encore dans commands.js ça fait des erreurs
-* [] la preview d'image ne matche pas quand il y a des ccents dans le titre : élargir la regex
+* [] la preview d'image ne matche pas quand il y a des accents dans le titre : élargir la regex
 * [] Problème avec les racourcis quand on est sur le ch = 0 d'une ligne
 * [] le pane peut glisser car il déborde sous le overflow (ça vient de box-sizing: border-box + padding)
 * [] fixer une limite à la taille du pane

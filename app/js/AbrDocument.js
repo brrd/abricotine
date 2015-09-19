@@ -1,5 +1,3 @@
-// Permettra de gérer des tabs plus tard.
-
 var AbrEditor = loadComponent('AbrEditor'),
     dialogs = loadComponent('dialogs'),
     fs = require('fs'),

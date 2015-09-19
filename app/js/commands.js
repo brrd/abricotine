@@ -2,11 +2,12 @@ module.exports = (function () {
     var remote = require('remote'),
         app = remote.require('app'), // TODO: à entrer dans Abricotine
         clipboard = remote.require('clipboard'),
-        shell = require('shell');
+        shell = require('shell'),
+        ipc = require('ipc');
 
     return {
         new: function (win, doc) {
-            doc.cmdClose();
+            ipc.send('asynchronous-message', 'openNewWindow');
         },
         open: function (win, doc) {
             doc.cmdOpen();
@@ -19,6 +20,9 @@ module.exports = (function () {
         },
         exportHtml: function (win, doc) {
             doc.cmdExportHtml();
+        },
+        close: function (win, doc) {
+            doc.cmdClose();
         },
         quit: function (win, doc) {
             win.close();

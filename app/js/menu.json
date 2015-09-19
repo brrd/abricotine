@@ -37,8 +37,13 @@
                 "type": "separator"
             },
             {
-                "label": "Quit",
+                "label": "Close document",
                 "accelerator": "CmdOrCtrl+W",
+                "command": "close"
+            },
+            {
+                "label": "Close window",
+                "accelerator": "CmdOrCtrl+Q",
                 "command": "quit"
             }
         ]
