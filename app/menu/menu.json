@@ -523,5 +523,18 @@
                 ]
             }
         ]
+    },
+    {
+        "label": "Help",
+        "submenu": [
+            {
+                "label": "About Abricotine",
+                "command": "about"
+            },
+            {
+                "label": "Visit homepage",
+                "command": "homepage"
+            }
+        ]
     }
 ]

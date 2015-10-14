@@ -3,7 +3,7 @@
     ==========
     Inspiration : https://github.com/airpub/ninja
 */
-// TODO: à intégrer dans AbrEditor
+
 /**
 *
 * The state of CodeMirror at the given position.
@@ -359,10 +359,20 @@ function draw(type, url) {
     return drawWhatever;
 }
 
-module.exports = {
-    getState: getState,
-    inject: inject,
-    setLine: setLine,
-    toggle: toggle,
-    draw: draw
+module.exports = function (CodeMirror) {
+    CodeMirror.prototype.getState = function (pos) {
+        return getState(this, pos);
+    };
+    CodeMirror.prototype.inject = function (texts, triggered) {
+        return inject (this, texts, triggered);
+    };
+    CodeMirror.prototype.setLine = function (line, text) {
+        return setLine (line, text, this);
+    };
+    CodeMirror.prototype.toggle = function (type) {
+        return toggle(type)(this); // TODO: reverse theses functions
+    };
+    CodeMirror.prototype.draw = function (type,param) {
+        return draw(type, param)(this); // TODO: reverse theses functions
+    };
 };

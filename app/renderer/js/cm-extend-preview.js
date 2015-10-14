@@ -2,7 +2,7 @@ var path = require("path"),
     isUrl = require("is-url"),
     parsePath = require("parse-filepath");
 
-function previewInLine (cm, line, types) {
+function preview (cm, line, types) {
 
     function lineIsSelected (lineNumber) { // FIXME: doesnt work in case of multiple selection
         var cursor = {
@@ -189,4 +189,8 @@ function previewInLine (cm, line, types) {
     }
 }
 
-module.exports = previewInLine;
+module.exports = function (CodeMirror) {
+    CodeMirror.prototype.preview = function (line, types) {
+        return preview (this, line, types);
+    };
+};
