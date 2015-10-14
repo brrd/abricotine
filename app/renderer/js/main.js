@@ -1,12 +1,12 @@
 var remote = require("remote"),
-    AbrDoc = require.main.require("./js/abr-doc.js"),
+    AbrDocument = require.main.require("./js/abr-document.js"),
     dialogs = require.main.require("./js/dialogs.js"),
     IpcClient = require.main.require("./js/ipc-client.js");
 
 $( function () {
     var ipcClient = new IpcClient();
     ipcClient.get("config", function (config) {
-        var abrDoc = new AbrDoc (config, ipcClient);
+        var abrDoc = new AbrDocument (config, ipcClient);
 
         // Drag'n'drop events
         // FIXME: bug de la double insertion

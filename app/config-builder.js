@@ -1,6 +1,6 @@
 var app = require("app"),
     constants = require.main.require("./constants.js"),
-    defaultConfig = require.main.require("./config/default-config.json"),
+    defaultConfig = require.main.require("./config-default.json"),
     fs = require("fs");
 
 // TODO: Nom ? Builder ? Manager ? Ou config tout court ?

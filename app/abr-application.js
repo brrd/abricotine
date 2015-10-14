@@ -1,12 +1,12 @@
 var AbrWindow = require.main.require("./abr-window.js"),
     BrowserWindow = require("browser-window"),
-    configBuilder = require.main.require("./config/config-builder.js"),
-    contextMenuTemplate = require.main.require("./menu/context-menu.json"),
+    configBuilder = require.main.require("./config-builder.js"),
+    contextMenuTemplate = require.main.require("./menu-context.json"),
     files = require.main.require("./files.js"),
     ipcServer = require.main.require("./ipc-server.js"),
     Menu = require("menu"),
-    menuBuilder = require.main.require("./menu/menu-builder.js"),
-    menuTemplate = require.main.require("./menu/menu.json"),
+    menuBuilder = require.main.require("./menu-builder.js"),
+    menuTemplate = require.main.require("./menu-window.json"),
     parsePath = require("parse-filepath");
 
 function AbrApplication () {

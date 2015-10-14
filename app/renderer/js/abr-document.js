@@ -1,7 +1,3 @@
-// NOTE: les dialogues et les lectures/écritures sont gérées directement par le renderer pour éviter de compliquer les choses avec trop de messages IPC
-
-// TODO: rename this in abr-document AbrDocument
-// TODO: il faudrait trouver une façon de distinguer les noms de modules. Peut-être _path ou m_path ?
 var remote = require("remote"),
     AbrPane = require.main.require("./js/abr-pane.js"),
     app = remote.require("app"),
@@ -14,7 +10,7 @@ var remote = require("remote"),
     parsePath = require("parse-filepath"),
     shell = require("shell");
 
-function AbrDoc (config, ipcClient) {
+function AbrDocument (config, ipcClient) {
     var that = this;
 
     // IPC init
@@ -60,7 +56,7 @@ function AbrDoc (config, ipcClient) {
     });
 }
 
-AbrDoc.prototype = {
+AbrDocument.prototype = {
 
     // Clear editor
     clear: function (value, path) {
@@ -253,4 +249,4 @@ AbrDoc.prototype = {
     }
 };
 
-module.exports = AbrDoc;
+module.exports = AbrDocument;
