@@ -47,7 +47,6 @@ function AbrWindow (abrApp, path) {
     this.menu = new AbrMenu(this, cloneTemplate, this.config);
     // Context
     this.contextMenu = new AbrMenu(this, contextMenuTemplate, this.config);
-    console.log(this.config.get());
     this.open();
 }
 
@@ -110,7 +109,11 @@ AbrWindow.prototype = {
 
         // Load window
         win.loadUrl("file://" + app.getAppPath() + constants.indexHtml);
-        win.openDevTools(); // TODO: remove this after debug
+
+        // Open devtools on debug mode
+        if (this.config.get("debug")) {
+            win.openDevTools();
+        }
     }
 };
 

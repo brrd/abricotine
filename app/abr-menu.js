@@ -10,13 +10,16 @@ function preprocessTemplate (element, config) {
             var win = utils.getWindow();
             win.webContents.send("command", command, parameters);
         },
-        getConfig = function (config, key) {
+        getConfig = function (key) {
             if (config && typeof config.get === "function") {
                 return config.get(key) || false;
             }
             return false;
         },
         replaceAttributes = function (item) {
+            if (item.condition) {
+                    delete item.condition;
+            }
             if (item.command) {
                 item.click = (function (command, parameters) {
                     return function () { sendCommand(command, parameters); };
@@ -26,7 +29,7 @@ function preprocessTemplate (element, config) {
                 delete item.parameters;
             }
             if (item.type === "checkbox" && typeof item.checked === "string") {
-                item.checked = getConfig(config, item.checked);
+                item.checked = getConfig(item.checked);
             }
             if (item.submenu) {
                 preprocessTemplate(item.submenu, config);
@@ -34,6 +37,12 @@ function preprocessTemplate (element, config) {
             return item;
         };
     for (var i=0; i<element.length; i++) {
+        // Conditionnal menuItem (debug menu) : do not process if not allowed
+        // FIXME: Attention, electron a ajouté des raccourcis par défaut pour ces fonctions
+        if (element[i].condition && !getConfig(element[i].condition)) {
+            element.splice(i, 1);
+        }
+        // Replace attributes of menu items
         replaceAttributes(element[i]);
     }
     return element;

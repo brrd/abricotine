@@ -514,6 +514,7 @@
     },
     {
         "label": "Debug",
+        "condition": "debug",
         "submenu": [
             {
                 "label": "Reload shell",
