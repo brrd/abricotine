@@ -247,6 +247,19 @@
                 ]
             },
             {
+                "label": "Math",
+                "submenu": [
+                    {
+                        "label": "Inline Math",
+                        "command": "inlineMath"
+                    },
+                    {
+                        "label": "Display Math",
+                        "command": "displayMath"
+                    }
+                ]
+            },
+            {
                 "label": "Horizontal rule",
                 "accelerator": "CmdOrCtrl+R",
                 "command": "hr"

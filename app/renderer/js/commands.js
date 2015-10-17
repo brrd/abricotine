@@ -188,6 +188,14 @@ var commands = {
         abrDoc.imageImport();
     },
 
+    inlineMath: function(win, abrDoc, cm) {
+        cm.draw("inlineMath");
+    },
+
+    displayMath: function(win, abrDoc, cm) {
+        cm.draw("displayMath");
+    },
+
     hr: function(win, abrDoc, cm) {
         cm.draw("hr");
     },

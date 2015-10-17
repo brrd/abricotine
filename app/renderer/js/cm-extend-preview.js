@@ -158,7 +158,7 @@ function preview (cm, line, types) {
                 }
             },
             math: {
-                regex: /\${2,3}[^$]*\${2,3}/gi, // FIXME: trick for display:block problem = show everything as inline
+                regex: /\${2,3}[^$]+\${2,3}/gi, // FIXME: trick for display:block problem = show everything as inline
                 createElement: function (match) {
                     var $element = $("<span class='math autopreview-math'>" + match[0] + "</span>");
                     return $element.get(0);

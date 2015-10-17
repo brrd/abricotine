@@ -353,7 +353,9 @@ function draw(type, url) {
     var placeholders = {
         link: ['[', '](' + url + ')'],
         image: ['![', '](' + url + ')'],
-        hr: ['\n***\n']
+        hr: ['\n***\n'],
+        inlineMath: ["$$$", "$$$"],
+        displayMath: ["$$", "$$"]
     };
     // TODO: ajouter blockcode, éventuellement par langage. Le problème c'est que c'est forcément des paragraphes donc il faut détecter si on saute des lignes ou non. RQ: c'est ce qu'il aurait déjà fallu faire pour hr.
     return drawWhatever;
