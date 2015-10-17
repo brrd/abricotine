@@ -1,28 +1,17 @@
 var AbrWindow = require.main.require("./abr-window.js"),
+    app = require("app"),
     BrowserWindow = require("browser-window"),
-    configBuilder = require.main.require("./config-builder.js"),
-    contextMenuTemplate = require.main.require("./menu-context.json"),
+    constants = require.main.require("./constants.js"),
     files = require.main.require("./files.js"),
     ipcServer = require.main.require("./ipc-server.js"),
-    Menu = require("menu"),
-    menuBuilder = require.main.require("./menu-builder.js"),
-    menuTemplate = require.main.require("./menu-window.json"),
     parsePath = require("parse-filepath");
 
 function AbrApplication () {
-    // Windows reference { id: documentPath }
+    /* Windows reference { id: documentPath } */
     this.windows = [];
-
-    /* Config */
-    this.config = configBuilder.build();
 
     // IPC get & set
     this.ipcServer = new ipcServer(this);
-
-    /* Menu + context menu */
-    this.menu = menuBuilder.build(menuTemplate, this.config);
-    Menu.setApplicationMenu(this.menu);
-    this.contextMenu = menuBuilder.build(contextMenuTemplate, this.config);
 
     /* Open files in argv if exist */
     var numberOfWindowsOpened = this.openDocumentsInArgv();
@@ -35,7 +24,7 @@ AbrApplication.prototype = {
 
     // FIXME: erreur on close quand plusieurs fenetres ouvertes (x error)
 
-    // TODO: separer les triggers ?
+    // TODO: separer les triggers ? Dans IPC ?
 
     // trigger
     setWinPath: function (path, winId) {
@@ -53,15 +42,67 @@ AbrApplication.prototype = {
         }
     },
 
+    // trigger
+    setConfig: function (args, winId, callback) {
+        var abrWin = this.windows[winId];
+        if (!abrWin || typeof args.key === "undefined" || typeof args.value === "undefined") {
+            return;
+        }
+        // Update window menu if needed (args.menu indicates the menu id)
+        if (args.menu && typeof args.value === "boolean") {
+            var menuItem = abrWin.menu.findItem(args.menu);
+            if (menuItem) {
+                menuItem.checked = args.value;
+            }
+        }
+        // Set window config
+        abrWin.config.set(args.key, args.value);
+        // Save the config each time it is modified, so the next opened window would get the latest config
+        abrWin.config.save(function (err) {
+            if (typeof callback === "function") {
+                callback(err);
+            }
+        });
+    },
+
+    // trigger
+    getConfig: function (arg, winId, callback) {
+        var abrWin = this.windows[winId];
+        if (!abrWin) {
+            return;
+        }
+        var res = abrWin.config.get(arg);
+        if (typeof callback === "function") {
+            callback(res);
+        } else {
+            return res;
+        }
+    },
+
+    // trigger
+    // FIXME: supprimer ceci car c'est dangereux (pas forcément raccord avec le renderer)
+    // toggleConfig: function (arg, winId, callback) {
+    //     var flag = this.getConfig(arg, winId);
+    //     this.setConfig({
+    //         key: arg,
+    //         value: !flag
+    //     }, winId, callback);
+    // },
+
     open: function (path) {
         var abrWin = new AbrWindow(this, path);
     },
 
+    getFocusedAbrWindow: function (winId) {
+        winId = winId || BrowserWindow.getFocusedWindow().id;
+        return this.windows[winId];
+    },
+
     // trigger
     // TODO: peut-etre plutot une commande ?
-    openContextMenu: function (args) {
-        var win = BrowserWindow.getFocusedWindow();
-        this.contextMenu.popup(win);
+    openContextMenu: function (arg, winId) {
+        var abrWin = this.getFocusedAbrWindow(winId); // TODO: harmo avec les autres methodes de abrApp qui utilisent windows[winId]
+        abrWin.contextMenu.popup();
     },
 
     openDocumentsInArgv: function () {

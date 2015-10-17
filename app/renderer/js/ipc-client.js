@@ -1,3 +1,5 @@
+// TODO: la communication renderer >>> main peut être faite plus simplement avec le module remote.
+
 var remote = require("remote"),
     ipc = require("ipc");
 

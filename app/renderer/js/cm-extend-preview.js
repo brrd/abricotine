@@ -68,7 +68,7 @@ function preview (cm, line, types) {
                     var alt = match[1] || '',
                         url = getImageUrl(match[2]),
                         title = match[6],
-                        $element = $('<img>').attr('src', url).attr('alt', alt);
+                        $element = $("<img class='autopreview-image'>").attr("src", url).attr("alt", alt);
                     if (title) {
                         $element.attr("title", title);
                     }
@@ -91,12 +91,13 @@ function preview (cm, line, types) {
                     });
                 }
             },
+            // TODO: rename this in "todo"
             checkbox: {
                 regex: /^(\*|-|\+)\s+\[(\s*|x)?\]\s+/g,
                 createElement: function (match) {
                     var isChecked = match[2] === "x",
                         checkedClass = isChecked ? " checked" : "",
-                        $element = $("<span class='checkbox" + checkedClass +"'></span>");
+                        $element = $("<span class='autopreview-checkbox checkbox" + checkedClass +"'></span>");
                     return $element.get(0);
                 },
                 marker: {
@@ -119,14 +120,14 @@ function preview (cm, line, types) {
             iframe: {
                 regex: /^\s*<iframe[^<>]*src=["']https?:\/\/(?:www\.)?([-a-zA-Z0-9@:%_\+~#=\.! ]*)[-a-zA-Z0-9@:%_\+~#=\.\/! ]*["'][^<>]*>\s*<\/iframe>\s*$/gi,
                 createElement: function (match) {
-                    var whitelist = ["youtube.com", "google.com"],
+                    var whitelist = ["youtube.com", "google.com"], // TODO: config + add others
                         url = match[1],
                         allowed = false;
                     for (var i=0; i<whitelist.length; i++) {
                         if (url.trim() !== whitelist[i]) {
                             continue;
                         }
-                        return $(match[0]).get(0); // TODO: maybe better/safer to reprocess an iframe from scratch ?
+                        return $(match[0]).addClass("autopreview-iframe").get(0); // TODO: maybe better/safer to reprocess an iframe from scratch ?
                     }
                 },
                 marker: {
@@ -146,7 +147,7 @@ function preview (cm, line, types) {
                 regex: /<a\s+name=["']([-a-zA-Z0-9@%_\+~#=!]+)["']\s*(\/>|>\s*<\/a>)/gi,
                 createElement: function (match) {
                     var name = match[1],
-                        $element = $("<a class='anchor' name='" + name + "' title='Anchor: " + name + "'></a>");
+                        $element = $("<a class='anchor autopreview-anchor' name='" + name + "' title='Anchor: " + name + "'></a>");
                     return $element.get(0);
                 },
                 marker: {
@@ -159,7 +160,7 @@ function preview (cm, line, types) {
             math: {
                 regex: /\${2,3}[^$]*\${2,3}/gi, // FIXME: trick for display:block problem = show everything as inline
                 createElement: function (match) {
-                    var $element = $("<span class='math'>" + match[0] + "</span>");
+                    var $element = $("<span class='math autopreview-math'>" + match[0] + "</span>");
                     return $element.get(0);
                 },
                 marker: {
@@ -181,9 +182,8 @@ function preview (cm, line, types) {
     if (types === undefined || types.length === 0) {
         return;
     }
-    for (var i=0; i<=types.length; i++) {
-        var type = types[i];
-        if (config[type]) {
+    for (var type in types) {
+        if (types[type] === true && config[type]) {
             replaceInLine(line, config[type]);
         }
     }

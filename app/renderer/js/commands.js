@@ -103,6 +103,11 @@ var commands = {
         cm.execCommand("selectAll");
     },
 
+    autoCloseBrackets: function(win, abrDoc, cm) {
+        // TODO: à gérer correctement (config) + ajouter au menu
+        cm.setOption("autoCloseBrackets", false);
+    },
+
     editConfigFile: function(win, abrDoc, cm) {
         // TODO
     },
@@ -243,51 +248,37 @@ var commands = {
 
     /* View */
 
-    preview: function(win, abrDoc, cm) {
-        abrDoc.preview();
+    viewInBrowser: function(win, abrDoc, cm) {
+        abrDoc.viewInBrowser();
+    },
+
+    showMenuBar: function(win, abrDoc, cm) {
+        var flag = win.isMenuBarAutoHide();
+        win.setAutoHideMenuBar(!flag);
+        abrDoc.setConfig("window:showMenuBar", flag);
     },
 
     showBlocks: function(win, abrDoc, cm) {
         // FIXME: j'ai viré cette fonction de l'init de cm et des CSS (?) sans faire exprès
-        // $('body').toggleClass('show-blocks');
-        // Abricotine.config.showBlocks = $('body').hasClass('show-blocks');
-        // TODO: faire plutôt dans le sens suivant :
-        var flag  = abrDoc.toggleConfig("show-blocks");
-        $('body').toggleClass("show-blocks", flag);
+        $("body").toggleClass("show-blocks");
+        var flag = $("body").hasClass("show-blocks");
+        abrDoc.setConfig("startup-commands:showBlocks", flag);
     },
 
     showHiddenCharacters: function(win, abrDoc, cm) {
-        // TODO: idem avec "show-hidden-characters"
-    },
-
-    autoPreviewImages: function(win, abrDoc, cm) {
-        // TODO: idem mais celui-ci est un peu plus complexe
-        // var flag = Abricotine.config.autoPreviewImages = !Abricotine.config.autoPreviewImages,
-        //     editor = doc.editor;
-        // if (flag) {
-        //     editor.execRoutine("imageAutoPreview");
-        // } else {
-        //     editor.clearMarkers("img");
-        // }
-    },
-
-    autoPreviewTodo: function(win, abrDoc, cm) {
-        // TODO: idem
-        // var flag = Abricotine.config.autoPreviewTodo = !Abricotine.config.autoPreviewTodo,
-        //     editor = doc.editor;
-        // if (flag) {
-        //     editor.execRoutine("autoPreviewTodo");
-        // } else {
-        //     editor.clearMarkers("span.checkbox");
-        // }
-    },
-
-    autoHideMenuBar: function(win, abrDoc, cm) {
-        // TODO: autoHideMenuBar (d'ailleurs cette clé n'est pas harmo)
+        $("body").toggleClass("show-hidden-characters");
+        var flag = $("body").hasClass("show-hidden-characters");
+        abrDoc.setConfig("startup-commands:showHiddenCharacters", flag);
     },
 
     showTocPane: function(win, abrDoc, cm) {
-        // TODO: idem "pane-visible"
+        $("body").toggleClass("pane-visible");
+        var flag = $("body").hasClass("pane-visible");
+        abrDoc.setConfig("startup-commands:showTocPane", flag);
+    },
+
+    togglePreview: function(win, abrDoc, cm, param) {
+        abrDoc.togglePreview(param);
     },
 
     toggleFullscreen: function(win, abrDoc, cm) {
@@ -304,9 +295,8 @@ var commands = {
     },
 
     reload: function(win, abrDoc, cm) {
-        // TODO
-        // doc.close();
-        // win.reloadIgnoringCache();
+        abrDoc.close(true);
+        win.reloadIgnoringCache();
     },
 
     openConfigDir: function(win, abrDoc, cm) {
@@ -317,7 +307,7 @@ var commands = {
 
     openTempDir: function(win, abrDoc, cm) {
         // TODO: utiliser des constantes
-        var dirPath = app.getPath('temp') + '/abricotine';
+        var dirPath = app.getPath('temp') + '/Abricotine';
         shell.openItem(dirPath);
     },
 

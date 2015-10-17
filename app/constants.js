@@ -1,13 +1,14 @@
 var app = require("app");
 
-// TODO: pas utilisé partout. Que faire ?
+// TODO: pas utilisé partout. Que faire ? Il faudrait plutôt un json avec des expends
 
-var constants = {
-    appName: "Abricotine",
-    appPath: app.getPath('userData') + '/app/',
-    appIconPath: "/abricotine.png",
-    indexHtml: "/app/renderer/index.html",
-    userConfigPath: this.appPath + "/user.json"
-};
+var appPath = app.getPath('userData') + '/app',
+    constants = {
+        appName: "Abricotine",
+        appPath: appPath,
+        appIconPath: "/abricotine.png",
+        indexHtml: "/app/renderer/index.html",
+        userConfigPath: appPath + "/config.json"
+    };
 
 module.exports = constants;

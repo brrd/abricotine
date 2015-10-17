@@ -32,11 +32,12 @@ var utils = {
     },
 
     getWindow: function (win) {
+
         if (typeof win === "number") {
             return BrowserWindow.fromId(win);
         } else if (win instanceof BrowserWindow) {
             return win;
-        } else if (process.type === "browser" && win instanceof AbrWindow) {
+        } else if (win && typeof win.browserWindow !== "undefined") {
             return win.browserWindow;
         } else if (typeof remote !== "undefined") {
             return remote.getCurrentWindow();

@@ -241,7 +241,7 @@
                         "type": "separator"
                     },
                     {
-                        "label": "Copy all images in a folder",
+                        "label": "Copy all images in a local folder",
                         "command": "imagesImportAll"
                     }
                 ]
@@ -426,57 +426,85 @@
         "label": "View",
         "submenu": [
             {
-                "label": "Preview in browser",
+                "label": "View document in browser",
                 "accelerator": "F6",
-                "command": "preview"
+                "command": "viewInBrowser"
             },
             {
                 "type": "separator"
             },
             {
-                "label": "Hide menu bar",
-                "command": "autoHideMenuBar",
+                "label": "Show menu bar",
+                "command": "showMenuBar",
                 "type": "checkbox",
-                "checked": "autoHideMenuBar"
+                "checked": "window:showMenuBar"
             },
             {
                 "label": "Show table of contents",
                 "command": "showTocPane",
                 "type": "checkbox",
-                "checked": "showTocPane"
-            },
-            {
-                "type": "separator"
+                "checked": "startup-commands:showTocPane"
             },
             {
                 "label": "Show blocks",
                 "command": "showBlocks",
                 "type": "checkbox",
-                "checked": "showBlocks"
+                "checked": "startup-commands:showBlocks"
             },
             {
-                "label": "Hidden characters",
+                "label": "Show hidden characters",
                 "command": "showHiddenCharacters",
                 "type": "checkbox",
-                "checked": "showHiddenCharacters"
-            },
-            {
-                "label": "Auto preview images",
-                "command": "autoPreviewImages",
-                "type": "checkbox",
-                "checked": "autoPreviewImages"
-            },
-            {
-                "label": "Auto preview todolists",
-                "command": "autoPreviewTodo",
-                "type": "checkbox",
-                "checked": "autoPreviewTodo"
+                "checked": "startup-commands:showHiddenCharacters"
             },
             {
                 "type": "separator"
             },
             {
-                "label": "Fullscreen",
+                "label": "Preview",
+                "submenu": [
+                    {
+                        "label": "Images",
+                        "command": "togglePreview",
+                        "parameters": "image",
+                        "type": "checkbox",
+                        "checked": "preview:image"
+                    },
+                    {
+                        "label": "TODOs",
+                        "command": "togglePreview",
+                        "parameters": "todo",
+                        "type": "checkbox",
+                        "checked": "preview:checkbox"
+                    },
+                    {
+                        "label": "Iframes",
+                        "command": "togglePreview",
+                        "parameters": "iframe",
+                        "type": "checkbox",
+                        "checked": "preview:iframe"
+                    },
+                    {
+                        "label": "Anchors",
+                        "command": "togglePreview",
+                        "parameters": "anchor",
+                        "type": "checkbox",
+                        "checked": "preview:anchor"
+                    },
+                    {
+                        "label": "Math",
+                        "command": "togglePreview",
+                        "parameters": "math",
+                        "type": "checkbox",
+                        "checked": "preview:math"
+                    }
+                ]
+            },
+            {
+                "type": "separator"
+            },
+            {
+                "label": "Toggle fullscreen",
                 "accelerator": "F11",
                 "command": "toggleFullscreen",
                 "type": "checkbox",

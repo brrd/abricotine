@@ -5,19 +5,24 @@ var remote = require("remote"),
     commands = require.main.require("./js/commands.js"),
     dialogs = require.main.require("./js/dialogs.js"),
     imageImport = require.main.require("./js/image-import.js"),
+    IpcClient = require.main.require("./js/ipc-client.js"),
     exportHtml = require.main.require("./js/export-html.js"),
     files = require.main.require("../files.js"),
     parsePath = require("parse-filepath"),
     shell = require("shell");
 
-function AbrDocument (config, ipcClient) {
+function AbrDocument () {
     var that = this;
 
     // IPC init
-    this.ipcClient = ipcClient;
+    var ipcClient = this.ipcClient = new IpcClient();
+
+    // Listener for commands sent by the menu
+    ipcClient.listenToCommands(function (command, parameters) {
+        that.execCommand(command, parameters);
+    });
 
     // Check if there is a doc to load
-    // TODO: function readFileAndOpen inutile à réintégrer ici
     ipcClient.trigger("getPathToLoad", undefined, function (path) {
         if (path) {
             files.readFile(path, function (data, path) {
@@ -29,12 +34,13 @@ function AbrDocument (config, ipcClient) {
     });
 
     // CodeMirror and pane init
-    this.cm = cmInit(config); // TODO: harmo new abrCodeMirror
+    this.cm = cmInit();
     this.pane = new AbrPane(this);
 
-    // Listener for commands sent by the menu
-    ipcClient.listenToCommands(function (command, parameters) {
-        that.execCommand(command, parameters);
+    // Preview init
+    this.getConfig("preview", function (types) {
+        that.previewTypes = types;
+        that.preview();
     });
 
     // Listener for context menu
@@ -49,10 +55,7 @@ function AbrDocument (config, ipcClient) {
     });
 
     this.cm.on("cursorActivity", function (cm) {
-        // Inline preview
-        cm.doc.eachLine( function (line) {
-            cm.preview(line, ["image", "checkbox", "iframe", "anchor", "math"]);
-        });
+        that.preview();
     });
 }
 
@@ -70,12 +73,12 @@ AbrDocument.prototype = {
         this.cm.refresh(); // CodeMirror scrollbar bug workaround
     },
 
-    close: function () {
+    close: function (force) {
         var that = this,
             closeFunc = function () {
                 that.clear();
             };
-        if (!this.isClean()) {
+        if (!force && !this.isClean()) {
             dialogs.askClose(this, closeFunc);
         } else {
             closeFunc();
@@ -232,13 +235,53 @@ AbrDocument.prototype = {
         exportHtml(this);
     },
 
-    preview: function () {
+    viewInBrowser: function () {
         // TODO: store the previewId in abrDoc and overwrite preview
         var filePath = app.getPath("temp") + "/abricotine/" + Date.now() + "/preview.html";
         files.createDir(filePath);
         exportHtml(this, filePath, function() {
             shell.openExternal("file://" + filePath);
         });
+    },
+
+    // Inline Preview
+    // TODO: harmo nom autopreview
+    preview: function (types) {
+        var cm = this.cm;
+        types = types || this.previewTypes;
+        cm.doc.eachLine( function (line) {
+            cm.preview(line, types);
+        });
+    },
+
+    togglePreview: function (type) {
+        var flag = this.previewTypes[type];
+        this.previewTypes[type] = !flag;
+        if (flag) {
+            // Remove markers
+            var selector = ".autopreview-" + type;
+            this.cm.clearMarkers(selector);
+        } else {
+            // Or create markers for this preview
+            var previewConfig = {};
+            previewConfig[type] = true;
+            this.preview(previewConfig);
+        }
+        // The only reason to keep this config updated in main process is to save it as user preferences
+        this.setConfig("preview:" + type, !flag);
+    },
+
+    // Config
+    setConfig: function (key, value, callback) {
+        var args = {
+                key: key,
+                value: value
+            };
+        this.ipcClient.trigger("setConfig", args, callback);
+    },
+
+    getConfig: function (key, callback) {
+        this.ipcClient.trigger("getConfig", key, callback);
     },
 
     // About

@@ -1,6 +1,6 @@
 var utils = require.main.require("../utils.js");
 
-module.exports = function (config) {
+module.exports = function () {
 
     // Extend CodeMirror
     var pattern = "js/cm-extend-*.js",
@@ -29,7 +29,7 @@ module.exports = function (config) {
         lineWrapping: true,
         styleActiveLine: true, // Focusmode // TODO: delete this (HTML+JS+CSS)
         autofocus: true,
-        autoCloseBrackets: typeof config.autoCloseBrackets !== "undefined" ? config.autoCloseBrackets : false, // TODO: config: donner la possibilité de toggle
+        autoCloseBrackets: false,
         scrollbarStyle: "overlay",
         mode: "abricotine",
         // TODO: replace default keymap by a custom one which removes most of hotkeys (CodeMirror interferences with menu accelerators)
@@ -67,6 +67,12 @@ module.exports = function (config) {
             return null;
         }
     });
-
+    // (Not) Blank lines (show-blocks option)
+    cm.addOverlay({
+        token: function(stream) {
+            stream.match(/^\s*\S*/);
+            return "line-not-blank";
+        }
+    });
     return cm;
 };
