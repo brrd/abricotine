@@ -2,10 +2,12 @@
 var glob = require("glob");
 if (process.type === "renderer") {
     var remote = require("remote"),
+        app = remote.require("app"),
         BrowserWindow = remote.require("browser-window");
     // NOTE: "./abr-window.js" is not required in renderer process
 } else {
     var AbrWindow = require.main.require("./abr-window.js"),
+        app = require("app"),
         BrowserWindow = require("browser-window");
 }
 var utils = {
@@ -13,8 +15,8 @@ var utils = {
     // options is glob options
     // callback(mod, modPath) is the function to launch after module is loaded
     batchRequire: function  (pattern, callback) {
-        var cwd = process.type === "browser" ? "./app/" : "./app/renderer/";
-        glob(pattern, { cwd: cwd }, function (err, files) {
+        var cwd = process.type === "browser" ? "/app/" : "/app/renderer/";
+        glob(pattern, { cwd: app.getAppPath() + cwd }, function (err, files) {
             if (err !== null) {
                 console.error("Glob error");
                 return;
