@@ -30,6 +30,43 @@ function createConfig () {
     return config;
 }
 
+// Get window position and size
+function smartWindowBounds (abrWin) {
+    var windows = abrWin.abrApp.windows,
+        prevWindow,
+        bounds;
+    // Get the prev opened window if exists
+    // NOTE: we using this function, current window is not registered in abrAPP.windows yet
+    console.log(windows.length);
+    for (var i=windows.length; i>=0; i--) {
+        if (windows[i]) {
+            prevWindow = windows[i];
+            break;
+        }
+    }
+    if (prevWindow) {
+        // If exists, the new window will be positioned with a small gap from the previous one
+        var gap = 20,
+            prevBounds = prevWindow.browserWindow.getBounds();
+        bounds = {
+            x: prevBounds.x + gap,
+            y: prevBounds.y + gap,
+            width: prevBounds.width,
+            height: prevBounds.height
+        };
+    } else {
+        // Otherwise, get the position from config
+        var config = abrWin.config.get("window");
+        bounds = {
+            x: config.x,
+            y: config.y,
+            width: config.width,
+            height: config.height
+        };
+    }
+    return bounds;
+}
+
 // TODO: refaire le ménage dans le constructeur et les méthodes (c'est monolithique)
 function AbrWindow (abrApp, path) {
     this.abrApp = abrApp;
@@ -68,13 +105,18 @@ AbrWindow.prototype = {
         this.menu.attach();
 
         // Create and open window
-        var showMenubar = config.get("window:showMenuBar");
+        var showMenubar = config.get("window:showMenuBar"),
+            bounds = smartWindowBounds(abrWin);
         win = new BrowserWindow({
-            width: config.get("window:width") || 800,
-            height: config.get("window:height") || 600,
             title: constants.appName || "Abricotine",
-            "auto-hide-menu-bar": typeof showMenubar !== "undefined" ? !showMenubar : false,
-            icon: app.getAppPath() + constants.appIconPath
+            icon: app.getAppPath() + constants.appIconPath,
+            "min-width": 100,
+            "min-height": 100,
+            width: bounds.width || 800,
+            height: bounds.height || 600,
+            x: bounds.x,
+            y: bounds.y,
+            "auto-hide-menu-bar": typeof showMenubar !== "undefined" ? !showMenubar : false
         });
 
         // Register window in abrWin
@@ -102,7 +144,12 @@ AbrWindow.prototype = {
         win.on("focus", function () {
             abrWin.menu.attach();
         });
+        win.on("close", function () {
+            // Save window position before it's destroyed
+            abrWin.savePosition();
+        });
         win.on("closed", function () {
+            // Destroy the window
             abrApp.windows[win.id] = null;
             win = null;
         });
@@ -114,6 +161,16 @@ AbrWindow.prototype = {
         if (this.config.get("debug")) {
             win.openDevTools();
         }
+    },
+
+    // Save window position and window config
+    savePosition: function () {
+        var bounds = this.browserWindow.getBounds();
+        this.config.set("window:x", bounds.x);
+        this.config.set("window:y", bounds.y);
+        this.config.set("window:width", bounds.width);
+        this.config.set("window:height", bounds.height);
+        this.config.save();
     }
 };
 
