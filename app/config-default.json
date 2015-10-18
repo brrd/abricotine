@@ -2,8 +2,8 @@
     "preview": {
         "image": true,
         "checkbox": true,
-        "iframe": false,
-        "anchor": false,
+        "iframe": true,
+        "anchor": true,
         "math": true
     },
     "startup-commands": {

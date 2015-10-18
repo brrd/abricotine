@@ -104,8 +104,9 @@ var commands = {
     },
 
     autoCloseBrackets: function(win, abrDoc, cm) {
-        // TODO: à gérer correctement (config) + ajouter au menu
-        cm.setOption("autoCloseBrackets", false);
+        var flag = cm.getOption("autoCloseBrackets");
+        cm.setOption("autoCloseBrackets", !flag);
+        abrDoc.setConfig("startup-commands:autoCloseBrackets", !flag);
     },
 
     editConfigFile: function(win, abrDoc, cm) {

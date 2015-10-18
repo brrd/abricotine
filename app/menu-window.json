@@ -131,6 +131,15 @@
                 "type": "separator"
             },
             {
+                "label": "Auto close brackets",
+                "command": "autoCloseBrackets",
+                "type": "checkbox",
+                "checked": "startup-commands:autoCloseBrackets"
+            },
+            {
+                "type": "separator"
+            },
+            {
                 "label": "Edit preferences",
                 "command": "editConfigFile"
             }
