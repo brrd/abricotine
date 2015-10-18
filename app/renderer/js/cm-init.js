@@ -27,7 +27,6 @@ module.exports = function () {
     var options = {
         lineNumbers: false,
         lineWrapping: true,
-        styleActiveLine: true, // Focusmode // TODO: delete this (HTML+JS+CSS)
         autofocus: true,
         autoCloseBrackets: false,
         scrollbarStyle: "overlay",
