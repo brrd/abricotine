@@ -110,7 +110,9 @@ var commands = {
     },
 
     editConfigFile: function(win, abrDoc, cm) {
-        // TODO
+        // TODO: utiliser des constantes
+        var dirPath = app.getPath("userData") + '/app/config.json';
+        shell.openItem(dirPath);
     },
 
     /* Format */
@@ -268,7 +270,6 @@ var commands = {
     },
 
     showBlocks: function(win, abrDoc, cm) {
-        // FIXME: j'ai viré cette fonction de l'init de cm et des CSS (?) sans faire exprès
         $("body").toggleClass("show-blocks");
         var flag = $("body").hasClass("show-blocks");
         abrDoc.setConfig("startup-commands:showBlocks", flag);
