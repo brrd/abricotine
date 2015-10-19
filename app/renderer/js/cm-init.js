@@ -13,18 +13,28 @@ module.exports = function () {
         };
     utils.batchRequire(pattern, callback);
 
-    // Ignore content into $$ delimiters (inline MathJax)
-    // FIXME: This is dirty. We lose highlight until the end of the line. I should rewrite the markdown mode instead.
+    // Ignore content into $$/$$$ delimiters (inline MathJax)
     CodeMirror.defineMode("abricotine", function (config) {
         return CodeMirror.multiplexingMode(
-            CodeMirror.getMode(config, "gfm"),
-            {open: "$$", close: "\n",
-             mode: CodeMirror.getMode(config, "text/plain")}
+            CodeMirror.getMode(config, {
+                name: "gfm",
+                highlightFormatting: true
+            }),
+            // Disable commented $
+            {open: "\\$", close: " ",
+             mode: CodeMirror.getMode(config, "text/plain")},
+            // Maths
+            {open: "$$$", close: "$$$",
+             mode: CodeMirror.getMode(config, "text/x-latex")},
+            {open: "$$", close: "$$",
+             mode: CodeMirror.getMode(config, "text/x-latex")}
             // .. more multiplexed styles can follow here
         );
     });
 
     var options = {
+        theme: "", // Disable CodeMirror themes
+        addModeClass: true, // Used to disable colors on markdow lists (cm-variable-2, cm-variable-3, cm-keyword) but keep it in other modes
         lineNumbers: false,
         lineWrapping: true,
         autofocus: true,
