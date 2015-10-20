@@ -22,6 +22,10 @@ function AbrDocument () {
         that.execCommand(command, parameters);
     });
 
+    // CodeMirror and pane init
+    this.cm = cmInit();
+    this.pane = new AbrPane(this);
+
     // Check if there is a doc to load
     ipcClient.trigger("getPathToLoad", undefined, function (path) {
         if (path) {
@@ -32,10 +36,6 @@ function AbrDocument () {
             that.clear();
         }
     });
-
-    // CodeMirror and pane init
-    this.cm = cmInit();
-    this.pane = new AbrPane(this);
 
     // Preview init
     this.getConfig("preview", function (types) {
