@@ -12,9 +12,8 @@
     <link rel="stylesheet" href="../../bower_components/codemirror/addon/scroll/simplescrollbars.css">
     <link rel="stylesheet" href="../../bower_components/codemirror/addon/search/matchesonscrollbar.css">
 
-    <link rel="stylesheet" href="../../bower_components/uikit/css/uikit.gradient.min.css">
-
-    <link rel="stylesheet" href="css/app.css">
+    <link rel="stylesheet" href="css/ui.css">
+    <link rel="stylesheet" href="css/editor.css">
 
     <!-- Javascript -->
 
@@ -46,9 +45,6 @@
     <script src="../../bower_components/codemirror/addon/search/matchesonscrollbar.js"></script>
     <script src="../../bower_components/codemirror/addon/edit/closebrackets.js"></script>
 
-    <!-- TODO: voir si necessaire ou pas. Est-ce lourd ? -->
-    <script src="../../bower_components/uikit/js/uikit.min.js"></script>
-
     <script>
         window.MathJax = {
             jax: ["input/TeX", "output/HTML-CSS"],
@@ -73,22 +69,19 @@
 <body>
     <div class="split-pane fixed-left">
         <div class="split-pane-component uk-panel uk-panel-box" id="pane">
-            <a class="uk-panel-title" id="pane-select"><span class="uk-icon-book"></span> Table of contents</a>
+            <h2> Table of contents</h2>
 
-                <ul id="toc-container" class="uk-nav uk-nav-side"></ul>
+            <ul id="toc-container" class="uk-nav uk-nav-side"></ul>
         </div>
         <div class="split-pane-divider" id="pane-divider"></div>
         <div class="split-pane-component" id="editor">
             <textarea style="display:none" id="cm"></textarea>
         </div>
     </div>
-    <div id="clipboard-hack" style="display: block; position: absolute; width: 1px; height: 1px; top: -99999px; left: -99999px;" contenteditable="true"></div>
-
     <script>
         $(function() {
             $('div.split-pane').splitPane();
         });
     </script>
-
 </body>
 </html>

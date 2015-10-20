@@ -37,7 +37,6 @@ function smartWindowBounds (abrWin) {
         bounds;
     // Get the prev opened window if exists
     // NOTE: we using this function, current window is not registered in abrAPP.windows yet
-    console.log(windows.length);
     for (var i=windows.length; i>=0; i--) {
         if (windows[i]) {
             prevWindow = windows[i];

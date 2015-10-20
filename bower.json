@@ -30,7 +30,6 @@
     "jquery": "2.1.1",
     "marked": "~0.3.2",
     "MathJax": "~2.5.3",
-    "split-pane": "~0.4.1",
-    "uikit": "~2.21.0"
+    "split-pane": "~0.4.1"
   }
 }

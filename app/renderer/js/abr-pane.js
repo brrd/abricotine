@@ -98,9 +98,9 @@ AbrPane.prototype = {
                 });
                 return $header;
             })(currentLine);
-        if ($prevHeaderLi && !$prevHeaderLi.hasClass("uk-active")) {
-            $("#toc-container li.uk-active").removeClass("uk-active");
-            $prevHeaderLi.addClass("uk-active");
+        if ($prevHeaderLi && !$prevHeaderLi.hasClass("pane-active")) {
+            $("#toc-container li.pane-active").removeClass("pane-active");
+            $prevHeaderLi.addClass("pane-active");
         }
         window.abrDoc.latestSpyCursorUpdate = window.abrDoc.getGeneration();
     }
