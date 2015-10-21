@@ -1,30 +1,4 @@
 // Main
-@ui-font-family: Arial, sans-serif;
-@ui-font-size: 14px;
-@background-color: #fff;
-
-// Editor and Pane
-@vertical-divider-width: 5px;
-@pane-width: 200px;
-@vertical-divider-color: #999;
-
-// CodeMirror dialogs
-@dialog-color: #fff;
-@dialog-background: #0095dd;
-@dialog-button-background: #0077b0;
-@dialog-button-focus-background: #00689a;
-@dialog-button-color: #fff;
-@dialog-border-color: #eee;
-@dialog-font-family: Monaco, "DejaVu Sans Mono", "Lucida Console", "Andale Mono", monospace;
-
-// Scrollbars
-@scrollbar-track-color: #e5e5e5;
-@scrollbar-color: #AAA;
-@scrollbar-hover-color: @scrollbar-color;
-@scrollbar-width: 10px;
-@scrollbar-search-background: #F19414;
-
-// Main
 // ====
 
     html, body {
@@ -33,7 +7,7 @@
         margin: 0;
         padding: 0;
         box-sizing: border-box;
-        background-color: @background-color;
+        background-color: @ui-background-color;
     }
 
     body {
@@ -55,7 +29,7 @@
         padding: 0;
         margin: 0;
         min-height: 100%;
-        margin-left: @vertical-divider-width;
+        margin-left: @ui-vertical-divider-width;
         left: 0;
     }
 
@@ -92,7 +66,7 @@
         display: inline-block;
         height: 16px;
         width: 16px;
-        background: url("../svg/book.svg") no-repeat center;
+        background: data-uri("image/svg+xml;charset=UTF-8", "./svg/book.svg") no-repeat center;
     }
 
     #pane ul {
@@ -154,10 +128,10 @@
     }
 
     #pane-divider {
-        left: @pane-width;
-        width: @vertical-divider-width;
+        left: @ui-pane-width;
+        width: @ui-vertical-divider-width;
         background: transparent;
-        border-left: 1px solid @vertical-divider-color;
+        border-left: 1px solid @ui-vertical-divider-color;
         display: none;
     }
 
@@ -166,7 +140,7 @@
     }
 
     .pane-visible #editor {
-        left: @pane-width;
+        left: @ui-pane-width;
     }
 
     .pane-visible #pane {
@@ -186,20 +160,20 @@
         z-index: 15;
         padding: .1em .8em;
         overflow: hidden;
-        color: @dialog-color;
+        color: @ui-dialog-color;
         position: fixed;
         font-family: Arial, sans-serif;
         cursor: default;
-        background: @dialog-background;
+        background: @ui-dialog-background;
     }
 
     .CodeMirror-dialog-top {
-        border-bottom: 1px solid @dialog-border-color;
+        border-bottom: 1px solid @ui-dialog-border-color;
         top: 0;
     }
 
     .CodeMirror-dialog-bottom {
-        border-top: 1px solid @dialog-border-color;
+        border-top: 1px solid @ui-dialog-border-color;
         bottom: 0;
     }
 
@@ -210,20 +184,20 @@
         min-width: 300px !important;
         margin: auto 10px;
         color: inherit;
-        font-family: @dialog-font-family;
+        font-family: @ui-dialog-font-family;
         font-size: inherit;
-        color: @dialog-color;
+        color: @ui-dialog-color;
         cursor: text;
     }
 
     .CodeMirror-dialog button {
         font-size: 0.7em;
-        background: @dialog-button-background;
+        background: @ui-dialog-button-background;
         border-radius: 1px;
         border: none;
         display: inline-block;
         cursor: pointer;
-        color: @dialog-button-color;
+        color: @ui-dialog-button-color;
         font-weight: bold;
         text-decoration: none;
         padding: 4px 12px;
@@ -239,7 +213,7 @@
     }
 
     .CodeMirror-dialog button:focus {
-        background: @dialog-button-focus-background;
+        background: @ui-dialog-button-focus-background;
     }
 
     .CodeMirror-dialog span {
@@ -253,63 +227,63 @@
 // ==========
 
     .CodeMirror-overlayscroll-horizontal, .CodeMirror-overlayscroll-vertical {
-        background-color: @scrollbar-track-color;
+        background-color: @ui-scrollbar-track-color;
     }
 
     .CodeMirror-overlayscroll-horizontal div, .CodeMirror-overlayscroll-vertical div {
-        background: @scrollbar-color;
-        border-radius: (@scrollbar-width - 2) / 2;
-        border: 1px solid @scrollbar-track-color;
+        background: @ui-scrollbar-color;
+        border-radius: (@ui-scrollbar-width - 2) / 2;
+        border: 1px solid @ui-scrollbar-track-color;
     }
 
     .CodeMirror-overlayscroll-horizontal div:hover, .CodeMirror-overlayscroll-vertical div:hover {
-        background: @scrollbar-hover-color;
-        border-color: @scrollbar-hover-color;
+        background: @ui-scrollbar-hover-color;
+        border-color: @ui-scrollbar-hover-color;
     }
 
     .CodeMirror-overlayscroll-vertical {
         right: 0;
-        width: @scrollbar-width;
-        div { width: @scrollbar-width - 2; }
+        width: @ui-scrollbar-width;
+        div { width: @ui-scrollbar-width - 2; }
     }
 
     .CodeMirror-overlayscroll-horizontal {
         bottom: 0;
-        height: @scrollbar-width;
-        div { height: @scrollbar-width - 2; }
+        height: @ui-scrollbar-width;
+        div { height: @ui-scrollbar-width - 2; }
     }
 
     ::-webkit-scrollbar {
-        width: @scrollbar-width;
+        width: @ui-scrollbar-width;
     }
 
     /* Track */
     ::-webkit-scrollbar-track {
-        background-color: @scrollbar-track-color;
+        background-color: @ui-scrollbar-track-color;
         display: block;
     }
 
     /* Handle */
     ::-webkit-scrollbar-thumb {
-        background-color: @scrollbar-color;
-        border-radius: (@scrollbar-width - 2) / 2;
-        width: @scrollbar-width - 2;
-        border: 1px solid @scrollbar-track-color;
+        background-color: @ui-scrollbar-color;
+        border-radius: (@ui-scrollbar-width - 2) / 2;
+        width: @ui-scrollbar-width - 2;
+        border: 1px solid @ui-scrollbar-track-color;
     }
 
     ::-webkit-scrollbar-thumb:hover {
-        width: @scrollbar-width;
-        background-color: @scrollbar-hover-color;
-        border-color: @scrollbar-hover-color;
+        width: @ui-scrollbar-width;
+        background-color: @ui-scrollbar-hover-color;
+        border-color: @ui-scrollbar-hover-color;
     }
 
     // Search matches on scrollbars
     .CodeMirror-search-match {
-        background: @scrollbar-search-background;
+        background: @ui-scrollbar-search-background;
         border-top: none;
         border-bottom: none;
         -moz-box-sizing: border-box;
         box-sizing: border-box;
         opacity: 1;
-        width: @scrollbar-width !important;
+        width: @ui-scrollbar-width !important;
     }

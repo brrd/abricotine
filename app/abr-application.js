@@ -4,25 +4,28 @@ var AbrWindow = require.main.require("./abr-window.js"),
     constants = require.main.require("./constants.js"),
     files = require.main.require("./files.js"),
     ipcServer = require.main.require("./ipc-server.js"),
-    parsePath = require("parse-filepath");
+    parsePath = require("parse-filepath"),
+    themeLoader = require.main.require("./theme-loader.js");
 
 function AbrApplication () {
-    /* Windows reference { id: documentPath } */
+    // Windows reference
     this.windows = [];
 
     // IPC get & set
     this.ipcServer = new ipcServer(this);
 
-    /* Open files in argv if exist */
-    var numberOfWindowsOpened = this.openDocumentsInArgv();
-    if (numberOfWindowsOpened === 0) {
-        this.open();
-    }
+    // Compile LESS theme then open windows
+    var openWindows = (function (abrApp) {
+        // Open files in argv if exist
+        var numberOfWindowsOpened = abrApp.openDocumentsInArgv();
+        if (numberOfWindowsOpened === 0) {
+            abrApp.open();
+        }
+    })(this);
+    themeLoader.load("abricotine", openWindows);
 }
 
 AbrApplication.prototype = {
-
-    // FIXME: erreur on close quand plusieurs fenetres ouvertes (x error)
 
     // TODO: separer les triggers ? Dans IPC ?
 

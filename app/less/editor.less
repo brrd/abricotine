@@ -1,77 +1,3 @@
-// @theme: Abricotine
-// TODO: store LESS variables in a separate file > themes
-
-// Text
-@text-font-family: Monaco, "DejaVu Sans Mono", "Lucida Console", "Andale Mono", monospace;
-@text-size: 18px;
-@text-line-height: 30px;
-
-@header-font-family: "Lucida Sans", "Lucida Grande", "Lucida Sans Unicode", "Luxi Sans", sans-serif;
-@header-1-size: 300%;
-@header-2-size: 220%;
-@header-3-size: 180%;
-@header-4-size: 150%;
-@header-5-size: 130%;
-@header-6-size: 110%;
-
-@text-code-font-family: "Courier New", Courier, "Liberation Mono", monospace;
-
-@text-hidden-characters-color: #0095dd;
-@text-color: #1d2426;
-@text-background-color: #fff;
-@text-header-color: #000;
-@text-code-color: #3d2249;
-@text-quote-color: #75787b;
-@text-list-color: auto;
-@list-padding-left: 20px;
-@text-hr-color: #75787b;
-@text-image-color: #f50;
-@text-formatting-color: #1d75b3;
-@text-link-color: #05a;
-@text-link-href-color: #75787b;
-
-@checked-list-color: #999; // TODO: renommer
-
-// CodeMirror code highlighting
-@cm-atom-color: #75438a;
-@cm-attribute-color: #05a;
-@cm-builtin-color: #30a;
-@cm-bracket-color: #997;
-@cm-comment-color: #75787b;
-@cm-def-color: #05a;
-@cm-header-color: #05a;
-@cm-hr-color: #999;
-@cm-keyword-color: #1d75b3;
-@cm-link-color: #05a;
-@cm-meta-color: #555;
-@cm-node-color: #9c3328;
-@cm-number-color: #75438a;
-@cm-operator-color: auto;
-@cm-property-color: #1d75b3;
-@cm-punctuation-color: auto;
-@cm-qualifier-color: #047d65;
-@cm-quote-color: #090;
-@cm-string-color: #b35e14;
-@cm-string-2-color: #f50;
-@cm-tag-color: #9c3328;
-@cm-variable-color: #047d65;
-@cm-variable-2-color: #05a;
-@cm-variable-3-color: #085;
-@cm-negative-color: #d44;
-@cm-positive-color: #292;
-
-// Errors
-@error-color: #c00;
-@error-color-contrast: #fff;
-
-// TODO: remttre tout dans un ordre cohérent
-// Cursors and selections
-@cursor-color: black;
-@selection-background: #dce9f3;
-
-@show-blocks-margin-color: #ddd;
-@show-blocks-margin-size: 5px;
-
 // CodeMirror
 // =========
 
@@ -84,11 +10,11 @@
         display: block;
         margin: 0 auto;
         border: none;
-        font-family: @text-font-family;
-        font-size: @text-size;
-        line-height: @text-line-height;
-        background-color: @text-background-color;
-        color: @text-color;
+        font-family: @editor-font-family;
+        font-size: @editor-font-size;
+        line-height: @editor-line-height;
+        background-color: @editor-background-color;
+        color: @editor-text-color;
     }
 
     .CodeMirror-code {
@@ -106,12 +32,12 @@
 
     .CodeMirror-cursors.CodeMirror-overwrite .CodeMirror-cursor {
         border-left: none !important;
-        border-bottom: 1px solid @cursor-color !important;
+        border-bottom: 1px solid @editor-cursor-color !important;
         width: 1.2ex;
     }
 
     .CodeMirror-selected, .CodeMirror-focused .CodeMirror-selected {
-        background-color: @selection-background;
+        background-color: @editor-selection-background;
     }
 
 // Generic editor classes
@@ -129,35 +55,35 @@
 // ====
 
     .CodeMirror span.cm-m-markdown {
-        font-family: @text-font-family;
+        font-family: @editor-font-family;
 
         // Header
         &.cm-header {
-            color: @text-header-color;
-            font-family: @header-font-family;
+            color: @editor-header-color;
+            font-family: @editor-header-font-family;
         }
-        &.cm-header-1 { font-size: @header-1-size; line-height: 100%; }
-        &.cm-header-2 { font-size: @header-2-size; }
-        &.cm-header-3 { font-size: @header-3-size; }
-        &.cm-header-4 { font-size: @header-4-size; }
-        &.cm-header-5 { font-size: @header-5-size; }
-        &.cm-header-6 { font-size: @header-6-size; }
+        &.cm-header-1 { font-size: @editor-header-1-size; line-height: 100%; }
+        &.cm-header-2 { font-size: @editor-header-2-size; }
+        &.cm-header-3 { font-size: @editor-header-3-size; }
+        &.cm-header-4 { font-size: @editor-header-4-size; }
+        &.cm-header-5 { font-size: @editor-header-5-size; }
+        &.cm-header-6 { font-size: @editor-header-6-size; }
 
         // Code
         &.cm-comment {
-            font-family: @text-code-font-family;
-            color: @text-code-color;
+            font-family: @editor-code-font-family;
+            color: @editor-code-color;
         }
 
         // Quote
-        &.cm-quote { color: @text-quote-color; }
+        &.cm-quote { color: @editor-quote-color; }
 
         // Lists (3 levels)
         &.cm-variable-2, &.cm-variable-3, &.cm-keyword {
-            color: @text-list-color;
+            color: @editor-list-color;
 
             &:first-child {
-                padding-left: @list-padding-left;
+                padding-left: @editor-list-padding-left;
             }
 
             &+& {
@@ -166,19 +92,19 @@
         }
 
         // Horizontal rule
-        &.cm-hr { color: @text-hr-color; }
+        &.cm-hr { color: @editor-hr-color; }
 
         // Image
-        &.cm-tag { color: @text-image-color; }
+        &.cm-tag { color: @editor-image-color; }
 
         // Formatting
-        &.cm-formatting { color: @text-formatting-color; }
+        &.cm-formatting { color: @editor-formatting-color; }
 
         // Link
-        &.cm-link { color: @text-link-color; }
+        &.cm-link { color: @editor-link-color; }
 
         // Link href
-        &.cm-string { color: @text-link-href-color; }
+        &.cm-string { color: @editor-link-href-color; }
 
         // Emphasis
         &.cm-em {}
@@ -198,7 +124,7 @@
 // ===============
 
     .CodeMirror span:not(.cm-m-markdown) {
-        font-family: @text-code-font-family;
+        font-family: @editor-code-font-family;
 
         &.cm-atom {color: @cm-atom-color;}
         &.cm-attribute {color: @cm-attribute-color;}
@@ -235,8 +161,8 @@
     body.show-hidden-characters .cm-trailing-whitespace { }
     body.show-hidden-characters .cm-trailing-whitespace:last-child:after {
         content: '↵';
-        color: @text-hidden-characters-color;
-        font-family: @text-font-family;
+        color: @editor-hidden-characters-color;
+        font-family: @editor-font-family;
         font-weight: normal;
         font-style: normal;
     }
@@ -245,8 +171,8 @@
     body.show-hidden-characters .cm-tab {}
     body.show-hidden-characters .cm-tab:after {
         content: '⇥';
-        color: @text-hidden-characters-color;
-        font-family: @text-font-family;
+        color: @editor-hidden-characters-color;
+        font-family: @editor-font-family;
         font-weight: normal;
         font-style: normal;
         margin-left: -50%;
@@ -258,7 +184,7 @@
     // Image not found message
     .CodeMirror-widget span.autopreview-error {
         color: @error-color;
-        background: url(../svg/notification.svg) no-repeat 10px @error-color-contrast;
+        background: data-uri("image/svg+xml;charset=UTF-8", "./svg/notification.svg") no-repeat 10px @error-color-contrast;
         border-radius: 6px;
         padding: 6px 10px 6px 30px;
         font-family: Arial, sans-serif;
@@ -272,7 +198,7 @@
         width: 24px;
         height: 24px;
         overflow: hidden;
-        background: url('../svg/anchor.svg') no-repeat center;
+        background: data-uri("image/svg+xml;charset=UTF-8", "./svg/anchor.svg") no-repeat center;
         cursor: default;
     }
 
@@ -290,30 +216,30 @@
         display: inline-block;
         vertical-align: text-top;
         background: transparent no-repeat center center;
-        background-image: url('../svg/checkbox-unchecked.svg');
+        background-image: data-uri("image/svg+xml;charset=UTF-8", "./svg/checkbox-unchecked.svg");
         cursor: pointer;
     }
 
     span.checkbox.checked {
-        background-image: url('../svg/checkbox-checked.svg');
+        background-image: data-uri("image/svg+xml;charset=UTF-8", "./svg/checkbox-checked.svg");
 
         .cm-variable-2, .cm-variable-3, .cm-keyword {
-            color:  @checked-list-color;
+            color:  @editor-list-checked-color;
             text-decoration: line-through;
         }
     }
 
     .cm-checked-list-item {
         text-decoration: line-through;
-        color: @checked-list-color;
+        color: @editor-list-checked-color;
 
         &.cm-trailing-whitespace, &.cm-property, &.cm-variable-2:first-child, &.cm-variable-3:first-child, &.cm-keyword:first-child {
             text-decoration: none;
-            color: @checked-list-color;
+            color: @editor-list-checked-color;
         }
 
         & > .cm-variable-2, & > .cm-variable-3, & > .cm-keyword {
-            color: @checked-list-color;
+            color: @editor-list-checked-color;
         }
     }
 
@@ -325,5 +251,5 @@
     }
 
     body.show-blocks pre.not-blank {
-        border-left: @show-blocks-margin-size solid @show-blocks-margin-color;
+        border-left: @editor-block-margin-size solid @editor-block-margin-color;
     }

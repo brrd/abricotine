@@ -22,7 +22,8 @@ function AbrDocument () {
         that.execCommand(command, parameters);
     });
 
-    // CodeMirror and pane init
+    // Theme, CodeMirror and pane init
+    this.setTheme("abricotine");
     this.cm = cmInit();
     this.pane = new AbrPane(this);
 
@@ -217,6 +218,14 @@ AbrDocument.prototype = {
         return this.save(path, callback);
     },
 
+    // Themes
+    setTheme: function (themeName) {
+        themeName = themeName || "abricotine";
+        var tmpThemesPath = app.getPath("temp") + "/Abricotine/themes",
+            path = tmpThemesPath + "/" + themeName + ".css";
+        $("#theme").attr("href", path);
+    },
+
     // Images
     openImage: function () {
         var path = dialogs.askOpenImage();
@@ -237,7 +246,7 @@ AbrDocument.prototype = {
 
     viewInBrowser: function () {
         // TODO: store the previewId in abrDoc and overwrite preview
-        var filePath = app.getPath("temp") + "/abricotine/" + Date.now() + "/preview.html";
+        var filePath = app.getPath("temp") + "/Abricotine/" + Date.now() + "/preview.html";
         files.createDir(filePath);
         exportHtml(this, filePath, function() {
             shell.openExternal("file://" + filePath);

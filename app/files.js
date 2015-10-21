@@ -12,7 +12,7 @@ var files = {
     // Callback a l'éventuelle error en paramètre
     // TODO: suffixer les images quand elles ont des homonymes
     copyFile: function (source, target, mainCallback) {
-        
+
         // Executer callback avec readstream en parametre sauf si erreur de lecture
         function localReadStream (source, callback) {
             // Test if file exists and is readable
@@ -66,7 +66,8 @@ var files = {
 
     // Vérifier l'existence du dossier de destination et le créer si nécessaire
     createDir: function (target) {
-        var destDir = parsePath(target).dirname;
+        var parsedPath = parsePath(target),
+            destDir = parsedPath.extname ? parsedPath.dirname : target;
         try {
             fs.mkdirSync(destDir);
         } catch (e) {
@@ -75,10 +76,12 @@ var files = {
         return destDir;
     },
 
-    getDir: function (path) {
-        path = path || this.path;
-        if (!path) { return undefined; }
-        return path.substring(0, path.lastIndexOf("/") + 1);
+    fileExists: function (filePath) {
+        try {
+            return fs.statSync(filePath).isFile();
+        } catch (err) {
+            return false;
+        }
     },
 
     isTextFile: function (path) {
