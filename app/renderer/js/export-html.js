@@ -1,26 +1,37 @@
-// TODO: Tout un travail : ces fonctions sont à rendre génériques, utiliser des templates, voire même factoriser avec .save()
-
-var dialogs = require.main.require("./js/dialogs.js"),
+var remote = require("remote"),
+    app = remote.require("app"),
+    dialogs = require.main.require("./js/dialogs.js"),
     files = require.main.require("../files.js");
 
-function exportHtml (abrDoc, path, callback) { // NOTE: path et callback sont utilisés pour la command 'preview'
-    function getHtmlPageContent (data) {
-        var firstLine = /^#*(.*)$/m, // FIXME: not working (image par exemple)
-            test = firstLine.exec(data),
-            title = test !== null ? test[1].trim() : "Abricotine document";
-        return "<!doctype html>\n <html>\n <head>\n <title>" +
-            title +
-            "</title>\n <meta charset='utf-8'/>\n </head>\n <body>\n" +
-            window.marked(data) +
-            "\n</body>\n</html>";
-    }
+var templatePath = app.getAppPath() + "/app/renderer/export-template.html";
+
+function getDocTitle (data) {
+    var firstLine = /^#*(.*)$/m, // FIXME: not working (image par exemple)
+        test = firstLine.exec(data),
+        title = test !== null ? test[1].trim() : "Abricotine document";
+    return title;
+}
+
+function exportHtml (markdown, path, callback) {
     path = path || dialogs.askSavePath();
-    if (!path) {
+    if (!path || markdown.trim() === "") {
         return false;
     }
-    var data = abrDoc.getData(),
-        pageContent = getHtmlPageContent(data);
-    return files.writeFile(pageContent, path, callback);
+    // Append extension if none
+    if (path.indexOf(".") === -1) {
+        path += ".html";
+    }
+    // Get title and html content
+    var title = getDocTitle(markdown),
+        content = window.marked(markdown);
+    // Get template
+    files.readFile(templatePath, function (template) {
+        // Process templating
+        var page = template.replace("$DOCUMENT_TITLE", title)
+                           .replace("$DOCUMENT_CONTENT", content);
+        // Write output file
+        files.writeFile(page, path, callback);
+    });
 }
 
 module.exports = exportHtml;

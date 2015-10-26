@@ -241,14 +241,14 @@ AbrDocument.prototype = {
 
     // Export
     exportHtml: function () {
-        exportHtml(this);
+        exportHtml(this.getData());
     },
 
     viewInBrowser: function () {
         // TODO: store the previewId in abrDoc and overwrite preview
         var filePath = app.getPath("temp") + "/Abricotine/" + Date.now() + "/preview.html";
         files.createDir(filePath);
-        exportHtml(this, filePath, function() {
+        exportHtml(this.getData(), filePath, function() {
             shell.openExternal("file://" + filePath);
         });
     },
