@@ -184,7 +184,7 @@ var commands = {
     },
 
     imageFromComputer: function(win, abrDoc, cm) {
-        abrDoc.openImage();
+        abrDoc.insertImage();
     },
 
     imagesImportAll: function(win, abrDoc, cm) {

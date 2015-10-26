@@ -58,6 +58,24 @@ function AbrDocument () {
     this.cm.on("cursorActivity", function (cm) {
         that.preview();
     });
+
+    this.cm.on("drop", function (cm, event) {
+        event.preventDefault();
+        var file = event.dataTransfer.files[0];
+        if (file && file.path) {
+            // If it's an image, insert it
+            var ext = parsePath(file.path).extname,
+                allowedImages = [".jpg", ".jpeg", ".png", ".gif", ".svg"];
+            for (var i=0; i<allowedImages.length; i++) {
+                if (ext === allowedImages[i]) {
+                    that.insertImage(file.path);
+                    return;
+                }
+            }
+            // Otherwise try to open the file
+            that.open(file.path);
+        }
+    });
 }
 
 AbrDocument.prototype = {
@@ -227,8 +245,8 @@ AbrDocument.prototype = {
     },
 
     // Images
-    openImage: function () {
-        var path = dialogs.askOpenImage();
+    insertImage: function (path) {
+        path = path || dialogs.askOpenImage();
         if (!path) {
             return false;
         }
