@@ -253,20 +253,21 @@ AbrDocument.prototype = {
         this.cm.draw("image", path);
     },
 
-    imageImport: function () {
-        imageImport(this);
+    imageImport: function (destFolder, updateEditor) {
+        updateEditor = updateEditor === false ? false : true;
+        imageImport(this, destFolder, updateEditor);
     },
 
     // Export
     exportHtml: function () {
-        exportHtml(this.getData());
+        exportHtml(this);
     },
 
     viewInBrowser: function () {
         // TODO: store the previewId in abrDoc and overwrite preview
         var filePath = app.getPath("temp") + "/Abricotine/" + Date.now() + "/preview.html";
         files.createDir(filePath);
-        exportHtml(this.getData(), filePath, function() {
+        exportHtml(this, undefined, filePath, function() {
             shell.openExternal("file://" + filePath);
         });
     },

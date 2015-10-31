@@ -1,0 +1,108 @@
+/*
+    typography
+    Simple HTML & CSS Typography Template.
+    Demo: http://hypertexthero.com/typography/
+    License: Public domain.
+    https://github.com/hypertexthero/typography/
+*/
+
+body {
+  text-align:center;
+  color:#000;
+  font-family:georgia, serif;
+  font-size:120%;
+  line-height:1.6;
+  margin:0;
+  padding:2em 2em 5em;
+  background:rgb(253, 253, 253);
+  margin:auto;
+  max-width:33em;
+  color:rgb(10, 10, 10);
+}
+
+a {outline:none !important; font-weight:bold; text-decoration:none;}
+a:link {color:#c00;}
+a:visited {color:#606;}
+a:hover {color:#606;}
+a:active {color:#900; outline:none;}
+
+h1 {
+  font-size:320%;
+  line-height:1.35;
+  font-style:normal;
+  margin:1.5em 0 0.8em;
+}
+
+h2 {
+  font-weight:bold;
+  font-size:200%;
+  margin:1em 0 0.8em;
+}
+
+h3 {
+  font-weight:normal;
+  text-transform:uppercase;
+  font-size:150%;
+  letter-spacing:0.15em;
+  margin:1.75em 0 0.8em;
+}
+
+h4 {
+  font-weight:normal;
+  font-size:150%;
+  letter-spacing:0.1em;
+  margin:1.5em 0 0.8em;
+}
+
+h5 {
+  font-weight:normal;
+  font-style:italic;
+  font-size:150%;
+  margin:1.5em 0 0.8em;
+}
+
+h6 {
+  font-weight:bold;
+  font-size:100%;
+  letter-spacing:0.1em;
+  margin:1.5em 0 0.8em;
+}
+
+p {
+  text-align:left;
+  font-size:100%;
+  margin:1em 0 0;
+}
+
+p.lead {
+  font-size:150%;
+  margin:1em 0;
+}
+
+p + p {
+  margin:0;
+  text-indent:1.5em;
+}
+
+p + ul, p + ol, p + dl {margin-bottom:1.5em;}
+p.lead + p {
+  text-indent:0;
+
+}
+
+blockquote {border-left:5px solid #eee; padding-left:1.5em; margin:1em 0;}
+blockquote small {display:block; line-height:1.7em;}
+ul, ol, dl {
+  text-align:left;
+}
+
+dt {font-weight:bold;}
+code {font-family:courier, monospace;}
+p > code {padding:0.25em; background:#eee;}
+pre {text-align:left; font-size:100%;}
+hr {height:0; color:#eee; border:1px solid #eee; margin:2em 0 1em;}
+
+.normal {font-weight:normal;}
+.quiet {color:#999;}
+.pull-left {float:left; margin:0.5em 2em 1em 0;}
+.pull-right {float:right; margin:0.5em 0 1em 2em;}

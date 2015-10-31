@@ -1,9 +1,8 @@
 var remote = require("remote"),
     app = remote.require("app"),
     dialogs = require.main.require("./js/dialogs.js"),
-    files = require.main.require("../files.js");
-
-var templatePath = app.getAppPath() + "/app/renderer/export-template.html";
+    files = require.main.require("../files.js"),
+    parsePath = require("parse-filepath");
 
 function getDocTitle (data) {
     var firstLine = /^#*(.*)$/m, // FIXME: not working (image par exemple)
@@ -12,25 +11,41 @@ function getDocTitle (data) {
     return title;
 }
 
-function exportHtml (markdown, path, callback) {
-    path = path || dialogs.askSavePath();
-    if (!path || markdown.trim() === "") {
+// TODO: Prévisu MathJax dans l'export HMTL + checkboxes
+// TODO: corriger les ancres lors de l'export
+function exportHtml (abrDoc, templatePath, destPath, callback) {
+    // Default template if undefined
+    templatePath = templatePath || app.getAppPath() + "/app/templates/default";
+    // Get editor content
+    var markdown = abrDoc.getData();
+    // Ask for destination path if undefined
+    destPath = destPath || dialogs.askSavePath();
+    if (!destPath || markdown.trim() === "") {
         return false;
     }
     // Append extension if none
-    if (path.indexOf(".") === -1) {
-        path += ".html";
+    if (destPath.indexOf(".") === -1) {
+        destPath += ".html";
     }
-    // Get title and html content
-    var title = getDocTitle(markdown),
-        content = window.marked(markdown);
-    // Get template
-    files.readFile(templatePath, function (template) {
+
+    // Copy images
+    // TODO: should be an option
+    // TODO: change img url in generated content
+    // abrDoc.imageImport(destPath + "_files/images", false);
+
+    // Process and save HTML
+    files.readFile(templatePath + "/template.html", function (template) {
         // Process templating
-        var page = template.replace("$DOCUMENT_TITLE", title)
-                           .replace("$DOCUMENT_CONTENT", content);
+        var page = template.replace("$DOCUMENT_TITLE", getDocTitle(markdown))
+                           .replace("$DOCUMENT_CONTENT", window.marked(markdown))
+                           .replace("$ASSETS_PATH", "./" + parsePath(destPath).basename + "_files");
         // Write output file
-        files.writeFile(page, path, callback);
+        files.writeFile(page, destPath, function () {
+            var assetsPath = templatePath + "/assets",
+                destAssetsPath = destPath + "_files";
+            // Copy assets and run callback if exists
+            files.copyLocalDir(assetsPath, destAssetsPath, callback);
+        });
     });
 }
 

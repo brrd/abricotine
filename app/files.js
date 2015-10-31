@@ -4,9 +4,23 @@ var fs = require("fs"),
     http = require("http"),
     isUrl = require("is-url"),
     mime = require("mime"),
+    mkdirp = require('mkdirp'),
+    ncp = require("ncp"),
     parsePath = require("parse-filepath");
 
 var files = {
+
+    copyLocalDir: function (source, destination, callback) {
+        ncp.limit = 16;
+        ncp(source, destination, function(err) {
+            if (err) {
+                return console.error(err);
+            }
+            if (typeof callback === "function") {
+                callback();
+            }
+        });
+    },
 
     // Copier un fichier vers target
     // Callback a l'éventuelle error en paramètre
@@ -30,6 +44,7 @@ var files = {
         }
 
         // Idem en ligne
+        // FIXME: https not supported
         function remoteReadStream (source, callback) {
             var request = http.get(source, function(response) {
                 if (response.statusCode === 200) {
@@ -69,7 +84,7 @@ var files = {
         var parsedPath = parsePath(target),
             destDir = parsedPath.extname ? parsedPath.dirname : target;
         try {
-            fs.mkdirSync(destDir);
+            mkdirp.sync(destDir);
         } catch (e) {
             if (e.code !== "EEXIST") throw e;
         }
@@ -100,6 +115,7 @@ var files = {
     },
 
     readFile: function (path, callback) {
+        console.log(path);
         fs.readFile(path, 'utf8', function (err, data) {
             if (err) {
                 console.error(err);
