@@ -40,9 +40,9 @@ function exportHtml (abrDoc, templatePath, destPath, callback) {
     // Process and save HTML
     files.readFile(templatePath + "/template.html", function (template) {
         // Process templating
-        var page = template.replace("$DOCUMENT_TITLE", getDocTitle(markdown))
-                           .replace("$DOCUMENT_CONTENT", htmlContent)
-                           .replace("$ASSETS_PATH", "./" + parsePath(destPath).basename + "_files");
+        var page = template.replace(/\$DOCUMENT_TITLE/g, getDocTitle(markdown))
+                           .replace(/\$DOCUMENT_CONTENT/g, htmlContent)
+                           .replace(/\$ASSETS_PATH/g, "./" + parsePath(destPath).basename + "_files");
         // Write output file
         files.writeFile(page, destPath, function () {
             var assetsPath = templatePath + "/assets",

@@ -106,3 +106,21 @@ hr {height:0; color:#eee; border:1px solid #eee; margin:2em 0 1em;}
 .quiet {color:#999;}
 .pull-left {float:left; margin:0.5em 2em 1em 0;}
 .pull-right {float:right; margin:0.5em 0 1em 2em;}
+
+.todo-checked, .todo-unchecked {
+    list-style: none;
+}
+
+.todo-checked {
+    color: #666;
+    text-decoration: line-through;
+}
+
+.todo-unchecked:before {
+    content: "\2610";
+}
+
+.todo-checked:before {
+    content: "\2611";
+    text-decoration: none;
+}
