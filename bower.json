@@ -28,7 +28,6 @@
   "dependencies": {
     "codemirror": "~5.1.0",
     "jquery": "2.1.1",
-    "marked": "~0.3.2",
     "MathJax": "~2.5.3",
     "split-pane": "~0.4.1"
   }

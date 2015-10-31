@@ -1,6 +1,7 @@
 var remote = require("remote"),
     app = remote.require('app'),
     clipboard = require('clipboard'),
+    kramed = require("kramed"),
     shell = require('shell');
 
 var commands = {
@@ -52,7 +53,7 @@ var commands = {
 
     copyHtml: function(win, abrDoc, cm) {
         var data = cm.doc.getSelection("\n"),
-            html = window.marked(data), // TODO: voir si marked ne peut pas plutot etre require()
+            html = kramed(data),
             text = $(html).text(); // TODO: better use something like https://www.npmjs.com/package/html-to-text
         clipboard.write({
             text: text,
@@ -191,12 +192,8 @@ var commands = {
         abrDoc.imageImport();
     },
 
-    inlineMath: function(win, abrDoc, cm) {
-        cm.draw("inlineMath");
-    },
-
-    displayMath: function(win, abrDoc, cm) {
-        cm.draw("displayMath");
+    drawMath: function(win, abrDoc, cm) {
+        cm.draw("math");
     },
 
     hr: function(win, abrDoc, cm) {

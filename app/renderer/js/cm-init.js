@@ -24,8 +24,6 @@ module.exports = function () {
             {open: "\\$", close: " ",
              mode: CodeMirror.getMode(config, "text/plain")},
             // Maths
-            {open: "$$$", close: "$$$",
-             mode: CodeMirror.getMode(config, "text/x-latex")},
             {open: "$$", close: "$$",
              mode: CodeMirror.getMode(config, "text/x-latex")}
             // .. more multiplexed styles can follow here

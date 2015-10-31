@@ -256,17 +256,8 @@
                 ]
             },
             {
-                "label": "Math",
-                "submenu": [
-                    {
-                        "label": "Inline Math",
-                        "command": "inlineMath"
-                    },
-                    {
-                        "label": "Display Math",
-                        "command": "displayMath"
-                    }
-                ]
+                "label": "Math formula",
+                "command": "drawMath"
             },
             {
                 "label": "Horizontal rule",

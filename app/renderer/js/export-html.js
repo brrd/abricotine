@@ -2,6 +2,7 @@ var remote = require("remote"),
     app = remote.require("app"),
     dialogs = require.main.require("./js/dialogs.js"),
     files = require.main.require("../files.js"),
+    kramed = require("kramed"),
     parsePath = require("parse-filepath");
 
 function getDocTitle (data) {
@@ -33,11 +34,14 @@ function exportHtml (abrDoc, templatePath, destPath, callback) {
     // TODO: change img url in generated content
     // abrDoc.imageImport(destPath + "_files/images", false);
 
+    // Markdown to HTML conversion
+    var htmlContent = kramed(markdown);
+
     // Process and save HTML
     files.readFile(templatePath + "/template.html", function (template) {
         // Process templating
         var page = template.replace("$DOCUMENT_TITLE", getDocTitle(markdown))
-                           .replace("$DOCUMENT_CONTENT", window.marked(markdown))
+                           .replace("$DOCUMENT_CONTENT", htmlContent)
                            .replace("$ASSETS_PATH", "./" + parsePath(destPath).basename + "_files");
         // Write output file
         files.writeFile(page, destPath, function () {

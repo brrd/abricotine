@@ -45,13 +45,14 @@
     <script src="../../bower_components/codemirror/addon/search/matchesonscrollbar.js"></script>
     <script src="../../bower_components/codemirror/addon/edit/closebrackets.js"></script>
 
+    <!-- FIXME: probleme d'update de CM lors de la preview des maths. Il faut peut etre utiliser un event de mathjax pour lancer le preview -->
     <script>
         window.MathJax = {
             jax: ["input/TeX", "output/HTML-CSS"],
             extensions: ["tex2jax.js", "CHTML-preview.js", "TeX/AMSmath.js", "TeX/AMSsymbols.js", "TeX/noErrors.js", "TeX/noUndefined.js"],
             tex2jax: {
-                inlineMath: [ ['$$$','$$$'] ],
-                displayMath: [ ['$$','$$'] ]
+                inlineMath: [ ['$$','$$'] ],
+                displayMath: [ ]
             },
             showProcessingMessages: false,
             messageStyle: "none",
@@ -60,8 +61,6 @@
         };
     </script>
     <script src="../../bower_components/MathJax/MathJax.js?config=TeX-AMS_HTML"></script>
-
-    <script src="../../bower_components/marked/lib/marked.js"></script>
 
     <script src="js/main.js"></script>
 
