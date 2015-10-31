@@ -12,8 +12,6 @@ function getDocTitle (data) {
     return title;
 }
 
-// TODO: Prévisu MathJax dans l'export HMTL + checkboxes
-// TODO: corriger les ancres lors de l'export
 function exportHtml (abrDoc, templatePath, destPath, callback) {
     // Default template if undefined
     templatePath = templatePath || app.getAppPath() + "/app/templates/default";

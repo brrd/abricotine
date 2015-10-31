@@ -115,7 +115,6 @@ var files = {
     },
 
     readFile: function (path, callback) {
-        console.log(path);
         fs.readFile(path, 'utf8', function (err, data) {
             if (err) {
                 console.error(err);

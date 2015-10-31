@@ -230,11 +230,6 @@
         "label": "Insert",
         "submenu": [
             {
-                "label": "Link",
-                "accelerator": "CmdOrCtrl+L",
-                "command": "link"
-            },
-            {
                 "label": "Image",
                 "submenu": [
                     {
@@ -254,6 +249,19 @@
                         "command": "imagesImportAll"
                     }
                 ]
+            },
+            {
+                "label": "Link",
+                "accelerator": "CmdOrCtrl+L",
+                "command": "link"
+            },
+            {
+                "label": "Anchor",
+                "command": "anchor"
+            },
+            {
+                "label": "Code block",
+                "command": "codeblock"
             },
             {
                 "label": "Math formula",

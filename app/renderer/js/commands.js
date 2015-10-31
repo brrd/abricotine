@@ -200,6 +200,14 @@ var commands = {
         cm.draw("hr");
     },
 
+    codeblock: function (win, abrDoc, cm) {
+        cm.draw("codeblock");
+    },
+
+    anchor: function (win, abrDoc, cm) {
+        cm.draw("anchor");
+    },
+
     /* Table */
 
     tableCreate: function(win, doc, cm, parameters) {
@@ -331,6 +339,7 @@ var commands = {
             callback = function(query) {
                 if (!query) return;
                 abrDoc.execCommand(query);
+                abrDoc.cm.focus();
             };
         cm.openDialog(html, callback);
     },
