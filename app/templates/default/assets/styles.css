@@ -124,3 +124,8 @@ hr {height:0; color:#eee; border:1px solid #eee; margin:2em 0 1em;}
     content: "\2611";
     text-decoration: none;
 }
+
+img, iframe {
+    max-width: 100%;
+    max-height: 800px;
+}
