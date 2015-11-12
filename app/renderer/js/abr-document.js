@@ -76,6 +76,11 @@ function AbrDocument () {
             that.open(file.path);
         }
     });
+
+    // Refresh editor when math is previewed
+    window.MathJax.Hub.Register.MessageHook("New Math", function (message) {
+        that.cm.refresh();
+    });
 }
 
 AbrDocument.prototype = {
