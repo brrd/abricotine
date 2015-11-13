@@ -79,6 +79,28 @@ var appDialogs = {
             return path[0];
         }
         return false;
+    },
+
+    askNeedSave: function (abrDoc, callback, win) {
+        win = utils.getWindow(win);
+        var userChoice = dialog.showMessageBox(win, {
+                title: 'Save document',
+                message: 'The current document needs to be saved before performing this operation.',
+                buttons: ['Cancel', 'Save document']
+            });
+        if (userChoice === 1) {
+            abrDoc.save(null, callback);
+        }
+        return false;
+    },
+
+    importImagesDone: function (path, win) {
+        win = utils.getWindow(win);
+        dialog.showMessageBox(win, {
+            title: "Images copied",
+            message: "Document images have been copied in the '" + path + "' directory.",
+            buttons: ['OK']
+        });
     }
 };
 

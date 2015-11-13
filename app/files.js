@@ -6,7 +6,8 @@ var fs = require("fs"),
     mime = require("mime"),
     mkdirp = require('mkdirp'),
     ncp = require("ncp"),
-    parsePath = require("parse-filepath");
+    parsePath = require("parse-filepath"),
+    request = require("request");
 
 var files = {
 
@@ -23,54 +24,54 @@ var files = {
     },
 
     // Copier un fichier vers target
-    // Callback a l'éventuelle error en paramètre
-    // TODO: suffixer les images quand elles ont des homonymes
-    copyFile: function (source, target, mainCallback) {
+    copyFile: function (source, target, callback) {
 
         // Executer callback avec readstream en parametre sauf si erreur de lecture
-        function localReadStream (source, callback) {
+        function localReadStream (source, pipeStreams) {
             // Test if file exists and is readable
             fs.access(source, fs.F_OK | fs.R_OK, function (err) {
                 if (!err) {
                     var readStream = fs.createReadStream(source);
                     readStream.on("error", function (err) {
-                        mainCallback(err);
+                        pipeStreams(err);
                     });
-                    callback(readStream);
+                    pipeStreams(readStream);
                 } else {
-                    callback(null);
+                    pipeStreams(err);
                 }
             });
         }
 
         // Idem en ligne
-        // FIXME: https not supported
-        function remoteReadStream (source, callback) {
-            var request = http.get(source, function(response) {
-                if (response.statusCode === 200) {
-                    callback(response);
+        function remoteReadStream (source, pipeStreams) {
+            request(source, function(err, response)  {
+                if (err) {
+                    pipeStreams(err);
+                } else if (response.statusCode === 200) {
+                    var stream = request.get(source)
+                                        .on("error", function(err){
+                                            console.error(err);
+                                        });
+                    pipeStreams(stream);
                 } else {
-                    mainCallback(false);
+                    pipeStreams(false);
                 }
-            }).on('error', function(err) {
-                fs.unlink(target);
-                mainCallback(err);
             });
         }
 
         function pipeStreams (readStream) {
-            if (readStream === null) {
-                mainCallback(null);
+            if (readStream && !readStream.pipe || typeof readStream.pipe !== "function") {
+                callback(readStream);
                 return;
             }
             var writeStream = fs.createWriteStream(target);
             readStream.pipe(writeStream);
-            writeStream.on('finish', function() {
-                writeStream.close(mainCallback);
+            writeStream.on("finish", function() {
+                writeStream.close(callback);
             });
         }
 
-        mainCallback = typeof mainCallback === "function" ? mainCallback : function () { return; };
+        callback = typeof callback === "function" ? callback : function () { return; };
         this.createDir(target);
         if (!isUrl(source)) {
             localReadStream(source, pipeStreams);

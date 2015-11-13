@@ -26,6 +26,8 @@
     "mkdirp": "^0.5.1",
     "nconf": "^0.8.2",
     "ncp": "^2.0.0",
-    "parse-filepath": "^0.6.2"
+    "parse-filepath": "^0.6.2",
+    "request": "^2.65.0",
+    "salvator": "https://github.com/brrd/salvator/tarball/master"
   }
 }
