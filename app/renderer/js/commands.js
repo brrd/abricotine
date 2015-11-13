@@ -72,31 +72,35 @@ var commands = {
     },
 
     find: function(win, abrDoc, cm) {
-        // FIXME: pb ici
+        $(".CodeMirror-dialog").remove();
         cm.execCommand("clearSearch");
         cm.execCommand("find");
     },
 
     findNext: function(win, abrDoc, cm) {
+        $(".CodeMirror-dialog").remove();
         cm.execCommand("findNext");
     },
 
     findPrev: function(win, abrDoc, cm) {
+        $(".CodeMirror-dialog").remove();
         cm.execCommand("findPrev");
     },
 
     replace: function(win, abrDoc, cm) {
-        // FIXME: very bad UX in codemirror search & replace (it closes after the first replace)
+        $(".CodeMirror-dialog").remove();
         cm.execCommand("clearSearch");
         cm.execCommand("replace");
     },
 
     replaceAll: function(win, abrDoc, cm) {
+        $(".CodeMirror-dialog").remove();
         cm.execCommand("clearSearch");
         cm.execCommand("replaceAll");
     },
 
     clearSearch: function(win, abrDoc, cm) {
+        $(".CodeMirror-dialog").remove();
         cm.execCommand("clearSearch");
     },
 
@@ -333,8 +337,7 @@ var commands = {
     },
 
     execCommand: function(win, abrDoc, cm) {
-        // FIXME: meme problemes que search
-        // FIXME: entree pour la commande est capte par CM
+        $(".CodeMirror-dialog").remove();
         var html = "Command: <input type='text'/>",
             callback = function(query) {
                 if (!query) return;
