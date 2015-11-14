@@ -300,11 +300,10 @@ var commands = {
         abrDoc.togglePreview(param);
     },
 
-    toggleFullscreen: function(win, abrDoc, cm) {
-        var flag = win.isFullScreen();
-        win.setFullScreen(!flag);
-        win.setMenuBarVisibility(flag);
-        // TODO: ESC > exit Fullscreen. Remarque : voir les updates d'electron je crois que c'ets le cas maintenant
+    toggleFullscreen: function(win, abrDoc, cm, flag) {
+        flag = typeof flag === "boolean" ? flag : !win.isFullScreen();
+        win.setFullScreen(flag);
+        win.setMenuBarVisibility(!flag);
     },
 
     /* Debug */

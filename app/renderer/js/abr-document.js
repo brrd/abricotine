@@ -81,6 +81,20 @@ function AbrDocument () {
     window.MathJax.Hub.Register.MessageHook("New Math", function (message) {
         that.cm.refresh();
     });
+
+    // Handle local keybindings that arent linked to a specific menu
+    document.onkeydown = function(evt) {
+        evt = evt || window.event;
+        if (evt.keyCode == 27) { // ESC
+            // Exit Fullscreen
+            var currentWindow = remote.getCurrentWindow();
+            if (currentWindow.isFullScreen()) {
+                that.execCommand("toggleFullscreen", false);
+            }
+            // Clear search
+            that.execCommand("clearSearch");
+        }
+    };
 }
 
 AbrDocument.prototype = {
