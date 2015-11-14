@@ -13,7 +13,7 @@ module.exports = function () {
         };
     utils.batchRequire(pattern, callback);
 
-    // Ignore content into $$/$$$ delimiters (inline MathJax)
+    // Ignore content into $$ delimiters (inline MathJax)
     CodeMirror.defineMode("abricotine", function (config) {
         return CodeMirror.multiplexingMode(
             CodeMirror.getMode(config, {
@@ -53,7 +53,6 @@ module.exports = function () {
     var cm = CodeMirror.fromTextArea(document.getElementById("cm"), options);
 
     // Adding custom overlays
-    // TODO: recode the mode.
     // Strike checked list items
     cm.addOverlay({
         token: function(stream) {

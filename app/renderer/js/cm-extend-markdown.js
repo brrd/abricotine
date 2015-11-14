@@ -4,6 +4,8 @@
     Inspiration : https://github.com/airpub/ninja
 */
 
+// FIXME: doesnt work in case of multiple selection
+
 /**
 *
 * The state of CodeMirror at the given position.
@@ -104,7 +106,7 @@ function inject (cm, texts, triggered) {
     if (texts.length >= 1) {
         var newLines = texts[0].match('\n');
         if (newLines) {
-            var lastLineLength = texts[0].length - texts[0].lastIndexOf('\n'); // FIXME: mais \n c'est deux caractères, ce qui explique que "\n***\n" ne fonctionne pas pour les HR. A fixer
+            var lastLineLength = texts[0].length - texts[0].lastIndexOf('\n');
             startPoint.line += newLines.length;
             endPoint.line += newLines.length;
             startPoint.ch = lastLineLength;
@@ -215,7 +217,7 @@ function toggle (type) {
             }
 
             if (stat[type]) {
-                text = text.replace(style.re, '$1'); // FIXME: absurde car $1 === " " ???
+                text = text.replace(style.re, '$1'); // FIXME: $1 === " " ???
             } else {
                 if (type === 'ordered-list') {
                     // count how many line we want to add order.
@@ -372,9 +374,9 @@ module.exports = function (CodeMirror) {
         return setLine (line, text, this);
     };
     CodeMirror.prototype.toggle = function (type) {
-        return toggle(type)(this); // TODO: reverse theses functions
+        return toggle(type)(this);
     };
-    CodeMirror.prototype.draw = function (type,param) {
-        return draw(type, param)(this); // TODO: reverse theses functions
+    CodeMirror.prototype.draw = function (type, param) {
+        return draw(type, param)(this);
     };
 };

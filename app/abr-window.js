@@ -35,8 +35,7 @@ function smartWindowBounds (abrWin) {
     var windows = abrWin.abrApp.windows,
         prevWindow,
         bounds;
-    // Get the prev opened window if exists
-    // NOTE: we using this function, current window is not registered in abrAPP.windows yet
+    // Get the prev opened window if exists (current window is not registered in abrApp.windows yet)
     for (var i=windows.length; i>=0; i--) {
         if (windows[i]) {
             prevWindow = windows[i];
@@ -66,7 +65,6 @@ function smartWindowBounds (abrWin) {
     return bounds;
 }
 
-// TODO: refaire le ménage dans le constructeur et les méthodes (c'est monolithique)
 function AbrWindow (abrApp, path) {
     this.abrApp = abrApp;
     if (path) {

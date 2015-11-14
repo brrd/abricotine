@@ -6,7 +6,7 @@ var remote = require("remote"),
     parsePath = require("parse-filepath");
 
 function getDocTitle (data) {
-    var firstLine = /^#*(.*)$/m, // FIXME: not working (image par exemple)
+    var firstLine = /^#+(.*)$/m,
         test = firstLine.exec(data),
         title = test !== null ? test[1].trim() : "Abricotine document";
     return title;

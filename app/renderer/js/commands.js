@@ -54,7 +54,7 @@ var commands = {
     copyHtml: function(win, abrDoc, cm) {
         var data = cm.doc.getSelection("\n"),
             html = kramed(data),
-            text = $(html).text(); // TODO: better use something like https://www.npmjs.com/package/html-to-text
+            text = $(html).text();
         clipboard.write({
             text: text,
             html: html

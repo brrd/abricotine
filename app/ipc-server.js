@@ -1,6 +1,5 @@
 var ipc = require("ipc");
 
-// TODO: pas sur que window id soi necessaire
 function IpcServer (abrApp) {
     this.abrApp = abrApp;
 
@@ -20,7 +19,6 @@ function IpcServer (abrApp) {
         This method firts parameter 'args' is the arguments object sent by ipc-client.
         The second parameter is an optionnal callback that can be added at the end of the method to send back a 'res' variable to ipc-client.
     */
-    // TODO: vérifier si c'est bien utile
     ipc.on("trigger", function(event, key, args, id, windowId) {
         if (typeof abrApp[key] !== "function") {
             console.error(key + " is not a valid abrApp method");

@@ -111,7 +111,7 @@ AbrDocument.prototype = {
 
     // Path
     setPath: function (path) {
-        this.path = path || ''; // TODO: may store the parsed path in here for better perfs
+        this.path = path || '';
         if (this.path) {
             var dir = parsePath(this.path).dirname;
             if (dir) {
@@ -320,9 +320,7 @@ AbrDocument.prototype = {
     },
 
     // About
-    // TODO: passer ça dans commands
     about: function () {
-        // TODO: add to menu
         dialogs.about();
     }
 };

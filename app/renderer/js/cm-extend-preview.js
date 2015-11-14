@@ -4,7 +4,8 @@ var path = require("path"),
 
 function preview (cm, line, types) {
 
-    function lineIsSelected (lineNumber) { // FIXME: doesnt work in case of multiple selection
+    function lineIsSelected (lineNumber) {
+        // FIXME: doesnt work in case of multiple selection
         var cursor = {
             begin: doc.getCursor("from"),
             end: doc.getCursor("to")

@@ -1,11 +1,8 @@
-// TODO: la communication renderer >>> main peut être faite plus simplement avec le module remote.
-
 var remote = require("remote"),
     ipc = require("ipc");
 
 function IpcClient () {
     this.callbacks = [];
-    // TODO: vérifier mais peut etre que `Event.sender.send(channel[, arg1][, arg2][, ...])` renvoit déjà vers la window qui a lancé le message (auquel cas pas besoin de stocker l'id de la window). La doc n'est pas claire à ce sujet
     this.windowId = remote.getCurrentWindow().id;
     var that = this,
         runCallback = function (key, value, id, windowId) {

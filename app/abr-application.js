@@ -27,8 +27,6 @@ function AbrApplication () {
 
 AbrApplication.prototype = {
 
-    // TODO: separer les triggers ? Dans IPC ?
-
     // trigger
     setWinPath: function (path, winId) {
         this.windows[winId].path = path;
@@ -36,7 +34,7 @@ AbrApplication.prototype = {
 
     // trigger
     getPathToLoad: function (arg, winId, callback) {
-        var win = this.windows[winId],
+        var win = this.getFocusedAbrWindow(winId),
             path = win ? win.path : null;
         if (typeof callback === "function") {
             callback(path);
@@ -47,7 +45,7 @@ AbrApplication.prototype = {
 
     // trigger
     setConfig: function (args, winId, callback) {
-        var abrWin = this.windows[winId];
+        var abrWin = this.getFocusedAbrWindow(winId);
         if (!abrWin || typeof args.key === "undefined" || typeof args.value === "undefined") {
             return;
         }
@@ -70,7 +68,7 @@ AbrApplication.prototype = {
 
     // trigger
     getConfig: function (arg, winId, callback) {
-        var abrWin = this.windows[winId];
+        var abrWin = this.getFocusedAbrWindow(winId);
         if (!abrWin) {
             return;
         }
@@ -82,16 +80,6 @@ AbrApplication.prototype = {
         }
     },
 
-    // trigger
-    // FIXME: supprimer ceci car c'est dangereux (pas forcément raccord avec le renderer)
-    // toggleConfig: function (arg, winId, callback) {
-    //     var flag = this.getConfig(arg, winId);
-    //     this.setConfig({
-    //         key: arg,
-    //         value: !flag
-    //     }, winId, callback);
-    // },
-
     open: function (path) {
         var abrWin = new AbrWindow(this, path);
     },
@@ -102,9 +90,8 @@ AbrApplication.prototype = {
     },
 
     // trigger
-    // TODO: peut-etre plutot une commande ?
     openContextMenu: function (arg, winId) {
-        var abrWin = this.getFocusedAbrWindow(winId); // TODO: harmo avec les autres methodes de abrApp qui utilisent windows[winId]
+        var abrWin = this.getFocusedAbrWindow(winId);
         abrWin.contextMenu.popup();
     },
 

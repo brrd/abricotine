@@ -79,11 +79,6 @@ p.lead {
   margin:1em 0;
 }
 
-p + p {
-  margin:0;
-  text-indent:1.5em;
-}
-
 p + ul, p + ol, p + dl {margin-bottom:1.5em;}
 p.lead + p {
   text-indent:0;

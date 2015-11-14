@@ -51,8 +51,7 @@ AbrPane.prototype = {
             var lineNumber = cm.doc.getLineNumber(line),
                 state = cm.getState({line: lineNumber, ch: 1});
             if (state.header) {
-                // Handle underlined headers.
-                // TODO: fix header preview in CodeMirror
+                // Handle underlined headers
                 if ((state.h1 || state.h2) && /^(=|-)+$/.test(line.text.trim())) {
                     toc.push ({
                         content: prevLine.text,

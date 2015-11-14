@@ -1,4 +1,5 @@
 var remote = require("remote"),
+    app = remote.require("app"),
     dialog = remote.require("dialog"),
     NativeImage = remote.require("native-image"),
     utils = require.main.require("../utils.js"),
@@ -9,7 +10,7 @@ var appDialogs = {
 
     about: function (win) {
         win = utils.getWindow(win);
-        var image = NativeImage.createFromPath("abricotine.png"),
+        var image = NativeImage.createFromPath(app.getAppPath() + "/abricotine.png"),
             userChoice = dialog.showMessageBox(win, {
                 title: "Abricotine",
                 message: "Abricotine v. " + pkg.version + "\nLICENCE", // TODO: licence informations

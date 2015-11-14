@@ -102,7 +102,7 @@ var files = {
 
     isTextFile: function (path) {
         try {
-            var fileStat = fs.statSync(path); // TODO: use async function
+            var fileStat = fs.statSync(path);
             if (fileStat.isFile()) {
                 var mimetype = mime.lookup(path);
                 return (mimetype && mimetype.substr(0,4) === 'text');
