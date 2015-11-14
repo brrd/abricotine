@@ -269,8 +269,10 @@ AbrDocument.prototype = {
     },
 
     viewInBrowser: function () {
-        // TODO: store the previewId in abrDoc and overwrite preview
-        var filePath = app.getPath("temp") + "/Abricotine/" + Date.now() + "/preview.html";
+        if (!this.tmpPreviewPath) {
+            this.tmpPreviewPath = app.getPath("temp") + "/Abricotine/" + Date.now() + "/preview.html";
+        }
+        var filePath = this.tmpPreviewPath;
         files.createDir(filePath);
         exportHtml(this, undefined, filePath, function() {
             shell.openExternal("file://" + filePath);
