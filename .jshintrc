@@ -2,8 +2,7 @@
     "undef": true,
     "globals": {
         "CodeMirror": false,
-        "loadComponent": true,
-        "Abricotine": true
+        "Promise": true
     },
     "browser": true,
     "node": true,

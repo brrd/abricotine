@@ -300,6 +300,10 @@ var commands = {
         abrDoc.togglePreview(param);
     },
 
+    togglePreviewSecurity: function (win, abrDoc, cm, param) {
+        abrDoc.togglePreviewSecurity(param);
+    },
+
     toggleFullscreen: function(win, abrDoc, cm, flag) {
         flag = typeof flag === "boolean" ? flag : !win.isFullScreen();
         win.setFullScreen(flag);

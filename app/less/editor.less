@@ -185,6 +185,38 @@
     .CodeMirror-widget .autopreview-image, .CodeMirror-widget .autopreview-iframe {
         max-width: 100%;
         max-height: 800px;
+        cursor: default;
+    }
+
+    .CodeMirror-widget .autopreview-iframe {
+        overflow: hidden;
+        position: relative;
+        width: 100%;
+        height: 0;
+        border: 1px solid #333;
+        background: #333 data-uri("image/svg+xml;charset=UTF-8", "./svg/spinner.svg") no-repeat center;
+    }
+
+    .CodeMirror-widget .autopreview-iframe webview {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        left: -200%;
+        top: 0;
+    }
+
+    .CodeMirror-widget .autopreview-iframe.iframe-loaded {
+        background: none;
+    }
+
+    .CodeMirror-widget .autopreview-iframe.iframe-error {
+        background: @error-color data-uri("image/svg+xml;charset=UTF-8", "./svg/chain-broken.svg") no-repeat center;
+        color: @error-color-contrast;
+        border: 1px solid @error-color;
+    }
+
+    .CodeMirror-widget .autopreview-iframe.iframe-loaded webview {
+        left: 0;
     }
 
     // Image not found message

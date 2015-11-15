@@ -1,5 +1,6 @@
 var AbrApplication = require.main.require("./abr-application.js"),
     app = require("app"),
+    defaultUserConfig = require.main.require("./config-user-default.json"),
     constants = require.main.require("./constants.js"),
     files = require.main.require("./files.js"),
     ipc = require("ipc"),
@@ -9,6 +10,10 @@ var AbrApplication = require.main.require("./abr-application.js"),
 files.createDir(constants.appPath);
 // Create the temp folder
 files.createDir(app.getPath("temp") + "/Abricotine/");
+// Create a config file if not found
+if (!files.fileExists(constants.userConfigPath)) {
+    files.writeFile(JSON.stringify(defaultUserConfig), constants.userConfigPath);
+}
 
 // When the shell is ready
 app.on("ready", function() {

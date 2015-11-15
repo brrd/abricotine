@@ -22,79 +22,87 @@ function AbrDocument () {
         that.execCommand(command, parameters);
     });
 
-    // Theme, CodeMirror and pane init
+    // Set theme
     this.setTheme("abricotine");
-    this.cm = cmInit();
-    this.pane = new AbrPane(this);
 
-    // Check if there is a doc to load
-    ipcClient.trigger("getPathToLoad", undefined, function (path) {
-        if (path) {
-            files.readFile(path, function (data, path) {
-                that.clear(data, path);
-            });
-        } else {
-            that.clear();
-        }
-    });
+    // Init CodeMirror fist because most of methods rely on it
+    cmInit(function (cm) {
+        that.cm = cm;
 
-    // Preview init
-    this.getConfig("preview", function (types) {
-        that.previewTypes = types;
-        that.preview();
-    });
+        // Init pane
+        that.pane = new AbrPane(that);
 
-    // Listener for context menu
-    document.addEventListener("contextmenu", function () {
-        ipcClient.trigger("openContextMenu");
-    }, false);
+        // Check if there is a doc to load
+        ipcClient.trigger("getPathToLoad", undefined, function (path) {
+            if (path) {
+                files.readFile(path, function (data, path) {
+                    that.clear(data, path);
+                });
+            } else {
+                that.clear();
+            }
+        });
 
-    // Listeners for cm events
-    this.cm.on("changes", function (cm, changeObj) {
-        // Window title update
-        that.updateWindowTitle();
-    });
+        // Preview init
+        that.getConfig(undefined, function (config) {
+            that.cm.setOption("autopreviewAllowedDomains", config["preview-domains"]);
+            that.cm.setOption("autopreviewSecurity", config["preview-security"]);
+            that.previewTypes = config.preview;
+            that.preview();
+        });
 
-    this.cm.on("cursorActivity", function (cm) {
-        that.preview();
-    });
+        // Listener for context menu
+        document.addEventListener("contextmenu", function () {
+            ipcClient.trigger("openContextMenu");
+        }, false);
 
-    this.cm.on("drop", function (cm, event) {
-        event.preventDefault();
-        var file = event.dataTransfer.files[0];
-        if (file && file.path) {
-            // If it's an image, insert it
-            var ext = parsePath(file.path).extname,
-                allowedImages = [".jpg", ".jpeg", ".png", ".gif", ".svg"];
-            for (var i=0; i<allowedImages.length; i++) {
-                if (ext === allowedImages[i]) {
-                    that.insertImage(file.path);
-                    return;
+        // Listeners for cm events
+        that.cm.on("changes", function (cm, changeObj) {
+            // Window title update
+            that.updateWindowTitle();
+        });
+
+        that.cm.on("cursorActivity", function (cm) {
+            that.preview();
+        });
+
+        that.cm.on("drop", function (cm, event) {
+            event.preventDefault();
+            var file = event.dataTransfer.files[0];
+            if (file && file.path) {
+                // If it's an image, insert it
+                var ext = parsePath(file.path).extname,
+                    allowedImages = [".jpg", ".jpeg", ".png", ".gif", ".svg"];
+                for (var i=0; i<allowedImages.length; i++) {
+                    if (ext === allowedImages[i]) {
+                        that.insertImage(file.path);
+                        return;
+                    }
                 }
+                // Otherwise try to open the file
+                that.open(file.path);
             }
-            // Otherwise try to open the file
-            that.open(file.path);
-        }
-    });
+        });
 
-    // Refresh editor when math is previewed
-    window.MathJax.Hub.Register.MessageHook("New Math", function (message) {
-        that.cm.refresh();
-    });
+        // Refresh editor when math is previewed
+        window.MathJax.Hub.Register.MessageHook("New Math", function (message) {
+            that.cm.refresh();
+        });
 
-    // Handle local keybindings that arent linked to a specific menu
-    document.onkeydown = function(evt) {
-        evt = evt || window.event;
-        if (evt.keyCode == 27) { // ESC
-            // Exit Fullscreen
-            var currentWindow = remote.getCurrentWindow();
-            if (currentWindow.isFullScreen()) {
-                that.execCommand("toggleFullscreen", false);
+        // Handle local keybindings that arent linked to a specific menu
+        document.onkeydown = function(evt) {
+            evt = evt || window.event;
+            if (evt.keyCode == 27) { // ESC
+                // Exit Fullscreen
+                var currentWindow = remote.getCurrentWindow();
+                if (currentWindow.isFullScreen()) {
+                    that.execCommand("toggleFullscreen", false);
+                }
+                // Clear search
+                that.execCommand("clearSearch");
             }
-            // Clear search
-            that.execCommand("clearSearch");
-        }
-    };
+        };
+    });
 }
 
 AbrDocument.prototype = {
@@ -318,6 +326,20 @@ AbrDocument.prototype = {
         }
         // The only reason to keep this config updated in main process is to save it as user preferences
         this.setConfig("preview:" + type, !flag);
+    },
+
+    togglePreviewSecurity: function (flag) {
+        if (typeof flag !== "boolean") {
+            flag = this.cm.getOption("autopreviewSecurity");
+        }
+        this.cm.setOption("autopreviewSecurity", !flag);
+        // If enabled, clear all marker before updating
+        if (!flag) {
+            this.cm.clearMarkers(".autopreview-iframe");
+        }
+        // Update iframe preview
+        this.preview({ iframe: true });
+        this.setConfig("preview-security", !flag);
     },
 
     // Config

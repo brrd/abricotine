@@ -21,6 +21,7 @@ function clearMarkers (cm, selector) {
     for (var i=0; i<markers.length; i++) {
         markers[i].clear();
     }
+    cm.refresh();
 }
 
 module.exports = function (CodeMirror) {

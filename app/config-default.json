@@ -6,6 +6,7 @@
         "anchor": true,
         "math": true
     },
+    "preview-security": true,
     "startup-commands": {
         "showBlocks": false,
         "showHiddenCharacters": true,

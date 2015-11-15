@@ -13,23 +13,31 @@ if (process.type === "renderer") {
 var utils = {
     // pattern is glob pattern. Due to node require scope limitations, it must be the full path from app/.
     // options is glob options
-    // callback(mod, modPath) is the function to launch after module is loaded
-    batchRequire: function  (pattern, callback) {
+    // cbSingle(mod, modPath) is the callback to execute after module is loaded
+    // cbAll([mods]) is the callback to execute after all modules are loaded
+    batchRequire: function  (pattern, cbSingle, cbAll) {
         var cwd = process.type === "browser" ? "/app/" : "/app/renderer/";
         glob(pattern, { cwd: app.getAppPath() + cwd }, function (err, files) {
             if (err !== null) {
                 console.error("Glob error");
                 return;
             }
-            var mod,
-                modPath;
+            var modPath,
+                promises = [],
+                getAPromise = function (modPath, callback) {
+                    return new Promise (function (resolve, reject) {
+                        var mod = require.main.require(modPath);
+                        if (typeof callback === "function") {
+                            callback(mod, modPath);
+                        }
+                        resolve(mod);
+                    });
+                };
             for(var i=0; i<files.length; i++){
                 modPath = "./" + files[i];
-                mod = require.main.require(modPath);
-                if (typeof callback === "function") {
-                    callback(mod, modPath);
-                }
+                promises.push(getAPromise(modPath, cbSingle));
             }
+            Promise.all(promises).then(cbAll);
         });
     },
 

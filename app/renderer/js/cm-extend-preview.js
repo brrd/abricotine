@@ -42,9 +42,12 @@ function preview (cm, line, types) {
                 continue;
             }
             element = typeConfig.createElement(match);
+            if (!element) {
+                continue;
+            }
             markOptions.replacedWith = element;
             textMarker = doc.markText(from, to, markOptions);
-            if (typeConfig.callback && typeof typeConfig.callback === "function") {
+            if (typeConfig.callback && typeof typeConfig.callback === "function" && textMarker && element) {
                 typeConfig.callback(textMarker, element);
             }
         }
@@ -119,17 +122,56 @@ function preview (cm, line, types) {
                 }
             },
             iframe: {
-                regex: /^\s*<iframe[^<>]*src=["']https?:\/\/(?:www\.)?([-a-zA-Z0-9@:%_\+~#=\.! ]*)[-a-zA-Z0-9@:%_\+~#=\.\/! ]*["'][^<>]*>\s*<\/iframe>\s*$/gi,
+                regex: /^\s*<iframe[^<>]*src=["'](https?:\/\/(?:www\.)?([-a-zA-Z0-9@:%_\+~#=\.! ]*)[-a-zA-Z0-9@:%_\+~#=\.\/!?&; ]*)["'][^<>]*>\s*<\/iframe>\s*$/gi,
                 createElement: function (match) {
-                    var whitelist = ["youtube.com", "google.com"], // TODO: config + add others
-                        url = match[1],
-                        allowed = false;
-                    for (var i=0; i<whitelist.length; i++) {
-                        if (url.trim() !== whitelist[i]) {
-                            continue;
+                    function isAllowed(domain) {
+                        if (cm.getOption("autopreviewSecurity") === false) {
+                            return true;
                         }
-                        return $(match[0]).addClass("autopreview-iframe").get(0); // TODO: maybe better/safer to reprocess an iframe from scratch ?
+                        var whitelist = cm.getOption("autopreviewAllowedDomains") || [];
+                        for (var i=0; i<whitelist.length; i++) {
+                            if (domain !== whitelist[i] && domain.slice(-(whitelist[i] + 1)) !== "." + whitelist[i]) {
+                                continue;
+                            }
+                            return true;
+                        }
+                        return false;
                     }
+                    var url = match[1],
+                        domain = match[2].trim();
+                    if (!isAllowed(domain)) {
+                        return false;
+                    }
+                    // Preserve iframe aspect ratio: http://fettblog.eu/blog/2013/06/16/preserving-aspect-ratio-for-embedded-iframes/
+                    var widthRegex = /width\s*(?:=|:)\s*(?:'|")?(\d+)(?!\s*%)(?:\s*px)?(?:'|"|\s|>)/i,
+                        heightRegex = /height\s*(?:=|:)\s*(?:'|")?(\d+)(?!\s*%)(?:\s*px)?(?:'|"|\s|>)/i,
+                        iframeWidth = match[0].match(widthRegex),
+                        iframeHeight = match[0].match(heightRegex),
+                        aspectRatio = iframeWidth && iframeHeight ? parseInt((iframeHeight[1] / iframeWidth[1]) * 100) : 56;
+                    aspectRatio = aspectRatio > 100 ? 100 : aspectRatio;
+                    // Create element
+                    var $parent = $("<div class='autopreview-iframe' style='padding-bottom: " + aspectRatio + "%;'></div>"),
+                        $webview = $("<webview frameborder='0' src='" + url + "'></webview>"),
+                        errorFunc = function () {
+                            $webview.remove();
+                            $parent.addClass("iframe-error");
+                        };
+                    $webview.appendTo($parent);
+                    $webview.on("did-fail-load", errorFunc);
+                    $webview.on("did-start-loading", function () {
+                        var timeoutDelay = 10000;
+                        setTimeout(function() {
+                            var webview = $webview.get(0);
+                            if (webview && document.body.contains(webview) && webview.isWaitingForResponse()) {
+                                webview.stop();
+                                errorFunc() ;
+                            }
+                        }, timeoutDelay);
+                    });
+                    $webview.on("did-stop-loading", function () {
+                        $parent.addClass("iframe-loaded");
+                    });
+                    return $parent.get(0);
                 },
                 marker: {
                     clearOnEnter: false,
@@ -142,6 +184,14 @@ function preview (cm, line, types) {
                             textMarker.clear();
                         }
                     });
+                    element.onclick = function() {
+                        if (!element.classList.contains("iframe-loaded")) {
+                            var pos = textMarker.find().to;
+                            textMarker.clear();
+                            cm.doc.setCursor(pos);
+                            cm.focus();
+                        }
+                    };
                 }
             },
             anchor: {
@@ -171,6 +221,7 @@ function preview (cm, line, types) {
                     inclusiveRight: true
                 },
                 callback: function (textMarker, element) {
+                    // TODO: textMarker.changed permert d'update l editeur a moindre frais en cas de changement de taille du marker
                     window.MathJax.Hub.Queue(["Typeset", window.MathJax.Hub, element]);
                     textMarker.on("beforeCursorEnter", function () {
                         if (!doc.somethingSelected()) { // Fix blink on selection
@@ -191,6 +242,8 @@ function preview (cm, line, types) {
 }
 
 module.exports = function (CodeMirror) {
+    CodeMirror.defineOption("autopreviewSecurity", true);
+    CodeMirror.defineOption("autopreviewAllowedDomains", []);
     CodeMirror.prototype.preview = function (line, types) {
         return preview (this, line, types);
     };

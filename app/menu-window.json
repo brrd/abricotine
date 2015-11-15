@@ -499,13 +499,6 @@
                         "checked": "preview:checkbox"
                     },
                     {
-                        "label": "Iframes",
-                        "command": "togglePreview",
-                        "parameters": "iframe",
-                        "type": "checkbox",
-                        "checked": "preview:iframe"
-                    },
-                    {
                         "label": "Anchors",
                         "command": "togglePreview",
                         "parameters": "anchor",
@@ -518,6 +511,22 @@
                         "parameters": "math",
                         "type": "checkbox",
                         "checked": "preview:math"
+                    },
+                    {
+                        "label": "Iframes",
+                        "command": "togglePreview",
+                        "parameters": "iframe",
+                        "type": "checkbox",
+                        "checked": "preview:iframe"
+                    },
+                    {
+                        "type": "separator"
+                    },
+                    {
+                        "label": "Filter unallowed content",
+                        "command": "togglePreviewSecurity",
+                        "type": "checkbox",
+                        "checked": "preview-security"
                     }
                 ]
             },
