@@ -129,13 +129,9 @@ var files = {
 
     writeFile: function (data, path, callback) {
         fs.writeFile(path, data, function (err) {
-            if (err) {
-                console.error(err);
-                return false;
-            } else if (typeof callback === 'function') {
-                callback();
+            if (typeof callback === 'function') {
+                callback(err);
             }
-            return true;
         });
     }
 };

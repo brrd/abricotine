@@ -95,6 +95,19 @@ var appDialogs = {
         return false;
     },
 
+    fileAccessDenied: function (path, callback, win) {
+        win = utils.getWindow(win);
+        var userChoice = dialog.showMessageBox(win, {
+            title: "Permission denied",
+            message: "The file '" + path + "' could not be written: permission denied. Please choose another path.",
+            buttons: ['Cancel', 'OK']
+        });
+        if (userChoice === 1) {
+            callback();
+        }
+        return false;
+    },
+
     importImagesDone: function (path, win) {
         win = utils.getWindow(win);
         dialog.showMessageBox(win, {

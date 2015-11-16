@@ -42,11 +42,19 @@ function exportHtml (abrDoc, templatePath, destPath, callback) {
                            .replace(/\$DOCUMENT_CONTENT/g, htmlContent)
                            .replace(/\$ASSETS_PATH/g, "./" + parsePath(destPath).basename + "_files");
         // Write output file
-        files.writeFile(page, destPath, function () {
+        files.writeFile(page, destPath, function (err) {
+            if (err) {
+                if (typeof callback === "function") {
+                    callback(err, destPath);
+                }
+                return;
+            }
             var assetsPath = templatePath + "/assets",
                 destAssetsPath = destPath + "_files";
             // Copy assets and run callback if exists
-            files.copyLocalDir(assetsPath, destAssetsPath, callback);
+            files.copyLocalDir(assetsPath, destAssetsPath, function () {
+                callback(null, destPath);
+            });
         });
     });
 }

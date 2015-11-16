@@ -239,7 +239,12 @@ AbrDocument.prototype = {
         }
         var that = this,
             data = this.getData(),
-            callback2 = function () {
+            callback2 = function (err) {
+                if (err) {
+                    return dialogs.fileAccessDenied(path, function () {
+                        that.saveAs(callback);
+                    });
+                }
                 that.setClean();
                 that.setPath(path);
                 that.updateWindowTitle();
@@ -251,7 +256,6 @@ AbrDocument.prototype = {
     },
 
     saveAs: function (callback) {
-        // TODO: handle readonly file
         var path = dialogs.askSavePath();
         if (!path) {
             return false;
@@ -287,16 +291,32 @@ AbrDocument.prototype = {
 
     // Export
     exportHtml: function () {
-        exportHtml(this);
+        var that = this;
+        exportHtml(this, null, null, function (err, path) {
+            if (err) {
+                return dialogs.fileAccessDenied(path, function () {
+                    that.exportHtml();
+                });
+            }
+        });
     },
 
-    viewInBrowser: function () {
-        if (!this.tmpPreviewPath) {
+    viewInBrowser: function (forceNewPath) {
+        if (forceNewPath === true || !this.tmpPreviewPath) {
             this.tmpPreviewPath = app.getPath("temp") + "/Abricotine/" + Date.now() + "/preview.html";
         }
-        var filePath = this.tmpPreviewPath;
+        var that = this,
+            filePath = this.tmpPreviewPath;
         files.createDir(filePath);
-        exportHtml(this, undefined, filePath, function() {
+        exportHtml(this, undefined, filePath, function (err, path) {
+            if (err) {
+                if (forceNewPath === true) {
+                    // Second try, abort here
+                    console.error(err);
+                    return;
+                }
+                return that.viewInBrowser(forceNewPath);
+            }
             shell.openExternal("file://" + filePath);
         });
     },
