@@ -84,11 +84,6 @@ function AbrDocument () {
             }
         });
 
-        // Refresh editor when math is previewed
-        window.MathJax.Hub.Register.MessageHook("New Math", function (message) {
-            that.cm.refresh();
-        });
-
         // Handle local keybindings that arent linked to a specific menu
         document.onkeydown = function(evt) {
             evt = evt || window.event;

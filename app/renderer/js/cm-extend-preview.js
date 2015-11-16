@@ -221,8 +221,10 @@ function preview (cm, line, types) {
                     inclusiveRight: true
                 },
                 callback: function (textMarker, element) {
-                    // TODO: textMarker.changed permert d'update l editeur a moindre frais en cas de changement de taille du marker
-                    window.MathJax.Hub.Queue(["Typeset", window.MathJax.Hub, element]);
+                    var onMathLoaded = function () {
+                        textMarker.changed();
+                    };
+                    window.MathJax.Hub.Queue(["Typeset", window.MathJax.Hub, element], [onMathLoaded, undefined]);
                     textMarker.on("beforeCursorEnter", function () {
                         if (!doc.somethingSelected()) { // Fix blink on selection
                             textMarker.clear();
