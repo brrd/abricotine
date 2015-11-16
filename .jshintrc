@@ -2,7 +2,8 @@
     "undef": true,
     "globals": {
         "CodeMirror": false,
-        "Promise": true
+        "Promise": true,
+        "Typo": true
     },
     "browser": true,
     "node": true,

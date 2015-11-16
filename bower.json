@@ -29,6 +29,7 @@
     "codemirror": "~5.1.0",
     "jquery": "2.1.1",
     "MathJax": "~2.5.3",
-    "split-pane": "~0.4.1"
+    "split-pane": "~0.4.1",
+    "Typo.js": "https://github.com/cfinke/Typo.js.git#5a2822080ed3ed0e0593f5b595ad202405f1a606"
   }
 }

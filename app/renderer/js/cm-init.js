@@ -19,10 +19,7 @@ function initCodeMirror () {
         // Ignore content into $$ delimiters (inline MathJax)
         CodeMirror.defineMode("abricotine", function (config) {
             return CodeMirror.multiplexingMode(
-                CodeMirror.getMode(config, {
-                    name: "gfm",
-                    highlightFormatting: true
-                }),
+                CodeMirror.getMode(config, "spellchecker"),
                 // Disable commented $
                 {open: "\\$", close: " ",
                  mode: CodeMirror.getMode(config, "text/plain")},
