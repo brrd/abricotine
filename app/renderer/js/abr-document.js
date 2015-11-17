@@ -1,5 +1,6 @@
 var remote = require("remote"),
     AbrPane = require.main.require("./js/abr-pane.js"),
+    AbrSpellchecker = require.main.require("./js/abr-spellchecker.js"),
     app = remote.require("app"),
     cmInit = require.main.require("./js/cm-init.js"),
     commands = require.main.require("./js/commands.js"),
@@ -28,6 +29,9 @@ function AbrDocument () {
     // Init CodeMirror fist because most of methods rely on it
     cmInit(function (cm) {
         that.cm = cm;
+
+        // Init spellchecker
+        that.spellchecker = new AbrSpellchecker ("en_US", this);
 
         // Init pane
         that.pane = new AbrPane(that);
@@ -355,6 +359,16 @@ AbrDocument.prototype = {
         // Update iframe preview
         this.preview({ iframe: true });
         this.setConfig("preview-security", !flag);
+    },
+
+    // Spellchecker
+    setDictionary: function (lang) {
+        this.spellchecker.setDictionary(lang);
+        this.cm.refresh(); // TODO: utile ?
+    },
+
+    getDictionary: function () {
+        return this.spellchecker.activeDictionary;
     },
 
     // Config

@@ -72,35 +72,35 @@ var commands = {
     },
 
     find: function(win, abrDoc, cm) {
-        $(".CodeMirror-dialog").remove();
+        $(".CodeMirror-dialog").remove(); // FIXME: error when double key
         cm.execCommand("clearSearch");
         cm.execCommand("find");
     },
 
     findNext: function(win, abrDoc, cm) {
-        $(".CodeMirror-dialog").remove();
+        $(".CodeMirror-dialog").remove(); // FIXME: error when double key
         cm.execCommand("findNext");
     },
 
     findPrev: function(win, abrDoc, cm) {
-        $(".CodeMirror-dialog").remove();
+        $(".CodeMirror-dialog").remove(); // FIXME: error when double key
         cm.execCommand("findPrev");
     },
 
     replace: function(win, abrDoc, cm) {
-        $(".CodeMirror-dialog").remove();
+        $(".CodeMirror-dialog").remove(); // FIXME: error when double key
         cm.execCommand("clearSearch");
         cm.execCommand("replace");
     },
 
     replaceAll: function(win, abrDoc, cm) {
-        $(".CodeMirror-dialog").remove();
+        $(".CodeMirror-dialog").remove(); // FIXME: error when double key
         cm.execCommand("clearSearch");
         cm.execCommand("replaceAll");
     },
 
     clearSearch: function(win, abrDoc, cm) {
-        $(".CodeMirror-dialog").remove();
+        $(".CodeMirror-dialog").remove(); // FIXME: error when double key
         cm.execCommand("clearSearch");
     },
 
@@ -340,7 +340,7 @@ var commands = {
     },
 
     execCommand: function(win, abrDoc, cm) {
-        $(".CodeMirror-dialog").remove();
+        $(".CodeMirror-dialog").remove(); // FIXME: error when double key
         var html = "Command: <input type='text'/>",
             callback = function(query) {
                 if (!query) return;
@@ -354,6 +354,10 @@ var commands = {
 
     about: function (win, abrDoc, cm) {
         abrDoc.about();
+    },
+
+    test: function (win, abrDoc, cm) {
+        abrDoc.setDictionary("de_DE");
     }
 };
 
