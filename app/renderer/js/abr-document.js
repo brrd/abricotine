@@ -1,6 +1,5 @@
 var remote = require("remote"),
     AbrPane = require.main.require("./js/abr-pane.js"),
-    AbrSpellchecker = require.main.require("./js/abr-spellchecker.js"),
     app = remote.require("app"),
     cmInit = require.main.require("./js/cm-init.js"),
     commands = require.main.require("./js/commands.js"),
@@ -10,7 +9,8 @@ var remote = require("remote"),
     exportHtml = require.main.require("./js/export-html.js"),
     files = require.main.require("../files.js"),
     parsePath = require("parse-filepath"),
-    shell = require("shell");
+    shell = require("shell"),
+    spellchecker = require('spellchecker');
 
 function AbrDocument () {
     var that = this;
@@ -31,7 +31,7 @@ function AbrDocument () {
         that.cm = cm;
 
         // Init spellchecker
-        that.spellchecker = new AbrSpellchecker ("en_US", this);
+        that.setDictionary("en_US");
 
         // Init pane
         that.pane = new AbrPane(that);
@@ -363,12 +363,14 @@ AbrDocument.prototype = {
 
     // Spellchecker
     setDictionary: function (lang) {
-        this.spellchecker.setDictionary(lang);
-        this.cm.refresh(); // TODO: utile ?
+        spellchecker.setDictionary(lang, __dirname + "/../dict/" + lang + "/");
+        // Refresh CodeMirror highlight
+        this.cm.setOption("mode", "spellchecker");
     },
 
-    getDictionary: function () {
-        return this.spellchecker.activeDictionary;
+    // Returns the spellchecking option
+    getSpellcheckFunc: function () {
+        return spellchecker.isMisspelled;
     },
 
     // Config

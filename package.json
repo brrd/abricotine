@@ -18,6 +18,7 @@
   "license": "",
   "dependencies": {
     "celldown.js": "latest",
+    "electron-prebuilt": "^0.35.0",
     "glob": "^5.0.14",
     "is-url": "^1.2.1",
     "kramed": "^0.5.3",
@@ -28,6 +29,10 @@
     "ncp": "^2.0.0",
     "parse-filepath": "^0.6.2",
     "request": "^2.65.0",
-    "salvator": "https://github.com/brrd/salvator/tarball/master"
+    "salvator": "https://github.com/brrd/salvator/tarball/master",
+    "spellchecker": "^3.1.3"
+  },
+  "devDependencies": {
+    "electron-rebuild": "^1.0.2"
   }
 }

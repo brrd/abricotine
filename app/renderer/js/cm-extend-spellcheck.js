@@ -9,8 +9,8 @@ function initSpellcheck (CodeMirror) {
         		token: function(stream, state) {
         			var ch = stream.peek(),
                         word = "",
-                        dictionary = window.abrDoc.getDictionary();
-                    if (!dictionary) {
+                        isMisspelledFunc = window.abrDoc.getSpellcheckFunc();
+                    if (!isMisspelledFunc) {
                         return null;
                     }
         			if (wordDelimiters.includes(ch)) {
@@ -21,7 +21,7 @@ function initSpellcheck (CodeMirror) {
         				word += ch;
         				stream.next();
         			}
-        			if (dictionary && !dictionary.check(word)) {
+        			if (isMisspelledFunc && isMisspelledFunc(word)) {
         				return "spell-error"; // CSS class: cm-spell-error
                     }
         			return null;
