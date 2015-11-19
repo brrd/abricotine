@@ -1,6 +1,6 @@
 [
     {
-        "label": "File",
+        "label": "&File",
         "submenu": [
             {
                 "label": "New document",
@@ -49,7 +49,7 @@
         ]
     },
     {
-        "label": "Edit",
+        "label": "&Edit",
         "submenu": [
             {
                 "label": "Undo",
@@ -159,7 +159,7 @@
         ]
     },
     {
-        "label": "Format",
+        "label": "F&ormat",
         "submenu": [
             {
                 "label": "Italic",
@@ -254,7 +254,7 @@
         ]
     },
     {
-        "label": "Insert",
+        "label": "&Insert",
         "submenu": [
             {
                 "label": "Image",
@@ -308,7 +308,7 @@
         ]
     },
     {
-        "label": "Table",
+        "label": "&Table",
         "submenu": [
             {
                 "label": "New table",
@@ -477,7 +477,7 @@
         ]
     },
     {
-        "label": "View",
+        "label": "&View",
         "submenu": [
             {
                 "label": "View document in browser",
@@ -576,7 +576,7 @@
         ]
     },
     {
-        "label": "Debug",
+        "label": "&Debug",
         "condition": "debug",
         "submenu": [
             {
@@ -617,7 +617,7 @@
         ]
     },
     {
-        "label": "Help",
+        "label": "&Help",
         "submenu": [
             {
                 "label": "About Abricotine",
