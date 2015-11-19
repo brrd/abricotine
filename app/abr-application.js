@@ -101,7 +101,7 @@ AbrApplication.prototype = {
             absPath;
         // Open windows depending on argv
         for (var i=0; i<argv.length; i++) {
-            if (files.isTextFile(argv[i])) {
+            if (argv[i].substring(0, 2) !== "--" && files.isTextFile(argv[i])) {
                 absPath = parsePath(argv[i]).absolute;
                 this.open(absPath);
                 numberOfWindowsOpened++;
