@@ -13,6 +13,10 @@
         "showTocPane": false,
         "autoCloseBrackets": true
     },
+    "spellchecker": {
+        "active": true,
+        "language": "en_US"
+    },
     "window": {
         "showMenuBar": true,
         "width": 800,

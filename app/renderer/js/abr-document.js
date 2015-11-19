@@ -30,9 +30,6 @@ function AbrDocument () {
     cmInit(function (cm) {
         that.cm = cm;
 
-        // Init spellchecker
-        that.setDictionary("en_US");
-
         // Init pane
         that.pane = new AbrPane(that);
 
@@ -47,12 +44,17 @@ function AbrDocument () {
             }
         });
 
-        // Preview init
+        // Preview and spellchecker init (depend on config)
         that.getConfig(undefined, function (config) {
+            // Preview
             that.cm.setOption("autopreviewAllowedDomains", config["preview-domains"]);
             that.cm.setOption("autopreviewSecurity", config["preview-security"]);
             that.previewTypes = config.preview;
             that.preview();
+            // Spellchecker
+            if (config.spellchecker.active) {
+                that.setDictionary(config.spellchecker.language, config.spellchecker.src);
+            }
         });
 
         // Listener for context menu
@@ -362,13 +364,21 @@ AbrDocument.prototype = {
     },
 
     // Spellchecker
-    setDictionary: function (lang) {
-        spellchecker.setDictionary(lang, __dirname + "/../dict/" + lang + "/");
-        // Refresh CodeMirror highlight
-        this.cm.setOption("mode", "spellchecker");
+    setDictionary: function (lang, path) {
+        if (lang) {
+            spellchecker.setDictionary(lang, path);
+            // Refresh CodeMirror highlight + enable spelling
+            this.cm.setOption("mode", "abr-spellcheck-on");
+            this.setConfig("spellchecker:active", true);
+            this.setConfig("spellchecker:language", lang);
+        } else {
+            // Disable spelling
+            this.cm.setOption("mode", "abr-spellcheck-off");
+            this.setConfig("spellchecker:active", false);
+        }
     },
 
-    // Returns the spellchecking option
+    // Returns the spellchecking function
     getSpellcheckFunc: function () {
         return spellchecker.isMisspelled;
     },

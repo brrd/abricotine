@@ -1,5 +1,16 @@
-var Menu = require("menu"),
-    utils = require.main.require("./utils");
+var constants = require.main.require("./constants"),
+    files  = require.main.require("./files"),
+    langmap = require("langmap"),
+    Menu = require("menu"),
+    utils = require.main.require("./utils"),
+    spellchecker = require('spellchecker');
+
+function getConfig (config, key) {
+    if (config && typeof config.get === "function") {
+        return config.get(key) || false;
+    }
+    return false;
+}
 
 function preprocessTemplate (element, config) {
     if (element.constructor !== Array) {
@@ -9,12 +20,6 @@ function preprocessTemplate (element, config) {
             // sendCommand detects the "best window that actually exists" in order to avoid problems due to window destruction
             var win = utils.getWindow();
             win.webContents.send("command", command, parameters);
-        },
-        getConfig = function (key) {
-            if (config && typeof config.get === "function") {
-                return config.get(key) || false;
-            }
-            return false;
         },
         replaceAttributes = function (item) {
             if (item.condition) {
@@ -29,9 +34,12 @@ function preprocessTemplate (element, config) {
                 delete item.parameters;
             }
             if (item.type === "checkbox" && typeof item.checked === "string") {
-                item.checked = getConfig(item.checked);
+                item.checked = getConfig(config, item.checked);
             }
             if (item.submenu) {
+                if (item.id === "spelling") {
+                    item.submenu = spellingMenuGenerator(item.submenu, config);
+                }
                 preprocessTemplate(item.submenu, config);
             }
             return item;
@@ -39,13 +47,74 @@ function preprocessTemplate (element, config) {
     for (var i=0; i<element.length; i++) {
         // Conditionnal menuItem (debug menu) : do not process if not allowed
         // FIXME: Attention, electron a ajouté des raccourcis par défaut pour ces fonctions
-        if (element[i].condition && !getConfig(element[i].condition)) {
+        if (element[i].condition && !getConfig(config, element[i].condition)) {
             element.splice(i, 1);
         }
         // Replace attributes of menu items
         replaceAttributes(element[i]);
     }
     return element;
+}
+
+// Generate spelling menu template (before preprocesssing)
+function spellingMenuGenerator (submenu, config) {
+    // Get language name for its code
+    function getLangName (code) {
+        code = code.replace("_", "-");
+        return typeof langmap[code] !== "undefined" ? langmap[code].nativeName : code;
+    }
+    // Get a language menuItem
+    function getLangMenu (lang, path, config) {
+        var isConfigLang = getConfig(config, "spellchecker:active") && getConfig(config, "spellchecker:language") === lang;
+        radioChecked = radioChecked || isConfigLang;
+        return {
+            label: getLangName(lang),
+            type: "radio",
+            checked: isConfigLang,
+            command: "setDictionary",
+            parameters: path ? [lang, path] : [lang]
+        };
+    }
+    // Get hunspell dictionaries path
+    // Search 1) the abricotine builtin hunspell dict, 2) then the dict dir in abricotine config folder
+    // Returns an object { "en_US": "path/to/en_US", etc. }
+    function getHunspellDictionaries () {
+        var dicts = {},
+            paths = [
+                __dirname + "/dict/",
+                constants.appPath + "/dict/"
+            ],
+            subdirs;
+        for (var i=0; i<paths.length; i++) {
+            subdirs = files.getDirectories(paths[i]);
+            for (var j=0; j<subdirs.length; j++) {
+                dicts[subdirs[j]] = paths[i] + subdirs[j];
+            }
+        }
+        return dicts;
+    }
+    var sysDictionaries = spellchecker.getAvailableDictionaries(),
+        radioChecked = false;
+    if (sysDictionaries.length !== 0) {
+        // System builtin dictionaries
+        for (var i=0; i<sysDictionaries; i++) {
+            submenu.push(getLangMenu(sysDictionaries[i], null, config));
+        }
+    } else {
+        // Hunspell dictionaries
+        var hunspellDictionaries = getHunspellDictionaries();
+        if (hunspellDictionaries.length !== 0) {
+            for (var lang in hunspellDictionaries) {
+                submenu.push(getLangMenu(lang, hunspellDictionaries[lang], config));
+                if (getConfig(config, "spellchecker:language") === lang) {
+                    config.set("spellchecker:src", hunspellDictionaries[lang]); // This src config key is used for init the spellchecker in abrDoc (renderer)
+                }
+            }
+        }
+    }
+    // Check the "Disabled" menu if no radio has been checked
+    submenu[0].checked = !radioChecked;
+    return submenu;
 }
 
 // Electron's menu wrapper

@@ -14,21 +14,26 @@ function extendCodeMirror () {
     });
 }
 
+function defineAbrMode (CodeMirror, newModeName, baseModeName) {
+    CodeMirror.defineMode(newModeName, function (config) {
+        return CodeMirror.multiplexingMode(
+            CodeMirror.getMode(config, baseModeName),
+            // Disable commented $
+            {open: "\\$", close: " ",
+             mode: CodeMirror.getMode(config, "text/plain")},
+            // Maths
+            {open: "$$", close: "$$",
+             mode: CodeMirror.getMode(config, "text/x-latex")}
+            // .. more multiplexed styles can follow here
+        );
+    });
+}
+
 function initCodeMirror () {
     return new Promise ( function (resolve, reject) {
-        // Ignore content into $$ delimiters (inline MathJax)
-        CodeMirror.defineMode("abricotine", function (config) {
-            return CodeMirror.multiplexingMode(
-                CodeMirror.getMode(config, "spellchecker"),
-                // Disable commented $
-                {open: "\\$", close: " ",
-                 mode: CodeMirror.getMode(config, "text/plain")},
-                // Maths
-                {open: "$$", close: "$$",
-                 mode: CodeMirror.getMode(config, "text/x-latex")}
-                // .. more multiplexed styles can follow here
-            );
-        });
+        // Spelling and no-spelling modes shortcuts
+        defineAbrMode(CodeMirror, "abr-spellcheck-off", "gfm");
+        defineAbrMode(CodeMirror, "abr-spellcheck-on", "spellchecker");
 
         var options = {
             theme: "", // Disable CodeMirror themes
@@ -38,7 +43,7 @@ function initCodeMirror () {
             autofocus: true,
             autoCloseBrackets: false,
             scrollbarStyle: "overlay",
-            mode: "abricotine",
+            mode: "abr-spellcheck-off",
             // TODO: replace default keymap by a custom one which removes most of hotkeys (CodeMirror interferences with menu accelerators)
             extraKeys: {
                 "Enter": "newlineAndIndentContinueMarkdownList",

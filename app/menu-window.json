@@ -85,6 +85,11 @@
                 "command": "paste"
             },
             {
+                "label": "Select all",
+                "accelerator": "CmdOrCtrl+A",
+                "command": "selectAll"
+            },
+            {
                 "type": "separator"
             },
             {
@@ -123,9 +128,17 @@
                 "type": "separator"
             },
             {
-                "label": "Select all",
-                "accelerator": "CmdOrCtrl+A",
-                "command": "selectAll"
+                "label": "Spelling",
+                "id": "spelling",
+                "submenu": [
+                    {
+                        "label": "Disabled",
+                        "type": "radio",
+                        "checked": false,
+                        "command": "setDictionary",
+                        "parameters": false
+                    }
+                ]
             },
             {
                 "type": "separator"

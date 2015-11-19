@@ -4,7 +4,7 @@ function initSpellcheck (CodeMirror) {
     // Create overlay
     // Inspiration: https://github.com/NextStepWebs/codemirror-spell-checker/blob/master/src/js/spell-checker.js
     CodeMirror.defineMode("spellchecker", function (config, parserConfig) {
-        var wordDelimiters = "!\"\'#$%&()*+,-./:;<=>?@[\\]^_`{|}~ ",
+        var wordDelimiters = "!\"#$%&()*+,-./:;<=>?@[\\]^_`{|}~ ",
             overlay = {
         		token: function(stream, state) {
         			var ch = stream.peek(),

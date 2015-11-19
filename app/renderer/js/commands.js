@@ -108,6 +108,12 @@ var commands = {
         cm.execCommand("selectAll");
     },
 
+    setDictionary: function (win, abrDoc, cm, params) {
+        var lang = params[0],
+            path = params[1];
+        abrDoc.setDictionary(lang, path);
+    },
+
     autoCloseBrackets: function(win, abrDoc, cm) {
         var flag = cm.getOption("autoCloseBrackets");
         cm.setOption("autoCloseBrackets", !flag);
@@ -354,10 +360,6 @@ var commands = {
 
     about: function (win, abrDoc, cm) {
         abrDoc.about();
-    },
-
-    test: function (win, abrDoc, cm) {
-        abrDoc.setDictionary("de_DE");
     }
 };
 

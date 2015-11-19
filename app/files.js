@@ -7,6 +7,7 @@ var fs = require("fs"),
     mkdirp = require('mkdirp'),
     ncp = require("ncp"),
     parsePath = require("parse-filepath"),
+    path = require("path"),
     request = require("request");
 
 var files = {
@@ -97,6 +98,17 @@ var files = {
             return fs.statSync(filePath).isFile();
         } catch (err) {
             return false;
+        }
+    },
+
+    getDirectories: function (parentPath) {
+        try {
+            parentPath = parsePath(parentPath).absolute;
+            return fs.readdirSync(parentPath).filter(function(file) {
+                return fs.statSync(path.join(parentPath, file)).isDirectory();
+            });
+        } catch (err) {
+            return [];
         }
     },
 
