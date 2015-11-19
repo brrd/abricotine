@@ -1,19 +1,33 @@
 var remote = require("remote"),
+    BrowserWindow = remote.require("browser-window"),
     constants = remote.require("./constants.js"),
     dialog = remote.require("dialog"),
     NativeImage = remote.require("native-image"),
-    utils = require.main.require("../utils.js"),
-    parsePath = require("parse-filepath"),
-    pkg = require.main.require("../../package.json");
+    parsePath = require("parse-filepath");
+
+// Returns the most "logical" window object (it is quite useless actually)
+function getWindow (win) {
+    if (typeof win === "number") {
+        return BrowserWindow.fromId(win);
+    } else if (win instanceof BrowserWindow) {
+        return win;
+    } else if (win && typeof win.browserWindow !== "undefined") {
+        return win.browserWindow;
+    } else if (typeof remote !== "undefined") {
+        return remote.getCurrentWindow();
+    } else {
+        return BrowserWindow.getFocusedWindow();
+    }
+}
 
 var appDialogs = {
 
     about: function (win) {
-        win = utils.getWindow(win);
+        win = getWindow(win);
         var image = NativeImage.createFromPath(constants.path.icon);
         dialog.showMessageBox(win, {
             title: "Abricotine",
-            message: "Abricotine v. " + pkg.version + "\nLICENCE", // TODO: licence informations
+            message: "Abricotine v. " + constants.appVersion + "\nLICENCE", // TODO: licence informations
             buttons: ['OK'],
             icon: image
         });
@@ -24,7 +38,7 @@ var appDialogs = {
         if (!path) {
             path = 'New document';
         }
-        win = utils.getWindow(win);
+        win = getWindow(win);
         closeFunc = closeFunc || win.destroy; // win.close() would trigger the 'onbeforeunload' event again
         var filename = parsePath(path).basename || path,
             userChoice = dialog.showMessageBox(win, {
@@ -44,7 +58,7 @@ var appDialogs = {
     },
 
     askOpenPath: function (title, win) {
-        win = utils.getWindow(win);
+        win = getWindow(win);
         var path = dialog.showOpenDialog(win, {
             title: title || 'Open document',
             properties: ['openFile'],
@@ -57,7 +71,7 @@ var appDialogs = {
     },
 
     askSavePath: function (title, win) {
-        win = utils.getWindow(win);
+        win = getWindow(win);
         var path = dialog.showSaveDialog(win, {
             title: title || 'Save document',
             defaultPath: process.cwd()
@@ -69,7 +83,7 @@ var appDialogs = {
     },
 
     askOpenImage: function (title, win) {
-        win = utils.getWindow(win);
+        win = getWindow(win);
         var path = dialog.showOpenDialog(win, {
             title: title || 'Insert image',
             properties: ['openFile'],
@@ -83,7 +97,7 @@ var appDialogs = {
     },
 
     askNeedSave: function (abrDoc, callback, win) {
-        win = utils.getWindow(win);
+        win = getWindow(win);
         var userChoice = dialog.showMessageBox(win, {
                 title: 'Save document',
                 message: 'The current document needs to be saved before performing this operation.',
@@ -96,7 +110,7 @@ var appDialogs = {
     },
 
     fileAccessDenied: function (path, callback, win) {
-        win = utils.getWindow(win);
+        win = getWindow(win);
         var userChoice = dialog.showMessageBox(win, {
             title: "Permission denied",
             message: "The file '" + path + "' could not be written: permission denied. Please choose another path.",
@@ -109,7 +123,7 @@ var appDialogs = {
     },
 
     importImagesDone: function (path, win) {
-        win = utils.getWindow(win);
+        win = getWindow(win);
         dialog.showMessageBox(win, {
             title: "Images copied",
             message: "Document images have been copied in the '" + path + "' directory.",

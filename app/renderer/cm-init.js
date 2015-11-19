@@ -1,8 +1,40 @@
-var utils = require.main.require("../utils.js");
+var remote = require("remote"),
+    constants = remote.require("./constants.js"),
+    glob = require("glob");
+
+// pattern is glob pattern. Due to node require scope limitations, it must be the full path from app/.
+// options is glob options
+// cbSingle(mod, modPath) is the callback to execute after module is loaded
+// cbAll([mods]) is the callback to execute after all modules are loaded
+function batchRequire (cwd, pattern, cbSingle, cbAll) {
+    glob(pattern, { cwd: cwd }, function (err, files) {
+        if (err !== null) {
+            console.error("Glob error");
+            return;
+        }
+        var modPath,
+            promises = [],
+            getAPromise = function (modPath, callback) {
+                return new Promise (function (resolve, reject) {
+                    var mod = require.main.require(modPath);
+                    if (typeof callback === "function") {
+                        callback(mod, modPath);
+                    }
+                    resolve(mod);
+                });
+            };
+        for(var i=0; i<files.length; i++){
+            modPath = "./" + files[i];
+            promises.push(getAPromise(modPath, cbSingle));
+        }
+        Promise.all(promises).then(cbAll);
+    });
+}
 
 function extendCodeMirror () {
     return new Promise ( function (resolve, reject) {
-        var pattern = "cm-extend-*.js",
+        var cwd = constants.path.app + "/app/renderer/",
+            pattern = "cm-extend-*.js",
             callbackSingle = function (mod, modPath) {
                 if (typeof mod === "function") {
                     mod(CodeMirror);
@@ -10,7 +42,7 @@ function extendCodeMirror () {
                     throw new Error("Module " + modPath + " is not a valid CodeMirror extension");
                 }
             };
-        utils.batchRequire(pattern, callbackSingle, resolve);
+        batchRequire(cwd, pattern, callbackSingle, resolve);
     });
 }
 

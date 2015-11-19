@@ -1,8 +1,8 @@
-var constants = require.main.require("./constants"),
+var BrowserWindow = require("browser-window"),
+    constants = require.main.require("./constants"),
     files  = require.main.require("./files"),
     langmap = require("langmap"),
     Menu = require("menu"),
-    utils = require.main.require("./utils"),
     spellchecker = require('spellchecker');
 
 function getConfig (config, key) {
@@ -17,8 +17,8 @@ function preprocessTemplate (element, config) {
         return;
     }
     var sendCommand = function (command, parameters) {
-            // sendCommand detects the "best window that actually exists" in order to avoid problems due to window destruction
-            var win = utils.getWindow();
+            // sendCommand detects the focused window in order to avoid problems due to window destruction
+            var win = BrowserWindow.getFocusedWindow();
             win.webContents.send("command", command, parameters);
         },
         replaceAttributes = function (item) {
