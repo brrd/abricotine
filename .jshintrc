@@ -1,5 +1,6 @@
 {
     "undef": true,
+    "unused": "vars",
     "globals": {
         "CodeMirror": false,
         "Promise": true,

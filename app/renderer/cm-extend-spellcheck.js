@@ -1,5 +1,3 @@
-var fs = require("fs");
-
 function initSpellcheck (CodeMirror) {
     // Create overlay
     // Inspiration: https://github.com/NextStepWebs/codemirror-spell-checker/blob/master/src/js/spell-checker.js

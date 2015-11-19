@@ -1,5 +1,4 @@
-var remote = require("remote"),
-    AbrDocument = require.main.require("./abr-document.js"),
+var AbrDocument = require.main.require("./abr-document.js"),
     dialogs = require.main.require("./dialogs.js");
 
 $( function () {

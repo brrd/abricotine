@@ -1,5 +1,4 @@
 var AbrWindow = require.main.require("./abr-window.js"),
-    app = require("app"),
     BrowserWindow = require("browser-window"),
     files = require.main.require("./files.js"),
     ipcServer = require.main.require("./ipc-server.js"),

@@ -1,7 +1,6 @@
 // Can be called by both browser and renderer
 
 var fs = require("fs"),
-    http = require("http"),
     isUrl = require("is-url"),
     mime = require("mime"),
     mkdirp = require('mkdirp'),

@@ -16,8 +16,7 @@ function getMarkers (cm, selector) {
 }
 
 function clearMarkers (cm, selector) {
-    var doc = cm.doc,
-        markers = getMarkers(cm, selector);
+    var markers = getMarkers(cm, selector);
     for (var i=0; i<markers.length; i++) {
         markers[i].clear();
     }

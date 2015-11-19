@@ -1,6 +1,5 @@
 var remote = require("remote"),
     AbrPane = require.main.require("./abr-pane.js"),
-    app = remote.require("app"),
     cmInit = require.main.require("./cm-init.js"),
     commands = require.main.require("./commands.js"),
     constants = remote.require("./constants.js"),

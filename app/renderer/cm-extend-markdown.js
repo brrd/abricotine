@@ -18,7 +18,7 @@ function getState (cm, pos) {
         return {};
     }
     var types = stat.type.split(' ');
-    var ret = {}, data, text;
+    var ret = {}, text;
     for (var i = 0; i < types.length; i++) {
         switch (types[i]) {
             case 'strong':

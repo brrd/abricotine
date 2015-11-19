@@ -4,10 +4,8 @@ if (process.type === "renderer") {
     var remote = require("remote"),
         app = remote.require("app"),
         BrowserWindow = remote.require("browser-window");
-    // NOTE: "./abr-window.js" is not required in renderer process
 } else {
-    var AbrWindow = require.main.require("./abr-window.js"),
-        app = require("app"),
+    var app = require("app"),
         BrowserWindow = require("browser-window");
 }
 var utils = {

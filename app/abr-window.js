@@ -1,5 +1,4 @@
 var AbrMenu = require.main.require("./abr-menu.js"),
-    app = require("app"),
     BrowserWindow = require("browser-window"),
     constants = require.main.require("./constants.js"),
     contextMenuTemplate = require.main.require("./menu-context.json"),
