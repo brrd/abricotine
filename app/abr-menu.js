@@ -46,7 +46,6 @@ function preprocessTemplate (element, config) {
         };
     for (var i=0; i<element.length; i++) {
         // Conditionnal menuItem (debug menu) : do not process if not allowed
-        // FIXME: Attention, electron a ajouté des raccourcis par défaut pour ces fonctions
         if (element[i].condition && !getConfig(config, element[i].condition)) {
             element.splice(i, 1);
         }
@@ -82,7 +81,7 @@ function spellingMenuGenerator (submenu, config) {
         var dicts = {},
             paths = [
                 __dirname + "/dict/",
-                constants.appPath + "/dict/"
+                constants.path.userData + "/dict/"
             ],
             subdirs;
         for (var i=0; i<paths.length; i++) {

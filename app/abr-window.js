@@ -25,7 +25,7 @@ function createConfig () {
     var config = new nconf.Provider(); // https://github.com/indexzero/nconf/issues/39
     config.overrides({})
          .argv()
-         .file(constants.userConfigPath)
+         .file(constants.path.userConfig)
          .defaults(defaultConfig);
     return config;
 }
@@ -106,7 +106,7 @@ AbrWindow.prototype = {
             bounds = smartWindowBounds(abrWin);
         win = new BrowserWindow({
             title: constants.appName || "Abricotine",
-            icon: app.getAppPath() + constants.appIconPath,
+            icon: constants.path.icon,
             "min-width": 100,
             "min-height": 100,
             width: bounds.width || 800,
@@ -152,7 +152,7 @@ AbrWindow.prototype = {
         });
 
         // Load window
-        win.loadUrl("file://" + app.getAppPath() + constants.indexHtml);
+        win.loadUrl("file://" + constants.path.window);
 
         // Open devtools on debug mode
         if (this.config.get("debug")) {

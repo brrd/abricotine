@@ -3,6 +3,7 @@ var remote = require("remote"),
     app = remote.require("app"),
     cmInit = require.main.require("./cm-init.js"),
     commands = require.main.require("./commands.js"),
+    constants = remote.require("./constants.js"),
     dialogs = require.main.require("./dialogs.js"),
     imageImport = require.main.require("./image-import.js"),
     IpcClient = require.main.require("./ipc-client.js"),
@@ -271,7 +272,7 @@ AbrDocument.prototype = {
     // Themes
     setTheme: function (themeName) {
         themeName = themeName || "abricotine";
-        var tmpThemesPath = app.getPath("temp") + "/Abricotine/themes",
+        var tmpThemesPath = constants.path.tmpThemes,
             path = tmpThemesPath + "/" + themeName + ".css";
         $("#theme").attr("href", path);
     },
@@ -304,7 +305,7 @@ AbrDocument.prototype = {
 
     viewInBrowser: function (forceNewPath) {
         if (forceNewPath === true || !this.tmpPreviewPath) {
-            this.tmpPreviewPath = app.getPath("temp") + "/Abricotine/" + Date.now() + "/preview.html";
+            this.tmpPreviewPath = constants.path.tmp + "/" + Date.now() + "/preview.html";
         }
         var that = this,
             filePath = this.tmpPreviewPath;

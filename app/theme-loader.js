@@ -1,13 +1,14 @@
 // The theme loader compiles less CSS. Right now it is used once at startup but it could be extended later in the future to manage multiple themes.
 
 var app = require("app"),
+    constants = require.main.require("./constants.js"),
     files = require("./files.js"),
     less = require("less");
 
 var appPath = app.getAppPath(),
     lessPath = appPath + "/app/less",
     themesPath = lessPath + "/themes",
-    tmpThemesPath = app.getPath("temp") + "/Abricotine/themes";
+    tmpThemesPath = constants.path.tmpThemes;
 
 var themeLoader = {
 

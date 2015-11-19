@@ -1,6 +1,6 @@
 var remote = require("remote"),
-    app = remote.require('app'),
     clipboard = require('clipboard'),
+    constants = remote.require("./constants.js"),
     kramed = require("kramed"),
     shell = require('shell');
 
@@ -118,8 +118,7 @@ var commands = {
     },
 
     editConfigFile: function(win, abrDoc, cm) {
-        // TODO: utiliser des constantes
-        var dirPath = app.getPath("userData") + '/app/config.json';
+        var dirPath = constants.path.userConfig;
         shell.openItem(dirPath);
     },
 
@@ -325,20 +324,17 @@ var commands = {
     },
 
     openConfigDir: function(win, abrDoc, cm) {
-        // TODO: utiliser des constantes
-        var dirPath = app.getPath('userData');
+        var dirPath = constants.path.userData;
         shell.openItem(dirPath);
     },
 
     openTempDir: function(win, abrDoc, cm) {
-        // TODO: utiliser des constantes
-        var dirPath = app.getPath('temp') + '/Abricotine';
+        var dirPath = constants.path.tmp;
         shell.openItem(dirPath);
     },
 
     openAppDir: function(win, abrDoc, cm) {
-        // TODO: utiliser des constantes
-        var dirPath = __dirname;
+        var dirPath = constants.path.app;
         shell.openItem(dirPath);
     },
 
