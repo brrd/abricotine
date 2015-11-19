@@ -124,70 +124,18 @@ var commands = {
 
     /* Format */
 
-    italic: function(win, abrDoc, cm) {
-        cm.toggle("italic");
-    },
-
-    bold: function(win, abrDoc, cm) {
-        cm.toggle("bold");
-    },
-
-    strikethrough: function(win, abrDoc, cm) {
-        cm.toggle("strikethrough");
-    },
-
-    code: function(win, abrDoc, cm) {
-        cm.toggle("code");
-    },
-
-    ul: function(win, abrDoc, cm) {
-        cm.toggle("ul");
-    },
-
-    ol: function(win, abrDoc, cm) {
-        cm.toggle("ol");
-    },
-
-    todolist: function(win, abrDoc, cm) {
-        cm.toggle("todolist");
-    },
-
-    quote: function(win, abrDoc, cm) {
-        cm.toggle("quote");
-    },
-
-    h1: function(win, abrDoc, cm) {
-        cm.toggle("h1");
-    },
-
-    h2: function(win, abrDoc, cm) {
-        cm.toggle("h2");
-    },
-
-    h3: function(win, abrDoc, cm) {
-        cm.toggle("h3");
-    },
-
-    h4: function(win, abrDoc, cm) {
-        cm.toggle("h4");
-    },
-
-    h5: function(win, abrDoc, cm) {
-        cm.toggle("h5");
-    },
-
-    h6: function(win, abrDoc, cm) {
-        cm.toggle("h6");
+    format: function (win, abrDoc, cm, param) {
+        if (typeof param !== "undefined") {
+            cm.toggle(param);
+        }
     },
 
     /* Insert */
 
-    link: function(win, abrDoc, cm) {
-        cm.draw("link");
-    },
-
-    imageFromUrl: function(win, abrDoc, cm) {
-        cm.draw("image");
+    draw: function (win, abrDoc, cm, param) {
+        if (typeof param !== "undefined") {
+            cm.draw(param);
+        }
     },
 
     imageFromComputer: function(win, abrDoc, cm) {
@@ -196,22 +144,6 @@ var commands = {
 
     imagesImportAll: function(win, abrDoc, cm) {
         abrDoc.imageImport();
-    },
-
-    drawMath: function(win, abrDoc, cm) {
-        cm.draw("math");
-    },
-
-    hr: function(win, abrDoc, cm) {
-        cm.draw("hr");
-    },
-
-    codeblock: function (win, abrDoc, cm) {
-        cm.draw("codeblock");
-    },
-
-    anchor: function (win, abrDoc, cm) {
-        cm.draw("anchor");
     },
 
     /* Table */

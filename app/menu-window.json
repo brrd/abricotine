@@ -164,22 +164,26 @@
             {
                 "label": "Italic",
                 "accelerator": "CmdOrCtrl+I",
-                "command": "italic"
+                "command": "format",
+                "parameters": "italic"
             },
             {
                 "label": "Bold",
                 "accelerator": "CmdOrCtrl+B",
-                "command": "bold"
+                "command": "format",
+                "parameters": "bold"
             },
             {
                 "label": "Strikethrough",
                 "accelerator": "CmdOrCtrl+,",
-                "command": "strikethrough"
+                "command": "format",
+                "parameters": "strikethrough"
             },
             {
                 "label": "Code",
                 "accelerator": "CmdOrCtrl+.",
-                "command": "code"
+                "command": "format",
+                "parameters": "code"
             },
             {
                 "type": "separator"
@@ -187,32 +191,38 @@
             {
                 "label": "Heading 1",
                 "accelerator": "CmdOrCtrl+F1",
-                "command": "h1"
+                "command": "format",
+                "parameters": "h1"
             },
             {
                 "label": "Heading 2",
                 "accelerator": "CmdOrCtrl+F2",
-                "command": "h2"
+                "command": "format",
+                "parameters": "h2"
             },
             {
                 "label": "Heading 3",
                 "accelerator": "CmdOrCtrl+F3",
-                "command": "h3"
+                "command": "format",
+                "parameters": "h3"
             },
             {
                 "label": "Heading 4",
                 "accelerator": "CmdOrCtrl+F4",
-                "command": "h4"
+                "command": "format",
+                "parameters": "h4"
             },
             {
                 "label": "Heading 5",
                 "accelerator": "CmdOrCtrl+F5",
-                "command": "h5"
+                "command": "format",
+                "parameters": "h5"
             },
             {
                 "label": "Heading 6",
                 "accelerator": "CmdOrCtrl+F6",
-                "command": "h6"
+                "command": "format",
+                "parameters": "h6"
             },
             {
                 "type": "separator"
@@ -220,22 +230,26 @@
             {
                 "label": "Unordered list",
                 "accelerator": "CmdOrCtrl+Shift+L",
-                "command": "ul"
+                "command": "format",
+                "parameters": "ul"
             },
             {
                 "label": "Ordered list",
                 "accelerator": "CmdOrCtrl+Alt+Shift+L",
-                "command": "ol"
+                "command": "format",
+                "parameters": "ol"
             },
             {
                 "label": "Todo list",
                 "accelerator": "CmdOrCtrl+Shift+T",
-                "command": "todolist"
+                "command": "format",
+                "parameters": "todolist"
             },
             {
                 "label": "Quote",
                 "accelerator": "CmdOrCtrl+Q",
-                "command": "quote"
+                "command": "format",
+                "parameters": "quote"
             }
         ]
     },
@@ -252,7 +266,8 @@
                     },
                     {
                         "label": "Insert from URL",
-                        "command": "imageFromUrl"
+                        "command": "draw",
+                        "parameters": "image"
                     },
                     {
                         "type": "separator"
@@ -266,24 +281,29 @@
             {
                 "label": "Link",
                 "accelerator": "CmdOrCtrl+L",
-                "command": "link"
+                "command": "draw",
+                "parameters": "link"
             },
             {
                 "label": "Anchor",
-                "command": "anchor"
+                "command": "draw",
+                "parameters": "anchor"
             },
             {
                 "label": "Code block",
-                "command": "codeblock"
+                "command": "draw",
+                "parameters": "codeblock"
             },
             {
                 "label": "Math formula",
-                "command": "drawMath"
+                "command": "draw",
+                "parameters": "math"
             },
             {
                 "label": "Horizontal rule",
                 "accelerator": "CmdOrCtrl+R",
-                "command": "hr"
+                "command": "draw",
+                "parameters": "hr"
             }
         ]
     },
