@@ -2,7 +2,7 @@ var path = require("path"),
     isUrl = require("is-url"),
     parsePath = require("parse-filepath");
 
-function preview (cm, line, types) {
+function autopreview (cm, line, types) {
 
     function lineIsSelected (lineNumber) {
         // FIXME: doesnt work in case of multiple selection
@@ -95,13 +95,12 @@ function preview (cm, line, types) {
                     });
                 }
             },
-            // TODO: rename this in "todo"
-            checkbox: {
+            todolist: {
                 regex: /^(\*|-|\+)\s+\[(\s*|x)?\]\s+/g,
                 createElement: function (match) {
                     var isChecked = match[2] === "x",
                         checkedClass = isChecked ? " checked" : "",
-                        $element = $("<span class='autopreview-checkbox checkbox" + checkedClass +"'></span>");
+                        $element = $("<span class='autopreview-todolist todolist" + checkedClass +"'></span>");
                     return $element.get(0);
                 },
                 marker: {
@@ -246,7 +245,7 @@ function preview (cm, line, types) {
 module.exports = function (CodeMirror) {
     CodeMirror.defineOption("autopreviewSecurity", true);
     CodeMirror.defineOption("autopreviewAllowedDomains", []);
-    CodeMirror.prototype.preview = function (line, types) {
-        return preview (this, line, types);
+    CodeMirror.prototype.autopreview = function (line, types) {
+        return autopreview (this, line, types);
     };
 };

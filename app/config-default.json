@@ -1,12 +1,12 @@
 {
-    "preview": {
+    "autopreview": {
         "image": true,
-        "checkbox": true,
+        "todolist": true,
         "iframe": true,
         "anchor": true,
         "math": true
     },
-    "preview-security": true,
+    "autopreview-security": true,
     "startup-commands": {
         "showBlocks": false,
         "showHiddenCharacters": true,

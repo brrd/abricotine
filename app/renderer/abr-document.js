@@ -44,13 +44,13 @@ function AbrDocument () {
             }
         });
 
-        // Preview and spellchecker init (depend on config)
+        // Autopreview and spellchecker init (depend on config)
         that.getConfig(undefined, function (config) {
-            // Preview
-            that.cm.setOption("autopreviewAllowedDomains", config["preview-domains"]);
-            that.cm.setOption("autopreviewSecurity", config["preview-security"]);
-            that.previewTypes = config.preview;
-            that.preview();
+            // Autopreview
+            that.cm.setOption("autopreviewAllowedDomains", config["autopreview-domains"]);
+            that.cm.setOption("autopreviewSecurity", config["autopreview-security"]);
+            that.autopreviewTypes = config.autopreview;
+            that.autopreview();
             // Spellchecker
             if (config.spellchecker.active) {
                 that.setDictionary(config.spellchecker.language, config.spellchecker.src);
@@ -69,7 +69,7 @@ function AbrDocument () {
         });
 
         that.cm.on("cursorActivity", function (cm) {
-            that.preview();
+            that.autopreview();
         });
 
         that.cm.on("drop", function (cm, event) {
@@ -322,34 +322,33 @@ AbrDocument.prototype = {
         });
     },
 
-    // Inline Preview
-    // TODO: harmo nom autopreview
-    preview: function (types) {
+    // Inline autopreview
+    autopreview: function (types) {
         var cm = this.cm;
-        types = types || this.previewTypes;
+        types = types || this.autopreviewTypes;
         cm.doc.eachLine( function (line) {
-            cm.preview(line, types);
+            cm.autopreview(line, types);
         });
     },
 
-    togglePreview: function (type) {
-        var flag = this.previewTypes[type];
-        this.previewTypes[type] = !flag;
+    toggleAutopreview: function (type) {
+        var flag = this.autopreviewTypes[type];
+        this.autopreviewTypes[type] = !flag;
         if (flag) {
             // Remove markers
             var selector = ".autopreview-" + type;
             this.cm.clearMarkers(selector);
         } else {
-            // Or create markers for this preview
-            var previewConfig = {};
-            previewConfig[type] = true;
-            this.preview(previewConfig);
+            // Or create markers for this autopreview
+            var autopreviewConfig = {};
+            autopreviewConfig[type] = true;
+            this.autopreview(autopreviewConfig);
         }
         // The only reason to keep this config updated in main process is to save it as user preferences
-        this.setConfig("preview:" + type, !flag);
+        this.setConfig("autopreview:" + type, !flag);
     },
 
-    togglePreviewSecurity: function (flag) {
+    toggleAutopreviewSecurity: function (flag) {
         if (typeof flag !== "boolean") {
             flag = this.cm.getOption("autopreviewSecurity");
         }
@@ -358,9 +357,9 @@ AbrDocument.prototype = {
         if (!flag) {
             this.cm.clearMarkers(".autopreview-iframe");
         }
-        // Update iframe preview
-        this.preview({ iframe: true });
-        this.setConfig("preview-security", !flag);
+        // Update iframe autopreview
+        this.autopreview({ iframe: true });
+        this.setConfig("autopreview-security", !flag);
     },
 
     // Spellchecker

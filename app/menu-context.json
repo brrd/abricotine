@@ -25,11 +25,11 @@
         "command": "paste"
     },
     {
-    "type": "separator"
+        "type": "separator"
     },
     {
-    "label": "Select all",
-    "accelerator": "CmdOrCtrl+A",
-    "command": "selectAll"
+        "label": "Select all",
+        "accelerator": "CmdOrCtrl+A",
+        "command": "selectAll"
     }
 ]

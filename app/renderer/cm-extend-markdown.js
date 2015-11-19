@@ -36,11 +36,11 @@ function getState (cm, pos) {
             case 'variable-2':
                 text = cm.getLine(pos.line);
                 if (/^\s*\d+\.\s/.test(text)) {
-                    ret['ordered-list'] = true;
+                    ret.ol = true;
                 } else if (/^\s*(\*|\-|\+)\s+\[x?\]\s/.test(text)) {
-                    ret['todo-list'] = true;
+                    ret.todolist = true;
                 } else {
-                    ret['unordered-list'] = true;
+                    ret.ul = true;
                 }
                 break;
             case 'header-1':
@@ -140,8 +140,8 @@ function setLine (line, text, cm) {
 *   toggle('bold');
 *   toggle('italic');
 *   toggle('quote');
-*   toggle('unordered-list');
-*   toggle('ordered-list');
+*   toggle('ul');
+*   toggle('ol');
 *   toggle('fullscreen');
 *
 **/
@@ -153,8 +153,8 @@ function toggle (type) {
     * @status: enabled
     * @example
     *   toggle('quote');
-    *   toggle('ordered-list');
-    *   toggle('unordered-list');
+    *   toggle('ol');
+    *   toggle('ul');
     *
     **/
     function toggleBlock(type, cm) {
@@ -168,15 +168,15 @@ function toggle (type) {
                 re: /^(\s*)\>\s+/,
                 prepend: '> '
             },
-            'unordered-list': {
+            'ul': {
                 re: /^(\s*)(\*|\-|\+)\s+/,
                 prepend: '* '
             },
-            'ordered-list': {
+            'ol': {
                 re: /^(\s*)\d+\.\s+/,
                 prepend: '. '
             },
-            'todo-list': {
+            'todolist': {
                 re: /^(\s*)(\*|\-|\+)\s+\[x?\]\s+/,
                 prepend: '* [] '
             },
@@ -219,7 +219,7 @@ function toggle (type) {
             if (stat[type]) {
                 text = text.replace(style.re, '$1'); // FIXME: $1 === " " ???
             } else {
-                if (type === 'ordered-list') {
+                if (type === 'ol') {
                     // count how many line we want to add order.
                     if (gap !== 0) {
                         text = count + style.prepend + text;

@@ -47,7 +47,6 @@ var commands = {
     },
 
     copy: function(win, abrDoc, cm) {
-        // TODO: see new electron menuItem API for native operations
         document.execCommand("copy");
     },
 
@@ -62,12 +61,10 @@ var commands = {
     },
 
     cut: function(win, abrDoc, cm) {
-        // TODO: see new electron menuItem API for native operations
         document.execCommand("cut");
     },
 
     paste: function(win, abrDoc, cm) {
-        // TODO: see new electron menuItem API for native operations
         document.execCommand("paste");
     },
 
@@ -144,16 +141,16 @@ var commands = {
         cm.toggle("code");
     },
 
-    ul: function(win, abrDoc, cm) { // TODO: incohérence de nommage
-        cm.toggle("unordered-list");
+    ul: function(win, abrDoc, cm) {
+        cm.toggle("ul");
     },
 
-    ol: function(win, abrDoc, cm) { // TODO: incohérence de nommage
-        cm.toggle("ordered-list");
+    ol: function(win, abrDoc, cm) {
+        cm.toggle("ol");
     },
 
-    todo: function(win, abrDoc, cm) { // TODO: incohérence de nommage
-        cm.toggle("todo-list");
+    todolist: function(win, abrDoc, cm) {
+        cm.toggle("todolist");
     },
 
     quote: function(win, abrDoc, cm) {
@@ -302,12 +299,12 @@ var commands = {
         abrDoc.setConfig("startup-commands:showTocPane", flag);
     },
 
-    togglePreview: function(win, abrDoc, cm, param) {
-        abrDoc.togglePreview(param);
+    toggleAutopreview: function(win, abrDoc, cm, param) {
+        abrDoc.toggleAutopreview(param);
     },
 
-    togglePreviewSecurity: function (win, abrDoc, cm, param) {
-        abrDoc.togglePreviewSecurity(param);
+    toggleAutopreviewSecurity: function (win, abrDoc, cm, param) {
+        abrDoc.toggleAutopreviewSecurity(param);
     },
 
     toggleFullscreen: function(win, abrDoc, cm, flag) {

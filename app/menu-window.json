@@ -230,7 +230,7 @@
             {
                 "label": "Todo list",
                 "accelerator": "CmdOrCtrl+Shift+T",
-                "command": "todo"
+                "command": "todolist"
             },
             {
                 "label": "Quote",
@@ -495,51 +495,51 @@
                 "type": "separator"
             },
             {
-                "label": "Preview",
+                "label": "Auto Preview",
                 "submenu": [
                     {
                         "label": "Images",
-                        "command": "togglePreview",
+                        "command": "toggleAutopreview",
                         "parameters": "image",
                         "type": "checkbox",
-                        "checked": "preview:image"
+                        "checked": "autopreview:image"
                     },
                     {
-                        "label": "TODOs",
-                        "command": "togglePreview",
-                        "parameters": "todo",
+                        "label": "Todo lists",
+                        "command": "toggleAutopreview",
+                        "parameters": "todolist",
                         "type": "checkbox",
-                        "checked": "preview:checkbox"
+                        "checked": "autopreview:todolist"
                     },
                     {
                         "label": "Anchors",
-                        "command": "togglePreview",
+                        "command": "toggleAutopreview",
                         "parameters": "anchor",
                         "type": "checkbox",
-                        "checked": "preview:anchor"
+                        "checked": "autopreview:anchor"
                     },
                     {
                         "label": "Math",
-                        "command": "togglePreview",
+                        "command": "toggleAutopreview",
                         "parameters": "math",
                         "type": "checkbox",
-                        "checked": "preview:math"
+                        "checked": "autopreview:math"
                     },
                     {
                         "label": "Iframes",
-                        "command": "togglePreview",
+                        "command": "toggleAutopreview",
                         "parameters": "iframe",
                         "type": "checkbox",
-                        "checked": "preview:iframe"
+                        "checked": "autopreview:iframe"
                     },
                     {
                         "type": "separator"
                     },
                     {
                         "label": "Filter unallowed content",
-                        "command": "togglePreviewSecurity",
+                        "command": "toggleAutopreviewSecurity",
                         "type": "checkbox",
-                        "checked": "preview-security"
+                        "checked": "autopreview-security"
                     }
                 ]
             },
