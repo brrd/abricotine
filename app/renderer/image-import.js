@@ -1,6 +1,6 @@
 // Importe toutes les images.
 // Deux façons d'utiliser : auto on save ou ponctuellement
-var dialogs = require.main.require("./js/dialogs.js"),
+var dialogs = require.main.require("./dialogs.js"),
     files = require.main.require("../files.js"),
     isUrl = require("is-url"),
     pathModule = require("path"),

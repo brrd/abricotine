@@ -1,6 +1,6 @@
 var remote = require("remote"),
     app = remote.require("app"),
-    dialogs = require.main.require("./js/dialogs.js"),
+    dialogs = require.main.require("./dialogs.js"),
     files = require.main.require("../files.js"),
     kramed = require("kramed"),
     parsePath = require("parse-filepath");

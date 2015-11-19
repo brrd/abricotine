@@ -2,7 +2,7 @@ var utils = require.main.require("../utils.js");
 
 function extendCodeMirror () {
     return new Promise ( function (resolve, reject) {
-        var pattern = "js/cm-extend-*.js",
+        var pattern = "cm-extend-*.js",
             callbackSingle = function (mod, modPath) {
                 if (typeof mod === "function") {
                     mod(CodeMirror);
