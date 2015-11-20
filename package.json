@@ -16,6 +16,8 @@
     "editor"
   ],
   "scripts": {
+    "postinstall": "electron-rebuild && bower install",
+    "start": "electron .",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": {
@@ -42,6 +44,7 @@
     "spellchecker": "^3.1.3"
   },
   "devDependencies": {
+    "bower": "^1.6.5",
     "electron-rebuild": "^1.0.2"
   }
 }
