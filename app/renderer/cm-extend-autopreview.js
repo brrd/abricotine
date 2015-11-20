@@ -101,6 +101,9 @@ function autopreview (cm, line, types) {
                             textMarker.clear();
                         }
                     });
+                    element.addEventListener("load", function() {
+                        textMarker.changed();
+                    }, false);
                 }
             },
             todolist: {
