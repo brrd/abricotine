@@ -1,11 +1,11 @@
 {
-  "name": "abricotine",
-  "version": "0.0.0",
+  "name": "Abricotine",
+  "version": "0.1.0",
   "authors": [
-    "brrd"
+    "Thomas Brouard"
   ],
-  "description": "Abricotine text editor",
-  "main": "index.html",
+  "description": "A markdown editor for desktop",
+  "main": "app/index.js",
   "moduleType": [
     "amd",
     "es6",

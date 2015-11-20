@@ -1,3 +1,9 @@
+/*
+*   Abricotine - Markdown Editor
+*   Copyright (c) 2015 Thomas Brouard
+*   Licensed under GNU-GPLv3 <http://www.gnu.org/licenses/gpl.html>
+*/
+
 var app = require("app"),
     appPath = app.getAppPath(),
     pkg = require.main.require("../package.json"),
@@ -7,6 +13,7 @@ var app = require("app"),
 module.exports = {
     appName: "Abricotine",
     appVersion: pkg.version,
+    homepageURL: pkg.repository.url,
     path: {
         app: appPath,
         icon: appPath + "/abricotine.png",

@@ -1,3 +1,11 @@
+/*
+*   Abricotine - Markdown Editor
+*   Copyright (c) 2015 Thomas Brouard
+*   Licensed under GNU-GPLv3 <http://www.gnu.org/licenses/gpl.html>
+*/
+
+// Spellchecker for CodeMirror
+
 function initSpellcheck (CodeMirror) {
     // Create overlay
     // Inspiration: https://github.com/NextStepWebs/codemirror-spell-checker/blob/master/src/js/spell-checker.js

@@ -1,16 +1,14 @@
 /*
-    Markdown functions for CodeMirror
-    ==========
-    Inspiration : https://github.com/airpub/ninja
+*   Abricotine - Markdown Editor
+*   Copyright (c) 2015 Thomas Brouard
+*   Licensed under GNU-GPLv3 <http://www.gnu.org/licenses/gpl.html>
 */
 
+// Markdown functions for CodeMirror
+// Inspiration: https://github.com/airpub/ninja
 // FIXME: doesnt work in case of multiple selection
 
-/**
-*
-* The state of CodeMirror at the given position.
-*
-*/
+// The state of CodeMirror at the given position.
 function getState (cm, pos) {
     pos = pos || cm.getCursor('start');
     var stat = cm.getTokenAt(pos);
@@ -83,13 +81,7 @@ function getState (cm, pos) {
     return ret;
 }
 
-/**
-*
-* inject text into current Pos
-*
-* @param {[Array]} [texts]
-*
-**/
+// inject text into current Pos
 function inject (cm, texts, triggered) {
     if (!cm) {
         return;
@@ -131,32 +123,9 @@ function setLine (line, text, cm) {
     cm.replaceRange(text, lineStart, lineEnd);
 }
 
-/**
-*
-* Toggle whatever you like
-*
-* @status: enabled
-* @example
-*   toggle('bold');
-*   toggle('italic');
-*   toggle('quote');
-*   toggle('ul');
-*   toggle('ol');
-*   toggle('fullscreen');
-*
-**/
+// Toggle whatever you like
 function toggle (type) {
-    /**
-    *
-    * Toggle a line to selected block style
-    *
-    * @status: enabled
-    * @example
-    *   toggle('quote');
-    *   toggle('ol');
-    *   toggle('ul');
-    *
-    **/
+    // Toggle a line to selected block style
     function toggleBlock(type, cm) {
         var stat = getState(cm);
         var startPoint = cm.getCursor('start');
@@ -236,16 +205,7 @@ function toggle (type) {
         cm.focus();
     }
 
-    /**
-    *
-    * Toggle a wrappered text to selected style.
-    *
-    * @status: enabled
-    * @example
-    *   toggleText('bold') => fn(cm);
-    *   toggleText('italic') => fn(cm);
-    *
-    **/
+    // Toggle a wrappered text to selected style
     function toggleText(type) {
 
         function toggleTextByStyle(cm) {
@@ -337,15 +297,7 @@ function toggle (type) {
     return toggleWhatever;
 }
 
-/**
-*
-* Draw something, and wrap current cursor.
-*
-* @example
-*   draw('link'); => [<cursor>](http://)
-*   draw('image'); => ![<cursor>](http://)
-*
-**/
+// Draw something, and wrap current cursor
 function draw(type, url) {
     function drawWhatever(cm) {
         var stat = getState(cm);

@@ -1,3 +1,9 @@
+/*
+*   Abricotine - Markdown Editor
+*   Copyright (c) 2015 Thomas Brouard
+*   Licensed under GNU-GPLv3 <http://www.gnu.org/licenses/gpl.html>
+*/
+
 var remote = require("remote"),
     AbrPane = require.main.require("./abr-pane.js"),
     cmInit = require.main.require("./cm-init.js"),

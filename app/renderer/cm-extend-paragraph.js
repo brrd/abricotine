@@ -1,3 +1,10 @@
+/*
+*   Abricotine - Markdown Editor
+*   Copyright (c) 2015 Thomas Brouard
+*   Licensed under GNU-GPLv3 <http://www.gnu.org/licenses/gpl.html>
+*/
+
+// Paragraph functions for CodeMirror
 
 // Returns false if line is blank or a {from: lineNumber, to: lineNumber} object otherwise
 function getParagraphCoord (posOrLine, cm) {

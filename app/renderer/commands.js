@@ -1,3 +1,9 @@
+/*
+*   Abricotine - Markdown Editor
+*   Copyright (c) 2015 Thomas Brouard
+*   Licensed under GNU-GPLv3 <http://www.gnu.org/licenses/gpl.html>
+*/
+
 var remote = require("remote"),
     clipboard = require('clipboard'),
     constants = remote.require("./constants.js"),
@@ -285,6 +291,11 @@ var commands = {
 
     about: function (win, abrDoc, cm) {
         abrDoc.about();
+    },
+
+    homepage: function (win, abrDoc, cm) {
+        var homepageURL = constants.homepageURL;
+        shell.openExternal(homepageURL);
     }
 };
 

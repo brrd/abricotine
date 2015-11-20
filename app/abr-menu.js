@@ -1,3 +1,9 @@
+/*
+*   Abricotine - Markdown Editor
+*   Copyright (c) 2015 Thomas Brouard
+*   Licensed under GNU-GPLv3 <http://www.gnu.org/licenses/gpl.html>
+*/
+
 var BrowserWindow = require("browser-window"),
     constants = require.main.require("./constants"),
     files  = require.main.require("./files"),

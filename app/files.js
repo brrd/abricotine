@@ -1,4 +1,8 @@
-// Can be called by both browser and renderer
+/*
+*   Abricotine - Markdown Editor
+*   Copyright (c) 2015 Thomas Brouard
+*   Licensed under GNU-GPLv3 <http://www.gnu.org/licenses/gpl.html>
+*/
 
 var fs = require("fs"),
     isUrl = require("is-url"),

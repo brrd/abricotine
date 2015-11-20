@@ -1,3 +1,9 @@
+/*
+*   Abricotine - Markdown Editor
+*   Copyright (c) 2015 Thomas Brouard
+*   Licensed under GNU-GPLv3 <http://www.gnu.org/licenses/gpl.html>
+*/
+
 var remote = require("remote"),
     BrowserWindow = remote.require("browser-window"),
     constants = remote.require("./constants.js"),
@@ -26,8 +32,8 @@ var appDialogs = {
         win = getWindow(win);
         var image = NativeImage.createFromPath(constants.path.icon);
         dialog.showMessageBox(win, {
-            title: "Abricotine",
-            message: "Abricotine v. " + constants.appVersion + "\nLICENCE", // TODO: licence informations
+            title: "About",
+            message: "ABRICOTINE - MARKDOWN EDITOR (v. " + constants.appVersion + ")\n\nCopyright (c) 2015 Thomas Brouard\n\nThis program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.\n\nThis program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.\n\nYou should have received a copy of the GNU General Public License along with this program. If not, see <http://www.gnu.org/licenses/>.",
             buttons: ['OK'],
             icon: image
         });

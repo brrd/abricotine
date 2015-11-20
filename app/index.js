@@ -1,3 +1,9 @@
+/*
+*   Abricotine - Markdown Editor
+*   Copyright (c) 2015 Thomas Brouard
+*   Licensed under GNU-GPLv3 <http://www.gnu.org/licenses/gpl.html>
+*/
+
 var AbrApplication = require.main.require("./abr-application.js"),
     app = require("app"),
     defaultUserConfig = require.main.require("./config-user-default.json"),

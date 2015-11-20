@@ -1,4 +1,10 @@
-// Tables
+/*
+*   Abricotine - Markdown Editor
+*   Copyright (c) 2015 Thomas Brouard
+*   Licensed under GNU-GPLv3 <http://www.gnu.org/licenses/gpl.html>
+*/
+
+// Celldown.js bindings for CodeMirror
 
 var celldown = require("celldown.js");
 

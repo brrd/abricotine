@@ -1,4 +1,10 @@
-// The theme loader compiles less CSS. Right now it is used once at startup but it could be extended later in the future to manage multiple themes.
+/*
+*   Abricotine - Markdown Editor
+*   Copyright (c) 2015 Thomas Brouard
+*   Licensed under GNU-GPLv3 <http://www.gnu.org/licenses/gpl.html>
+*/
+
+// NOTE: The theme loader compiles less CSS. Right now it is used once at startup but it could be extended later in the future to manage multiple themes.
 
 var app = require("app"),
     constants = require.main.require("./constants.js"),

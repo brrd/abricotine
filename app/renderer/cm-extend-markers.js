@@ -1,3 +1,11 @@
+/*
+*   Abricotine - Markdown Editor
+*   Copyright (c) 2015 Thomas Brouard
+*   Licensed under GNU-GPLv3 <http://www.gnu.org/licenses/gpl.html>
+*/
+
+// Markers management functions for CodeMirror
+
 function getMarkers (cm, selector) {
     var doc = cm.doc,
         markers = doc.getAllMarks(),
