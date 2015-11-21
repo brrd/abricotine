@@ -16,7 +16,8 @@ module.exports = {
     homepageURL: pkg.repository.url,
     path: {
         app: appPath,
-        icon: appPath + "/abricotine.png",
+        icon: appPath + "/icons/abricotine.png",
+        bigIcon: appPath + "/icons/abricotine@2x.png",
         tmp: tmpPath,
         tmpThemes: tmpPath + "/themes",
         userConfig: userDataPath + "/config.json",

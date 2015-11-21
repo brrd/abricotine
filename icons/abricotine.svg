@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="64px"
+   height="64px"
+   id="svg4151"
+   version="1.1"
+   inkscape:version="0.48.4 r9939"
+   sodipodi:docname="abricotine-64-4.svg"
+   inkscape:export-filename="/home/thomas/Images/abricotine-logo/2/abricotine-64-4.png"
+   inkscape:export-xdpi="90"
+   inkscape:export-ydpi="90">
+  <defs
+     id="defs4153">
+    <linearGradient
+       id="linearGradient3959">
+      <stop
+         style="stop-color:#ff6600;stop-opacity:1;"
+         offset="0"
+         id="stop3961" />
+      <stop
+         style="stop-color:#ff8737;stop-opacity:1;"
+         offset="1"
+         id="stop3963" />
+    </linearGradient>
+    <filter
+       inkscape:collect="always"
+       id="filter3947">
+      <feGaussianBlur
+         inkscape:collect="always"
+         stdDeviation="1.2102465"
+         id="feGaussianBlur3949" />
+    </filter>
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient3959"
+       id="linearGradient3965"
+       x1="33.584156"
+       y1="63.641247"
+       x2="32.187183"
+       y2="-0.3519195"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(0.96551724,0,0,0.96551724,0.93104301,0.25176766)" />
+  </defs>
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="4"
+     inkscape:cx="13.535047"
+     inkscape:cy="52.99307"
+     inkscape:current-layer="layer1"
+     showgrid="false"
+     inkscape:document-units="px"
+     inkscape:grid-bbox="true"
+     inkscape:window-width="1366"
+     inkscape:window-height="709"
+     inkscape:window-x="0"
+     inkscape:window-y="26"
+     inkscape:window-maximized="1"
+     showguides="true"
+     inkscape:guide-bbox="true">
+    <inkscape:grid
+       type="xygrid"
+       id="grid3844" />
+  </sodipodi:namedview>
+  <metadata
+     id="metadata4156">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     id="layer1"
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer">
+    <rect
+       style="fill:url(#linearGradient3965);fill-opacity:1;stroke:none"
+       id="rect3732-9-2-2-6-6-4-6-5-0-7"
+       width="56"
+       height="56"
+       x="4"
+       y="4"
+       rx="12"
+       inkscape:export-filename="/home/thomas/Documents/abricotine.png"
+       inkscape:export-xdpi="88.620003"
+       inkscape:export-ydpi="88.620003" />
+    <g
+       id="g3883-0"
+       transform="matrix(1.1299092,0,0,1.1299092,81.219804,-20.931593)"
+       style="fill:#d45500;fill-opacity:1;stroke:none;filter:url(#filter3947)">
+      <rect
+         transform="matrix(0.86602641,-0.49999826,0,1,0,0)"
+         y="5.9341817"
+         x="-45.696789"
+         height="9"
+         width="4.6187968"
+         id="rect3789-7"
+         style="fill:#d45500;fill-opacity:1;fill-rule:nonzero;stroke:none" />
+      <rect
+         transform="matrix(0.86602641,-0.49999826,0,1,0,0)"
+         y="21.811039"
+         x="-45.599209"
+         height="21"
+         width="4.6187968"
+         id="rect3791-77"
+         style="fill:#d45500;fill-opacity:1;fill-rule:nonzero;stroke:none" />
+      <rect
+         transform="matrix(-0.8660244,-0.50000174,0.8660254,-0.5,0,0)"
+         y="-87.89035"
+         x="-21.307566"
+         height="9"
+         width="4.6187968"
+         id="rect3789-6-4"
+         style="fill:#d45500;fill-opacity:1;fill-rule:nonzero;stroke:none" />
+      <rect
+         transform="matrix(0.8660244,0.50000174,-0.8660254,0.5,0,0)"
+         y="51.265236"
+         x="16.057619"
+         height="21"
+         width="4.6187968"
+         id="rect3791-7-6"
+         style="fill:#d45500;fill-opacity:1;fill-rule:nonzero;stroke:none" />
+      <rect
+         transform="matrix(-2.009992e-6,1,-0.8660254,-0.5,0,0)"
+         y="30.817549"
+         x="73.020905"
+         height="9"
+         width="4.6187968"
+         id="rect3789-6-9-6"
+         style="fill:#d45500;fill-opacity:1;fill-rule:nonzero;stroke:none" />
+      <rect
+         transform="matrix(-2.009992e-6,1,-0.8660254,-0.5,0,0)"
+         y="46.728584"
+         x="73.246056"
+         height="21"
+         width="4.6187968"
+         id="rect3791-7-1-7"
+         style="fill:#d45500;fill-opacity:1;fill-rule:nonzero;stroke:none" />
+    </g>
+    <g
+       id="g3883"
+       transform="matrix(1.1299092,0,0,1.1299092,80.484708,-20.500063)"
+       style="fill:#ffffff;fill-opacity:1;stroke:#ffffff;stroke-opacity:1;stroke-width:1.17708573;stroke-miterlimit:4;stroke-dasharray:none">
+      <rect
+         transform="matrix(0.86602641,-0.49999826,0,1,0,0)"
+         y="5.9341817"
+         x="-45.696789"
+         height="9"
+         width="4.6187968"
+         id="rect3789"
+         style="fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:#ffffff;stroke-opacity:1;stroke-width:1.2648602;stroke-miterlimit:4;stroke-dasharray:none" />
+      <rect
+         transform="matrix(0.86602641,-0.49999826,0,1,0,0)"
+         y="21.811039"
+         x="-45.599209"
+         height="21"
+         width="4.6187968"
+         id="rect3791"
+         style="fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:#ffffff;stroke-opacity:1;stroke-width:1.2648602;stroke-miterlimit:4;stroke-dasharray:none" />
+      <rect
+         transform="matrix(-0.8660244,-0.50000174,0.8660254,-0.5,0,0)"
+         y="-87.89035"
+         x="-21.307566"
+         height="9"
+         width="4.6187968"
+         id="rect3789-6"
+         style="fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:#ffffff;stroke-opacity:1;stroke-width:1.2648602;stroke-miterlimit:4;stroke-dasharray:none" />
+      <rect
+         transform="matrix(0.8660244,0.50000174,-0.8660254,0.5,0,0)"
+         y="51.265236"
+         x="16.057619"
+         height="21"
+         width="4.6187968"
+         id="rect3791-7"
+         style="fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:#ffffff;stroke-opacity:1;stroke-width:1.2648602;stroke-miterlimit:4;stroke-dasharray:none" />
+      <rect
+         transform="matrix(-2.009992e-6,1,-0.8660254,-0.5,0,0)"
+         y="30.817549"
+         x="73.020905"
+         height="9"
+         width="4.6187968"
+         id="rect3789-6-9"
+         style="fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:#ffffff;stroke-opacity:1;stroke-width:1.26486021;stroke-miterlimit:4;stroke-dasharray:none" />
+      <rect
+         transform="matrix(-2.009992e-6,1,-0.8660254,-0.5,0,0)"
+         y="46.728584"
+         x="73.246056"
+         height="21"
+         width="4.6187968"
+         id="rect3791-7-1"
+         style="fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:#ffffff;stroke-opacity:1;stroke-width:1.26486021;stroke-miterlimit:4;stroke-dasharray:none" />
+    </g>
+  </g>
+</svg>
