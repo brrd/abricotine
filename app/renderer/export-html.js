@@ -5,11 +5,12 @@
 */
 
 var remote = require("remote"),
-    app = remote.require("app"),
+    constants = remote.require("./constants"),
     dialogs = require.main.require("./dialogs.js"),
     files = remote.require("./files.js"),
     kramed = require("kramed"),
-    parsePath = require("parse-filepath");
+    parsePath = require("parse-filepath"),
+    pathModule = require("path");
 
 function getDocTitle (data) {
     var firstLine = /^#+(.*)$/m,
@@ -20,7 +21,7 @@ function getDocTitle (data) {
 
 function exportHtml (abrDoc, templatePath, destPath, callback) {
     // Default template if undefined
-    templatePath = templatePath || app.getAppPath() + "/app/templates/default";
+    templatePath = templatePath || pathModule.join(constants.path.app, "/app/templates/default");
     // Get editor content
     var markdown = abrDoc.getData();
     // Ask for destination path if undefined
@@ -40,9 +41,8 @@ function exportHtml (abrDoc, templatePath, destPath, callback) {
 
     // Markdown to HTML conversion
     var htmlContent = kramed(markdown);
-
     // Process and save HTML
-    files.readFile(templatePath + "/template.html", function (template) {
+    files.readFile(pathModule.join(templatePath, "/template.html"), function (template) {
         // Process templating
         var page = template.replace(/\$DOCUMENT_TITLE/g, getDocTitle(markdown))
                            .replace(/\$DOCUMENT_CONTENT/g, htmlContent)
@@ -55,7 +55,7 @@ function exportHtml (abrDoc, templatePath, destPath, callback) {
                 }
                 return;
             }
-            var assetsPath = templatePath + "/assets",
+            var assetsPath = pathModule.join(templatePath, "/assets"),
                 destAssetsPath = destPath + "_files";
             // Copy assets and run callback if exists
             files.copyLocalDir(assetsPath, destAssetsPath, function () {

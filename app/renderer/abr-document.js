@@ -15,6 +15,7 @@ var remote = require("remote"),
     exportHtml = require.main.require("./export-html.js"),
     files = remote.require("./files.js"),
     parsePath = require("parse-filepath"),
+    pathModule = require("path"),
     shell = require("shell"),
     spellchecker = require('spellchecker');
 
@@ -278,7 +279,7 @@ AbrDocument.prototype = {
     setTheme: function (themeName) {
         themeName = themeName || "abricotine";
         var tmpThemesPath = constants.path.tmpThemes,
-            path = tmpThemesPath + "/" + themeName + ".css";
+            path = pathModule.join(tmpThemesPath, "/" + themeName + ".css");
         $("#theme").attr("href", path);
     },
 
@@ -310,7 +311,7 @@ AbrDocument.prototype = {
 
     viewInBrowser: function (forceNewPath) {
         if (forceNewPath === true || !this.tmpPreviewPath) {
-            this.tmpPreviewPath = constants.path.tmp + "/" + Date.now() + "/preview.html";
+            this.tmpPreviewPath = pathModule.join(constants.path.tmp, "/" + Date.now(), "/preview.html");
         }
         var that = this,
             filePath = this.tmpPreviewPath;

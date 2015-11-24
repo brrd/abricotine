@@ -9,11 +9,12 @@
 var app = require("app"),
     constants = require.main.require("./constants.js"),
     files = require("./files.js"),
-    less = require("less");
+    less = require("less"),
+    pathModule = require("path");
 
 var appPath = app.getAppPath(),
-    lessPath = appPath + "/app/less",
-    themesPath = lessPath + "/themes",
+    lessPath = pathModule.join(appPath, "/app/less"),
+    themesPath = pathModule.join(lessPath, "/themes"),
     tmpThemesPath = constants.path.tmpThemes;
 
 var themeLoader = {
@@ -21,8 +22,8 @@ var themeLoader = {
     // Load theme and execute callback when done
     load: function (themeName, callback) {
         themeName = themeName || "abricotine";
-        var inputPath = themesPath + "/" + themeName + ".less",
-            outputPath = tmpThemesPath + "/" + themeName+ ".css";
+        var inputPath = pathModule.join(themesPath, "/" + themeName + ".less"),
+            outputPath = pathModule.join(tmpThemesPath, "/" + themeName+ ".css");
         files.readFile(inputPath, function (data) {
             var lessOptions = {
                 paths: [lessPath]

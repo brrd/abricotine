@@ -6,9 +6,10 @@
 
 var app = require("app"),
     appPath = app.getAppPath(),
+    pathModule = require("path"),
     pkg = require.main.require("../package.json"),
-    userDataPath = app.getPath("userData") + "/app",
-    tmpPath = app.getPath("temp") + "/Abricotine";
+    userDataPath = pathModule.join(app.getPath("userData"), "/app"),
+    tmpPath = pathModule.join(app.getPath("temp"), "/Abricotine");
 
 module.exports = {
     appName: "Abricotine",
@@ -16,12 +17,12 @@ module.exports = {
     homepageURL: pkg.repository.url,
     path: {
         app: appPath,
-        icon: appPath + "/icons/abricotine.png",
-        bigIcon: appPath + "/icons/abricotine@2x.png",
+        icon: pathModule.join(appPath, "/icons/abricotine.png"),
+        bigIcon: pathModule.join(appPath, "/icons/abricotine@2x.png"),
         tmp: tmpPath,
-        tmpThemes: tmpPath + "/themes",
-        userConfig: userDataPath + "/config.json",
+        tmpThemes: pathModule.join(tmpPath, "/themes"),
+        userConfig: pathModule.join(userDataPath, "/config.json"),
         userData: userDataPath,
-        window: appPath + "/app/renderer/index.html"
+        window: pathModule.join(appPath, "/app/renderer/index.html")
     }
 };

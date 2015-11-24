@@ -6,7 +6,8 @@
 
 var remote = require("remote"),
     constants = remote.require("./constants.js"),
-    glob = require("glob");
+    glob = require("glob"),
+    pathModule = require("path");
 
 // pattern is glob pattern. Due to node require scope limitations, it must be the full path from app/.
 // options is glob options
@@ -30,7 +31,7 @@ function batchRequire (cwd, pattern, cbSingle, cbAll) {
                 });
             };
         for(var i=0; i<files.length; i++){
-            modPath = "./" + files[i];
+            modPath = pathModule.join(__dirname, files[i]);
             promises.push(getAPromise(modPath, cbSingle));
         }
         Promise.all(promises).then(cbAll);
@@ -39,7 +40,7 @@ function batchRequire (cwd, pattern, cbSingle, cbAll) {
 
 function extendCodeMirror () {
     return new Promise ( function (resolve, reject) {
-        var cwd = constants.path.app + "/app/renderer/",
+        var cwd = pathModule.join(constants.path.app, "/app/renderer/"),
             pattern = "cm-extend-*.js",
             callbackSingle = function (mod, modPath) {
                 if (typeof mod === "function") {
