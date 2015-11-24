@@ -16,6 +16,7 @@
     "editor"
   ],
   "scripts": {
+    "packager": "node scripts/packager.js",
     "postinstall": "electron-rebuild && bower install",
     "start": "electron .",
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -45,6 +46,9 @@
   },
   "devDependencies": {
     "bower": "^1.6.5",
-    "electron-rebuild": "^1.0.2"
+    "electron-packager": "^5.1.1",
+    "electron-rebuild": "^1.0.2",
+    "inquirer": "^0.11.0",
+    "pretty-ms": "^2.1.0"
   }
 }
