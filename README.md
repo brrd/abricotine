@@ -27,20 +27,38 @@ Abricotine is still in beta development. If you find a bug please report it [in 
 
 ## Supported platforms
 
-Abricotine is currently working on Windows and Linux. 
+Abricotine is currently working on Windows (7 or later) and Linux. 
 
-Since the app is developed [on top of modern web technologies](http://electron.atom.io/), the OSX support is in theory possible and should be relatively easy to add. As a Linux user I'm not planning to develop this feature, but of course your Pull Requests are welcome and encouraged!
+Since the app is developed with the [Electron framework](http://electron.atom.io/), the OSX support is in theory possible and should be relatively easy to add. As a Linux user I'm not planning to develop this feature, but of course your Pull Requests are welcome and encouraged!
 
 ## Installation and usage
 
-Installers are not released yet. 
+1. Download prebuilt binaries from the [Releases page](https://github.com/brrd/Abricotine/releases),
+2. Extract the archive,
+3. Run `Abricotine.exe` (on Windows) or `Abricotine` (on Linux).
 
-To install Abricotine:
+Installers are not released yet.
 
-1. First, download and install [Node.js](https://nodejs.org/en/),
-2. Download [the latest Abricotine release](https://github.com/brrd/Abricotine/releases) and extract the downloaded archive wherever you want to install the application on your computer,
+## Building and packaging
+
+#### Requirements
+
+* [Node.js](https://nodejs.org/en/) and `npm`,
+* Make sure you meet [node-gyp](https://github.com/nodejs/node-gyp) requirements (specific to your platform and architecture),
+* `git` (for Bower installation).
+
+#### Building
+
+1. Install requirements,
+2. Download [the latest Abricotine release](https://github.com/brrd/Abricotine/releases) and extract the archive,
 3. Run `$ npm install` in the extracted folder.
-4. Install is done! To use Abricotine, run `$npm start` from Abricotine directory. To open a specific file, run `$npm start -- [path-to-file]`.
+4. You can use Abricotine by running `$npm start` from its directory. To open a specific file, run `$npm start -- [path-to-file]`.
+
+#### Packaging
+
+Run `$ npm run packager` from the built project directory and select your platform and architecture.
+
+Packages are created in the `dist` directory.
 
 ## Configuration
 
@@ -80,9 +98,9 @@ Default:
 
 ## Adding spell checker dictionaries
 
-Abricotine uses [hunspell](http://hunspell.sourceforge.net/) dictionaries for Linux and Windows 7 and prior. If you want to add dictionaries, simply drop the dictionary folder in the `dict` subdirectory of Abricotine configuration folder.
+Abricotine uses [hunspell](http://hunspell.sourceforge.net/) dictionaries for Linux and Windows 7. If you want to add dictionaries, simply drop the dictionary folder in the `dict` subdirectory of Abricotine configuration folder.
 
-On the other platforms, Abricotine uses the OS builtIn dictionaries.
+Otherwise Abricotine uses the OS builtIn dictionaries when supported.
 
 ## License
 
