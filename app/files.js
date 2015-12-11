@@ -96,6 +96,14 @@ var files = {
         return destDir;
     },
 
+    dirExists: function (dirPath) {
+        try {
+            return fs.statSync(dirPath).isDirectory();
+        } catch (err) {
+            return false;
+        }
+    },
+
     fileExists: function (filePath) {
         try {
             return fs.statSync(filePath).isFile();

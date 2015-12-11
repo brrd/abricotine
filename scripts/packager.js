@@ -56,6 +56,7 @@ inquirer.prompt(questions, function( answers ) {
             ignore: ["/node_modules/electron-prebuilt($|/)", "/node_modules/electron-packager($|/)", "/\.git($|/)", "/\.bin($|/)", "/node_modules/bower($|/)", "/node_modules/electron-rebuild($|/)", "/node_modules/inquirer($|/)", "^/dist($|/)"],
             prune: true,
             asar: true,
+            "asar-unpack": "*.node",
             "version-string": {
                 ProductName: "Abricotine",
                 InternalName: "Abricotine",

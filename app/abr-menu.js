@@ -9,7 +9,6 @@ var BrowserWindow = require("browser-window"),
     files  = require.main.require("./files"),
     langmap = require("langmap"),
     Menu = require("menu"),
-    pathModule = require("path"),
     spellchecker = require('spellchecker');
 
 function getConfig (config, key) {
@@ -87,8 +86,7 @@ function spellingMenuGenerator (submenu, config) {
     function getHunspellDictionaries () {
         var dicts = {},
             paths = [
-                pathModule.join(__dirname, "dict/"),
-                pathModule.join(constants.path.userData, "dict/")
+                constants.path.dictionaries
             ],
             subdirs;
         for (var i=0; i<paths.length; i++) {

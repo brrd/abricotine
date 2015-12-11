@@ -19,6 +19,8 @@ module.exports = {
         app: appPath,
         icon: pathModule.join(appPath, "/icons/abricotine.png"),
         bigIcon: pathModule.join(appPath, "/icons/abricotine@2x.png"),
+        dictionaries: pathModule.join(userDataPath, "dict/"),
+        dictionariesLocal: pathModule.join(appPath, "/app/dict"),
         tmp: tmpPath,
         tmpThemes: pathModule.join(tmpPath, "/themes"),
         userConfig: pathModule.join(userDataPath, "/config.json"),
