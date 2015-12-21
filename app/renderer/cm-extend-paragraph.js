@@ -40,7 +40,7 @@ function getParagraphCoord (posOrLine, cm) {
 }
 
 function getParagraphContent (arg, cm) {
-    var coord = arg.from && arg.to ? arg : cm.getParagraphCoord(arg, cm);
+    var coord = arg && arg.from && arg.to ? arg : getParagraphCoord(arg, cm);
     return cm.doc.getRange(
         // from
         {
@@ -83,16 +83,16 @@ function goToParagraph (direction, cm) {
 
 module.exports = function (CodeMirror) {
     CodeMirror.prototype.getParagraphCoord = function (posOrLine) {
-        getParagraphCoord(posOrLine, this);
+        return getParagraphCoord(posOrLine, this);
     };
     CodeMirror.prototype.getParagraphContent = function (arg) {
-        getParagraphContent(arg, this);
+        return getParagraphContent(arg, this);
     };
     CodeMirror.commands.goPrevParagraph = function (cm) {
-        goToParagraph("up", cm);
+        return goToParagraph("up", cm);
     };
     CodeMirror.commands.goNextParagraph = function (cm) {
-        goToParagraph("down", cm);
+        return goToParagraph("down", cm);
     };
     return CodeMirror;
 };

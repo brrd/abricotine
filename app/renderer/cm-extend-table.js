@@ -90,9 +90,8 @@ function tableInject (cm, table) {
     }
 }
 
-function tableDo (cm, action) {
-    var args = [],
-        table = tableGet(cm);
+function tableDo (cm, action, parameters) {
+    var table = tableGet(cm);
     if (!table) {
         console.log("No markdown table found in text"); // TODO: celldown should have an option for automatically converting text into table when string is not a valid markdown table
         return;
@@ -101,24 +100,28 @@ function tableDo (cm, action) {
         console.error("'" + action + "' is not a valid Table (celldown.js) method");
         return;
     }
-    for (var i = 1; i < arguments.length; i++) {
-        args.push(arguments[i]);
-    }
-    table[action].apply(table, args);
+    table[action].apply(table, parameters);
     tableInject(cm, table);
 }
 
 module.exports = function (CodeMirror) {
     CodeMirror.prototype.tableCreate = function (cols, rows) {
-        tableCreate(this, cols, rows);
+        return tableCreate(this, cols, rows);
     };
     CodeMirror.prototype.tableGet = function () {
-        tableGet(this);
+        return tableGet(this);
     };
     CodeMirror.prototype.tableInject = function (table) {
-        tableInject(this, table);
+        return tableInject(this, table);
     };
     CodeMirror.prototype.tableDo = function (action) {
-        tableDo(this, action);
+        if (!action) {
+            return console.error("'action' parameter is required");
+        }
+        var parameters = [];
+        for (var i = 1; i < arguments.length; i++) {
+            parameters.push(arguments[i]);
+        }
+        return tableDo(this, action, parameters);
     };
 };
