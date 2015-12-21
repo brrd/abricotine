@@ -14,19 +14,10 @@ var AbrWindow = require.main.require("./abr-window.js"),
 function AbrApplication () {
     // Windows reference
     this.windows = [];
-
     // IPC get & set
     this.ipcServer = new ipcServer(this);
-
     // Compile LESS theme then open windows
-    var openWindows = (function (abrApp) {
-        // Open files in argv if exist
-        var numberOfWindowsOpened = abrApp.openDocumentsInArgv();
-        if (numberOfWindowsOpened === 0) {
-            abrApp.open();
-        }
-    })(this);
-    themeLoader.load("abricotine", openWindows);
+    themeLoader.load("abricotine", this.run.bind(this, null));
 }
 
 AbrApplication.prototype = {
@@ -85,7 +76,27 @@ AbrApplication.prototype = {
     },
 
     open: function (path) {
-        var abrWin = new AbrWindow(this, path);
+        function getAbsPath (path) {
+            return typeof path === "string" ? parsePath(path).absolute : null;
+        }
+        if (typeof path === "string") {
+            new AbrWindow(this, getAbsPath(path));
+        } else if (path && path.constructor === Array && path.length > 0) {
+            for (var i=0; i<path.length; i++) {
+                new AbrWindow(this, getAbsPath(path[i]));
+            }
+        } else {
+            new AbrWindow(this, null);
+        }
+    },
+
+    // Open documents in argv if exist, otherwise open a new document
+    run: function (argv) {
+        argv = argv || process.argv;
+        var argvDocs = argv.filter(function (element) {
+                return element.substring(0, 2) !== "--" && files.isTextFile(element);
+            });
+        this.open(argvDocs);
     },
 
     getFocusedAbrWindow: function (winId) {
@@ -97,23 +108,7 @@ AbrApplication.prototype = {
     openContextMenu: function (arg, winId) {
         var abrWin = this.getFocusedAbrWindow(winId);
         abrWin.contextMenu.popup();
-    },
-
-    openDocumentsInArgv: function () {
-        var argv = process.argv,
-            numberOfWindowsOpened = 0,
-            absPath;
-        // Open windows depending on argv
-        for (var i=0; i<argv.length; i++) {
-            if (argv[i].substring(0, 2) !== "--" && files.isTextFile(argv[i])) {
-                absPath = parsePath(argv[i]).absolute;
-                this.open(absPath);
-                numberOfWindowsOpened++;
-            }
-        }
-        return numberOfWindowsOpened;
     }
-
 };
 
 module.exports = AbrApplication;

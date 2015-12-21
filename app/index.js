@@ -8,6 +8,18 @@ var AbrApplication = require.main.require("./abr-application.js"),
     app = require("app"),
     create = require("./create.js");
 
+// Check app is single instance
+var abrApp = null,
+    isSecondaryInstance = app.makeSingleInstance(function(argv, workingDir) {
+        process.chdir(workingDir);
+        abrApp.run(argv);
+        return true;
+    });
+if (isSecondaryInstance) {
+    app.quit();
+    return;
+}
+
 // Quit app when all windows are closed
 app.on("window-all-closed", function() {
     if (process.platform != "darwin") {
@@ -21,5 +33,5 @@ Promise.all([
     }),
     create
 ]).then(function () {
-    var abrApp = new AbrApplication();
+    abrApp = new AbrApplication();
 });
