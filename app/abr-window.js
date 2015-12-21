@@ -10,7 +10,8 @@ var AbrMenu = require.main.require("./abr-menu.js"),
     contextMenuTemplate = require.main.require("./menu-context.json"),
     defaultConfig = require.main.require("./config-default.json"),
     menuTemplate = require.main.require("./menu-window.json"),
-    nconf = require('nconf');
+    nconf = require('nconf'),
+    windowStateKeeper = require('electron-window-state');
 
 function alreadyOpen (abrApp, path) {
     if (!path || !abrApp) {
@@ -33,41 +34,6 @@ function createConfig () {
          .file(constants.path.userConfig)
          .defaults(defaultConfig);
     return config;
-}
-
-// Get window position and size
-function smartWindowBounds (abrWin) {
-    var windows = abrWin.abrApp.windows,
-        prevWindow,
-        bounds;
-    // Get the prev opened window if exists (current window is not registered in abrApp.windows yet)
-    for (var i=windows.length; i>=0; i--) {
-        if (windows[i]) {
-            prevWindow = windows[i];
-            break;
-        }
-    }
-    if (prevWindow) {
-        // If exists, the new window will be positioned with a small gap from the previous one
-        var gap = 20,
-            prevBounds = prevWindow.browserWindow.getBounds();
-        bounds = {
-            x: prevBounds.x + gap,
-            y: prevBounds.y + gap,
-            width: prevBounds.width,
-            height: prevBounds.height
-        };
-    } else {
-        // Otherwise, get the position from config
-        var config = abrWin.config.get("window");
-        bounds = {
-            x: config.x,
-            y: config.y,
-            width: config.width,
-            height: config.height
-        };
-    }
-    return bounds;
 }
 
 function AbrWindow (abrApp, path) {
@@ -108,18 +74,23 @@ AbrWindow.prototype = {
 
         // Create and open window
         var showMenubar = config.get("window:showMenuBar"),
-            bounds = smartWindowBounds(abrWin);
+            mainWindowState = windowStateKeeper({
+                path: constants.path.userData,
+                defaultWidth: 800,
+                defaultHeight: 600
+            });
         win = new BrowserWindow({
             title: constants.appName || "Abricotine",
             icon: constants.path.icon,
             "min-width": 100,
             "min-height": 100,
-            width: bounds.width || 800,
-            height: bounds.height || 600,
-            x: bounds.x,
-            y: bounds.y,
+            "x": mainWindowState.x,
+            "y": mainWindowState.y,
+            "width": mainWindowState.width,
+            "height": mainWindowState.height,
             "auto-hide-menu-bar": typeof showMenubar !== "undefined" ? !showMenubar : false
         });
+        mainWindowState.manage(win);
 
         // Register window in abrWin
         this.browserWindow = win;
@@ -146,10 +117,6 @@ AbrWindow.prototype = {
         win.on("focus", function () {
             abrWin.menu.attach();
         });
-        win.on("close", function () {
-            // Save window position before it's destroyed
-            abrWin.savePosition();
-        });
         win.on("closed", function () {
             // Destroy the window
             abrApp.windows[win.id] = null;
@@ -163,16 +130,6 @@ AbrWindow.prototype = {
         if (this.config.get("debug")) {
             win.openDevTools();
         }
-    },
-
-    // Save window position and window config
-    savePosition: function () {
-        var bounds = this.browserWindow.getBounds();
-        this.config.set("window:x", bounds.x);
-        this.config.set("window:y", bounds.y);
-        this.config.set("window:width", bounds.width);
-        this.config.set("window:height", bounds.height);
-        this.config.save();
     }
 };
 

@@ -18,8 +18,6 @@
         "language": "en_US"
     },
     "window": {
-        "showMenuBar": true,
-        "width": 800,
-        "height": 600
+        "showMenuBar": true
     }
 }
