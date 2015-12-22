@@ -51,17 +51,20 @@ function AbrDocument () {
             }
         });
 
-        // Autopreview and spellchecker init (depend on config)
+        // Load config and perform related operations
         that.getConfig(undefined, function (config) {
-            // Autopreview
+            // Autopreview init
             that.cm.setOption("autopreviewAllowedDomains", config["autopreview-domains"]);
             that.cm.setOption("autopreviewSecurity", config["autopreview-security"]);
             that.autopreviewTypes = config.autopreview;
             that.autopreview();
-            // Spellchecker
+            // Spellchecker init
             if (config.spellchecker.active) {
                 that.setDictionary(config.spellchecker.language, config.spellchecker.src);
             }
+            // Editor font-size
+            var fontSize = config.editor["font-size"] || "16px";
+            that.setFontSize(fontSize);
         });
 
         // Listener for context menu
@@ -110,6 +113,16 @@ function AbrDocument () {
                 that.execCommand("clearSearch");
             }
         };
+
+        // Handle CTRL+MouseWheel events
+        var MouseWheelHandler = function (e) {
+            var delta = Math.max(-1, Math.min(1, (e.wheelDelta || -e.detail)));
+            if (e.ctrlKey) {
+                e.preventDefault();
+                that.addFontSize(delta * 2);
+            }
+        };
+        document.getElementById("editor").addEventListener("mousewheel", MouseWheelHandler, false);
     });
 }
 
@@ -387,6 +400,33 @@ AbrDocument.prototype = {
     // Returns the spellchecking function
     getSpellcheckFunc: function () {
         return spellchecker.isMisspelled;
+    },
+
+    // Scale text
+    setFontSize: function (size) {
+        var min = 8,
+            max = 42;
+        if (typeof size !== "number") {
+            size = parseInt(size);
+        }
+        if (!size) {
+            return;
+        }
+        if (size < min) {
+            size = min;
+        } else if (size > max) {
+            size = max;
+        }
+        var newSize =  size.toString() + "px";
+        $(".CodeMirror").css("font-size", newSize);
+        this.cm.refresh();
+        this.setConfig("editor:font-size", newSize);
+    },
+
+    addFontSize: function (px) {
+        var oldSize = parseInt($(".CodeMirror").css("font-size")),
+            newSize = oldSize + px;
+        this.setFontSize(newSize);
     },
 
     // Config

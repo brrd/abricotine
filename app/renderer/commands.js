@@ -212,6 +212,18 @@ var commands = {
         abrDoc.viewInBrowser();
     },
 
+    increaseFontSize: function (win, abrDoc, cm) {
+        abrDoc.addFontSize(2);
+    },
+
+    decreaseFontSize: function (win, abrDoc, cm) {
+        abrDoc.addFontSize(-2);
+    },
+
+    resetFontSize: function (win, abrDoc, cm) {
+        abrDoc.setFontSize(16);
+    },
+
     showMenuBar: function(win, abrDoc, cm) {
         var flag = win.isMenuBarAutoHide();
         win.setAutoHideMenuBar(!flag);

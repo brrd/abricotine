@@ -488,6 +488,24 @@
                 "type": "separator"
             },
             {
+                "label": "Increase font size",
+                "accelerator": "CmdOrCtrl+=",
+                "command": "increaseFontSize"
+            },
+            {
+                "label": "Decrease font size",
+                "accelerator": "CmdOrCtrl+-",
+                "command": "decreaseFontSize"
+            },
+            {
+                "label": "Reset font size",
+                "accelerator": "CmdOrCtrl+0",
+                "command": "resetFontSize"
+            },
+            {
+                "type": "separator"
+            },
+            {
                 "label": "Show menu bar",
                 "command": "showMenuBar",
                 "type": "checkbox",
