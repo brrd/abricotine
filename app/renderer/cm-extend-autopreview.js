@@ -84,9 +84,6 @@ function autopreview (cm, line, types) {
                     if (title) {
                         $element.attr("title", title);
                     }
-                    $element.error( function() {
-                        $(this).replaceWith("<span class='autopreview-error'>Image not found: " + url + "</span>");
-                    });
                     return $element.get(0);
                 },
                 marker: {
@@ -96,6 +93,12 @@ function autopreview (cm, line, types) {
                     inclusiveRight: true
                 },
                 callback: function (textMarker, element) {
+                    var onclickFunc = function() {
+                        var pos = textMarker.find().to;
+                        textMarker.clear();
+                        cm.doc.setCursor(pos);
+                        cm.focus();
+                    };
                     textMarker.on("beforeCursorEnter", function () {
                         if (!doc.somethingSelected()) { // Fix blink on selection
                             textMarker.clear();
@@ -104,6 +107,12 @@ function autopreview (cm, line, types) {
                     element.addEventListener("load", function() {
                         textMarker.changed();
                     }, false);
+                    element.onerror = function() {
+                        $(element).replaceWith("<span class='autopreview-image image-error'></span>");
+                        element.onclick = onclickFunc;
+                        textMarker.changed();
+                    };
+                    element.onclick = onclickFunc;
                 }
             },
             todolist: {
@@ -207,8 +216,7 @@ function autopreview (cm, line, types) {
             anchor: {
                 regex: /<a\s+name=["']([-a-zA-Z0-9@%_\+~#=!]+)["']\s*(\/>|>\s*<\/a>)/gi,
                 createElement: function (match) {
-                    var name = match[1],
-                        $element = $("<a class='anchor autopreview-anchor' name='" + name + "' title='Anchor: " + name + "'></a>");
+                    var $element = $("<span class='anchor autopreview-anchor'><i class='fa fa-anchor'></i></span>");
                     return $element.get(0);
                 },
                 marker: {
