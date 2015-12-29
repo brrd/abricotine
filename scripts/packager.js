@@ -19,12 +19,6 @@ var inputPath = ".",
     questions = [
         {
             type: "checkbox",
-            name: "platform",
-            message: "Platform?",
-            choices: ["linux", "win32"] // "darwin" & "all" not avalaible
-        },
-        {
-            type: "checkbox",
             name: "arch",
             message: "Arch?",
             choices: ["ia32", "x64"]
@@ -32,21 +26,20 @@ var inputPath = ".",
         {
             type: "confirm",
             name: "confirmation",
-            message: "Packages will be built from '" + absPath(inputPath) + "' to '" + absPath(outputPath) + ". OK? ",
+            message: "Packages will be built for " + process.platform + " platform from '" + absPath(inputPath) + "' to '" + absPath(outputPath) + ". OK? ",
         },
     ];
 
 inquirer.prompt(questions, function( answers ) {
-    if (!answers.confirmation || !answers.platform || !answers.arch) {
+    if (!answers.confirmation || !answers.arch) {
         console.log("Operation aborted");
         return;
     }
-    var platform = answers.platform,
-        arch = answers.arch.length === 2 ? "all" : answers.arch[0],
+    var arch = answers.arch.length === 2 ? "all" : answers.arch[0],
         options = {
             dir: inputPath,
             name: pkg.name,
-            platform: platform,
+            platform: process.platform,
             arch: arch,
             version: "0.35.1", // Electron version
             "app-version": pkg.version,
