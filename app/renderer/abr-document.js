@@ -268,6 +268,7 @@ AbrDocument.prototype = {
                 }
                 that.setClean();
                 that.setPath(path);
+                that.ipcClient.trigger("setWinPath", path);
                 that.updateWindowTitle();
                 if (typeof callback === "function") {
                     callback();
@@ -282,7 +283,7 @@ AbrDocument.prototype = {
             return false;
         }
         // Append extension if none
-        if (path.indexOf(".") === -1) {
+        if (parsePath(path).basename.indexOf(".") === -1) {
             path += ".md";
         }
         return this.save(path, callback);

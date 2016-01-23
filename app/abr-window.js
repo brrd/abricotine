@@ -19,7 +19,8 @@ function alreadyOpen (abrApp, path) {
     }
     var windows = abrApp.windows;
     for (var i=0; i<windows.length; i++) {
-        if (windows[i] && windows[i].path === path) {
+        if (!windows[i]) continue;
+        if (windows[i].path === path) {
             return windows[i];
         }
     }
