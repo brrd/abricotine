@@ -16,6 +16,7 @@ function absPath (path) {
 var inputPath = ".",
     outputPath = "./dist",
     icoPath = "./icons/abricotine",
+    debug = process.argv.indexOf("--debug") !== -1,
     questions = [
         {
             type: "checkbox",
@@ -26,22 +27,24 @@ var inputPath = ".",
         {
             type: "confirm",
             name: "confirmation",
-            message: "Packages will be built for " + process.platform + " platform from '" + absPath(inputPath) + "' to '" + absPath(outputPath) + ". OK? ",
+            message: "Packages will be built for " + process.platform + " platform from '" + absPath(inputPath) + "' to '" + absPath(outputPath) + "'. OK? ",
         },
     ];
 
+if (debug === true) console.log("--debug: node_modules will be ignored");
+
 inquirer.prompt(questions, function( answers ) {
-    if (!answers.confirmation || !answers.arch) {
-        console.log("Operation aborted");
-        return;
+    if (!answers.confirmation || answers.arch.length === 0) {
+        return console.log("Bad parameters. Operation aborted");
     }
+    // Set options
     var arch = answers.arch.length === 2 ? "all" : answers.arch[0],
         options = {
             dir: inputPath,
             name: pkg.name,
             platform: process.platform,
             arch: arch,
-            version: "0.35.1", // Electron version
+            version: "0.35.1", // Electron version // TODO: match electron version in package.json
             "app-version": pkg.version,
             icon: icoPath,
             out: outputPath,
@@ -57,6 +60,12 @@ inquirer.prompt(questions, function( answers ) {
             }
         },
         startTime = new Date().getTime();
+    // Dont pack all stuffs when debugging
+    if (debug === true) {
+        options.ignore.push("/node_modules($|/)", "/bower_components($|/)");
+        options.prune = false;
+    }
+    // Run packager
     packager(options, function (err, appPath) {
         if (err) {
             console.error (err);
