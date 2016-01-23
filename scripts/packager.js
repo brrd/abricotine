@@ -53,6 +53,7 @@ inquirer.prompt(questions, function( answers ) {
             prune: true,
             asar: true,
             "asar-unpack": "*.node",
+            "asar-unpack-dir": "default",
             "version-string": {
                 ProductName: "Abricotine",
                 InternalName: "Abricotine",

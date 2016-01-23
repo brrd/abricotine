@@ -21,7 +21,7 @@ function getDocTitle (data) {
 
 function exportHtml (abrDoc, templatePath, destPath, callback) {
     // Default template if undefined
-    templatePath = templatePath || pathModule.join(constants.path.app, "/app/templates/default");
+    templatePath = templatePath || pathModule.join(constants.path.templatesDir, "/default");
     // Get editor content
     var markdown = abrDoc.getData();
     // Ask for destination path if undefined

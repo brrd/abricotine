@@ -9,6 +9,7 @@ var BrowserWindow = require("browser-window"),
     files  = require.main.require("./files"),
     langmap = require("langmap"),
     Menu = require("menu"),
+    pathModule = require("path"),
     spellchecker = require('spellchecker');
 
 function getConfig (config, key) {
@@ -92,7 +93,7 @@ function spellingMenuGenerator (submenu, config) {
         for (var i=0; i<paths.length; i++) {
             subdirs = files.getDirectories(paths[i]);
             for (var j=0; j<subdirs.length; j++) {
-                dicts[subdirs[j]] = paths[i] + subdirs[j];
+                dicts[subdirs[j]] = pathModule.join(paths[i], subdirs[j]);
             }
         }
         return dicts;

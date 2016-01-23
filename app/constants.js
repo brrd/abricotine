@@ -5,11 +5,12 @@
 */
 
 var app = require("app"),
-    appPath = app.getAppPath(),
     pathModule = require("path"),
     pkg = require.main.require("../package.json"),
+    appPath = app.getAppPath(),
     userDataPath = pathModule.join(app.getPath("userData"), "/app"),
-    tmpPath = pathModule.join(app.getPath("temp"), "/Abricotine");
+    tmpPath = pathModule.join(app.getPath("temp"), "/Abricotine"),
+    isAsar = appPath.match(/\.asar$/) !== null;
 
 module.exports = {
     appName: "Abricotine",
@@ -19,8 +20,9 @@ module.exports = {
         app: appPath,
         icon: pathModule.join(appPath, "/icons/abricotine.png"),
         bigIcon: pathModule.join(appPath, "/icons/abricotine@2x.png"),
-        dictionaries: pathModule.join(userDataPath, "dict/"),
-        dictionariesLocal: pathModule.join(appPath, "/app/dict"),
+        defaultDir: isAsar ? appPath + ".unpacked/default" :  appPath + "/default",
+        dictionaries: pathModule.join(userDataPath, "/dict"),
+        templatesDir: pathModule.join(userDataPath, "/templates"),
         tmp: tmpPath,
         tmpThemes: pathModule.join(tmpPath, "/themes"),
         userConfig: pathModule.join(userDataPath, "/config.json"),

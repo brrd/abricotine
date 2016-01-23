@@ -329,7 +329,7 @@ AbrDocument.prototype = {
         var that = this,
             filePath = this.tmpPreviewPath;
         files.createDir(filePath);
-        exportHtml(this, undefined, filePath, function (err, path) {
+        exportHtml(this, null, filePath, function (err, path) {
             if (err) {
                 if (forceNewPath === true) {
                     // Second try, abort here
