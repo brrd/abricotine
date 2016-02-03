@@ -10,7 +10,7 @@ function initSpellcheck (CodeMirror) {
     // Create overlay
     // Inspiration: https://github.com/NextStepWebs/codemirror-spell-checker/blob/master/src/js/spell-checker.js
     CodeMirror.defineMode("spellchecker", function (config, parserConfig) {
-        var wordDelimiters = "!\"#$%&()*+,-./:;<=>?@[\\]^_`{|}~ ",
+        var wordDelimiters = "!\"#$%&()*+,-./:;<=>?@[\\]^_`{|}~ \t",
             overlay = {
         		token: function(stream, state) {
         			var ch = stream.peek(),
@@ -27,6 +27,7 @@ function initSpellcheck (CodeMirror) {
         				word += ch;
         				stream.next();
         			}
+                    word = word.replace(/[’ʼ]/g, "'"); // Alternative apostrophes
         			if (isMisspelledFunc && isMisspelledFunc(word)) {
         				return "spell-error"; // CSS class: cm-spell-error
                     }
