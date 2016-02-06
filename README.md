@@ -25,13 +25,15 @@ In **Abricotine**, you can preview your document directly in the text editor rat
 
 Abricotine is still in beta development. If you find a bug please report it [in the dedicated bug tracker](https://github.com/brrd/Abricotine/issues). 
 
-## Supported platforms
-
-Abricotine is currently working on Windows (7 or later) and Linux. 
-
-Since the app is developed with the [Electron framework](http://electron.atom.io/), the OSX support is in theory possible and should be relatively easy to add. As a Linux user I'm not planning to develop this feature, but of course your Pull Requests are welcome and encouraged!
-
 ## Installation and usage
+
+Abricotine is working on Windows (7 and later), Linux and OSX.
+
+### Installation from binaries
+
+Please note that prebuilt binaries are not provided for OSX, so Mac users will need to build the app by themselves (see ["Building and packaging"](#building-and-packaging)).
+
+For Windows and Linux users, the following installation method is recommended:
 
 1. Download prebuilt binaries from the [Releases page](https://github.com/brrd/Abricotine/releases),
 2. Extract the archive,
@@ -39,7 +41,7 @@ Since the app is developed with the [Electron framework](http://electron.atom.io
 
 Installers are not released yet.
 
-## Building and packaging
+### Building and packaging
 
 #### Requirements
 
@@ -50,7 +52,7 @@ Installers are not released yet.
 #### Building
 
 1. Install requirements,
-2. Download [the latest Abricotine release](https://github.com/brrd/Abricotine/releases) and extract the archive,
+2. Download [the latest Abricotine release source](https://github.com/brrd/Abricotine/releases) and extract the archive,
 3. Run `$ npm install` in the extracted folder.
 4. You can use Abricotine by running `$npm start` from its directory. To open a specific file, run `$npm start -- [path-to-file]`.
 
