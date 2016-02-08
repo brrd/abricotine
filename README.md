@@ -104,6 +104,12 @@ Abricotine uses [hunspell](http://hunspell.sourceforge.net/) dictionaries for Li
 
 Otherwise Abricotine uses the OS builtIn dictionaries when supported.
 
+## Contributing
+
+Abricotine is an open source program. Feel free to fork and contribute.
+
+In order to keep the match between this documentation and the last release, please contribute and pull requests on the dedicated `develop` branch.
+
 ## License
 
 **Abricotine - Markdown Editor**  
