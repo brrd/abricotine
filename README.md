@@ -15,7 +15,7 @@ In **Abricotine**, you can preview your document directly in the text editor rat
 * Write in markdown (or GFM) and export your documents in HTML,
 * Preview text elements (such as headers, images, math, embedded videos, todo lists...) while you type,
 * Display document table of content in the side pane,
-* Display syntax highlighting for supported languages (HTML, XML, CSS, Javascript, and more to come...),
+* Display syntax highlighting for code,
 * Show helpers, anchors and hidden characters,
 * Copy formated HTML in the clipboard,
 * Write in a distraction-free fullscreen view,
@@ -80,7 +80,7 @@ Contains the list of domains considered as safe when previewing iframes (see `au
 
 Default:
 
-```
+```json
  "autopreview-domains": [
      "dailymotion.com",
      "deezer.com",
@@ -97,6 +97,18 @@ Default:
      "youtube.com"
 ]
 ```
+
+### `highlight-modes`
+
+The list of the programming languages to highlight. The expected value is a comma-separated list of CodeMirror modes ([see the full list of supported modes](https://github.com/codemirror/CodeMirror/tree/master/mode)).
+
+Example:
+
+```json
+	"highlight-modes": "coffeescript, ruby, php, python, brainfuck"
+```
+
+HTML, CSS, Javascript, XML and [C-like](http://codemirror.net/mode/clike/index.html) languages are supported regardless of this option.
 
 ## Adding spell checker dictionaries
 

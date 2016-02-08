@@ -65,6 +65,15 @@ function AbrDocument () {
             // Editor font-size
             var fontSize = config.editor["font-size"] || "16px";
             that.setFontSize(fontSize);
+            // Syntax highlighting
+            var modes = config["highlight-modes"];
+            if (typeof modes === "string") {
+                modes = modes.split(",");
+            }
+            modes.forEach( function (mode) {
+                mode = mode.trim();
+                $("<script src='../../bower_components/codemirror/mode/" + mode + "/" + mode + ".js'></script>").appendTo("head");
+            });
         });
 
         // Listener for context menu
