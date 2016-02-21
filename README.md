@@ -17,7 +17,7 @@ In **Abricotine**, you can preview your document directly in the text editor rat
 * Display document table of content in the side pane,
 * Display syntax highlighting for supported languages (HTML, XML, CSS, Javascript, and more to come...),
 * Show helpers, anchors and hidden characters,
-* Copy formated HTML in the clipboard,
+* Copy formatted HTML in the clipboard,
 * Write in a distraction-free fullscreen view,
 * Manage and beautify markdown tables,
 * Search and replace text,
