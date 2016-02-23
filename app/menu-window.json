@@ -247,7 +247,7 @@
             },
             {
                 "label": "Quote",
-                "accelerator": "CmdOrCtrl+Q",
+                "accelerator": "CmdOrCtrl+Shift+Q",
                 "command": "format",
                 "parameters": "quote"
             }
