@@ -67,11 +67,13 @@ function AbrDocument () {
             that.setFontSize(fontSize);
             // Syntax highlighting
             var modes = config["highlight-modes"];
+            if (!modes) return;
             if (typeof modes === "string") {
                 modes = modes.split(",");
             }
             modes.forEach( function (mode) {
                 mode = mode.trim();
+                if (mode === "") return;
                 $("<script src='../../bower_components/codemirror/mode/" + mode + "/" + mode + ".js'></script>").appendTo("head");
             });
         });
