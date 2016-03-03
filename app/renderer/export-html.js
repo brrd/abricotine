@@ -19,9 +19,10 @@ function getDocTitle (data) {
     return title;
 }
 
-function exportHtml (abrDoc, templatePath, destPath, callback) {
-    // Default template if undefined
-    templatePath = templatePath || pathModule.join(constants.path.templatesDir, "/default");
+function exportHtml (abrDoc, templateName, destPath, callback) {
+    templateName = templateName || "default";
+    // Get template path
+    var templatePath = pathModule.join(constants.path.templatesDir, "/" + templateName);
     // Get editor content
     var markdown = abrDoc.getData();
     // Ask for destination path if undefined

@@ -30,8 +30,8 @@
             },
             {
                 "label": "Export as HTML",
-                "accelerator": "CmdOrCtrl+E",
-                "command": "exportHtml"
+                "id": "exportHtml",
+                "submenu": []
             },
             {
                 "type": "separator"

@@ -323,12 +323,12 @@ AbrDocument.prototype = {
     },
 
     // Export
-    exportHtml: function () {
+    exportHtml: function (template) {
         var that = this;
-        exportHtml(this, null, null, function (err, path) {
+        exportHtml(this, template, null, function (err, path) {
             if (err) {
                 return dialogs.fileAccessDenied(path, function () {
-                    that.exportHtml();
+                    that.exportHtml(template);
                 });
             }
         });

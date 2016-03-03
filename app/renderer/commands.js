@@ -30,8 +30,8 @@ var commands = {
         abrDoc.saveAs();
     },
 
-    exportHtml: function(win, abrDoc, cm) {
-        abrDoc.exportHtml();
+    exportHtml: function(win, abrDoc, cm, param) {
+        abrDoc.exportHtml(param);
     },
 
     close: function(win, abrDoc, cm) {

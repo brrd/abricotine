@@ -7,6 +7,7 @@
 var BrowserWindow = require("browser-window"),
     constants = require.main.require("./constants"),
     files  = require.main.require("./files"),
+    fs = require("fs"),
     langmap = require("langmap"),
     Menu = require("menu"),
     pathModule = require("path"),
@@ -47,6 +48,9 @@ function preprocessTemplate (element, config) {
                 if (item.id === "spelling") {
                     item.submenu = spellingMenuGenerator(item.submenu, config);
                 }
+                if (item.id === "exportHtml") {
+                    item.submenu = exportHtmlMenuGenerator(item.submenu, config);
+                }
                 preprocessTemplate(item.submenu, config);
             }
             return item;
@@ -82,7 +86,7 @@ function spellingMenuGenerator (submenu, config) {
         };
     }
     // Get hunspell dictionaries path
-    // Search 1) the abricotine builtin hunspell dict, 2) then the dict dir in abricotine config folder
+    // Search the dict dir in abricotine config folder
     // Returns an object { "en_US": "path/to/en_US", etc. }
     function getHunspellDictionaries () {
         var dicts = {},
@@ -119,6 +123,36 @@ function spellingMenuGenerator (submenu, config) {
     }
     // Check the "Disabled" menu if no radio has been checked
     submenu[0].checked = !radioChecked;
+    return submenu;
+}
+
+// Generate export Html menu template (before preprocesssing)
+function exportHtmlMenuGenerator (submenu, config) {
+    // Get a template menu item
+    function getTemplateMenu (tplName) {
+        var tplPath = pathModule.join(constants.path.templatesDir, tplName),
+            tplInfos = (function (tplPath) {
+                var jsonPath = pathModule.join(tplPath, "/template.json");
+                try {
+                    var str = fs.readFileSync(jsonPath, "utf-8"); // TODO: async
+                    return JSON.parse(str);
+                } catch (err) {
+                    return {};
+                }
+            })(tplPath);
+        var menuItem = {
+            label: tplInfos.label || tplInfos.name || tplName,
+            command: "exportHtml",
+            accelerator: tplInfos.accelerator,
+            parameters: tplName
+        };
+        return menuItem;
+    }
+    // Walk in template dir and find templates
+    var subdirs = files.getDirectories(constants.path.templatesDir);
+    for (var i in subdirs) {
+        submenu.push(getTemplateMenu(subdirs[i]));
+    }
     return submenu;
 }
 
