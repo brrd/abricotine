@@ -1,6 +1,5 @@
 body {
   text-align:center;
-  color:#000;
   font-family:georgia, serif;
   font-size:120%;
   line-height:1.6;
@@ -85,8 +84,8 @@ ul, ol, dl {
 
 dt {font-weight:bold;}
 code {font-family:courier, monospace;}
-p > code {padding:0.25em; background:#eee;}
-pre {text-align:left; font-size:100%;}
+p > code {padding:0.25em; background:#f0f0f0;}
+pre {text-align:left; font-size:1.2em;}
 hr {height:0; color:#eee; border:1px solid #eee; margin:2em 0 1em;}
 
 .normal {font-weight:normal;}

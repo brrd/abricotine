@@ -4,10 +4,20 @@
         <title>$DOCUMENT_TITLE</title>
         <meta charset='utf-8'/>
         <link rel="stylesheet" type="text/css" href="$ASSETS_PATH/styles.css">
+        <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.2.0/styles/default.min.css">
         <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML"></script>
     </head>
     <body>
-        $DOCUMENT_CONTENT
+        <article>
+            $DOCUMENT_CONTENT
+        </article>
     </body>
     <script src="$ASSETS_PATH/template.js"></script>
+    <!-- Custom javascript -->
+    <script src="$ASSETS_PATH/template.js"></script>
+    <!-- MathJax (from CDN) -->
+    <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML"></script>
+    <!-- highlight.js (from CDN) -->
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.2.0/highlight.min.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
 </html>
