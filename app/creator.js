@@ -6,7 +6,8 @@
 
 var constants = require.main.require("./constants.js"),
     files = require.main.require("./files.js"),
-    pathModule = require("path");
+    pathModule = require("path"),
+    pkg = require("../package.json");
 
 var creator = {};
 
@@ -20,12 +21,19 @@ creator.create = function () {
         files.createDir(constants.path.tmp);
         resolve();
     }).then(function () {
-        // 2. Copy contents if not found
+        // 2. Copy/create contents if not found
         return Promise.all([
             new Promise (function (resolve, reject) {
-                // Create a config file
+                // Create a config file and schema.json
                 if (!files.fileExists(constants.path.userConfig)) {
-                    files.copyFile(pathModule.join(constants.path.defaultDir, "/config.json"), constants.path.userConfig, resolve);
+                    // config.json
+                    files.copyFile(pathModule.join(constants.path.defaultDir, "/config.json"), constants.path.userConfig, function () {
+                        // Also see if schema.json exist
+                        if (!files.fileExists(constants.path.schema)) {
+                            var data = "{ \"schema\": " + pkg.abricotine.schema + " }";
+                            files.writeFile(data, constants.path.schema, resolve);
+                        }
+                    });
                 } else {
                     resolve();
                 }
