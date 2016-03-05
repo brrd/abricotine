@@ -43,6 +43,7 @@
     "ncp": "^2.0.0",
     "parse-filepath": "^0.6.2",
     "request": "^2.65.0",
+    "rimraf": "^2.5.2",
     "salvator": "^0.2.0",
     "spellchecker": "^3.1.3"
   },

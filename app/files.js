@@ -11,7 +11,8 @@ var fs = require("fs"),
     ncp = require("ncp"),
     parsePath = require("parse-filepath"),
     path = require("path"),
-    request = require("request");
+    request = require("request"),
+    rimraf = require("rimraf");
 
 var files = {
 
@@ -94,6 +95,11 @@ var files = {
             if (e.code !== "EEXIST") throw e;
         }
         return destDir;
+    },
+
+    // rm -rf wrapper
+    deleteDir: function (target, callback) {
+        rimraf(target, fs, callback);
     },
 
     dirExists: function (dirPath) {

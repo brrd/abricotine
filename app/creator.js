@@ -50,4 +50,19 @@ creator.create = function () {
     });
 };
 
+// Erase the whole configuration
+creator.erase = function () {
+    return new Promise (function (resolve, reject) {
+        files.deleteDir(constants.path.userData, function (err) {
+            if (err) reject(err);
+            else resolve();
+        });
+    });
+};
+
+// Reset: erase then create a new clear config
+creator.reset = function () {
+    return creator.erase().then(creator.create);
+};
+
 module.exports = creator;
