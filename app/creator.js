@@ -8,7 +8,11 @@ var constants = require.main.require("./constants.js"),
     files = require.main.require("./files.js"),
     pathModule = require("path");
 
-var create = new Promise (function (resolve, reject) {
+var creator = {};
+
+// Create configuration folders and copy default config files
+creator.create = function () {
+    return new Promise (function (resolve, reject) {
         // 1. Create folders
         // Create the app folder if it doesn't already exist (sync)
         files.createDir(constants.path.userData);
@@ -44,6 +48,6 @@ var create = new Promise (function (resolve, reject) {
             })
         ]);
     });
+};
 
-// Export a Promise
-module.exports = create;
+module.exports = creator;

@@ -6,7 +6,7 @@
 
 var AbrApplication = require.main.require("./abr-application.js"),
     app = require("app"),
-    create = require("./create.js");
+    creator = require("./creator.js");
 
 // Check app is single instance
 var abrApp = null,
@@ -31,7 +31,7 @@ Promise.all([
     new Promise (function (resolve, reject) {
         app.on("ready", resolve);
     }),
-    create
+    creator.create()
 ]).then(function () {
     abrApp = new AbrApplication();
 });
