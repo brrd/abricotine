@@ -32,7 +32,10 @@ var creatorFunc = process.argv.indexOf("--reset") !== -1 ? creator.reset : creat
 
 Promise.all([
     new Promise (function (resolve, reject) {
-        app.on("ready", resolve);
+        app.on("ready", function () {
+            // Check configuration
+            creator.check().then(resolve);
+        });
     }),
     creatorFunc()
 ]).then(function () {

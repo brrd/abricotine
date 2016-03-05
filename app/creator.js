@@ -5,6 +5,7 @@
 */
 
 var constants = require.main.require("./constants.js"),
+    dialog = require("dialog"),
     files = require.main.require("./files.js"),
     pathModule = require("path"),
     pkg = require("../package.json");
@@ -71,6 +72,36 @@ creator.erase = function () {
 // Reset: erase then create a new clear config
 creator.reset = function () {
     return creator.erase().then(creator.create);
+};
+
+function askForReset (callback) {
+    var userChoice = dialog.showMessageBox({
+        title: "Abricotine - Configuration update",
+        message: "The current configuration is deprecated and need to be updated. Do you want to reset Abricotine configuration? \n\nWARNING: Your previous configuration (including custom templates and dictonaries) will be lost.",
+        type: "question",
+        buttons: ["No", "Yes (recommended)"],
+        defaultId: 1
+    });
+    if (userChoice === 1) {
+        creator.reset().then(callback);
+    } else {
+        callback();
+    }
+}
+
+// Check schema (should be removed once the app becomes stable)
+// Schema in package.json is increased on each breaking change in Abricotine (beta). When starting an updated version, the user will be ask to reset his configuration in order to avoid bugs.
+creator.check = function () {
+    return new Promise (function (resolve, reject) {
+        // Read schema
+        files.readFile(constants.path.schema, function (data) {
+            // Non-matching schema
+            if (!data || JSON.parse(data).schema != pkg.abricotine.schema) {
+                return askForReset(resolve);
+            }
+            resolve();
+        });
+    });
 };
 
 module.exports = creator;
