@@ -148,7 +148,7 @@ var files = {
         fs.readFile(path, 'utf8', function (err, data) {
             if (err) {
                 console.error(err);
-                return false;
+                callback(null);
             } else if (typeof callback === 'function') {
                 callback(data, path);
             }
