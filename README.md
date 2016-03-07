@@ -110,6 +110,10 @@ Example:
 
 HTML, CSS, Javascript, XML and [C-like](http://codemirror.net/mode/clike/index.html) languages are supported regardless of this option.
 
+### `preview-template`
+
+The name of the template to use when previewing document in the browser.
+
 ## Adding spell checker dictionaries
 
 Abricotine uses [hunspell](http://hunspell.sourceforge.net/) dictionaries for Linux and Windows 7. If you want to add dictionaries, simply drop the dictionary folder in the `dict` subdirectory of Abricotine configuration folder.

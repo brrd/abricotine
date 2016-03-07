@@ -339,19 +339,22 @@ AbrDocument.prototype = {
             this.tmpPreviewPath = pathModule.join(constants.path.tmp, "/" + Date.now(), "/preview.html");
         }
         var that = this,
-            filePath = this.tmpPreviewPath;
+            filePath = this.tmpPreviewPath,
+            doExport = function (template) {
+                exportHtml(that, template, filePath, function (err, path) {
+                    if (err) {
+                        if (forceNewPath === true) {
+                            // Second try, abort here
+                            console.error(err);
+                            return;
+                        }
+                        return that.viewInBrowser(forceNewPath);
+                    }
+                    shell.openExternal("file://" + filePath);
+                });
+            };
         files.createDir(filePath);
-        exportHtml(this, null, filePath, function (err, path) {
-            if (err) {
-                if (forceNewPath === true) {
-                    // Second try, abort here
-                    console.error(err);
-                    return;
-                }
-                return that.viewInBrowser(forceNewPath);
-            }
-            shell.openExternal("file://" + filePath);
-        });
+        that.getConfig("preview-template", doExport); // TODO: log error if template don't exist
     },
 
     // Inline autopreview
