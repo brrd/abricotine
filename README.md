@@ -25,100 +25,10 @@ In **Abricotine**, you can preview your document directly in the text editor rat
 
 Abricotine is still in beta development. If you find a bug please report it [in the dedicated bug tracker](https://github.com/brrd/Abricotine/issues). 
 
-## Installation and usage
+## Documentation
 
-Abricotine is working on Windows (7 and later), Linux and OSX.
-
-### Installation from binaries
-
-Please note that prebuilt binaries are not provided for OSX, so Mac users will need to build the app by themselves (see ["Building and packaging"](#building-and-packaging)).
-
-For Windows and Linux users, the following installation method is recommended:
-
-1. Download prebuilt binaries from the [Releases page](https://github.com/brrd/Abricotine/releases),
-2. Extract the archive,
-3. Run `Abricotine.exe` (on Windows) or `Abricotine` (on Linux).
-
-Installers are not released yet.
-
-### Building and packaging
-
-#### Requirements
-
-* [Node.js](https://nodejs.org/en/) and `npm`,
-* Make sure you meet [node-gyp](https://github.com/nodejs/node-gyp) requirements (specific to your platform and architecture),
-* `git` (for Bower installation).
-
-#### Building
-
-1. Install requirements,
-2. Download [the latest Abricotine release source](https://github.com/brrd/Abricotine/releases) and extract the archive,
-3. Run `$ npm install` in the extracted folder.
-4. You can use Abricotine by running `$npm start` from its directory. To open a specific file, run `$npm start -- [path-to-file]`.
-
-#### Packaging
-
-Run `$ npm run packager` from the built project directory and select your platform and architecture.
-
-Packages are created in the `dist` directory.
-
-## Configuration
-
-You can open and edit Abricotine `JSON` configuration file by clicking "Edit preferences" in the "Edit" menu. 
-
-Most of the configuration entries are already handled by menus so you do not need to edit a file for changing them. However there is no menu for editing the following options:
-
-### `autopreview-security`
-
-If set to `true`, only iframes loaded from domains listed in `autopreview-domains` will be previewed.
-
-Default is `true`.
-
-### `autopreview-domains`
-
-Contains the list of domains considered as safe when previewing iframes (see `autopreview-security`).
-
-Default:
-
-```json
- "autopreview-domains": [
-     "dailymotion.com",
-     "deezer.com",
-     "dribbble.com",
-     "facebook.com",
-     "github.com",
-     "google.com",
-     "instagram.com",
-     "pinterest.com",
-     "soundcloud.com",
-     "spotify.com",
-     "twitter.com",
-     "vimeo.com",
-     "youtube.com"
-]
-```
-
-### `highlight-modes`
-
-The list of the programming languages to highlight. The expected value is a comma-separated list of CodeMirror modes ([see the full list of supported modes](https://github.com/codemirror/CodeMirror/tree/master/mode)).
-
-Example:
-
-```json
-	"highlight-modes": "coffeescript, ruby, php, python, brainfuck"
-```
-
-HTML, CSS, Javascript, XML and [C-like](http://codemirror.net/mode/clike/index.html) languages are supported regardless of this option.
-
-### `preview-template`
-
-The name of the template to use when previewing document in the browser.
-
-## Adding spell checker dictionaries
-
-Abricotine uses [hunspell](http://hunspell.sourceforge.net/) dictionaries for Linux and Windows 7. If you want to add dictionaries, simply drop the dictionary folder in the `dict` subdirectory of Abricotine configuration folder.
-
-Otherwise Abricotine uses the OS builtIn dictionaries when supported.
+* [Installation and usage](https://github.com/brrd/Abricotine/tree/master/docs/installation-and-usage.md)
+* [Configuration](https://github.com/brrd/Abricotine/tree/master/docs/configuration.md)
 
 ## Contributing
 
