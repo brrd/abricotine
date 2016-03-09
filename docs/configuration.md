@@ -57,3 +57,11 @@ The name of the template to use when previewing document in the browser.
 Abricotine uses [hunspell](http://hunspell.sourceforge.net/) dictionaries for Linux and Windows 7. If you want to add dictionaries, simply drop the dictionary folder in the `dict` subdirectory of Abricotine configuration folder.
 
 Otherwise Abricotine uses the OS builtIn dictionaries when supported.
+
+## Reset configuration
+
+**WARNING: deleted configuration is lost for ever!**
+
+If you want to erase your configuration (including user-defined dictionaries and templates), run Abricotine in your terminal with the `--reset` flag.
+
+This can be useful when a breaking changes happen in a new release (this can happen until Abricotine first stable release). However in such cases Abricotine will prompt you on startup.

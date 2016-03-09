@@ -34,3 +34,10 @@ Installers are not released yet.
 Run `$ npm run packager` from the built project directory and select your platform and architecture.
 
 Packages are created in the `dist` directory.
+
+## Debug mode
+
+Use the `--debug` flag to open Abricotine with the following options activated:
+
+* Chrome developer tools
+* Debug menu visible

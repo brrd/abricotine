@@ -4,7 +4,7 @@
 
 ![Screenshot](screenshot.jpg)
 
-In **Abricotine**, you can preview your document directly in the text editor rather than in a side pane. 
+In **Abricotine**, you can preview your document directly in the text editor rather than in a side pane.
 
 ![Another screenshot](screenshot2.jpg)
 
@@ -23,12 +23,13 @@ In **Abricotine**, you can preview your document directly in the text editor rat
 * Search and replace text,
 * And more features to come...
 
-Abricotine is still in beta development. If you find a bug please report it [in the dedicated bug tracker](https://github.com/brrd/Abricotine/issues). 
+Abricotine is still in beta development. If you find a bug please report it [in the dedicated bug tracker](https://github.com/brrd/Abricotine/issues).
 
 ## Documentation
 
 * [Installation and usage](https://github.com/brrd/Abricotine/tree/master/docs/installation-and-usage.md)
 * [Configuration](https://github.com/brrd/Abricotine/tree/master/docs/configuration.md)
+* [Templates](https://github.com/brrd/Abricotine/tree/master/docs/templates.md)
 
 ## Contributing
 
