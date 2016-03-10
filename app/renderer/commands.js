@@ -38,20 +38,24 @@ var commands = {
         abrDoc.close();
     },
 
+    // Deprecated: replaced by "role" in menu
     quit: function(win, abrDoc, cm) {
         win.close();
     },
 
     /* Edit */
 
+    // Deprecated: replaced by "role" in menu
     undo: function(win, abrDoc, cm) {
         cm.execCommand("undo");
     },
 
+    // Deprecated: replaced by "role" in menu
     redo: function(win, abrDoc, cm) {
         cm.execCommand("redo");
     },
 
+    // Deprecated: replaced by "role" in menu
     copy: function(win, abrDoc, cm) {
         document.execCommand("copy");
     },
@@ -66,10 +70,12 @@ var commands = {
         });
     },
 
+    // Deprecated: replaced by "role" in menu
     cut: function(win, abrDoc, cm) {
         document.execCommand("cut");
     },
 
+    // Deprecated: replaced by "role" in menu
     paste: function(win, abrDoc, cm) {
         document.execCommand("paste");
     },
@@ -107,6 +113,7 @@ var commands = {
         cm.execCommand("clearSearch");
     },
 
+    // Deprecated: replaced by "role" in menu
     selectAll: function(win, abrDoc, cm) {
         cm.execCommand("selectAll");
     },
