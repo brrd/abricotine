@@ -2,7 +2,13 @@
 
 Since Abricotine 0.3.0, you can use alternative templates when exporting a document to HTML.
 
+## Installing a template
+
+Templates must be stored in the user config directory into the `templates` subfolder.
+
 ## Creating a template
+
+A template consists of a directory which contains two files (`template.json` and `template.html`) and an optional `assets` directory.
 
 See [the default template](https://github.com/brrd/Abricotine/tree/master/default/templates/default) as an example.
 
@@ -49,3 +55,6 @@ Your template may contain an `assets` subdirectory to store the custom CSS and j
 <link rel="stylesheet" type="text/css" href="$ASSETS_PATH/my_styles.css">
 ```
 
+## Finding templates
+
+You can find new templates and share your own creations [on the dedicated repository](https://github.com/brrd/Abricotine-templates).
