@@ -80,6 +80,7 @@ blockquote {border-left:5px solid #eee; padding-left:1.5em; margin:1em 0;}
 blockquote small {display:block; line-height:1.7em;}
 ul, ol, dl {
   text-align:left;
+  padding-left: 2em;
 }
 
 dt {font-weight:bold;}
@@ -93,22 +94,14 @@ hr {height:0; color:#eee; border:1px solid #eee; margin:2em 0 1em;}
 .pull-left {float:left; margin:0.5em 2em 1em 0;}
 .pull-right {float:right; margin:0.5em 0 1em 2em;}
 
-.todo-checked, .todo-unchecked {
+li.task-list-item {
     list-style: none;
+    margin-left: -1em;
 }
 
-.todo-checked {
+li.task-list-item-checked {
     color: #666;
     text-decoration: line-through;
-}
-
-.todo-unchecked:before {
-    content: "\2610";
-}
-
-.todo-checked:before {
-    content: "\2611";
-    text-decoration: none;
 }
 
 img, iframe {
