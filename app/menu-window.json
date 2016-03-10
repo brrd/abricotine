@@ -155,6 +155,10 @@
             {
                 "label": "Edit preferences",
                 "command": "editConfigFile"
+            },
+            {
+                "label": "Open config directory",
+                "command": "openConfigDir"
             }
         ]
     },
@@ -618,10 +622,6 @@
             {
                 "label": "View in explorer",
                 "submenu": [
-                    {
-                        "label": "Config folder",
-                        "command": "openConfigDir"
-                    },
                     {
                         "label": "Temp folder",
                         "command": "openTempDir"
