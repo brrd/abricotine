@@ -7,7 +7,7 @@
 var remote = require("remote"),
     clipboard = require('clipboard'),
     constants = remote.require("./constants.js"),
-    kramed = require("kramed"),
+    md2html = require.main.require("./md2html.js"),
     shell = require('shell');
 
 var commands = {
@@ -58,7 +58,7 @@ var commands = {
 
     copyHtml: function(win, abrDoc, cm) {
         var data = cm.doc.getSelection("\n"),
-            html = kramed(data),
+            html = md2html(data),
             text = $(html).text();
         clipboard.write({
             text: text,
