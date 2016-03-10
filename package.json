@@ -49,9 +49,9 @@
   },
   "devDependencies": {
     "bower": "^1.6.5",
+    "commander": "^2.9.0",
     "electron-packager": "^5.2.1",
     "electron-rebuild": "^1.0.2",
-    "inquirer": "^0.11.0",
     "pretty-ms": "^2.1.0"
   },
   "abricotine": {

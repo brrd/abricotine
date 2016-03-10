@@ -31,9 +31,13 @@ Installers are not released yet.
 
 ### Packaging
 
-Run `$ npm run packager` from the built project directory and select your platform and architecture.
+Run `$ npm run packager` from the built project to package the app for your os. Packages are created in the `dist` directory.
 
-Packages are created in the `dist` directory.
+#### Packaging for another os
+
+If you need to target another platform or arch, your can use `$ npm run packager -- -p <platform> -a <arch>`. See `$ npm run packager -- --help` for more information about allowed parameters.
+
+Since Abricotine requires [native modules that need to be rebuild for each platform and arch](https://github.com/atom/electron/blob/master/docs/tutorial/using-native-node-modules.md), you should not try to target another operating system unless you provide a `node_module` directory which was built with `electron-rebuild` on an environment that matches the target.
 
 ## Debug mode
 
