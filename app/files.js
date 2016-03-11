@@ -11,7 +11,8 @@ var fs = require("fs"),
     ncp = require("ncp"),
     parsePath = require("parse-filepath"),
     path = require("path"),
-    request = require("request");
+    request = require("request"),
+    rimraf = require("rimraf");
 
 var files = {
 
@@ -96,6 +97,11 @@ var files = {
         return destDir;
     },
 
+    // rm -rf wrapper
+    deleteDir: function (target, callback) {
+        rimraf(target, fs, callback);
+    },
+
     dirExists: function (dirPath) {
         try {
             return fs.statSync(dirPath).isDirectory();
@@ -142,7 +148,7 @@ var files = {
         fs.readFile(path, 'utf8', function (err, data) {
             if (err) {
                 console.error(err);
-                return false;
+                callback(null);
             } else if (typeof callback === 'function') {
                 callback(data, path);
             }

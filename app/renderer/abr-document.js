@@ -65,6 +65,17 @@ function AbrDocument () {
             // Editor font-size
             var fontSize = config.editor["font-size"] || "16px";
             that.setFontSize(fontSize);
+            // Syntax highlighting
+            var modes = config["highlight-modes"];
+            if (!modes) return;
+            if (typeof modes === "string") {
+                modes = modes.split(",");
+            }
+            modes.forEach( function (mode) {
+                mode = mode.trim();
+                if (mode === "") return;
+                $("<script src='../../bower_components/codemirror/mode/" + mode + "/" + mode + ".js'></script>").appendTo("head");
+            });
         });
 
         // Listener for context menu
@@ -312,12 +323,12 @@ AbrDocument.prototype = {
     },
 
     // Export
-    exportHtml: function () {
+    exportHtml: function (template) {
         var that = this;
-        exportHtml(this, null, null, function (err, path) {
+        exportHtml(this, template, null, function (err, path) {
             if (err) {
                 return dialogs.fileAccessDenied(path, function () {
-                    that.exportHtml();
+                    that.exportHtml(template);
                 });
             }
         });
@@ -328,19 +339,22 @@ AbrDocument.prototype = {
             this.tmpPreviewPath = pathModule.join(constants.path.tmp, "/" + Date.now(), "/preview.html");
         }
         var that = this,
-            filePath = this.tmpPreviewPath;
+            filePath = this.tmpPreviewPath,
+            doExport = function (template) {
+                exportHtml(that, template, filePath, function (err, path) {
+                    if (err) {
+                        if (forceNewPath === true) {
+                            // Second try, abort here
+                            console.error(err);
+                            return;
+                        }
+                        return that.viewInBrowser(forceNewPath);
+                    }
+                    shell.openExternal("file://" + filePath);
+                });
+            };
         files.createDir(filePath);
-        exportHtml(this, null, filePath, function (err, path) {
-            if (err) {
-                if (forceNewPath === true) {
-                    // Second try, abort here
-                    console.error(err);
-                    return;
-                }
-                return that.viewInBrowser(forceNewPath);
-            }
-            shell.openExternal("file://" + filePath);
-        });
+        that.getConfig("preview-template", doExport); // TODO: log error if template don't exist
     },
 
     // Inline autopreview

@@ -8,7 +8,7 @@ var remote = require("remote"),
     constants = remote.require("./constants"),
     dialogs = require.main.require("./dialogs.js"),
     files = remote.require("./files.js"),
-    kramed = require("kramed"),
+    md2html = require.main.require("./md2html.js"),
     parsePath = require("parse-filepath"),
     pathModule = require("path");
 
@@ -19,9 +19,10 @@ function getDocTitle (data) {
     return title;
 }
 
-function exportHtml (abrDoc, templatePath, destPath, callback) {
-    // Default template if undefined
-    templatePath = templatePath || pathModule.join(constants.path.templatesDir, "/default");
+function exportHtml (abrDoc, templateName, destPath, callback) {
+    templateName = templateName || "default";
+    // Get template path
+    var templatePath = pathModule.join(constants.path.templatesDir, "/" + templateName);
     // Get editor content
     var markdown = abrDoc.getData();
     // Ask for destination path if undefined
@@ -40,7 +41,7 @@ function exportHtml (abrDoc, templatePath, destPath, callback) {
     // abrDoc.imageImport(destPath + "_files/images", false);
 
     // Markdown to HTML conversion
-    var htmlContent = kramed(markdown);
+    var htmlContent = md2html(markdown);
     // Process and save HTML
     files.readFile(pathModule.join(templatePath, "/template.html"), function (template) {
         // Process templating

@@ -7,7 +7,7 @@
 var remote = require("remote"),
     clipboard = require('clipboard'),
     constants = remote.require("./constants.js"),
-    kramed = require("kramed"),
+    md2html = require.main.require("./md2html.js"),
     shell = require('shell');
 
 var commands = {
@@ -30,35 +30,39 @@ var commands = {
         abrDoc.saveAs();
     },
 
-    exportHtml: function(win, abrDoc, cm) {
-        abrDoc.exportHtml();
+    exportHtml: function(win, abrDoc, cm, param) {
+        abrDoc.exportHtml(param);
     },
 
     close: function(win, abrDoc, cm) {
         abrDoc.close();
     },
 
+    // Deprecated: replaced by "role" in menu
     quit: function(win, abrDoc, cm) {
         win.close();
     },
 
     /* Edit */
 
+    // Deprecated: replaced by "role" in menu
     undo: function(win, abrDoc, cm) {
         cm.execCommand("undo");
     },
 
+    // Deprecated: replaced by "role" in menu
     redo: function(win, abrDoc, cm) {
         cm.execCommand("redo");
     },
 
+    // Deprecated: replaced by "role" in menu
     copy: function(win, abrDoc, cm) {
         document.execCommand("copy");
     },
 
     copyHtml: function(win, abrDoc, cm) {
         var data = cm.doc.getSelection("\n"),
-            html = kramed(data),
+            html = md2html(data),
             text = $(html).text();
         clipboard.write({
             text: text,
@@ -66,10 +70,12 @@ var commands = {
         });
     },
 
+    // Deprecated: replaced by "role" in menu
     cut: function(win, abrDoc, cm) {
         document.execCommand("cut");
     },
 
+    // Deprecated: replaced by "role" in menu
     paste: function(win, abrDoc, cm) {
         document.execCommand("paste");
     },
@@ -107,6 +113,7 @@ var commands = {
         cm.execCommand("clearSearch");
     },
 
+    // Deprecated: replaced by "role" in menu
     selectAll: function(win, abrDoc, cm) {
         cm.execCommand("selectAll");
     },

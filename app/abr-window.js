@@ -31,9 +31,9 @@ function alreadyOpen (abrApp, path) {
 function createConfig () {
     var config = new nconf.Provider(); // https://github.com/indexzero/nconf/issues/39
     config.overrides({})
-         .argv()
-         .file(constants.path.userConfig)
-         .defaults(defaultConfig);
+        .file(constants.path.userConfig)
+        .defaults(defaultConfig);
+    if (process.argv.indexOf("--debug") !== -1) config.set("debug", true);
     return config;
 }
 

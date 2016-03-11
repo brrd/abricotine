@@ -79,7 +79,7 @@ function imageImport (abrDoc, destFolder, updateEditor) {
     }
 
     function main() {
-        var regex = /(!\[["'-a-zA-Z0-9@:%._\+~#=\.\/! ]*\]\()([\(\)\[\]-a-zA-Z0-9@:%_\+~#=\.\/ ]+\.(?:jpg|jpeg|png|gif|svg))(?:\s(?:"|')(?:[-a-zA-Z0-9@:%_\+~#=\.\/! ]*)(?:"|')\s?)?\)/gi,
+        var regex = /(!\[[^\]]*\]\()([\(\)\[\]-a-zA-Z0-9@:%_\+~#=\.\\\/ ]+\.(?:jpg|jpeg|png|gif|svg))(?:\s(?:"|')(?:[-a-zA-Z0-9@:%_\+~#=\.\/! ]*)(?:"|')\s?)?\)/gi,
             match;
         destFolder = destFolder || parsePath(abrDoc.path).basename + "_files";
         files.createDir(destFolder);

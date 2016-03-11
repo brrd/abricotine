@@ -8,5 +8,6 @@
     },
     "browser": true,
     "node": true,
-    "jquery": true
+    "jquery": true,
+    "eqnull": true
 }

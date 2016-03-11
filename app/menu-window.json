@@ -30,8 +30,8 @@
             },
             {
                 "label": "Export as HTML",
-                "accelerator": "CmdOrCtrl+E",
-                "command": "exportHtml"
+                "id": "exportHtml",
+                "submenu": []
             },
             {
                 "type": "separator"
@@ -44,7 +44,7 @@
             {
                 "label": "Close window",
                 "accelerator": "CmdOrCtrl+Q",
-                "command": "quit"
+                "role": "close"
             }
         ]
     },
@@ -54,12 +54,12 @@
             {
                 "label": "Undo",
                 "accelerator": "CmdOrCtrl+Z",
-                "command": "undo"
+                "role": "undo"
             },
             {
                 "label": "Redo",
                 "accelerator": "CmdOrCtrl+Y",
-                "command": "redo"
+                "role": "redo"
             },
             {
                 "type": "separator"
@@ -67,12 +67,12 @@
             {
                 "label": "Cut",
                 "accelerator": "CmdOrCtrl+X",
-                "command": "cut"
+                "role": "cut"
             },
             {
                 "label": "Copy",
                 "accelerator": "CmdOrCtrl+C",
-                "command": "copy"
+                "role": "copy"
             },
             {
                 "label": "Copy as Html",
@@ -82,12 +82,12 @@
             {
                 "label": "Paste",
                 "accelerator": "CmdOrCtrl+V",
-                "command": "paste"
+                "role": "paste"
             },
             {
                 "label": "Select all",
                 "accelerator": "CmdOrCtrl+A",
-                "command": "selectAll"
+                "role": "selectall"
             },
             {
                 "type": "separator"
@@ -155,6 +155,10 @@
             {
                 "label": "Edit preferences",
                 "command": "editConfigFile"
+            },
+            {
+                "label": "Open config directory",
+                "command": "openConfigDir"
             }
         ]
     },
@@ -247,7 +251,7 @@
             },
             {
                 "label": "Quote",
-                "accelerator": "CmdOrCtrl+Q",
+                "accelerator": "CmdOrCtrl+Shift+Q",
                 "command": "format",
                 "parameters": "quote"
             }
@@ -618,10 +622,6 @@
             {
                 "label": "View in explorer",
                 "submenu": [
-                    {
-                        "label": "Config folder",
-                        "command": "openConfigDir"
-                    },
                     {
                         "label": "Temp folder",
                         "command": "openTempDir"

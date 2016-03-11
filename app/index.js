@@ -6,7 +6,7 @@
 
 var AbrApplication = require.main.require("./abr-application.js"),
     app = require("app"),
-    create = require("./create.js");
+    creator = require("./creator.js");
 
 // Check app is single instance
 var abrApp = null,
@@ -27,11 +27,17 @@ app.on("window-all-closed", function() {
     }
 });
 
+// Reset config when --reset argument is used, otherwise ensure the config files exist
+var creatorFunc = process.argv.indexOf("--reset") !== -1 ? creator.reset : creator.create;
+
 Promise.all([
     new Promise (function (resolve, reject) {
-        app.on("ready", resolve);
+        app.on("ready", function () {
+            // Check configuration
+            creator.check().then(resolve);
+        });
     }),
-    create
+    creatorFunc()
 ]).then(function () {
     abrApp = new AbrApplication();
 });

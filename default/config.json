@@ -10,6 +10,8 @@
     "editor": {
         "font-size": "16px"
     },
+    "highlight-modes": "",
+    "preview-template": "default",
     "startup-commands": {
         "showBlocks": false,
         "showHiddenCharacters": true,
