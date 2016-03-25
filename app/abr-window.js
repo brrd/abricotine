@@ -30,10 +30,11 @@ function alreadyOpen (abrApp, path) {
 // Config creation (config is specific to the window)
 function createConfig () {
     var config = new nconf.Provider(); // https://github.com/indexzero/nconf/issues/39
-    config.overrides({})
+    config.overrides({
+            "debug": process.argv.indexOf("--debug") !== -1
+        })
         .file(constants.path.userConfig)
         .defaults(defaultConfig);
-    if (process.argv.indexOf("--debug") !== -1) config.set("debug", true);
     return config;
 }
 
