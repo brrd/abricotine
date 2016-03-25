@@ -55,13 +55,18 @@ function preprocessTemplate (element, config) {
             }
             return item;
         };
+    // Remove elements that should not be displayed (config --debug or platform-specific menuItems)
     for (var i=0; i<element.length; i++) {
-        // Conditionnal menuItem (debug menu) : do not process if not allowed
-        if (element[i].condition && !getConfig(config, element[i].condition)) {
+        var el = element[i],
+            hiddenWithThisConfig = el.condition && !getConfig(config, el.condition),
+            hiddenWithThisPlatform = el.platform && el.platform.indexOf(process.platform) === -1;
+        if (hiddenWithThisConfig || hiddenWithThisPlatform) {
             element.splice(i, 1);
         }
-        // Replace attributes of menu items
-        replaceAttributes(element[i]);
+    }
+    // Process attributes of menu items
+    for (var j=0; j<element.length; j++) {
+        replaceAttributes(element[j]);
     }
     return element;
 }
