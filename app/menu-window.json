@@ -513,7 +513,8 @@
                 "label": "Show menu bar",
                 "command": "showMenuBar",
                 "type": "checkbox",
-                "checked": "window:showMenuBar"
+                "checked": "window:showMenuBar",
+                "platform": "linux, win32"
             },
             {
                 "label": "Show table of contents",
