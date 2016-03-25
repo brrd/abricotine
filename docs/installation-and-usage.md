@@ -4,8 +4,6 @@ Abricotine is working on Windows (7 and later), Linux and OSX.
 
 ## Installation from binaries
 
-Please note that prebuilt binaries are not provided for OSX, so Mac users will need to build the app by themselves (see ["Building and packaging"](#building-and-packaging)).
-
 For Windows and Linux users, the following installation method is recommended:
 
 1. Download prebuilt binaries from the [Releases page](https://github.com/brrd/Abricotine/releases),
