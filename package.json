@@ -55,6 +55,6 @@
     "pretty-ms": "^2.1.0"
   },
   "abricotine": {
-    "schema": 1
+    "schema": 2
   }
 }
