@@ -55,18 +55,19 @@ function preprocessTemplate (element, config) {
             }
             return item;
         };
-    // Remove elements that should not be displayed (config --debug or platform-specific menuItems)
+    // Process menuItem
     for (var i=0; i<element.length; i++) {
         var el = element[i],
             hiddenWithThisConfig = el.condition && !getConfig(config, el.condition),
             hiddenWithThisPlatform = el.platform && el.platform.indexOf(process.platform) === -1;
         if (hiddenWithThisConfig || hiddenWithThisPlatform) {
+            // Remove elements that should not be displayed (config --debug or platform-specific menuItems)
             element.splice(i, 1);
+            i--;
+        } else {
+            // Process attributes
+            replaceAttributes(el);
         }
-    }
-    // Process attributes of menu items
-    for (var j=0; j<element.length; j++) {
-        replaceAttributes(element[j]);
     }
     return element;
 }
