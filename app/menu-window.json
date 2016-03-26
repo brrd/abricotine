@@ -1,5 +1,42 @@
 [
     {
+        "label": "Abricotine",
+        "platform": "darwin",
+        "submenu": [
+            {
+                "label": "About Abricotine",
+                "command": "about"
+            },
+            {
+                "type": "separator"
+            },
+            {
+                "label": "Edit Preferences",
+                "accelerator": "CmdOrCtrl+,",
+                "command": "editConfigFile"
+            },
+            {
+                "label": "Open Config Directory",
+                "command": "openConfigDir"
+            },
+            {
+                "type": "separator"
+            },
+            {
+                "label": "Hide Abricotine",
+                "role": "hide"
+            },
+            {
+                "label": "Hide Others",
+                "role": "hideothers"
+            },
+            {
+                "label": "Show All",
+                "role": "unhide"
+            }
+        ]
+    },
+    {
         "label": "&File",
         "submenu": [
             {
@@ -150,15 +187,18 @@
                 "checked": "startup-commands:autoCloseBrackets"
             },
             {
-                "type": "separator"
+                "type": "separator",
+                "platform": "linux, win32"
             },
             {
                 "label": "Edit Preferences",
-                "command": "editConfigFile"
+                "command": "editConfigFile",
+                "platform": "linux, win32"
             },
             {
                 "label": "Open Config Directory",
-                "command": "openConfigDir"
+                "command": "openConfigDir",
+                "platform": "linux, win32"
             }
         ]
     },
@@ -179,7 +219,7 @@
             },
             {
                 "label": "Strikethrough",
-                "accelerator": "CmdOrCtrl+,",
+                "accelerator": "CmdOrCtrl+/",
                 "command": "format",
                 "parameters": "strikethrough"
             },
@@ -636,11 +676,18 @@
         ]
     },
     {
+        "label": "&Window",
+        "role": "window",
+        "platform": "darwin"
+    },
+    {
         "label": "&Help",
+        "role": "help",
         "submenu": [
             {
                 "label": "About Abricotine",
-                "command": "about"
+                "command": "about",
+                "platform": "linux, win32"
             },
             {
                 "label": "Visit Homepage",
