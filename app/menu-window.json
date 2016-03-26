@@ -676,11 +676,6 @@
         ]
     },
     {
-        "label": "&Window",
-        "role": "window",
-        "platform": "darwin"
-    },
-    {
         "label": "&Help",
         "role": "help",
         "submenu": [
