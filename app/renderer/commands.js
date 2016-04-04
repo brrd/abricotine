@@ -39,8 +39,12 @@ var commands = {
     },
 
     // Deprecated: replaced by "role" in menu
-    quit: function(win, abrDoc, cm) {
+    closeWin: function(win, abrDoc, cm) {
         win.close();
+    },
+
+    quit: function(win, abrDoc, cm) {
+        remote.app.quit();
     },
 
     /* Edit */

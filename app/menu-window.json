@@ -33,6 +33,13 @@
             {
                 "label": "Show All",
                 "role": "unhide"
+            },
+            {
+                "type": "separator"
+            },
+            {
+                "label": "Quit Abricotine",
+                "accelerator": "CmdOrCtrl+Q"
             }
         ]
     },
@@ -80,8 +87,14 @@
             },
             {
                 "label": "Close Window",
-                "accelerator": "CmdOrCtrl+Q",
+                "accelerator": "CmdOrCtrl+Shift+W",
                 "role": "close"
+            },
+            {
+                "label": "Quit",
+                "accelerator": "CmdOrCtrl+Q",
+                "command": "quit",
+                "platform": "linux, win32"
             }
         ]
     },
