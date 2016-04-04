@@ -14,49 +14,43 @@ var creator = {};
 
 // Create configuration folders and copy default config files
 creator.create = function () {
-    return new Promise (function (resolve, reject) {
-        // 1. Create folders
-        // Create the app folder if it doesn't already exist (sync)
-        files.createDir(constants.path.userData);
-        // Create the temp folder (sync)
-        files.createDir(constants.path.tmp);
-        resolve();
-    }).then(function () {
-        // 2. Copy/create contents if not found
-        return Promise.all([
-            new Promise (function (resolve, reject) {
-                // Create a config file and schema.json
-                if (!files.fileExists(constants.path.userConfig)) {
-                    // config.json
-                    files.copyFile(pathModule.join(constants.path.defaultDir, "/config.json"), constants.path.userConfig, function () {
-                        // Also see if schema.json exist
-                        if (!files.fileExists(constants.path.schema)) {
-                            var data = "{ \"schema\": " + pkg.abricotine.schema + " }";
-                            files.writeFile(data, constants.path.schema, resolve);
-                        }
-                    });
-                } else {
-                    resolve();
-                }
-            }),
-            new Promise (function (resolve, reject) {
-                // Copy default dicts
-                if (!files.dirExists(constants.path.dictionaries)) {
-                    files.copyLocalDir(pathModule.join(constants.path.defaultDir, "/dict"), constants.path.dictionaries, resolve);
-                } else {
-                    resolve();
-                }
-            }),
-            new Promise (function (resolve, reject) {
-                // Copy default template
-                if (!files.dirExists(constants.path.templatesDir)) {
-                    files.copyLocalDir(pathModule.join(constants.path.defaultDir, "/templates"), constants.path.templatesDir, resolve);
-                } else {
-                    resolve();
-                }
-            })
-        ]);
-    });
+    // 1. Create folders (sync)
+    files.createDir(constants.path.userData);
+    files.createDir(constants.path.tmp);
+    // 2. Then copy/create contents if not found
+    return Promise.all([
+        new Promise (function (resolve, reject) {
+            // Create a config file and schema.json
+            if (!files.fileExists(constants.path.userConfig)) {
+                // config.json
+                files.copyFile(pathModule.join(constants.path.defaultDir, "/config.json"), constants.path.userConfig, function () {
+                    // Also see if schema.json exist
+                    if (!files.fileExists(constants.path.schema)) {
+                        var data = "{ \"schema\": " + pkg.abricotine.schema + " }";
+                        files.writeFile(data, constants.path.schema, resolve);
+                    }
+                });
+            } else {
+                resolve();
+            }
+        }),
+        new Promise (function (resolve, reject) {
+            // Copy default dicts
+            if (!files.dirExists(constants.path.dictionaries)) {
+                files.copyLocalDir(pathModule.join(constants.path.defaultDir, "/dict"), constants.path.dictionaries, resolve);
+            } else {
+                resolve();
+            }
+        }),
+        new Promise (function (resolve, reject) {
+            // Copy default template
+            if (!files.dirExists(constants.path.templatesDir)) {
+                files.copyLocalDir(pathModule.join(constants.path.defaultDir, "/templates"), constants.path.templatesDir, resolve);
+            } else {
+                resolve();
+            }
+        })
+    ]);
 };
 
 // Erase the whole configuration
