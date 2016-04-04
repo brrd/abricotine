@@ -12,6 +12,11 @@ var AbrApplication = require.main.require("./abr-application.js"),
 var abrApp = null,
     isSecondaryInstance = app.makeSingleInstance(function(argv, workingDir) {
         process.chdir(workingDir);
+        if (abrApp == null) {
+            console.error("Error when trying to reach primary Abricotine instance");
+            app.quit();
+            return false;
+        }
         abrApp.run(argv);
         return true;
     });
