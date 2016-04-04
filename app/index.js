@@ -8,9 +8,11 @@ var AbrApplication = require.main.require("./abr-application.js"),
     app = require("app"),
     creator = require("./creator.js");
 
-// Check app is single instance
 var abrApp = null,
-    isSecondaryInstance = app.makeSingleInstance(function(argv, workingDir) {
+    osxOpenFilePath = null;
+
+// Check app is single instance
+var isSecondaryInstance = app.makeSingleInstance(function(argv, workingDir) {
         process.chdir(workingDir);
         if (abrApp == null) {
             console.error("Error when trying to reach primary Abricotine instance");
@@ -25,6 +27,12 @@ if (isSecondaryInstance) {
     return;
 }
 
+// OSX open-file
+app.on("open-file", function(event, path) {
+    event.preventDefault();
+    osxOpenFilePath = path;
+});
+
 // Quit app when all windows are closed
 app.on("window-all-closed", function() {
     if (process.platform != "darwin") {
@@ -38,6 +46,6 @@ app.on("ready", function () {
     creatorFunc()
         .then(creator.check)
         .then(function () {
-            abrApp = new AbrApplication();
+            abrApp = new AbrApplication(osxOpenFilePath);
         });
 });

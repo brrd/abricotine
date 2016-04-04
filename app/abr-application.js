@@ -11,13 +11,13 @@ var AbrWindow = require.main.require("./abr-window.js"),
     parsePath = require("parse-filepath"),
     themeLoader = require.main.require("./theme-loader.js");
 
-function AbrApplication () {
+function AbrApplication (osxOpenFilePath) {
     // Windows reference
     this.windows = [];
     // IPC get & set
     this.ipcServer = new ipcServer(this);
     // Compile LESS theme then open windows
-    themeLoader.load("abricotine", this.run.bind(this, null));
+    themeLoader.load("abricotine", this.run.bind(this, osxOpenFilePath));
 }
 
 AbrApplication.prototype = {
