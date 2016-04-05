@@ -17,7 +17,7 @@ function AbrApplication (osxOpenFilePath) {
     // IPC get & set
     this.ipcServer = new ipcServer(this);
     // Compile LESS theme then open windows
-    themeLoader.load("abricotine", this.run.bind(this, osxOpenFilePath));
+    themeLoader.load("abricotine", this.run.bind(this, [osxOpenFilePath]));
 }
 
 AbrApplication.prototype = {
