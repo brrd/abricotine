@@ -30,7 +30,11 @@ if (isSecondaryInstance) {
 // OSX open-file
 app.on("open-file", function(event, path) {
     event.preventDefault();
-    osxOpenFilePaths.push(path);
+    if (abrApp) {
+        abrApp.open(path);
+    } else {
+        osxOpenFilePaths.push(path);
+    }
 });
 
 // Quit app when all windows are closed
