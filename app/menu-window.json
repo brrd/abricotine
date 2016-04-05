@@ -125,7 +125,7 @@
                 "role": "copy"
             },
             {
-                "label": "Copy as Html",
+                "label": "Copy as HTML",
                 "accelerator": "CmdOrCtrl+Shift+C",
                 "command": "copyHtml"
             },
