@@ -9,7 +9,7 @@ var AbrApplication = require.main.require("./abr-application.js"),
     creator = require("./creator.js");
 
 var abrApp = null,
-    osxOpenFilePath = null;
+    osxOpenFilePaths = [];
 
 // Check app is single instance
 var isSecondaryInstance = app.makeSingleInstance(function(argv, workingDir) {
@@ -30,7 +30,7 @@ if (isSecondaryInstance) {
 // OSX open-file
 app.on("open-file", function(event, path) {
     event.preventDefault();
-    osxOpenFilePath = path;
+    osxOpenFilePaths.push(path);
 });
 
 // Quit app when all windows are closed
@@ -46,6 +46,6 @@ app.on("ready", function () {
     creatorFunc()
         .then(creator.check)
         .then(function () {
-            abrApp = new AbrApplication(osxOpenFilePath);
+            abrApp = new AbrApplication(osxOpenFilePaths);
         });
 });
