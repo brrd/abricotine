@@ -19,7 +19,6 @@ module.exports = {
     path: {
         app: appPath,
         icon: pathModule.join(appPath, "/icons/abricotine.png"),
-        bigIcon: pathModule.join(appPath, "/icons/abricotine@2x.png"),
         defaultDir: isAsar ? appPath + ".unpacked/default" :  appPath + "/default",
         dictionaries: pathModule.join(userDataPath, "/dict"),
         schema: pathModule.join(userDataPath, "/schema.json"),
