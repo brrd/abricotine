@@ -121,7 +121,7 @@ AbrWindow.prototype = {
         });
         win.on("closed", function () {
             // Destroy the window
-            abrApp.windows[win.id] = null;
+            abrApp.windows[abrWin.id] = null;
             win = null;
         });
 
