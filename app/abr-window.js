@@ -99,7 +99,7 @@ AbrWindow.prototype = {
         this.id = win.id;
 
         // Register this in abrApp
-        abrApp.windows[abrWin.id] = this;
+        abrApp.windows[win.id] = this;
 
         // Prepare startup commands
         var execStartupCommands = function () {
