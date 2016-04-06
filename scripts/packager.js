@@ -1,7 +1,9 @@
 #!/usr/bin/env node
 
 var commander = require("commander"),
+    ncp = require("ncp").ncp,
     packager = require("electron-packager"),
+    path = require("path"),
     pkg = require("../package.json"),
     prettyMs = require("pretty-ms");
 
@@ -51,11 +53,41 @@ if (commander.debug === true) {
     options.prune = false;
 }
 
+// Copy icons to each package
+function copyIconsAll (appPaths, callback) {
+    // Copy icons to a specific destination
+    function copyIcons (destination) {
+        return new Promise (function(resolve, reject) {
+            ncp.limit = 16;
+            ncp("./icons", destination, function (err) {
+                if (err) reject(err);
+                else resolve();
+            });
+        });
+    }
+    // Get promises
+    var proms = [];
+    appPaths.forEach(function(appPath) {
+        var destDir = path.join(appPath, "icons");
+        proms.push(copyIcons(destDir));
+    });
+    // Copy
+    Promise.all(proms)
+        .then(function() {
+            if (typeof callback === "function") callback();
+        })
+        .catch(function(err) {
+            console.error(err);
+        });
+}
+
 // Run packager
-packager(options, function (err, appPath) {
+packager(options, function (err, appPaths) {
     if (err) {
         console.error (err);
     } else {
-        console.log("Packages were built in " + prettyMs(new Date().getTime() - startTime));
+        copyIconsAll(appPaths, function () {
+            console.log("Packages were built in " + prettyMs(new Date().getTime() - startTime));
+        });
     }
 });
