@@ -92,7 +92,7 @@ AbrApplication.prototype = {
 
     // Open documents in argv if exist, otherwise open a new document
     run: function (argv) {
-        argv = argv || process.argv;
+        argv = argv && argv.length > 0 ? argv : process.argv;
         var argvDocs = argv.filter(function (element) {
                 return element.substring(0, 2) !== "--" && files.isTextFile(element);
             });
