@@ -39,6 +39,7 @@
             },
             {
                 "label": "Quit Abricotine",
+                "command": "quit",
                 "accelerator": "CmdOrCtrl+Q"
             }
         ]
