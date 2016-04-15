@@ -6,6 +6,7 @@
 
 var AbrWindow = require.main.require("./abr-window.js"),
     BrowserWindow = require("browser-window"),
+    commands = require.main.require("./commands-main.js"),
     files = require.main.require("./files.js"),
     ipcServer = require.main.require("./ipc-server.js"),
     parsePath = require("parse-filepath"),
@@ -108,6 +109,14 @@ AbrApplication.prototype = {
     openContextMenu: function (arg, winId) {
         var abrWin = this.getFocusedAbrWindow(winId);
         abrWin.contextMenu.popup();
+    },
+
+    execCommand: function (command, parameters) {
+        if (commands && commands[command]) {
+            commands[command](this, parameters);
+        } else {
+            console.error("Unknown command '" + command + "'");
+        }
     }
 };
 
