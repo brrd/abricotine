@@ -6,7 +6,7 @@
 
 var remote = require("remote"),
     constants = remote.require("./constants"),
-    dialogs = require.main.require("./dialogs.js"),
+    dialogs = remote.require("./dialogs.js"),
     files = remote.require("./files.js"),
     md2html = require.main.require("./md2html.js"),
     parsePath = require("parse-filepath"),

@@ -4,11 +4,10 @@
 *   Licensed under GNU-GPLv3 <http://www.gnu.org/licenses/gpl.html>
 */
 
-var remote = require("remote"),
-    BrowserWindow = remote.require("browser-window"),
-    constants = remote.require("./constants.js"),
-    dialog = remote.require("dialog"),
-    NativeImage = remote.require("native-image"),
+var BrowserWindow = require("browser-window"),
+    constants = require("./constants.js"),
+    dialog = require("dialog"),
+    NativeImage = require("native-image"),
     parsePath = require("parse-filepath");
 
 // Returns the most "logical" window object (it is quite useless actually)
@@ -19,8 +18,6 @@ function getWindow (win) {
         return win;
     } else if (win && typeof win.browserWindow !== "undefined") {
         return win.browserWindow;
-    } else if (typeof remote !== "undefined") {
-        return remote.getCurrentWindow();
     } else {
         return BrowserWindow.getFocusedWindow();
     }
