@@ -195,6 +195,7 @@ AbrMenu.prototype = {
     },
 
     attach: function () {
+        // FIXME: use win.setMenu(menu) for Linux and Windows instead
         Menu.setApplicationMenu(this.menu);
     }
 };

@@ -4,11 +4,13 @@
 *   Licensed under GNU-GPLv3 <http://www.gnu.org/licenses/gpl.html>
 */
 
-var AbrWindow = require.main.require("./abr-window.js"),
+var AbrMenu = require.main.require("./abr-menu.js"),
+    AbrWindow = require.main.require("./abr-window.js"),
     BrowserWindow = require("browser-window"),
     commands = require.main.require("./commands-main.js"),
     files = require.main.require("./files.js"),
     ipcServer = require.main.require("./ipc-server.js"),
+    menuAppTemplate = require.main.require("./menu-app.json"),
     parsePath = require("parse-filepath"),
     themeLoader = require.main.require("./theme-loader.js");
 
@@ -17,6 +19,8 @@ function AbrApplication (osxOpenFilePaths) {
     this.windows = [];
     // IPC get & set
     this.ipcServer = new ipcServer(this);
+    // Light menu (used only on OSX when all windows closed)
+    this.menu = new AbrMenu(null, menuAppTemplate);
     // Compile LESS theme then open windows
     themeLoader.load("abricotine", this.run.bind(this, osxOpenFilePaths));
 }
@@ -117,6 +121,10 @@ AbrApplication.prototype = {
         } else {
             console.error("Unknown command '" + command + "'");
         }
+    },
+
+    showMenu: function () {
+        this.menu.attach();
     }
 };
 
