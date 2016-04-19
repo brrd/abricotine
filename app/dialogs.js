@@ -41,13 +41,11 @@ var appDialogs = {
         }
     },
 
-    askClose : function (abrDoc, closeFunc, win) {
-        var path = abrDoc.path;
+    askClose: function (path, saveFunc, closeFunc, win) {
         if (!path) {
             path = 'New document';
         }
         win = getWindow(win);
-        closeFunc = closeFunc || win.destroy; // win.close() would trigger the 'onbeforeunload' event again
         var filename = parsePath(path).basename || path,
             userChoice = dialog.showMessageBox(win, {
                 title: 'Unsaved document',
@@ -56,7 +54,7 @@ var appDialogs = {
             });
         switch (userChoice) {
             case 1:
-                abrDoc.save(null, closeFunc);
+                saveFunc(closeFunc);
                 break;
             case 2:
                 closeFunc();
