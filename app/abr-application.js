@@ -20,7 +20,7 @@ function AbrApplication (osxOpenFilePaths) {
     // IPC get & set
     this.ipcServer = new ipcServer(this);
     // Light menu (used only on OSX when all windows closed)
-    this.menu = new AbrMenu(null, menuAppTemplate);
+    this.menu = new AbrMenu(this, null, menuAppTemplate);
     // Compile LESS theme then open windows
     themeLoader.load("abricotine", this.run.bind(this, osxOpenFilePaths));
 }
@@ -116,6 +116,12 @@ AbrApplication.prototype = {
     },
 
     execCommand: function (command, parameters) {
+        // send command to the focused window
+        var win = BrowserWindow.getFocusedWindow();
+        if (win) {
+            return win.webContents.send("command", command, parameters);
+        }
+        // if no window, run a command from commands-main.js
         if (commands && commands[command]) {
             commands[command](this, parameters);
         } else {

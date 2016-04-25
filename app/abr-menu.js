@@ -4,8 +4,7 @@
 *   Licensed under GNU-GPLv3 <http://www.gnu.org/licenses/gpl.html>
 */
 
-var BrowserWindow = require("browser-window"),
-    constants = require.main.require("./constants"),
+var constants = require.main.require("./constants"),
     files  = require.main.require("./files"),
     fs = require("fs"),
     langmap = require("langmap"),
@@ -20,15 +19,11 @@ function getConfig (config, key) {
     return false;
 }
 
-function preprocessTemplate (element, config) {
+function preprocessTemplate (abrApp, element, config) {
     if (element.constructor !== Array) {
         return;
     }
-    var sendCommand = function (command, parameters) {
-            // sendCommand detects the focused window in order to avoid problems due to window destruction
-            var win = BrowserWindow.getFocusedWindow();
-            win.webContents.send("command", command, parameters);
-        },
+    var sendCommand = abrApp.execCommand,
         replaceAttributes = function (item) {
             if (item.condition) {
                     delete item.condition;
@@ -51,7 +46,7 @@ function preprocessTemplate (element, config) {
                 if (item.id === "exportHtml") {
                     item.submenu = exportHtmlMenuGenerator(item.submenu, config);
                 }
-                preprocessTemplate(item.submenu, config);
+                preprocessTemplate(abrApp, item.submenu, config);
             }
             return item;
         };
@@ -163,9 +158,9 @@ function exportHtmlMenuGenerator (submenu, config) {
 }
 
 // Electron's menu wrapper
-function AbrMenu (abrWin, menuTemplate, config) {
+function AbrMenu (abrApp, abrWin, menuTemplate, config) {
     this.abrWin = abrWin;
-    var preprocessedMenuTemplate = preprocessTemplate(menuTemplate, config);
+    var preprocessedMenuTemplate = preprocessTemplate(abrApp, menuTemplate, config);
     this.menu = Menu.buildFromTemplate(preprocessedMenuTemplate);
 }
 
