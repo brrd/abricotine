@@ -50,8 +50,7 @@ function AbrWindow (abrApp, path) {
         }
     }
     this.config = createConfig();
-    var cloneTemplate = JSON.parse(JSON.stringify(menuTemplate)); // Electron modifies the template while building the menu so we need to clone it before
-    this.menu = new AbrMenu(abrApp, this, cloneTemplate, this.config);
+    this.menu = new AbrMenu(abrApp, this, menuTemplate, this.config);
     // Context
     this.contextMenu = new AbrMenu(abrApp, this, contextMenuTemplate, this.config);
     this.open();

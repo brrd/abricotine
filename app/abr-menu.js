@@ -160,7 +160,8 @@ function exportHtmlMenuGenerator (submenu, config) {
 // Electron's menu wrapper
 function AbrMenu (abrApp, abrWin, menuTemplate, config) {
     this.abrWin = abrWin;
-    var preprocessedMenuTemplate = preprocessTemplate(abrApp, menuTemplate, config);
+    var cloneTemplate = JSON.parse(JSON.stringify(menuTemplate)); // Electron modifies the template while building the menu so we need to clone it before
+    var preprocessedMenuTemplate = preprocessTemplate(abrApp, cloneTemplate, config);
     this.menu = Menu.buildFromTemplate(preprocessedMenuTemplate);
 }
 
