@@ -19,7 +19,7 @@ function getConfig (config, key) {
     return false;
 }
 
-function preprocessTemplate (abrApp, element, config) {
+function preprocessTemplate (abrApp, element, config, abrWin) {
     if (element.constructor !== Array) {
         return;
     }
@@ -39,6 +39,10 @@ function preprocessTemplate (abrApp, element, config) {
             if (item.type === "checkbox" && typeof item.checked === "string") {
                 item.checked = getConfig(config, item.checked);
             }
+            if (!item.permanent && !abrWin) {
+                item.enabled = false;
+                delete item.permanent;
+            }
             if (item.submenu) {
                 if (item.id === "spelling") {
                     item.submenu = spellingMenuGenerator(item.submenu, config);
@@ -46,7 +50,7 @@ function preprocessTemplate (abrApp, element, config) {
                 if (item.id === "exportHtml") {
                     item.submenu = exportHtmlMenuGenerator(item.submenu, config);
                 }
-                preprocessTemplate(abrApp, item.submenu, config);
+                preprocessTemplate(abrApp, item.submenu, config, abrWin);
             }
             return item;
         };
@@ -161,7 +165,7 @@ function exportHtmlMenuGenerator (submenu, config) {
 function AbrMenu (abrApp, abrWin, menuTemplate, config) {
     this.abrWin = abrWin;
     var cloneTemplate = JSON.parse(JSON.stringify(menuTemplate)); // Electron modifies the template while building the menu so we need to clone it before
-    var preprocessedMenuTemplate = preprocessTemplate(abrApp, cloneTemplate, config);
+    var preprocessedMenuTemplate = preprocessTemplate(abrApp, cloneTemplate, config, abrWin);
     this.menu = Menu.buildFromTemplate(preprocessedMenuTemplate);
 }
 
