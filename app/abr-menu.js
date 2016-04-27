@@ -23,7 +23,7 @@ function preprocessTemplate (abrApp, element, config, abrWin) {
     if (element.constructor !== Array) {
         return;
     }
-    var sendCommand = abrApp.execCommand,
+    var sendCommand = abrApp.execCommand.bind(abrApp),
         replaceAttributes = function (item) {
             if (item.condition) {
                     delete item.condition;
