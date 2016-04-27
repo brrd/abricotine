@@ -19,7 +19,7 @@ function getConfig (config, key) {
     return false;
 }
 
-function preprocessTemplate (abrApp, element, config, abrWin) {
+function preprocessTemplate (abrApp, element, config, abrWin, isRoot) {
     if (element.constructor !== Array) {
         return;
     }
@@ -50,7 +50,7 @@ function preprocessTemplate (abrApp, element, config, abrWin) {
                 if (item.id === "exportHtml") {
                     item.submenu = exportHtmlMenuGenerator(item.submenu, config);
                 }
-                preprocessTemplate(abrApp, item.submenu, config, abrWin);
+                preprocessTemplate(abrApp, item.submenu, config, abrWin, false);
             }
             return item;
         };
@@ -58,9 +58,10 @@ function preprocessTemplate (abrApp, element, config, abrWin) {
     for (var i=0; i<element.length; i++) {
         var el = element[i],
             hiddenWithThisConfig = el.condition && !getConfig(config, el.condition),
-            hiddenWithThisPlatform = el.platform && el.platform.indexOf(process.platform) === -1;
-        if (hiddenWithThisConfig || hiddenWithThisPlatform) {
-            // Remove elements that should not be displayed (config --debug or platform-specific menuItems)
+            hiddenWithThisPlatform = el.platform && el.platform.indexOf(process.platform) === -1,
+            hiddenNotPermanentAtRoot = el.submenu && !el.permanent && isRoot && !abrWin;
+        if (hiddenWithThisConfig || hiddenWithThisPlatform || hiddenNotPermanentAtRoot) {
+            // Remove elements that should not be displayed (config --debug, platform-specific menuItems, root menus not permanent)
             element.splice(i, 1);
             i--;
         } else {
@@ -165,7 +166,7 @@ function exportHtmlMenuGenerator (submenu, config) {
 function AbrMenu (abrApp, abrWin, menuTemplate, config) {
     this.abrWin = abrWin;
     var cloneTemplate = JSON.parse(JSON.stringify(menuTemplate)); // Electron modifies the template while building the menu so we need to clone it before
-    var preprocessedMenuTemplate = preprocessTemplate(abrApp, cloneTemplate, config, abrWin);
+    var preprocessedMenuTemplate = preprocessTemplate(abrApp, cloneTemplate, config, abrWin, true);
     this.menu = Menu.buildFromTemplate(preprocessedMenuTemplate);
 }
 

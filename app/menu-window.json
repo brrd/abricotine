@@ -2,6 +2,7 @@
     {
         "label": "Abricotine",
         "platform": "darwin",
+        "permanent": true,
         "submenu": [
             {
                 "label": "About Abricotine",
@@ -52,6 +53,7 @@
     },
     {
         "label": "&File",
+        "permanent": true,
         "submenu": [
             {
                 "label": "New Document",
@@ -700,6 +702,7 @@
     {
         "label": "&Help",
         "role": "help",
+        "permanent": true,
         "submenu": [
             {
                 "label": "About Abricotine",
