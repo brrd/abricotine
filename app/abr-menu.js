@@ -4,8 +4,7 @@
 *   Licensed under GNU-GPLv3 <http://www.gnu.org/licenses/gpl.html>
 */
 
-var BrowserWindow = require("browser-window"),
-    constants = require.main.require("./constants"),
+var constants = require.main.require("./constants"),
     files  = require.main.require("./files"),
     fs = require("fs"),
     langmap = require("langmap"),
@@ -20,15 +19,11 @@ function getConfig (config, key) {
     return false;
 }
 
-function preprocessTemplate (element, config) {
+function preprocessTemplate (abrApp, element, config, abrWin) {
     if (element.constructor !== Array) {
         return;
     }
-    var sendCommand = function (command, parameters) {
-            // sendCommand detects the focused window in order to avoid problems due to window destruction
-            var win = BrowserWindow.getFocusedWindow();
-            win.webContents.send("command", command, parameters);
-        },
+    var sendCommand = abrApp.execCommand.bind(abrApp),
         replaceAttributes = function (item) {
             if (item.condition) {
                     delete item.condition;
@@ -44,6 +39,10 @@ function preprocessTemplate (element, config) {
             if (item.type === "checkbox" && typeof item.checked === "string") {
                 item.checked = getConfig(config, item.checked);
             }
+            if (!item.permanent && !abrWin) {
+                item.enabled = false;
+                delete item.permanent;
+            }
             if (item.submenu) {
                 if (item.id === "spelling") {
                     item.submenu = spellingMenuGenerator(item.submenu, config);
@@ -51,7 +50,7 @@ function preprocessTemplate (element, config) {
                 if (item.id === "exportHtml") {
                     item.submenu = exportHtmlMenuGenerator(item.submenu, config);
                 }
-                preprocessTemplate(item.submenu, config);
+                preprocessTemplate(abrApp, item.submenu, config, abrWin);
             }
             return item;
         };
@@ -163,9 +162,10 @@ function exportHtmlMenuGenerator (submenu, config) {
 }
 
 // Electron's menu wrapper
-function AbrMenu (abrWin, menuTemplate, config) {
+function AbrMenu (abrApp, abrWin, menuTemplate, config) {
     this.abrWin = abrWin;
-    var preprocessedMenuTemplate = preprocessTemplate(menuTemplate, config);
+    var cloneTemplate = JSON.parse(JSON.stringify(menuTemplate)); // Electron modifies the template while building the menu so we need to clone it before
+    var preprocessedMenuTemplate = preprocessTemplate(abrApp, cloneTemplate, config, abrWin);
     this.menu = Menu.buildFromTemplate(preprocessedMenuTemplate);
 }
 
@@ -195,6 +195,7 @@ AbrMenu.prototype = {
     },
 
     attach: function () {
+        // FIXME: use win.setMenu(menu) for Linux and Windows instead
         Menu.setApplicationMenu(this.menu);
     }
 };

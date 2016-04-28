@@ -41,6 +41,8 @@ app.on("open-file", function(event, path) {
 app.on("window-all-closed", function() {
     if (process.platform != "darwin") {
         app.quit();
+    } else {
+        abrApp.showMenu();
     }
 });
 

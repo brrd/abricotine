@@ -9,7 +9,7 @@ var remote = require("remote"),
     cmInit = require.main.require("./cm-init.js"),
     commands = require.main.require("./commands.js"),
     constants = remote.require("./constants.js"),
-    dialogs = require.main.require("./dialogs.js"),
+    dialogs = remote.require("./dialogs.js"),
     imageImport = require.main.require("./image-import.js"),
     IpcClient = require.main.require("./ipc-client.js"),
     exportHtml = require.main.require("./export-html.js"),
@@ -134,6 +134,21 @@ function AbrDocument () {
             }
         };
         document.getElementById("editor").addEventListener("mousewheel", MouseWheelHandler, false);
+
+        // Close event
+        window.onbeforeunload = function(e) {
+            if (!that.isClean()) {
+                e.returnValue = false;
+                var win = remote.getCurrentWindow(),
+                    saveFunc = function (callback) {
+                        that.save(null, callback);
+                    },
+                    closeFunc = function () {
+                        win.destroy();
+                    };
+                dialogs.askClose(that.path, saveFunc, closeFunc);
+            }
+        };
     });
 }
 
@@ -153,11 +168,14 @@ AbrDocument.prototype = {
 
     close: function (force) {
         var that = this,
+            saveFunc = function (callback) {
+                that.save(null, callback);
+            },
             closeFunc = function () {
                 that.clear();
             };
         if (!force && !this.isClean()) {
-            dialogs.askClose(this, closeFunc);
+            dialogs.askClose(that.path, saveFunc, closeFunc);
         } else {
             closeFunc();
         }

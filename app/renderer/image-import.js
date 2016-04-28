@@ -5,7 +5,7 @@
 */
 
 var remote = require("remote"),
-    dialogs = require.main.require("./dialogs.js"),
+    dialogs = remote.require("./dialogs.js"),
     files = remote.require("./files.js"),
     isUrl = require("is-url"),
     pathModule = require("path"),

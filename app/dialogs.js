@@ -4,11 +4,10 @@
 *   Licensed under GNU-GPLv3 <http://www.gnu.org/licenses/gpl.html>
 */
 
-var remote = require("remote"),
-    BrowserWindow = remote.require("browser-window"),
-    constants = remote.require("./constants.js"),
-    dialog = remote.require("dialog"),
-    NativeImage = remote.require("native-image"),
+var BrowserWindow = require("browser-window"),
+    constants = require("./constants.js"),
+    dialog = require("dialog"),
+    NativeImage = require("native-image"),
     parsePath = require("parse-filepath");
 
 // Returns the most "logical" window object (it is quite useless actually)
@@ -19,8 +18,6 @@ function getWindow (win) {
         return win;
     } else if (win && typeof win.browserWindow !== "undefined") {
         return win.browserWindow;
-    } else if (typeof remote !== "undefined") {
-        return remote.getCurrentWindow();
     } else {
         return BrowserWindow.getFocusedWindow();
     }
@@ -30,22 +27,25 @@ var appDialogs = {
 
     about: function (win) {
         win = getWindow(win);
-        var image = NativeImage.createFromPath(constants.path.icon);
-        dialog.showMessageBox(win, {
-            title: "About",
-            message: "ABRICOTINE - MARKDOWN EDITOR (v. " + constants.appVersion + ")\n\nCopyright (c) 2015 Thomas Brouard\n\nThis program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.\n\nThis program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.\n\nYou should have received a copy of the GNU General Public License along with this program. If not, see <http://www.gnu.org/licenses/>.",
-            buttons: ['OK'],
-            icon: image
-        });
+        var image = NativeImage.createFromPath(constants.path.icon),
+            options = {
+                title: "About",
+                message: "ABRICOTINE - MARKDOWN EDITOR (v. " + constants.appVersion + ")\n\nCopyright (c) 2015 Thomas Brouard\n\nThis program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.\n\nThis program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.\n\nYou should have received a copy of the GNU General Public License along with this program. If not, see <http://www.gnu.org/licenses/>.",
+                buttons: ['OK'],
+                icon: image
+            };
+        if (win) {
+            dialog.showMessageBox(win, options);
+        } else {
+            dialog.showMessageBox(options);
+        }
     },
 
-    askClose : function (abrDoc, closeFunc, win) {
-        var path = abrDoc.path;
+    askClose: function (path, saveFunc, closeFunc, win) {
         if (!path) {
             path = 'New document';
         }
         win = getWindow(win);
-        closeFunc = closeFunc || win.destroy; // win.close() would trigger the 'onbeforeunload' event again
         var filename = parsePath(path).basename || path,
             userChoice = dialog.showMessageBox(win, {
                 title: 'Unsaved document',
@@ -54,7 +54,7 @@ var appDialogs = {
             });
         switch (userChoice) {
             case 1:
-                abrDoc.save(null, closeFunc);
+                saveFunc(closeFunc);
                 break;
             case 2:
                 closeFunc();

@@ -2,10 +2,12 @@
     {
         "label": "Abricotine",
         "platform": "darwin",
+        "permanent": true,
         "submenu": [
             {
                 "label": "About Abricotine",
-                "command": "about"
+                "command": "about",
+                "permanent": true
             },
             {
                 "type": "separator"
@@ -13,26 +15,31 @@
             {
                 "label": "Edit Preferences",
                 "accelerator": "CmdOrCtrl+,",
-                "command": "editConfigFile"
+                "command": "editConfigFile",
+                "permanent": true
             },
             {
                 "label": "Open Config Directory",
-                "command": "openConfigDir"
+                "command": "openConfigDir",
+                "permanent": true
             },
             {
                 "type": "separator"
             },
             {
                 "label": "Hide Abricotine",
-                "role": "hide"
+                "role": "hide",
+                "permanent": true
             },
             {
                 "label": "Hide Others",
-                "role": "hideothers"
+                "role": "hideothers",
+                "permanent": true
             },
             {
                 "label": "Show All",
-                "role": "unhide"
+                "role": "unhide",
+                "permanent": true
             },
             {
                 "type": "separator"
@@ -40,22 +47,26 @@
             {
                 "label": "Quit Abricotine",
                 "command": "quit",
-                "accelerator": "CmdOrCtrl+Q"
+                "accelerator": "CmdOrCtrl+Q",
+                "permanent": true
             }
         ]
     },
     {
         "label": "&File",
+        "permanent": true,
         "submenu": [
             {
                 "label": "New Document",
                 "accelerator": "CmdOrCtrl+N",
-                "command": "new"
+                "command": "new",
+                "permanent": true
             },
             {
                 "label": "Open",
                 "accelerator": "CmdOrCtrl+O",
-                "command": "open"
+                "command": "open",
+                "permanent": true
             },
             {
                 "type": "separator"
@@ -692,6 +703,7 @@
     {
         "label": "&Help",
         "role": "help",
+        "permanent": true,
         "submenu": [
             {
                 "label": "About Abricotine",
@@ -700,7 +712,8 @@
             },
             {
                 "label": "Visit Homepage",
-                "command": "homepage"
+                "command": "homepage",
+                "permanent": true
             }
         ]
     }
