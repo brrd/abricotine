@@ -43,7 +43,7 @@
     }
 
     .CodeMirror-selected, .CodeMirror-focused .CodeMirror-selected {
-        background-color: @editor-selection-background;
+        .editor-selection();
     }
 
 // Generic editor classes
@@ -65,28 +65,27 @@
 
         // Header
         &.cm-header {
-            color: @editor-header-color;
-            font-family: @editor-header-font-family;
+            .editor-headers();
         }
-        &.cm-header-1 { font-size: @editor-header-1-size; line-height: 100%; }
-        &.cm-header-2 { font-size: @editor-header-2-size; }
-        &.cm-header-3 { font-size: @editor-header-3-size; }
-        &.cm-header-4 { font-size: @editor-header-4-size; }
-        &.cm-header-5 { font-size: @editor-header-5-size; }
-        &.cm-header-6 { font-size: @editor-header-6-size; }
+        &.cm-header-1 { line-height: 100%; .editor-header-1(); }
+        &.cm-header-2 { .editor-header-2(); }
+        &.cm-header-3 { .editor-header-3(); }
+        &.cm-header-4 { .editor-header-4(); }
+        &.cm-header-5 { .editor-header-5(); }
+        &.cm-header-6 { .editor-header-6(); }
 
         // Code
         &.cm-comment {
             font-family: @editor-code-font-family;
-            color: @editor-code-color;
+            .editor-code();
         }
 
         // Quote
-        &.cm-quote { color: @editor-quote-color; }
+        &.cm-quote { .editor-quote(); }
 
         // Lists (3 levels)
         &.cm-variable-2, &.cm-variable-3, &.cm-keyword {
-            color: @editor-list-color;
+            .editor-list();
 
             &:first-child {
                 padding-left: @editor-list-padding-left;
@@ -98,28 +97,28 @@
         }
 
         // Horizontal rule
-        &.cm-hr { color: @editor-hr-color; }
+        &.cm-hr { .editor-hr(); }
 
         // Image
-        &.cm-tag { color: @editor-image-color; }
+        &.cm-tag { .editor-image(); }
 
         // Formatting
         &.cm-formatting { color: @editor-formatting-color; }
 
         // Link
-        &.cm-link { color: @editor-link-color; }
+        &.cm-link { .editor-link(); }
 
         // Link href
-        &.cm-string { color: @editor-link-href-color; }
+        &.cm-string { .editor-link-href(); }
 
         // Emphasis
-        &.cm-em {}
+        &.cm-em { .editor-em(); }
 
         // Strong
-        &.cm-strong {}
+        &.cm-strong { .editor-strong(); }
 
         // Strikethrough
-        &.cm-strikethrough {}
+        &.cm-strikethrough { .editor-strikethrough(); }
 
     }
 
@@ -266,7 +265,6 @@
     span.todolist.checked {
         .cm-variable-2, .cm-variable-3, .cm-keyword {
             color:  @editor-list-checked-color;
-            text-decoration: line-through;
         }
         &:before {
             color: @editor-list-checked-color;
