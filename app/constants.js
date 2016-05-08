@@ -25,6 +25,7 @@ module.exports = {
         templatesDir: pathModule.join(userDataPath, "/templates"),
         tmp: tmpPath,
         tmpThemes: pathModule.join(tmpPath, "/themes"),
+        themes: pathModule.join(userDataPath, "/themes"),
         userConfig: pathModule.join(userDataPath, "/config.json"),
         userData: userDataPath,
         window: pathModule.join(appPath, "/app/renderer/index.html")

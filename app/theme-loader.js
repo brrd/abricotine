@@ -4,8 +4,6 @@
 *   Licensed under GNU-GPLv3 <http://www.gnu.org/licenses/gpl.html>
 */
 
-// NOTE: The theme loader compiles less CSS. Right now it is used once at startup but it could be extended later in the future to manage multiple themes.
-
 var app = require("app"),
     constants = require.main.require("./constants.js"),
     files = require("./files.js"),
@@ -14,18 +12,22 @@ var app = require("app"),
 
 var appPath = app.getAppPath(),
     lessPath = pathModule.join(appPath, "/app/less"),
+    themesPath = constants.path.themes,
     tmpThemesPath = constants.path.tmpThemes;
 
 var themeLoader = {
     // Load theme and execute callback when done
     load: function (themeName, callback) {
-        themeName = themeName || "default";
         var inputPath = pathModule.join(lessPath, "/main.less"),
-            outputPath = pathModule.join(tmpThemesPath, "/" + themeName + ".css");
+            outputPath = pathModule.join(tmpThemesPath, "/" + (themeName || "default") + ".css");
         files.readFile(inputPath, function (data) {
             var lessOptions = {
                 paths: [lessPath]
             };
+            if (themeName) {
+                var themePath = pathModule.join(themesPath, "/" + themeName);
+                lessOptions.paths.push(themePath);
+            }
             less.render(data, lessOptions)
                 .then(function(output) {
                     files.createDir(outputPath);
