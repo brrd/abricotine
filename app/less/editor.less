@@ -36,9 +36,14 @@
 // Cursors and selections
 // ======================
 
-    .CodeMirror-cursors.CodeMirror-overwrite .CodeMirror-cursor {
-        border-left: none !important;
-        border-bottom: 1px solid @editor-cursor-color !important;
+    .CodeMirror-cursors div.CodeMirror-cursor {
+        border-left-width: @editor-cursor-width;
+        border-left-color: @editor-cursor-color;
+    }
+
+    .CodeMirror-cursors.CodeMirror-overwrite div.CodeMirror-cursor {
+        border-left: none;
+        border-bottom: @editor-cursor-width solid @editor-cursor-color;
         width: 1.2ex;
     }
 
