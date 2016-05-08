@@ -31,7 +31,7 @@ function AbrDocument () {
     });
 
     // Set theme
-    this.setTheme("abricotine");
+    this.setTheme("default");
 
     // Init CodeMirror fist because most of methods rely on it
     cmInit(function (cm) {

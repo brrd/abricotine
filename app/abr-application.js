@@ -22,7 +22,7 @@ function AbrApplication (osxOpenFilePaths) {
     // Light menu (used only on OSX when all windows closed)
     this.menu = new AbrMenu(this, null, menuTemplate);
     // Compile LESS theme then open windows
-    themeLoader.load("abricotine", this.run.bind(this, osxOpenFilePaths));
+    themeLoader.load(null, this.run.bind(this, osxOpenFilePaths));
 }
 
 AbrApplication.prototype = {
