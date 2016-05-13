@@ -308,7 +308,8 @@ function draw(type, url) {
         link: ['[', '](' + url + ')'],
         image: ['![', '](' + url + ')'],
         hr: ['\n***'],
-        math: ["$$", "$$"],
+        inlineMath: ["$ ", " $"],
+        displayMath: ["$$ ", " $$"],
         anchor: ["<a name=\"", "\"></a>"],
         codeblock: ["\n```\n", "\n```"]
     };

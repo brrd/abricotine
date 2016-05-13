@@ -226,7 +226,31 @@ function autopreview (cm, line, types) {
                     inclusiveRight: true
                 }
             },
-            math: {
+            inlineMath: {
+                regex: /\${1}[^$]+\${1}/g,
+                createElement: function (match) {
+                    var $element = $("<span class='math autopreview-math'>" + match[0] + "</span>");
+                    return $element.get(0);
+                },
+                marker: {
+                    clearOnEnter: false,
+                    handleMouseEvents: true,
+                    inclusiveLeft: true,
+                    inclusiveRight: true
+                },
+                callback: function (textMarker, element) {
+                    var onMathLoaded = function () {
+                        textMarker.changed();
+                    };
+                    window.MathJax.Hub.Queue(["Typeset", window.MathJax.Hub, element], [onMathLoaded, undefined]);
+                    textMarker.on("beforeCursorEnter", function () {
+                        if (!doc.somethingSelected()) { // Fix blink on selection
+                            textMarker.clear();
+                        }
+                    });
+                }
+            },
+            displayMath: {
                 regex: /\${2}[^$]+\${2}/gi,
                 createElement: function (match) {
                     var $element = $("<span class='math autopreview-math'>" + match[0] + "</span>");
