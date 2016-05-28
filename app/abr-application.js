@@ -11,8 +11,7 @@ var AbrMenu = require.main.require("./abr-menu.js"),
     files = require.main.require("./files.js"),
     ipcServer = require.main.require("./ipc-server.js"),
     menuTemplate = require.main.require("./menu-window.json"),
-    parsePath = require("parse-filepath"),
-    themeLoader = require.main.require("./theme-loader.js");
+    parsePath = require("parse-filepath");
 
 function AbrApplication (osxOpenFilePaths) {
     // Windows reference
@@ -21,8 +20,8 @@ function AbrApplication (osxOpenFilePaths) {
     this.ipcServer = new ipcServer(this);
     // Light menu (used only on OSX when all windows closed)
     this.menu = new AbrMenu(this, null, menuTemplate);
-    // Compile LESS theme then open windows
-    themeLoader.load(null, this.run.bind(this, osxOpenFilePaths));
+    // Open window(s)
+    this.run(osxOpenFilePaths);
 }
 
 AbrApplication.prototype = {

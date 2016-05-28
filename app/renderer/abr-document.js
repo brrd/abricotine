@@ -14,6 +14,7 @@ var remote = require("remote"),
     IpcClient = require.main.require("./ipc-client.js"),
     exportHtml = require.main.require("./export-html.js"),
     files = remote.require("./files.js"),
+    loadTheme = require.main.require("./load-theme.js"),
     parsePath = require("parse-filepath"),
     pathModule = require("path"),
     shell = require("shell"),
@@ -30,8 +31,8 @@ function AbrDocument () {
         that.execCommand(command, parameters);
     });
 
-    // Set theme
-    this.setTheme("default");
+    // Load and set theme
+    that.getConfig("theme", that.loadTheme);
 
     // Init CodeMirror fist because most of methods rely on it
     cmInit(function (cm) {
@@ -318,12 +319,13 @@ AbrDocument.prototype = {
         return this.save(path, callback);
     },
 
-    // Themes
-    setTheme: function (themeName) {
-        themeName = themeName || "abricotine";
-        var tmpThemesPath = constants.path.tmpThemes,
-            path = pathModule.join(tmpThemesPath, "/" + themeName + ".css");
-        $("#theme").attr("href", path);
+    loadTheme: function (themeName) {
+        this.theme = themeName;
+        loadTheme(themeName);
+    },
+
+    reloadTheme: function () {
+        loadTheme(this.theme, true);
     },
 
     // Images

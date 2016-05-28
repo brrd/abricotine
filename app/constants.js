@@ -15,6 +15,7 @@ var app = require("app"),
 module.exports = {
     appName: "Abricotine",
     appVersion: pkg.version,
+    defaultTheme: "default",
     homepageURL: pkg.repository.url,
     path: {
         app: appPath,
