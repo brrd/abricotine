@@ -57,14 +57,17 @@ function AbrDocument () {
             that.cm.setOption("autopreviewAllowedDomains", config["autopreview-domains"]);
             that.cm.setOption("autopreviewSecurity", config["autopreview-security"]);
             that.autopreviewTypes = config.autopreview;
-            that.autopreview();
+            that.autopreviewQueue = [];
+
             // Spellchecker init
             if (config.spellchecker.active) {
                 that.setDictionary(config.spellchecker.language, config.spellchecker.src);
             }
+
             // Editor font-size
             var fontSize = config.editor["font-size"] || "16px";
             that.setFontSize(fontSize);
+
             // Syntax highlighting
             var modes = config["highlight-modes"];
             if (!modes) return;
@@ -84,13 +87,22 @@ function AbrDocument () {
         }, false);
 
         // Listeners for cm events
-        that.cm.on("changes", function (cm, changeObj) {
-            // Window title update
-            that.updateWindowTitle();
+        that.cm.on("renderLine", function (cm, lineHandle, el) {
+            // Line is not added to the DOM yet so use a queue which will be processed later
+            var lineNumber = that.cm.doc.getLineNumber(lineHandle);
+            that.addToAutopreviewQueue(lineNumber);
         });
 
         that.cm.on("cursorActivity", function (cm) {
-            that.autopreview();
+            // Autopreview changed lines
+            that.runAutopreviewQueue();
+        });
+
+        that.cm.on("changes", function (cm, changeObj) {
+            // Window title update
+            that.updateWindowTitle();
+            // Autopreview changed lines
+            that.runAutopreviewQueue();
         });
 
         that.cm.on("drop", function (cm, event) {
@@ -376,12 +388,37 @@ AbrDocument.prototype = {
     },
 
     // Inline autopreview
-    autopreview: function (types) {
+    autopreview: function (types, lines) {
         var cm = this.cm;
         types = types || this.autopreviewTypes;
-        cm.doc.eachLine( function (line) {
-            cm.autopreview(line, types);
-        });
+        if (lines == null) {
+            // Preview the whole doc
+            cm.doc.eachLine( function (line) {
+                cm.autopreview(line, types);
+            });
+        } else {
+            // Otherwise only preview specified lines
+            if (typeof lines === "number") {
+                lines = [lines];
+            }
+            var lastLine = cm.doc.lastLine();
+            for (var i = 0; i < lines.length; i++) {
+                var line = lines[i];
+                if (line > lastLine) continue;
+                cm.autopreview(line, types);
+            }
+        }
+    },
+
+    addToAutopreviewQueue: function (lineNumber) {
+        if (this.autopreviewQueue.indexOf(lineNumber) === -1) {
+            this.autopreviewQueue.push(lineNumber);
+        }
+    },
+
+    runAutopreviewQueue: function () {
+        this.autopreview(null, this.autopreviewQueue);
+        this.autopreviewQueue = [];
     },
 
     toggleAutopreview: function (type) {
