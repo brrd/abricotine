@@ -4,10 +4,28 @@
 *   Licensed under GNU-GPLv3 <http://www.gnu.org/licenses/gpl.html>
 */
 
+function setTocHtml (toc) {
+    var html = "";
+    for (var i=0; i<toc.length; i++) {
+        html += '\n<li class="toc-h' + toc[i].level + '" data-abricotine-gotoline="' + toc[i].line + '"><a>' + toc[i].content + '</a></li>';
+    }
+    $('#pane ul#toc-container').html(html);
+}
+
+function setActiveHeaderHtml (abrPane, index) {
+    var $activeHeader = $("#toc-container li").eq(index);
+    if ($activeHeader && !$activeHeader.hasClass("pane-active")) {
+        $("#toc-container li.pane-active").removeClass("pane-active");
+        $activeHeader.addClass("pane-active");
+    }
+    abrPane.latestCursorUpdate = abrPane.abrDoc.getGeneration();
+}
+
 function AbrPane (abrDoc) {
     this.abrDoc = abrDoc;
     var cm = abrDoc.cm;
-    // ToC links
+
+    // Init UI
     $("#pane").on("click", "li", function () {
         var line = parseInt($(this).attr('data-abricotine-gotoline')),
             doc = cm.doc,
@@ -27,87 +45,47 @@ function AbrPane (abrDoc) {
         });
         cm.focus();
     });
+
     // Events
     var that = this;
+    // Run this in a background thread
+    var worker = new Worker("abr-pane-worker.js");
+
     cm.on("cursorActivity", function (cm) {
-        // Trigger spyCursor() now only if nothing changed (otherwise do it later, during changes event)
-        if (typeof that.abrDoc.latestSpyCursorUpdate === "undefined" || that.abrDoc.getGeneration() === that.abrDoc.latestSpyCursorUpdate) {
-            that.spyCursor();
+        // Trigger only if nothing changed (otherwise do it during the "changes" event)
+        if (that.latestCursorUpdate == null || that.abrDoc.getGeneration() === that.latestCursorUpdate) {
+            var cursorLine = cm.doc.getCursor().line;
+            // Also dont trigger if cursor is still on the same line
+            if (cursorLine === that.currentCursorLine) return;
+            that.currentCursorLine = cursorLine;
+            worker.postMessage({
+                cursorLine: cursorLine
+            });
         }
     });
+
     cm.on("changes", function (cm, changeObj) {
-        that.updateToc();
-        that.spyCursor();
+        var cursorLine = cm.doc.getCursor().line;
+        worker.postMessage({
+            text: cm.getValue(),
+            cursorLine: cursorLine
+        });
     });
+
+    worker.addEventListener("message", function(e) {
+        if (e.data.toc) {
+            setTocHtml(e.data.toc);
+        }
+        if (e.data.activeHeaderIndex != null) {
+            setActiveHeaderHtml(that, e.data.activeHeaderIndex);
+        }
+    }, false);
 }
 
 AbrPane.prototype = {
-
     // Is pane visible
     isVisible: function () {
         return $('body').hasClass('pane-visible');
-    },
-
-    // Update table of content
-    updateToc: function () {
-        var cm = this.abrDoc.cm,
-            toc = [],
-            prevLine;
-        cm.doc.eachLine( function (line) {
-            var lineNumber = cm.doc.getLineNumber(line),
-                state = cm.getState({line: lineNumber, ch: 1});
-            if (state.header) {
-                // Handle underlined headers
-                if ((state.h1 || state.h2) && /^(=|-)+$/.test(line.text.trim())) {
-                    toc.push ({
-                        content: prevLine.text,
-                        level: state.header,
-                        line: lineNumber - 1
-                    });
-                } else {
-                    var text = line.text.match(/^#+\s(.*)$/);
-                    text = text && text[1] ? text[1] : line.text;
-                    toc.push ({
-                        content: text,
-                        level: state.header,
-                        line: lineNumber
-                    });
-                }
-            }
-            prevLine = line;
-        });
-        this.setTocHtml(toc);
-    },
-
-    setTocHtml: function (toc) {
-        var html = "";
-        for (var i=0; i<toc.length; i++) {
-            html += '\n<li class="toc-h' + toc[i].level + '" data-abricotine-gotoline="' + toc[i].line + '"><a>' + toc[i].content + '</a></li>';
-        }
-        $('#pane ul#toc-container').html(html);
-    },
-
-    // Cursorspy (like scrollspy but with cursor)
-    spyCursor: function () {
-        var cm = this.abrDoc.cm,
-            currentLine = cm.doc.getCursor().line,
-            $prevHeaderLi = (function(line) {
-                var $header;
-                $("#toc-container li").each(function() {
-                    var linkedLine = $(this).attr("data-abricotine-gotoline");
-                    if (linkedLine !== undefined && linkedLine <= line) {
-                        $header = $(this);
-                    } else {
-                        return false; // break
-                    }
-                });
-                return $header;
-            })(currentLine);
-        if ($prevHeaderLi && !$prevHeaderLi.hasClass("pane-active")) {
-            $("#toc-container li.pane-active").removeClass("pane-active");
-            $prevHeaderLi.addClass("pane-active");
-        }
-        window.abrDoc.latestSpyCursorUpdate = window.abrDoc.getGeneration();
     }
 };
 

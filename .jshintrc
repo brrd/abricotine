@@ -9,5 +9,6 @@
     "browser": true,
     "node": true,
     "jquery": true,
-    "eqnull": true
+    "eqnull": true,
+    "worker": true
 }
