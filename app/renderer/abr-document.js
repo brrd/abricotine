@@ -57,7 +57,6 @@ function AbrDocument () {
             that.cm.setOption("autopreviewAllowedDomains", config["autopreview-domains"]);
             that.cm.setOption("autopreviewSecurity", config["autopreview-security"]);
             that.autopreviewTypes = config.autopreview;
-            that.autopreviewQueue = [];
 
             // Spellchecker init
             if (config.spellchecker.active) {
@@ -411,12 +410,14 @@ AbrDocument.prototype = {
     },
 
     addToAutopreviewQueue: function (lineNumber) {
+        this.autopreviewQueue = this.autopreviewQueue || [];
         if (this.autopreviewQueue.indexOf(lineNumber) === -1) {
             this.autopreviewQueue.push(lineNumber);
         }
     },
 
     runAutopreviewQueue: function () {
+        if (!this.autopreviewQueue) return;
         this.autopreview(null, this.autopreviewQueue);
         this.autopreviewQueue = [];
     },
