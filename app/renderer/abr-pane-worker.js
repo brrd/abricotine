@@ -55,17 +55,16 @@
     var toc;
 
     // Listen to AbrPane
-    addEventListener("message", function(e) {
-        var data = e.data,
-            msg = {};
+    process.on("message", function(msg) {
+        var answer = {};
         // Update toc if text provided ("changes" event)
-        if (data.text != null) {
-            msg.toc = toc = getToc(data.text);
+        if (msg.text != null) {
+            answer.toc = toc = getToc(msg.text);
         }
         // Don't send anything if toc empty
         if (!toc || toc.length === 0) return;
         // Update active header ("changes" + "cursorActivity" events)
-        msg.activeHeaderIndex = getActiveHeaderIndex(toc, data.cursorLine);
-        postMessage(msg);
+        answer.activeHeaderIndex = getActiveHeaderIndex(toc, msg.cursorLine);
+        process.send(answer);
     }, false);
 })();

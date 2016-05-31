@@ -4,7 +4,8 @@
 *   Licensed under GNU-GPLv3 <http://www.gnu.org/licenses/gpl.html>
 */
 
-var svd = require('simple-virtual-dom'),
+var cp = require("child_process"),
+    svd = require('simple-virtual-dom'),
     el = svd.el,
     diff = svd.diff,
     patch = svd.patch;
@@ -74,7 +75,7 @@ function AbrPane (abrDoc) {
     // Events
     var that = this;
     // Run this in a background thread
-    var worker = new Worker("abr-pane-worker.js");
+    var worker = cp.fork(__dirname + "/abr-pane-worker.js");
 
     cm.on("cursorActivity", function (cm) {
         // Trigger only if nothing changed (otherwise do it during the "changes" event)
@@ -83,7 +84,7 @@ function AbrPane (abrDoc) {
             // Also dont trigger if cursor is still on the same line
             if (cursorLine === that.currentCursorLine) return;
             that.currentCursorLine = cursorLine;
-            worker.postMessage({
+            worker.send({
                 cursorLine: cursorLine
             });
         }
@@ -91,18 +92,18 @@ function AbrPane (abrDoc) {
 
     cm.on("changes", function (cm, changeObj) {
         var cursorLine = cm.doc.getCursor().line;
-        worker.postMessage({
+        worker.send({
             text: cm.getValue(),
             cursorLine: cursorLine
         });
     });
 
-    worker.addEventListener("message", function(e) {
-        if (e.data.toc) {
-            setTocHtml(that, e.data.toc);
+    worker.on("message", function(msg) {
+        if (msg.toc) {
+            setTocHtml(that, msg.toc);
         }
-        if (e.data.activeHeaderIndex != null) {
-            setActiveHeaderHtml(that, e.data.activeHeaderIndex);
+        if (msg.activeHeaderIndex != null) {
+            setActiveHeaderHtml(that, msg.activeHeaderIndex);
         }
     }, false);
 }
