@@ -53,7 +53,7 @@ function getActiveHeaderIndex (toc, cursorLine) {
 }
 
 // Keep a track of toc
-var toc;
+var toc = [];
 
 // Listen to AbrPane
 process.on("message", function(msg) {
@@ -65,8 +65,6 @@ process.on("message", function(msg) {
             answer.toc = toc = newToc;
         }
     }
-    // Don't send anything if toc empty
-    if (!toc || toc.length === 0) return;
     // Update active header ("changes" + "cursorActivity" events)
     answer.activeHeaderIndex = getActiveHeaderIndex(toc, msg.cursorLine);
     process.send(answer);
