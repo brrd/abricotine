@@ -4,6 +4,8 @@
 *   Licensed under GNU-GPLv3 <http://www.gnu.org/licenses/gpl.html>
 */
 
+var equal = require("deep-equal");
+
 // Find headers in text and return ToC
 function getToc (text) {
     var toc = [],
@@ -58,7 +60,10 @@ process.on("message", function(msg) {
     var answer = {};
     // Update toc if text provided ("changes" event)
     if (msg.text != null) {
-        answer.toc = toc = getToc(msg.text);
+        var newToc = getToc(msg.text);
+        if (!equal(newToc, toc)) {
+            answer.toc = toc = newToc;
+        }
     }
     // Don't send anything if toc empty
     if (!toc || toc.length === 0) return;
