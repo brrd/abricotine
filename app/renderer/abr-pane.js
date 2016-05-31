@@ -4,12 +4,16 @@
 *   Licensed under GNU-GPLv3 <http://www.gnu.org/licenses/gpl.html>
 */
 
-function setTocHtml (toc) {
-    var html = "";
-    for (var i=0; i<toc.length; i++) {
-        html += '\n<li class="toc-h' + toc[i].level + '" data-abricotine-gotoline="' + toc[i].line + '"><a>' + toc[i].content + '</a></li>';
-    }
-    $('#pane ul#toc-container').html(html);
+var svd = require('simple-virtual-dom'),
+    el = svd.el,
+    diff = svd.diff,
+    patch = svd.patch;
+
+function setTocHtml (abrPane, toc) {
+    var newTree = renderTree(toc);
+    var patches = diff(abrPane.tree, newTree);
+    patch(abrPane.node, patches);
+    abrPane.tree = newTree;
 }
 
 function setActiveHeaderHtml (abrPane, index) {
@@ -19,6 +23,22 @@ function setActiveHeaderHtml (abrPane, index) {
         $activeHeader.addClass("pane-active");
     }
     abrPane.latestCursorUpdate = abrPane.abrDoc.getGeneration();
+}
+
+function renderTree (toc) {
+    var children = [];
+    if (!toc) return el("ul", {id: "toc-container"});
+    toc.forEach(function (header, index) {
+        var li = el("li", {
+                    "class": "toc-h" + header.level,
+                    "data-abricotine-gotoline": header.line,
+                    "key": "ul" + index
+                },
+                [el("a", [header.content])]
+            );
+        children.push(li);
+    });
+    return el("ul", {id: "toc-container"}, children);
 }
 
 function AbrPane (abrDoc) {
@@ -45,6 +65,11 @@ function AbrPane (abrDoc) {
         });
         cm.focus();
     });
+
+    // Generate an empty tree on startup
+    this.tree = el("ul", {id: "toc-container"});
+    this.node = this.tree.render();
+    $("#pane").append(this.node);
 
     // Events
     var that = this;
@@ -74,7 +99,7 @@ function AbrPane (abrDoc) {
 
     worker.addEventListener("message", function(e) {
         if (e.data.toc) {
-            setTocHtml(e.data.toc);
+            setTocHtml(that, e.data.toc);
         }
         if (e.data.activeHeaderIndex != null) {
             setActiveHeaderHtml(that, e.data.activeHeaderIndex);
