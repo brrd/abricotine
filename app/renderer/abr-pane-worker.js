@@ -9,8 +9,15 @@ var equal = require("deep-equal");
 // Find headers in text and return ToC
 function getToc (text) {
     var toc = [],
-        lines = text.split("\n");
+        lines = text.split("\n"),
+        isCode = false;
     lines.forEach( function (line, index) {
+        // Skip lines in code blocks
+        var codeMatch = line.match(/^\s*```/);
+        if (codeMatch) {
+            isCode = !isCode;
+        }
+        if (isCode) return;
         // # headers
         var headerMatch = line.match(/^(#+)(.*)#*$/);
         if (headerMatch) {
