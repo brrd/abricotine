@@ -53,10 +53,10 @@ function extendCodeMirror () {
     });
 }
 
-function defineAbrMode (CodeMirror, newModeName, baseModeName) {
+function defineAbrMode (CodeMirror, newModeName, baseMode) {
     CodeMirror.defineMode(newModeName, function (config) {
         return CodeMirror.multiplexingMode(
-            CodeMirror.getMode(config, baseModeName),
+            CodeMirror.getMode(config, baseMode),
             // Disable commented $
             {open: "\\$", close: " ",
              mode: CodeMirror.getMode(config, "text/plain")},
@@ -71,7 +71,10 @@ function defineAbrMode (CodeMirror, newModeName, baseModeName) {
 function initCodeMirror () {
     return new Promise ( function (resolve, reject) {
         // Spelling and no-spelling modes shortcuts
-        defineAbrMode(CodeMirror, "abr-spellcheck-off", "gfm");
+        defineAbrMode(CodeMirror, "abr-spellcheck-off", {
+            name: "gfm",
+            highlightFormatting: true
+        });
         defineAbrMode(CodeMirror, "abr-spellcheck-on", "spellchecker");
 
         var options = {
