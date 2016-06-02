@@ -76,7 +76,7 @@ function AbrDocument () {
             modes.forEach( function (mode) {
                 mode = mode.trim();
                 if (mode === "") return;
-                $("<script src='../../bower_components/codemirror/mode/" + mode + "/" + mode + ".js'></script>").appendTo("head");
+                $("<script src='../../node_modules/codemirror/mode/" + mode + "/" + mode + ".js'></script>").appendTo("head");
             });
         });
 

@@ -20,7 +20,6 @@ For OS X users, you must have [Homebrew](http://brew.sh) and [Hombrew Cask](http
 
 * [Node.js](https://nodejs.org/en/) and `npm`,
 * Make sure you meet [node-gyp](https://github.com/nodejs/node-gyp) requirements (specific to your platform and architecture),
-* `git` (for Bower installation).
 
 ### Building
 
