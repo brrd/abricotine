@@ -164,24 +164,26 @@
 // =================
 
     // Line breaks
-    body.show-hidden-characters .cm-m-markdown .cm-trailing-whitespace { }
-    body.show-hidden-characters .cm-m-markdown .cm-trailing-whitespace:last-child:after {
-        content: '↵';
-        color: @editor-hidden-characters-color;
-        font-family: @editor-font-family;
-        font-weight: normal;
-        font-style: normal;
+    body.show-hidden-characters .cm-m-markdown .cm-trailing-whitespace, body.show-hidden-characters .cm-m-markdown.cm-trailing-whitespace {
+        &:last-child:after {
+            content: '↵';
+            color: @editor-hidden-characters-color;
+            font-family: @editor-font-family;
+            font-weight: normal;
+            font-style: normal;
+        }
     }
 
     // Tabs
-    body.show-hidden-characters .cm-m-markdown .cm-tab {}
-    body.show-hidden-characters .cm-m-markdown .cm-tab:after {
-        content: '⇥';
-        color: @editor-hidden-characters-color;
-        font-family: @editor-font-family;
-        font-weight: normal;
-        font-style: normal;
-        margin-left: -50%;
+    body.show-hidden-characters .cm-m-markdown .cm-tab, body.show-hidden-characters .cm-m-markdown.cm-tab {
+        &:after {
+            content: '⇥';
+            color: @editor-hidden-characters-color;
+            font-family: @editor-font-family;
+            font-weight: normal;
+            font-style: normal;
+            margin-left: -50%;
+        }
     }
 
 // Markers
