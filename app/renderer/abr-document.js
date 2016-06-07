@@ -92,6 +92,18 @@ function AbrDocument () {
             that.addToAutopreviewQueue(lineNumber);
         });
 
+        that.cm.on("beforeSelectionChange", function(cm, obj) {
+            var ranges = cm.doc.listSelections();
+            if (!ranges) return;
+            ranges.forEach(function(range) {
+                var firstLine = Math.min(range.anchor.line, range.head.line),
+                    lastLine = Math.max(range.anchor.line, range.head.line);
+                for (var line = firstLine; line <= lastLine; line++) {
+                    that.addToAutopreviewQueue(line);
+                }
+            });
+        });
+
         that.cm.on("cursorActivity", function (cm) {
             // Autopreview changed lines
             that.runAutopreviewQueue();
