@@ -364,9 +364,14 @@
                 "parameters": "codeblock"
             },
             {
-                "label": "Math Formula",
+                "label": "Inline Math Formula",
                 "command": "draw",
-                "parameters": "math"
+                "parameters": "inlineMath"
+            },
+            {
+                "label": "Display Math Formula",
+                "command": "draw",
+                "parameters": "displayMath"
             },
             {
                 "label": "Horizontal Rule",
@@ -627,11 +632,18 @@
                         "checked": "autopreview:anchor"
                     },
                     {
-                        "label": "Math",
+                        "label": "InlineMath",
                         "command": "toggleAutopreview",
-                        "parameters": "math",
+                        "parameters": "inlineMath",
                         "type": "checkbox",
-                        "checked": "autopreview:math"
+                        "checked": "autopreview:inlineMath"
+                    },
+                    {
+                        "label": "DisplayMath",
+                        "command": "toggleAutopreview",
+                        "parameters": "displayMath",
+                        "type": "checkbox",
+                        "checked": "autopreview:displayMath"
                     },
                     {
                         "label": "Iframes",
