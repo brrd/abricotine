@@ -4,55 +4,55 @@
         "platform": "darwin",
         "submenu": [
             {
-                "label": "About Abricotine",
+                "label": "%menu.About",
                 "command": "about"
             },
             {
                 "type": "separator"
             },
             {
-                "label": "Edit Preferences",
+                "label": "%menu.EditPreferences",
                 "accelerator": "CmdOrCtrl+,",
                 "command": "editConfigFile"
             },
             {
-                "label": "Open Config Directory",
+                "label": "%menu.OpenConfigDirectory",
                 "command": "openConfigDir"
             },
             {
                 "type": "separator"
             },
             {
-                "label": "Hide Abricotine",
+                "label": "%menu.HideAbricotine",
                 "role": "hide"
             },
             {
-                "label": "Hide Others",
+                "label": "%menu.HideOthers",
                 "role": "hideothers"
             },
             {
-                "label": "Show All",
+                "label": "%menu.ShowAll",
                 "role": "unhide"
             },
             {
                 "type": "separator"
             },
             {
-                "label": "Quit Abricotine",
+                "label": "%menu.QuitAbricotine",
                 "accelerator": "CmdOrCtrl+Q"
             }
         ]
     },
     {
-        "label": "&File",
+        "label": "%menu.File",
         "submenu": [
             {
-                "label": "New Document",
+                "label": "%menu.NewDocument",
                 "accelerator": "CmdOrCtrl+N",
                 "command": "new"
             },
             {
-                "label": "Open",
+                "label": "%menu.Open",
                 "accelerator": "CmdOrCtrl+O",
                 "command": "open"
             },
@@ -60,12 +60,12 @@
                 "type": "separator"
             },
             {
-                "label": "Save",
+                "label": "%menu.Save",
                 "accelerator": "CmdOrCtrl+S",
                 "command": "save"
             },
             {
-                "label": "Save As…",
+                "label": "%menu.SaveAs",
                 "accelerator": "CmdOrCtrl+Shift+S",
                 "command": "saveAs"
             },
@@ -73,7 +73,7 @@
                 "type": "separator"
             },
             {
-                "label": "Export as HTML",
+                "label": "%menu.ExportAsHtml",
                 "id": "exportHtml",
                 "submenu": []
             },
@@ -81,17 +81,17 @@
                 "type": "separator"
             },
             {
-                "label": "Close Document",
+                "label": "%menu.CloseDocument",
                 "accelerator": "CmdOrCtrl+W",
                 "command": "close"
             },
             {
-                "label": "Close Window",
+                "label": "%menu.CloseWindow",
                 "accelerator": "CmdOrCtrl+Shift+W",
                 "role": "close"
             },
             {
-                "label": "Quit",
+                "label": "%menu.Quit",
                 "accelerator": "CmdOrCtrl+Q",
                 "command": "quit",
                 "platform": "linux, win32"
@@ -99,15 +99,15 @@
         ]
     },
     {
-        "label": "&Edit",
+        "label": "%menu.Edit",
         "submenu": [
             {
-                "label": "Undo",
+                "label": "%menu.Undo",
                 "accelerator": "CmdOrCtrl+Z",
                 "role": "undo"
             },
             {
-                "label": "Redo",
+                "label": "%menu.Redo",
                 "accelerator": "CmdOrCtrl+Y",
                 "role": "redo"
             },
@@ -115,27 +115,27 @@
                 "type": "separator"
             },
             {
-                "label": "Cut",
+                "label": "%menu.Cut",
                 "accelerator": "CmdOrCtrl+X",
                 "role": "cut"
             },
             {
-                "label": "Copy",
+                "label": "%menu.Copy",
                 "accelerator": "CmdOrCtrl+C",
                 "role": "copy"
             },
             {
-                "label": "Copy as HTML",
+                "label": "%menu.CopyAsHtml",
                 "accelerator": "CmdOrCtrl+Shift+C",
                 "command": "copyHtml"
             },
             {
-                "label": "Paste",
+                "label": "%menu.Paste",
                 "accelerator": "CmdOrCtrl+V",
                 "role": "paste"
             },
             {
-                "label": "Select All",
+                "label": "%menu.SelectAll",
                 "accelerator": "CmdOrCtrl+A",
                 "role": "selectall"
             },
@@ -143,34 +143,34 @@
                 "type": "separator"
             },
             {
-                "label": "Search",
+                "label": "%menu.Search",
                 "accelerator": "CmdOrCtrl+F",
                 "command": "find"
             },
             {
-                "label": "Find Next",
+                "label": "%menu.FindNext",
                 "accelerator": "F3",
                 "command": "findNext",
                 "enabled": true
             },
             {
-                "label": "Find Previous",
+                "label": "%menu.FindPrevious",
                 "accelerator": "Shift+F3",
                 "command": "findPrev",
                 "enabled": true
             },
             {
-                "label": "Replace",
+                "label": "%menu.Replace",
                 "accelerator": "CmdOrCtrl+H",
                 "command": "replace"
             },
             {
-                "label": "Replace All",
+                "label": "%menu.ReplaceAll",
                 "accelerator": "CmdOrCtrl+Shift+H",
                 "command": "replaceAll"
             },
             {
-                "label": "Clear Search",
+                "label": "%menu.ClearSearch",
                 "accelerator": "CmdOrCtrl+Shift+F",
                 "command": "clearSearch"
             },
@@ -178,11 +178,11 @@
                 "type": "separator"
             },
             {
-                "label": "Spelling",
+                "label": "%menu.Spelling",
                 "id": "spelling",
                 "submenu": [
                     {
-                        "label": "Disabled",
+                        "label": "%menu.Disabled",
                         "type": "radio",
                         "checked": false,
                         "command": "setDictionary",
@@ -194,7 +194,7 @@
                 "type": "separator"
             },
             {
-                "label": "Auto Close Brackets",
+                "label": "%menu.AutoCloseBrackets",
                 "command": "autoCloseBrackets",
                 "type": "checkbox",
                 "checked": "startup-commands:autoCloseBrackets"
@@ -204,40 +204,40 @@
                 "platform": "linux, win32"
             },
             {
-                "label": "Edit Preferences",
+                "label": "%menu.EditPreferences",
                 "command": "editConfigFile",
                 "platform": "linux, win32"
             },
             {
-                "label": "Open Config Directory",
+                "label": "%menu.OpenConfigDirectory",
                 "command": "openConfigDir",
                 "platform": "linux, win32"
             }
         ]
     },
     {
-        "label": "F&ormat",
+        "label": "%menu.Format",
         "submenu": [
             {
-                "label": "Italic",
+                "label": "%menu.Italic",
                 "accelerator": "CmdOrCtrl+I",
                 "command": "format",
                 "parameters": "italic"
             },
             {
-                "label": "Bold",
+                "label": "%menu.Bold",
                 "accelerator": "CmdOrCtrl+B",
                 "command": "format",
                 "parameters": "bold"
             },
             {
-                "label": "Strikethrough",
+                "label": "%menu.Strikethrough",
                 "accelerator": "CmdOrCtrl+/",
                 "command": "format",
                 "parameters": "strikethrough"
             },
             {
-                "label": "Code",
+                "label": "%menu.Code",
                 "accelerator": "CmdOrCtrl+.",
                 "command": "format",
                 "parameters": "code"
@@ -246,37 +246,37 @@
                 "type": "separator"
             },
             {
-                "label": "Heading 1",
+                "label": "%menu.Heading1",
                 "accelerator": "CmdOrCtrl+F1",
                 "command": "format",
                 "parameters": "h1"
             },
             {
-                "label": "Heading 2",
+                "label": "%menu.Heading2",
                 "accelerator": "CmdOrCtrl+F2",
                 "command": "format",
                 "parameters": "h2"
             },
             {
-                "label": "Heading 3",
+                "label": "%menu.Heading3",
                 "accelerator": "CmdOrCtrl+F3",
                 "command": "format",
                 "parameters": "h3"
             },
             {
-                "label": "Heading 4",
+                "label": "%menu.Heading4",
                 "accelerator": "CmdOrCtrl+F4",
                 "command": "format",
                 "parameters": "h4"
             },
             {
-                "label": "Heading 5",
+                "label": "%menu.Heading5",
                 "accelerator": "CmdOrCtrl+F5",
                 "command": "format",
                 "parameters": "h5"
             },
             {
-                "label": "Heading 6",
+                "label": "%menu.Heading6",
                 "accelerator": "CmdOrCtrl+F6",
                 "command": "format",
                 "parameters": "h6"
@@ -285,25 +285,25 @@
                 "type": "separator"
             },
             {
-                "label": "Unordered List",
+                "label": "%menu.UnorderedList",
                 "accelerator": "CmdOrCtrl+Shift+L",
                 "command": "format",
                 "parameters": "ul"
             },
             {
-                "label": "Ordered List",
+                "label": "%menu.OrderedList",
                 "accelerator": "CmdOrCtrl+Alt+Shift+L",
                 "command": "format",
                 "parameters": "ol"
             },
             {
-                "label": "Todo List",
+                "label": "%menu.TodoList",
                 "accelerator": "CmdOrCtrl+Shift+T",
                 "command": "format",
                 "parameters": "todolist"
             },
             {
-                "label": "Quote",
+                "label": "%menu.Quote",
                 "accelerator": "CmdOrCtrl+Shift+Q",
                 "command": "format",
                 "parameters": "quote"
@@ -311,18 +311,18 @@
         ]
     },
     {
-        "label": "&Insert",
+        "label": "%menu.Insert",
         "submenu": [
             {
-                "label": "Image",
+                "label": "%menu.Image",
                 "submenu": [
                     {
-                        "label": "Insert from Computer",
+                        "label": "%menu.Image.InsertFromComputer",
                         "accelerator": "CmdOrCtrl+Alt+I",
                         "command": "imageFromComputer"
                     },
                     {
-                        "label": "Insert from URL",
+                        "label": "%menu.Image.InsertFromUrl",
                         "command": "draw",
                         "parameters": "image"
                     },
@@ -330,34 +330,34 @@
                         "type": "separator"
                     },
                     {
-                        "label": "Copy All Images in a Local Folder",
+                        "label": "%menu.Image.CopyAllImagesInALocalFolder",
                         "command": "imagesImportAll"
                     }
                 ]
             },
             {
-                "label": "Link",
+                "label": "%menu.Link",
                 "accelerator": "CmdOrCtrl+L",
                 "command": "draw",
                 "parameters": "link"
             },
             {
-                "label": "Anchor",
+                "label": "%menu.Anchor",
                 "command": "draw",
                 "parameters": "anchor"
             },
             {
-                "label": "Code Block",
+                "label": "%menu.CodeBlock",
                 "command": "draw",
                 "parameters": "codeblock"
             },
             {
-                "label": "Math Formula",
+                "label": "%menu.MathFormula",
                 "command": "draw",
                 "parameters": "math"
             },
             {
-                "label": "Horizontal Rule",
+                "label": "%menu.HorizontalRule",
                 "accelerator": "CmdOrCtrl+R",
                 "command": "draw",
                 "parameters": "hr"
@@ -365,28 +365,28 @@
         ]
     },
     {
-        "label": "&Table",
+        "label": "%menu.Table",
         "submenu": [
             {
-                "label": "New Table",
+                "label": "%menu.Table.NewTable",
                 "submenu": [
                     {
-                        "label": "2 Columns x 2 Rows",
+                        "label": "%menu.Table.NewTable.2Columns2Rows",
                         "command": "tableCreate",
                         "parameters": [2, 2]
                     },
                     {
-                        "label": "2 Columns x 3 Rows",
+                        "label": "%menu.Table.NewTable.2Columns3Rows",
                         "command": "tableCreate",
                         "parameters": [2, 3]
                     },
                     {
-                        "label": "2 Columns x 4 Rows",
+                        "label": "%menu.Table.NewTable.2Columns4Rows",
                         "command": "tableCreate",
                         "parameters": [2, 4]
                     },
                     {
-                        "label": "2 Columns x 5 Rows",
+                        "label": "%menu.Table.NewTable.2Columns5Rows",
                         "command": "tableCreate",
                         "parameters": [2, 5]
                     },
@@ -394,22 +394,22 @@
                         "type": "separator"
                     },
                     {
-                        "label": "3 Columns x 2 Rows",
+                        "label": "%menu.Table.NewTable.3Columns2Rows",
                         "command": "tableCreate",
                         "parameters": [3, 2]
                     },
                     {
-                        "label": "3 Columns x 3 Rows",
+                        "label": "%menu.Table.NewTable.3Columns3Rows",
                         "command": "tableCreate",
                         "parameters": [3, 3]
                     },
                     {
-                        "label": "3 Columns x 4 Rows",
+                        "label": "%menu.Table.NewTable.3Columns4Rows",
                         "command": "tableCreate",
                         "parameters": [3, 4]
                     },
                     {
-                        "label": "3 Columns x 5 Rows",
+                        "label": "%menu.Table.NewTable.3Columns5Rows",
                         "command": "tableCreate",
                         "parameters": [3, 5]
                     },
@@ -417,22 +417,22 @@
                         "type": "separator"
                     },
                     {
-                        "label": "4 Columns x 2 Rows",
+                        "label": "%menu.Table.NewTable.4Columns2Rows",
                         "command": "tableCreate",
                         "parameters": [4, 2]
                     },
                     {
-                        "label": "4 Columns x 3 Rows",
+                        "label": "%menu.Table.NewTable.4Columns3Rows",
                         "command": "tableCreate",
                         "parameters": [4, 3]
                     },
                     {
-                        "label": "4 Columns x 4 Rows",
+                        "label": "%menu.Table.NewTable.4Columns4Rows",
                         "command": "tableCreate",
                         "parameters": [4, 4]
                     },
                     {
-                        "label": "4 Columns x 5 Rows",
+                        "label": "%menu.Table.NewTable.4Columns5Rows",
                         "command": "tableCreate",
                         "parameters": [4, 5]
                     },
@@ -440,22 +440,22 @@
                         "type": "separator"
                     },
                     {
-                        "label": "5 Columns x 2 Rows",
+                        "label": "%menu.Table.NewTable.5Columns2Rows",
                         "command": "tableCreate",
                         "parameters": [5, 2]
                     },
                     {
-                        "label": "5 Columns x 3 Rows",
+                        "label": "%menu.Table.NewTable.5Columns3Rows",
                         "command": "tableCreate",
                         "parameters": [5, 3]
                     },
                     {
-                        "label": "5 Columns x 4 Rows",
+                        "label": "%menu.Table.NewTable.5Columns4Rows",
                         "command": "tableCreate",
                         "parameters": [5, 4]
                     },
                     {
-                        "label": "5 Columns x 5 Rows",
+                        "label": "%menu.Table.NewTable.5Columns5Rows",
                         "command": "tableCreate",
                         "parameters": [5, 5]
                     }
@@ -465,60 +465,60 @@
                 "type": "separator"
             },
             {
-                "label": "Rows",
+                "label": "%menu.Table.Rows",
                 "submenu": [
                     {
-                        "label": "Add Row Before",
+                        "label": "%menu.Table.Rows.AddRowBefore",
                         "command": "tableAddRowBefore"
                     },
                     {
-                        "label": "Add Row After",
+                        "label": "%menu.Table.Rows.AddRowAfter",
                         "command": "tableAddRowAfter"
                     },
                     {
                         "type": "separator"
                     },
                     {
-                        "label": "Remove Row",
+                        "label": "%menu.Table.Rows.RemoveRow",
                         "command": "tableRemoveRow"
                     }
                 ]
             },
             {
-                "label": "Columns",
+                "label": "%menu.Table.Columns",
                 "submenu": [
                     {
-                        "label": "Add Column Before",
+                        "label": "%menu.Table.Columns.AddColumnBefore",
                         "command": "tableAddColBefore"
                     },
                     {
-                        "label": "Add Column After",
+                        "label": "%menu.Table.Columns.AddColumnAfter",
                         "command": "tableAddColAfter"
                     },
                     {
                         "type": "separator"
                     },
                     {
-                        "label": "Remove Column",
+                        "label": "%menu.Table.Columns.RemoveColumn",
                         "command": "tableRemoveCol"
                     },
                     {
                         "type": "separator"
                     },
                     {
-                        "label": "Align Left",
+                        "label": "%menu.Table.Columns.AlignLeft",
                         "command": "tableAlignLeft"
                     },
                     {
-                        "label": "Align Center",
+                        "label": "%menu.Table.Columns.AlignCenter",
                         "command": "tableAlignCenter"
                     },
                     {
-                        "label": "Align Right",
+                        "label": "%menu.Table.Columns.AlignRight",
                         "command": "tableAlignRight"
                     },
                     {
-                        "label": "Clear Align",
+                        "label": "%menu.Table.Columns.ClearAlign",
                         "command": "tableAlignClear"
                     }
                 ]
@@ -527,17 +527,17 @@
                 "type": "separator"
             },
             {
-                "label": "Beautify",
+                "label": "%menu.Table.Beautify",
                 "command": "tableBeautify",
                 "accelerator": "CmdOrCtrl+Shift+B"
             }
         ]
     },
     {
-        "label": "&View",
+        "label": "%menu.View",
         "submenu": [
             {
-                "label": "View Document in Browser",
+                "label": "%menu.ViewDocumentInBrowser",
                 "accelerator": "F6",
                 "command": "viewInBrowser"
             },
@@ -545,17 +545,17 @@
                 "type": "separator"
             },
             {
-                "label": "Increase Font Size",
+                "label": "%menu.IncreaseFontSize",
                 "accelerator": "CmdOrCtrl+=",
                 "command": "increaseFontSize"
             },
             {
-                "label": "Decrease Font Size",
+                "label": "%menu.DecreaseFontSize",
                 "accelerator": "CmdOrCtrl+-",
                 "command": "decreaseFontSize"
             },
             {
-                "label": "Reset Font Size",
+                "label": "%menu.ResetFontSize",
                 "accelerator": "CmdOrCtrl+0",
                 "command": "resetFontSize"
             },
@@ -563,26 +563,26 @@
                 "type": "separator"
             },
             {
-                "label": "Show Menu Bar",
+                "label": "%menu.ShowMenuBar",
                 "command": "showMenuBar",
                 "type": "checkbox",
                 "checked": "window:showMenuBar",
                 "platform": "linux, win32"
             },
             {
-                "label": "Show Table of Contents",
+                "label": "%menu.ShowTableOfContents",
                 "command": "showTocPane",
                 "type": "checkbox",
                 "checked": "startup-commands:showTocPane"
             },
             {
-                "label": "Show Blocks",
+                "label": "%menu.ShowBlocks",
                 "command": "showBlocks",
                 "type": "checkbox",
                 "checked": "startup-commands:showBlocks"
             },
             {
-                "label": "Show Hidden Characters",
+                "label": "%menu.ShowHiddenCharacters",
                 "command": "showHiddenCharacters",
                 "type": "checkbox",
                 "checked": "startup-commands:showHiddenCharacters"
@@ -591,38 +591,38 @@
                 "type": "separator"
             },
             {
-                "label": "Auto Preview",
+                "label": "%menu.AutoPreview",
                 "submenu": [
                     {
-                        "label": "Images",
+                        "label": "%menu.AutoPreview.Images",
                         "command": "toggleAutopreview",
                         "parameters": "image",
                         "type": "checkbox",
                         "checked": "autopreview:image"
                     },
                     {
-                        "label": "Todo Lists",
+                        "label": "%menu.AutoPreview.TodoLists",
                         "command": "toggleAutopreview",
                         "parameters": "todolist",
                         "type": "checkbox",
                         "checked": "autopreview:todolist"
                     },
                     {
-                        "label": "Anchors",
+                        "label": "%menu.AutoPreview.Anchors",
                         "command": "toggleAutopreview",
                         "parameters": "anchor",
                         "type": "checkbox",
                         "checked": "autopreview:anchor"
                     },
                     {
-                        "label": "Math",
+                        "label": "%menu.AutoPreview.Math",
                         "command": "toggleAutopreview",
                         "parameters": "math",
                         "type": "checkbox",
                         "checked": "autopreview:math"
                     },
                     {
-                        "label": "Iframes",
+                        "label": "%menu.AutoPreview.Iframes",
                         "command": "toggleAutopreview",
                         "parameters": "iframe",
                         "type": "checkbox",
@@ -632,7 +632,7 @@
                         "type": "separator"
                     },
                     {
-                        "label": "Filter Unallowed Content",
+                        "label": "%menu.AutoPreview.FilterUnallowedContent",
                         "command": "toggleAutopreviewSecurity",
                         "type": "checkbox",
                         "checked": "autopreview-security"
@@ -643,7 +643,7 @@
                 "type": "separator"
             },
             {
-                "label": "Toggle Fullscreen",
+                "label": "%menu.ToggleFullscreen",
                 "accelerator": "F11",
                 "command": "toggleFullscreen",
                 "type": "checkbox",
@@ -652,7 +652,7 @@
         ]
     },
     {
-        "label": "&Debug",
+        "label": "%menu.Debug",
         "condition": "debug",
         "submenu": [
             {
@@ -661,12 +661,12 @@
                 "command": "reload"
             },
             {
-                "label": "Run Command",
+                "label": "%menu.RunCommand",
                 "accelerator": "F2",
                 "command": "execCommand"
             },
             {
-                "label": "Developer Tools",
+                "label": "%menu.DeveloperTools",
                 "accelerator": "F12",
                 "command": "devtools"
             },
@@ -674,14 +674,14 @@
                 "type": "separator"
             },
             {
-                "label": "View in Explorer",
+                "label": "%menu.ViewInExplorer",
                 "submenu": [
                     {
-                        "label": "Temp Folder",
+                        "label": "%menu.ViewInExplorer.TempFolder",
                         "command": "openTempDir"
                     },
                     {
-                        "label": "Application Folder",
+                        "label": "%menu.ViewInExplorer.ApplicationFolder",
                         "command": "openAppDir"
                     }
                 ]
@@ -689,16 +689,16 @@
         ]
     },
     {
-        "label": "&Help",
+        "label": "%menu.Help",
         "role": "help",
         "submenu": [
             {
-                "label": "About Abricotine",
+                "label": "%menu.About",
                 "command": "about",
                 "platform": "linux, win32"
             },
             {
-                "label": "Visit Homepage",
+                "label": "%menu.VisitHomepage",
                 "command": "homepage"
             }
         ]
