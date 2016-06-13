@@ -6,9 +6,11 @@
 
 var equal = require("deep-equal");
 
-// Find headers in text and return ToC
-function getToc (text) {
+// Find headers in text and return ToC + lineNumbers
+// Line numbers are stored in a separate object to avoid a total DOM refresh when the only change is lines added/removed
+function gettocAndLineNumbers (text) {
     var toc = [],
+        lineNumbers = [],
         lines = text.split("\n"),
         isCode = false;
     lines.forEach( function (line, index) {
@@ -23,9 +25,9 @@ function getToc (text) {
         if (headerMatch) {
             toc.push({
                 content: headerMatch[2].trim(),
-                level: headerMatch[1].length,
-                line: index
+                level: headerMatch[1].length
             });
+            lineNumbers.push(index);
         }
         // Underlined headers
         var underlineMatch = line.match(/^\s*(=|-)+$/);
@@ -34,23 +36,27 @@ function getToc (text) {
             // not first line
             index !== 0 &&
             // header isnt already registered
-            !(toc.length > 0 && toc[toc.length - 1].line === index - 1)
+            !(toc.length > 0 && lineNumbers[lineNumbers.length - 1] === index - 1)
         ) {
             toc.push({
                 content: (lines[index - 1] || "").trim(),
-                level: underlineMatch[1] === "=" ? 1 : 2,
-                line: index - 1
+                level: underlineMatch[1] === "=" ? 1 : 2
             });
+            lineNumbers.push(index - 1);
         }
     });
-    return toc;
+    return {
+        toc: toc,
+        lineNumbers: lineNumbers
+    };
 }
 
 // Return index of the current active header
-function getActiveHeaderIndex (toc, cursorLine) {
+function getActiveHeaderIndex (toc, lineNumbers, cursorLine) {
     var res;
     toc.forEach( function (header, index) {
-        if (cursorLine >= header.line && header.content) {
+        var line = lineNumbers[index];
+        if (cursorLine >= line && header.content) {
             res = index;
         } else {
             return;
@@ -60,19 +66,22 @@ function getActiveHeaderIndex (toc, cursorLine) {
 }
 
 // Keep a track of toc
-var toc = [];
+var toc = [],
+    lineNumbers = [];
 
 // Listen to AbrPane
 process.on("message", function(msg) {
     var answer = {};
     // Update toc if text provided ("changes" event)
     if (msg.text != null) {
-        var newToc = getToc(msg.text);
+        var tocAndLineNumbers = gettocAndLineNumbers(msg.text),
+            newToc = tocAndLineNumbers.toc;
         if (!equal(newToc, toc)) {
             answer.toc = toc = newToc;
         }
+        answer.lineNumbers = lineNumbers = tocAndLineNumbers.lineNumbers;
     }
     // Update active header ("changes" + "cursorActivity" events)
-    answer.activeHeaderIndex = getActiveHeaderIndex(toc, msg.cursorLine);
+    answer.activeHeaderIndex = getActiveHeaderIndex(toc, lineNumbers, msg.cursorLine);
     process.send(answer);
 }, false);

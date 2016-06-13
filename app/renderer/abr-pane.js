@@ -32,7 +32,7 @@ function renderTree (toc) {
     toc.forEach(function (header, index) {
         var li = el("li", {
                     "class": "toc-h" + header.level,
-                    "data-abricotine-gotoline": header.line,
+                    "data-abricotine-header-index": index,
                     "key": "ul" + index
                 },
                 [el("a", [header.content])]
@@ -44,11 +44,13 @@ function renderTree (toc) {
 
 function AbrPane (abrDoc) {
     this.abrDoc = abrDoc;
+    this.lineNumbers = [];
     var cm = abrDoc.cm;
 
     // Init UI
     $("#pane").on("click", "li", function () {
-        var line = parseInt($(this).attr('data-abricotine-gotoline')),
+        var index = parseInt($(this).attr("data-abricotine-header-index")),
+            line = that.lineNumbers[index],
             doc = cm.doc,
             height = cm.getScrollInfo().clientHeight,
             top = cm.heightAtLine(line, "local"),
@@ -99,6 +101,9 @@ function AbrPane (abrDoc) {
     });
 
     worker.on("message", function(msg) {
+        if (msg.lineNumbers) {
+            that.lineNumbers = msg.lineNumbers;
+        }
         if (msg.toc) {
             setTocHtml(that, msg.toc);
         }
