@@ -23,6 +23,7 @@
         "language": "en_US"
     },
     "window": {
-        "showMenuBar": true
+        "showMenuBar": true,
+        "language": "en_US"
     }
 }

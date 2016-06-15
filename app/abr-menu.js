@@ -7,6 +7,7 @@
 var BrowserWindow = require("browser-window"),
     constants = require.main.require("./constants"),
     files  = require.main.require("./files"),
+    localize  = require.main.require("./localize"),
     fs = require("fs"),
     langmap = require("langmap"),
     Menu = require("menu"),
@@ -30,6 +31,10 @@ function preprocessTemplate (element, config) {
             win.webContents.send("command", command, parameters);
         },
         replaceAttributes = function (item) {
+            if (item.label) {
+                item.label = localize.get(config, item.label);
+            }
+
             if (item.condition) {
                     delete item.condition;
             }
