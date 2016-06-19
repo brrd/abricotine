@@ -1,3 +1,12 @@
 {
-    "menu-undo": "Annuler"
+    "menu-undo": "Annuler",
+    "menu-redo" : "Refaire",
+    "menu-cut": "Couper",
+    "menu-copy": "Copier",
+    "menu-paste": "Coller",
+    "menu-selectAll": "Sélectionner tout",
+
+    "menu-help": "Aide",
+    "menu-about": "A propos d'Abricotine",
+    "menu-visitHomepage": "Site Web"
 }

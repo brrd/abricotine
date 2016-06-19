@@ -122,7 +122,8 @@
             {
                 "label": "Redo",
                 "accelerator": "CmdOrCtrl+Y",
-                "role": "redo"
+                "role": "redo",
+                "labelKey": "menu-redo"
             },
             {
                 "type": "separator"
@@ -130,12 +131,14 @@
             {
                 "label": "Cut",
                 "accelerator": "CmdOrCtrl+X",
-                "role": "cut"
+                "role": "cut",
+                "labelKey": "menu-cut"
             },
             {
                 "label": "Copy",
                 "accelerator": "CmdOrCtrl+C",
-                "role": "copy"
+                "role": "copy",
+                "labelKey": "menu-copy"
             },
             {
                 "label": "Copy as HTML",
@@ -145,12 +148,14 @@
             {
                 "label": "Paste",
                 "accelerator": "CmdOrCtrl+V",
-                "role": "paste"
+                "role": "paste",
+                "labelKey": "menu-paste"
             },
             {
                 "label": "Select All",
                 "accelerator": "CmdOrCtrl+A",
-                "role": "selectall"
+                "role": "selectall",
+                "labelKey": "menu-selectAll"
             },
             {
                 "type": "separator"
@@ -705,16 +710,19 @@
         "label": "&Help",
         "role": "help",
         "permanent": true,
+        "labelKey": "menu-help",
         "submenu": [
             {
                 "label": "About Abricotine",
                 "command": "about",
-                "platform": "linux, win32"
+                "platform": "linux, win32",
+                "labelKey": "menu-about"
             },
             {
                 "label": "Visit Homepage",
                 "command": "homepage",
-                "permanent": true
+                "permanent": true,
+                "labelKey": "menu-visitHomepage"
             }
         ]
     }
