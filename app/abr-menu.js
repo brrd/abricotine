@@ -30,7 +30,10 @@ function preprocessTemplate (abrApp, element, config, abrWin) {
                     delete item.condition;
             }
             if (item.labelKey) {
-                item.label = localize.get(item.labelKey);
+                var newLabel = localize.get(item.labelKey);
+                if (newLabel !== null) {
+                    item.label = localize.get(item.labelKey);
+                }
                 delete item.labelKey;
             }
             if (item.command) {
