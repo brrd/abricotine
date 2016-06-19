@@ -43,12 +43,7 @@ creator.create = function () {
             }
         }),
         new Promise (function (resolve, reject) {
-            // Copy default languages
-            if (!files.dirExists(constants.path.languages)) {
-                files.copyLocalDir(pathModule.join(constants.path.defaultDir, "/lang"), constants.path.languages, resolve);
-            } else {
-                resolve();
-            }
+            files.copyLocalDir(pathModule.join(constants.path.defaultDir, "/lang"), constants.path.languages, resolve);
         }),
         new Promise (function (resolve, reject) {
             // Copy default template
