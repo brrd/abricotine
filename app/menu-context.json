@@ -2,7 +2,8 @@
     {
         "label": "Undo",
         "accelerator": "CmdOrCtrl+Z",
-        "role": "undo"
+        "role": "undo",
+        "labelKey": "menu-undo"
     },
     {
         "label": "Redo",
