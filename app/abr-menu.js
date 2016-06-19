@@ -8,6 +8,7 @@ var constants = require.main.require("./constants"),
     files  = require.main.require("./files"),
     fs = require("fs"),
     langmap = require("langmap"),
+    localize  = require("./localize"),
     Menu = require("menu"),
     pathModule = require("path"),
     spellchecker = require('spellchecker');
@@ -27,6 +28,10 @@ function preprocessTemplate (abrApp, element, config, abrWin) {
         replaceAttributes = function (item) {
             if (item.condition) {
                     delete item.condition;
+            }
+            if (item.labelKey) {
+                item.label = localize.get(item.labelKey);
+                delete item.labelKey;
             }
             if (item.command) {
                 item.click = (function (command, parameters) {
