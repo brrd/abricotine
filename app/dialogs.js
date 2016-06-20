@@ -6,7 +6,7 @@
 
 var BrowserWindow = require("electron").BrowserWindow,
     constants = require("./constants.js"),
-    dialog = require("dialog"),
+    dialog = require("electron").dialog,
     NativeImage = require("native-image"),
     parsePath = require("parse-filepath");
 
