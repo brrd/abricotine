@@ -5,7 +5,7 @@
 */
 
 var AbrApplication = require.main.require("./abr-application.js"),
-    app = require("app"),
+    app = require("electron").app,
     creator = require("./creator.js");
 
 var abrApp = null,

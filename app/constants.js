@@ -4,7 +4,7 @@
 *   Licensed under GNU-GPLv3 <http://www.gnu.org/licenses/gpl.html>
 */
 
-var app = require("app"),
+var app = require("electron").app,
     pathModule = require("path"),
     pkg = require.main.require("../package.json"),
     appPath = app.getAppPath(),
