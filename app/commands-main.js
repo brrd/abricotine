@@ -7,7 +7,7 @@
 var app = require("electron").app,
     dialogs = require("./dialogs.js"),
     constants = require("./constants.js"),
-    shell = require("shell");
+    shell = require("electron").shell;
 
 // Commands used in the main process (for OSX menu when no opened windows)
 var commands = {
