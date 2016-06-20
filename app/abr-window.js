@@ -5,7 +5,7 @@
 */
 
 var AbrMenu = require.main.require("./abr-menu.js"),
-    BrowserWindow = require("browser-window"),
+    BrowserWindow = require("electron").BrowserWindow,
     constants = require.main.require("./constants.js"),
     contextMenuTemplate = require.main.require("./menu-context.json"),
     defaultConfig = require.main.require("../default/config.json"),

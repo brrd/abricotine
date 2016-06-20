@@ -4,7 +4,7 @@
 *   Licensed under GNU-GPLv3 <http://www.gnu.org/licenses/gpl.html>
 */
 
-var BrowserWindow = require("browser-window"),
+var BrowserWindow = require("electron").BrowserWindow,
     constants = require("./constants.js"),
     dialog = require("dialog"),
     NativeImage = require("native-image"),
