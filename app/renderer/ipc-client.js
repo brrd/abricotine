@@ -5,7 +5,7 @@
 */
 
 var remote = require("remote"),
-    ipc = require("electron").ipc;
+    ipc = require("electron").ipcRenderer;
 
 function IpcClient () {
     this.callbacks = [];
