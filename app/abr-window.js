@@ -125,7 +125,7 @@ AbrWindow.prototype = {
         });
 
         // Load window
-        win.loadUrl("file://" + constants.path.window);
+        win.loadURL("file://" + constants.path.window);
 
         // Open devtools on debug mode
         if (this.config.get("debug")) {
