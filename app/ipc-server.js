@@ -4,7 +4,7 @@
 *   Licensed under GNU-GPLv3 <http://www.gnu.org/licenses/gpl.html>
 */
 
-var ipc = require("ipc");
+var ipc = require("electron").ipc;
 
 function IpcServer (abrApp) {
     this.abrApp = abrApp;
