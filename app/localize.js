@@ -36,8 +36,6 @@ module.exports.get = function (key, defaultTranslation, argsArray) {
     }
     // insert message args
     if (translation && argsArray && argsArray.length) {
-
-        console.log(argsArray.length);
         for (var i = 0; i < argsArray.length; i++) {
             var regexp = new RegExp("%" + i, "g");
             translation = translation.replace(regexp, argsArray[i]);
