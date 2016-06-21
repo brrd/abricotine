@@ -4,7 +4,7 @@
 *   Licensed under GNU-GPLv3 <http://www.gnu.org/licenses/gpl.html>
 */
 
-var remote = require("remote"),
+var remote = require("electron").remote,
     constants = remote.require("./constants.js"),
     glob = require("glob"),
     pathModule = require("path");

@@ -4,11 +4,11 @@
 *   Licensed under GNU-GPLv3 <http://www.gnu.org/licenses/gpl.html>
 */
 
-var remote = require("remote"),
-    clipboard = require('clipboard'),
+var remote = require("electron").remote,
+    clipboard = require('electron').clipboard,
     constants = remote.require("./constants.js"),
     md2html = require.main.require("./md2html.js"),
-    shell = require('shell');
+    shell = require('electron').shell;
 
 var commands = {
 
