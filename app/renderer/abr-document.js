@@ -254,6 +254,7 @@ AbrDocument.prototype = {
 
     // Window title
     updateWindowTitle: function () {
+        //TODO i18n
         var appName = "Abricotine",
             isClean = this.isClean(),
             saveSymbol = "*",

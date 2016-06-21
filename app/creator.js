@@ -72,6 +72,7 @@ creator.reset = function () {
 };
 
 function askForReset (callback) {
+    //TODO i18n
     var userChoice = dialog.showMessageBox({
         title: "Abricotine - Configuration update",
         message: "The current configuration is deprecated and need to be updated. Do you want to reset Abricotine configuration? \n\nWARNING: Your previous configuration (including custom templates and dictonaries) will be lost.",

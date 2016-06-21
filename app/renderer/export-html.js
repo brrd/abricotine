@@ -13,6 +13,7 @@ var remote = require("remote"),
     pathModule = require("path");
 
 function getDocTitle (data) {
+    //TODO i18n
     var firstLine = /^#+(.*)$/m,
         test = firstLine.exec(data),
         title = test !== null ? test[1].trim() : "Abricotine document";
