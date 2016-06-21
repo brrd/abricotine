@@ -26,7 +26,7 @@ function AbrDocument () {
     var ipcClient = this.ipcClient = new IpcClient();
 
     // Listener for commands sent by the menu
-    ipcClient.listenToCommands(function (command, parameters) {
+    ipcClient.listenToCommands(function (sender, command, parameters) {
         that.execCommand(command, parameters);
     });
 
