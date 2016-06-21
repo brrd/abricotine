@@ -7,6 +7,7 @@
 var BrowserWindow = require("browser-window"),
     constants = require("./constants.js"),
     dialog = require("dialog"),
+    localize = require("./localize.js"),
     NativeImage = require("native-image"),
     parsePath = require("parse-filepath");
 
@@ -29,9 +30,9 @@ var appDialogs = {
         win = getWindow(win);
         var image = NativeImage.createFromPath(constants.path.icon),
             options = {
-                title: "About",
-                message: "ABRICOTINE - MARKDOWN EDITOR (v. " + constants.appVersion + ")\n\nCopyright (c) 2015 Thomas Brouard\n\nThis program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.\n\nThis program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.\n\nYou should have received a copy of the GNU General Public License along with this program. If not, see <http://www.gnu.org/licenses/>.",
-                buttons: ['OK'],
+                title: localize.get("about-title", "About"),
+                message: localize.get("about-message", "ABRICOTINE - MARKDOWN EDITOR (v. %0)\n\nCopyright (c) 2015 Thomas Brouard\n\nThis program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.\n\nThis program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.\n\nYou should have received a copy of the GNU General Public License along with this program. If not, see <http://www.gnu.org/licenses/>.", [constants.appVersion]),
+                buttons: ["OK"],
                 icon: image
             };
         if (win) {
@@ -42,6 +43,7 @@ var appDialogs = {
     },
 
     askClose: function (path, saveFunc, closeFunc, win) {
+        //TODO i18n
         if (!path) {
             path = 'New document';
         }
@@ -64,6 +66,7 @@ var appDialogs = {
     },
 
     askOpenPath: function (title, win) {
+        //TODO i18n
         win = getWindow(win);
         var path = dialog.showOpenDialog(win, {
             title: title || 'Open document',
@@ -77,6 +80,7 @@ var appDialogs = {
     },
 
     askSavePath: function (title, win) {
+        //TODO i18n
         win = getWindow(win);
         var path = dialog.showSaveDialog(win, {
             title: title || 'Save document',
@@ -89,6 +93,7 @@ var appDialogs = {
     },
 
     askOpenImage: function (title, win) {
+        //TODO i18n
         win = getWindow(win);
         var path = dialog.showOpenDialog(win, {
             title: title || 'Insert image',
@@ -103,6 +108,7 @@ var appDialogs = {
     },
 
     askNeedSave: function (abrDoc, callback, win) {
+        //TODO i18n
         win = getWindow(win);
         var userChoice = dialog.showMessageBox(win, {
                 title: 'Save document',
@@ -116,6 +122,7 @@ var appDialogs = {
     },
 
     fileAccessDenied: function (path, callback, win) {
+        //TODO i18n
         win = getWindow(win);
         var userChoice = dialog.showMessageBox(win, {
             title: "Permission denied",
@@ -129,6 +136,7 @@ var appDialogs = {
     },
 
     importImagesDone: function (path, win) {
+        //TODO i18n
         win = getWindow(win);
         dialog.showMessageBox(win, {
             title: "Images copied",
