@@ -1,8 +1,8 @@
 /*
-*   Abricotine - Markdown Editor
-*   Copyright (c) 2015 Thomas Brouard
-*   Licensed under GNU-GPLv3 <http://www.gnu.org/licenses/gpl.html>
-*/
+ *   Abricotine - Markdown Editor
+ *   Copyright (c) 2015 Thomas Brouard
+ *   Licensed under GNU-GPLv3 <http://www.gnu.org/licenses/gpl.html>
+ */
 
 var constants = require("./constants.js"),
     files = require.main.require("./files.js"),
@@ -27,7 +27,21 @@ module.exports.load = function (language) {
     }
 };
 
-module.exports.get = function (key) {
-    if (translations[key]) return translations[key];
-    return null;
+module.exports.get = function (key, defaultTranslation, argsArray) {
+    var translation = null;
+    if (translations[key]) {
+        translation = translations[key];
+    } else if (defaultTranslation) {
+        translation = defaultTranslation;
+    }
+    // insert message args
+    if (translation && argsArray && argsArray.length) {
+
+        console.log(argsArray.length);
+        for (var i = 0; i < argsArray.length; i++) {
+            var regexp = new RegExp("%" + i, "g");
+            translation = translation.replace(regexp, argsArray[i]);
+        }
+    }
+    return translation;
 };
