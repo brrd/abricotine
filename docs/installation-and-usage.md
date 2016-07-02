@@ -4,15 +4,15 @@ Abricotine is working on Windows (7 and later), Linux and OSX.
 
 ## Installation from binaries
 
-For Windows and Linux users, the following installation method is recommended:
+The following installation method is recommended:
 
-1. Download prebuilt binaries from the [Releases page](https://github.com/brrd/Abricotine/releases),
+1. Download prebuilt binaries for your os from the [Releases page](https://github.com/brrd/Abricotine/releases),
 2. Extract the archive,
-3. Run `Abricotine.exe` (on Windows) or `Abricotine` (on Linux).
+3. Run Abricotine.
 
-Installers are not released yet.
+OSX users can also use Homebrew Cask: `$ brew cask install abricotine`.
 
-For OS X users, you must have [Homebrew](http://brew.sh) and [Hombrew Cask](http://caskroom.io) installed and run: `$ brew cask install abricotine`.
+Windows installers and Linux packages are not released yet.
 
 ## Building and packaging
 
