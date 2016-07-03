@@ -46,16 +46,15 @@ var appDialogs = {
     },
 
     askClose: function (path, saveFunc, closeFunc, win) {
-        //TODO i18n
         if (!path) {
-            path = 'New document';
+            path = appDialogs.localizer.get('new-document', 'New document');
         }
         win = getWindow(win);
         var filename = parsePath(path).basename || path,
             userChoice = dialog.showMessageBox(win, {
-                title: 'Unsaved document',
-                message: 'Do you really want to close \'' + filename + '\' without saving?',
-                buttons: ['Cancel', 'Save & close', 'Close without saving']
+                title: appDialogs.localizer.get('confirm-close-title', 'Unsaved document'),
+                message: appDialogs.localizer.get('confirm-close-message', "Do you really want to close '%0' without saving?", [filename]),
+                buttons: ['Cancel', appDialogs.localizer.get('confirm-save-and-close', 'Save & close'), appDialogs.localizer.get('confirm-close-without-saving', 'Close without saving')]
             });
         switch (userChoice) {
             case 1:
@@ -69,10 +68,9 @@ var appDialogs = {
     },
 
     askOpenPath: function (title, win) {
-        //TODO i18n
         win = getWindow(win);
         var path = dialog.showOpenDialog(win, {
-            title: title || 'Open document',
+            title: title || appDialogs.localizer.get('dialog-open', 'Open document'),
             properties: ['openFile'],
             defaultPath: process.cwd()
         });
@@ -83,10 +81,9 @@ var appDialogs = {
     },
 
     askSavePath: function (title, win) {
-        //TODO i18n
         win = getWindow(win);
         var path = dialog.showSaveDialog(win, {
-            title: title || 'Save document',
+            title: title || appDialogs.localizer.get('dialog-save', 'Save document'),
             defaultPath: process.cwd()
         });
         if (path) {
