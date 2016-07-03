@@ -30,12 +30,11 @@ function Localizer(language) {
 }
 
 Localizer.prototype = {
-    
-    getLanguage : function(){
-        console.log("Localizer.getLanguage");
+
+    getLanguage: function () {
         return this.language;
     },
-    
+
     get: function (key, defaultTranslation, argsArray) {
         var translation = null;
         if (this.translations[key]) {
