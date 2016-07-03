@@ -7,7 +7,6 @@
 var BrowserWindow = require("browser-window"),
     constants = require("./constants.js"),
     dialog = require("dialog"),
-    localize = require("./localize.js"),
     NativeImage = require("native-image"),
     parsePath = require("parse-filepath");
 

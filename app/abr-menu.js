@@ -8,7 +8,6 @@ var constants = require.main.require("./constants"),
     files  = require.main.require("./files"),
     fs = require("fs"),
     langmap = require("langmap"),
-    localize  = require("./localize"),
     Menu = require("menu"),
     pathModule = require("path"),
     spellchecker = require('spellchecker');
@@ -30,9 +29,9 @@ function preprocessTemplate (abrApp, element, config, abrWin) {
                     delete item.condition;
             }
             if (item.labelKey) {
-                var newLabel = localize.get(item.labelKey);
+                var newLabel = abrApp.localizer.get(item.labelKey);
                 if (newLabel !== null) {
-                    item.label = localize.get(item.labelKey);
+                    item.label = abrApp.localizer.get(item.labelKey);
                 }
                 delete item.labelKey;
             }
