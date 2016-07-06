@@ -114,7 +114,7 @@ var appDialogs = {
         var userChoice = dialog.showMessageBox(win, {
             title: appDialogs.localizer.get('dialog-save', 'Save document'),
             message: appDialogs.localizer.get('dialog-save-message', 'The current document needs to be saved before performing this operation.'),
-            buttons: [appDialogs.localizer.get('button-cancel', 'Cancel'), appDialogs.localizer.get('dialog-save', 'Save document')]
+            buttons: [appDialogs.localizer.get('button-cancel', 'Cancel'), appDialogs.localizer.get('button-save', 'Save document')]
         });
         if (userChoice === 1) {
             abrDoc.save(null, callback);
