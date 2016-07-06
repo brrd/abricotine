@@ -20,5 +20,18 @@
     "confirm-close-without-saving": "Fermer sans enregistrer",
 
     "dialog-open": "Ouvrir un document",
-    "dialog-save": "Enregistrer"
+    "dialog-save": "Enregistrer",
+    "dialog-save-message": "Le document doit être enregistré avant d'effectuer cette opération.",
+
+    "button-ok": "OK",
+    "button-cancel": "Annuler",
+
+    "insert-image": "Insérer des images",
+    "insert-image-filter": "Images",
+
+    "permission-denied": "Permission refusée",
+    "permission-denied-message": "Le fichier '%0' n'a pas pu être enregistré : permission refusée. Veuillez sélectionner un autre emplacement, s'il vous plaît.",
+
+    "images-copied": "Images copiées",
+    "images-copied-message": "Les images du document ont été copiées dans le répertoire '%0'."
 }
