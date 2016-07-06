@@ -10,12 +10,13 @@ var AbrMenu = require.main.require("./abr-menu.js"),
     commands = require.main.require("./commands-main.js"),
     files = require.main.require("./files.js"),
     ipcServer = require.main.require("./ipc-server.js"),
+    Localizer = require("./localize.js"),
     menuTemplate = require.main.require("./menu-window.json"),
     parsePath = require("parse-filepath"),
     themeLoader = require.main.require("./theme-loader.js");
 
-function AbrApplication (osxOpenFilePaths, aLocalizer) {
-    this.localizer = aLocalizer;
+function AbrApplication (osxOpenFilePaths, locale) {
+    this.localizer = new Localizer(locale);
     // Windows reference
     this.windows = [];
     // IPC get & set

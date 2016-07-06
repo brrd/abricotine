@@ -6,7 +6,6 @@
 
 var AbrApplication = require.main.require("./abr-application.js"),
     app = require("app"),
-    Localizer = require("./localize.js"),
     creator = require("./creator.js");
 
 var abrApp = null,
@@ -53,7 +52,6 @@ app.on("ready", function () {
     creatorFunc()
         .then(creator.check)
         .then(function () {
-            var localizer = new Localizer(app.getLocale());
-            abrApp = new AbrApplication(osxOpenFilePaths, localizer);
+            abrApp = new AbrApplication(osxOpenFilePaths, app.getLocale());
         });
 });
