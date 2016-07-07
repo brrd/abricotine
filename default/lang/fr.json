@@ -34,5 +34,7 @@
     "permission-denied-message": "Le fichier '%0' n'a pas pu être enregistré : permission refusée. Veuillez sélectionner un autre emplacement, s'il vous plaît.",
 
     "images-copied": "Images copiées",
-    "images-copied-message": "Les images du document ont été copiées dans le répertoire '%0'."
+    "images-copied-message": "Les images du document ont été copiées dans le répertoire '%0'.",
+
+    "html-export-title": "Document Abricotine"
 }
