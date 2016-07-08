@@ -28,6 +28,13 @@ function preprocessTemplate (abrApp, element, config, abrWin) {
             if (item.condition) {
                     delete item.condition;
             }
+            if (item.labelKey) {
+                var newLabel = abrApp.localizer.get(item.labelKey);
+                if (newLabel !== null) {
+                    item.label = abrApp.localizer.get(item.labelKey);
+                }
+                delete item.labelKey;
+            }
             if (item.command) {
                 item.click = (function (command, parameters) {
                     return function () { sendCommand(command, parameters); };

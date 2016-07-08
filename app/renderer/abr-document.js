@@ -265,7 +265,8 @@ AbrDocument.prototype = {
             dir = parsedPath.dirname || process.cwd();
             title = parsedPath.basename + " - " + dir + " - " + appName;
         } else {
-            title = "New document - " + appName;
+            var newDocument = dialogs.localizer.get("new-document", "New document");
+            title = newDocument + " - " + appName;
         }
         if (!isClean) {
             title = saveSymbol + title;
