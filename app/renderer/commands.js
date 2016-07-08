@@ -281,7 +281,7 @@ var commands = {
 
     reload: function(win, abrDoc, cm) {
         abrDoc.close(true);
-        win.reloadIgnoringCache();
+        win.webContents.reloadIgnoringCache();
     },
 
     openConfigDir: function(win, abrDoc, cm) {

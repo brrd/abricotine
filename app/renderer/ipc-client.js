@@ -11,7 +11,7 @@ function IpcClient () {
     this.callbacks = [];
     this.windowId = remote.getCurrentWindow().id;
     var that = this,
-        runCallback = function (key, value, id, windowId) {
+        runCallback = function (event, key, value, id, windowId) {
             if (typeof id !== "undefined" && typeof that.callbacks[id] === "function" && windowId === that.windowId) {
                 var callback = that.callbacks[id];
                 callback(value);
