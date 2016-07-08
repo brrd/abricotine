@@ -27,6 +27,7 @@ function getWindow(win) {
 
 var appDialogs = {
 
+    // TODO get localizer instance from AbrApplication or AbrDocument (depending of current process)
     localizer: new Localizer(app.getLocale()),
 
     about: function (win) {
