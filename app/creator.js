@@ -5,7 +5,7 @@
 */
 
 var constants = require.main.require("./constants.js"),
-    dialog = require("dialog"),
+    dialog = require("electron").dialog,
     files = require.main.require("./files.js"),
     pathModule = require("path"),
     pkg = require("../package.json");

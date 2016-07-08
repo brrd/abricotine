@@ -6,7 +6,7 @@
 
 var AbrMenu = require.main.require("./abr-menu.js"),
     AbrWindow = require.main.require("./abr-window.js"),
-    BrowserWindow = require("browser-window"),
+    BrowserWindow = require("electron").BrowserWindow,
     commands = require.main.require("./commands-main.js"),
     files = require.main.require("./files.js"),
     ipcServer = require.main.require("./ipc-server.js"),

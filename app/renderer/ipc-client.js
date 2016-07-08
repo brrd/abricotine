@@ -4,8 +4,8 @@
 *   Licensed under GNU-GPLv3 <http://www.gnu.org/licenses/gpl.html>
 */
 
-var remote = require("remote"),
-    ipc = require("ipc");
+var remote = require("electron").remote,
+    ipc = require("electron").ipcRenderer;
 
 function IpcClient () {
     this.callbacks = [];

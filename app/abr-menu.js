@@ -8,7 +8,7 @@ var constants = require.main.require("./constants"),
     files  = require.main.require("./files"),
     fs = require("fs"),
     langmap = require("langmap"),
-    Menu = require("menu"),
+    Menu = require("electron").Menu,
     pathModule = require("path"),
     spellchecker = require('spellchecker');
 

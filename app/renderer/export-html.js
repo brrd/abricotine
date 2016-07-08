@@ -4,7 +4,7 @@
 *   Licensed under GNU-GPLv3 <http://www.gnu.org/licenses/gpl.html>
 */
 
-var remote = require("remote"),
+var remote = require("electron").remote,
     constants = remote.require("./constants"),
     dialogs = remote.require("./dialogs.js"),
     files = remote.require("./files.js"),

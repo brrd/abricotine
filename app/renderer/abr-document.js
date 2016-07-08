@@ -4,7 +4,7 @@
 *   Licensed under GNU-GPLv3 <http://www.gnu.org/licenses/gpl.html>
 */
 
-var remote = require("remote"),
+var remote = require("electron").remote,
     AbrPane = require.main.require("./abr-pane.js"),
     cmInit = require.main.require("./cm-init.js"),
     commands = require.main.require("./commands.js"),
@@ -16,7 +16,7 @@ var remote = require("remote"),
     files = remote.require("./files.js"),
     parsePath = require("parse-filepath"),
     pathModule = require("path"),
-    shell = require("shell"),
+    shell = require("electron").shell,
     spellchecker = require('spellchecker');
 
 function AbrDocument () {
@@ -26,7 +26,7 @@ function AbrDocument () {
     var ipcClient = this.ipcClient = new IpcClient();
 
     // Listener for commands sent by the menu
-    ipcClient.listenToCommands(function (command, parameters) {
+    ipcClient.listenToCommands(function (sender, command, parameters) {
         that.execCommand(command, parameters);
     });
 

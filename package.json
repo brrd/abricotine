@@ -32,8 +32,8 @@
     "celldown.js": "latest",
     "codemirror": "^5.15.2",
     "deep-equal": "^1.0.1",
-    "electron-prebuilt": "^0.35.0",
-    "electron-window-state": "^2.0.0",
+    "electron-prebuilt": "^1.2.3",
+    "electron-window-state": "^3.0.3",
     "font-awesome": "^4.5.0",
     "glob": "^5.0.14",
     "is-url": "^1.2.1",
@@ -55,8 +55,8 @@
   },
   "devDependencies": {
     "commander": "^2.9.0",
-    "electron-packager": "^5.2.1",
-    "electron-rebuild": "^1.0.2",
+    "electron-packager": "^7.0.4",
+    "electron-rebuild": "^1.1.5",
     "pretty-ms": "^2.1.0"
   },
   "abricotine": {
