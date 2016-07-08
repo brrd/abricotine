@@ -6,6 +6,7 @@
 
 var AbrMenu = require.main.require("./abr-menu.js"),
     AbrWindow = require.main.require("./abr-window.js"),
+    app = require.main.require("app"),
     BrowserWindow = require("browser-window"),
     commands = require.main.require("./commands-main.js"),
     files = require.main.require("./files.js"),
@@ -15,8 +16,8 @@ var AbrMenu = require.main.require("./abr-menu.js"),
     parsePath = require("parse-filepath"),
     themeLoader = require.main.require("./theme-loader.js");
 
-function AbrApplication (osxOpenFilePaths, locale) {
-    this.localizer = new Localizer(locale);
+function AbrApplication (osxOpenFilePaths) {
+    this.localizer = new Localizer(app.getLocale());
     // Windows reference
     this.windows = [];
     // IPC get & set

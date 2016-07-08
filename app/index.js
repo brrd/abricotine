@@ -52,6 +52,6 @@ app.on("ready", function () {
     creatorFunc()
         .then(creator.check)
         .then(function () {
-            abrApp = new AbrApplication(osxOpenFilePaths, app.getLocale());
+            abrApp = new AbrApplication(osxOpenFilePaths);
         });
 });
