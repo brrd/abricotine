@@ -8,13 +8,13 @@
     "menu-selectAll": "Sélectionner tout",
 
     "menu-help": "Aide",
-    "menu-about": "A propos d'Abricotine",
+    "menu-about": "À propos d'Abricotine",
     "menu-visitHomepage": "Site Web",
 
-    "menu-edit-preferences": "Modifier les préférences",
+    "menu-edit-preferences": "Éditer les préférences",
     "menu-open-config-dir": "Ouvrir le répertoire des préférences",
-    "menu-hide": "Cacher Abricotine",
-    "menu-hide-others": "Cacher les autres",
+    "menu-hide": "Masquer Abricotine",
+    "menu-hide-others": "Masquer les autres",
     "menu-show-all": "Tout afficher",
     "menu-quit": "Quitter",
 
@@ -22,12 +22,12 @@
     "menu-new-document": "Nouveau document",
     "menu-open": "Ouvrir",
     "menu-save": "Enregistrer",
-    "menu-save-as": "Enregistrer sous...",
+    "menu-save-as": "Enregistrer sous…",
     "menu-export-html": "Exporter comme HTML",
     "menu-close-document": "Fermer le document",
     "menu-close-window": "Fermer la fenêtre",
 
-    "menu-edit": "Edition",
+    "menu-edit": "É&dition",
     "menu-find": "Rechercher",
     "menu-find-next": "Rechercher le suivant",
     "menu-find-previous": "Rechercher le précédent",
@@ -36,7 +36,7 @@
     "menu-search-clear": "Effacer la recherche",
     "menu-spelling": "Orthographe",
     "menu-spelling-disabled": "Vérification désactivée",
-    "menu-brackets-auto-close": "Fermer automatiquement Brackets",
+    "menu-brackets-auto-close": "Refermer automatiquement les parenthèses",
 
     "menu-format": "F&ormat",
     "format-italic": "Italique",
@@ -110,12 +110,12 @@
     "menu-auto-preview-images": "Images",
     "menu-auto-preview-todolists": "Listes de tâches",
     "menu-auto-preview-anchors": "Ancres",
-    "menu-auto-preview-math": "Math",
+    "menu-auto-preview-math": "Mathématiques",
     "menu-auto-preview-iframes": "Cadres (iframes)",
     "menu-auto-preview-security": "Filtrer le contenu non autorisé",
     "menu-fullscreen": "Plein écran",
 
-    "about-title": "A propos",
+    "about-title": "À propos",
     "about-message": "ABRICOTINE - EDITEUR MARKDOWN (v. %0)\n\nCopyright (c) 2015 Thomas Brouard\n\nThis program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.\n\nThis program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.\n\nYou should have received a copy of the GNU General Public License along with this program. If not, see <http://www.gnu.org/licenses/>.",
 
     "new-document": "Nouveau document",
