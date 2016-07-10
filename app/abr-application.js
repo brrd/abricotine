@@ -6,6 +6,7 @@
 
 var AbrMenu = require.main.require("./abr-menu.js"),
     AbrWindow = require.main.require("./abr-window.js"),
+    app = require.main.require("app"),
     BrowserWindow = require("electron").BrowserWindow,
     commands = require.main.require("./commands-main.js"),
     constants = require.main.require("./constants.js"),
@@ -45,6 +46,10 @@ AbrApplication.prototype = {
     storeRecentPath: function (path, winId) {
         //TODO recent-docs: storing does not work for the first opened doc
         if (path) {
+            // Works only on Windows and MacOS
+            // See: https://github.com/electron/electron/blob/master/docs/tutorial/desktop-environment-integration.md#recent-documents-windows--macos
+            app.addRecentDocument(path);
+
             var max = this.getConfig("recent-docs:max", winId);
             if (!max) max = 5;
             var recentPaths = this.getConfig("recent-docs:files", winId);
