@@ -102,8 +102,6 @@ AbrWindow.prototype = {
             }
         };
 
-        this.abrApp.storeRecentPath(this.path, this.id);
-
         // Set event handlers
         win.webContents.on("dom-ready", function () {
             execStartupCommands();

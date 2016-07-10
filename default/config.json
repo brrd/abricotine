@@ -23,7 +23,8 @@
     ],
     "autopreview-security": true,
     "editor": {
-        "font-size": "16px"
+        "font-size": "16px",
+        "max-recent": 5
     },
     "highlight-modes": "",
     "copy-images-on-html-export": true,
@@ -49,9 +50,5 @@
     "theme": "default",
     "window": {
         "showMenuBar": true
-    },
-    "recent-docs": {
-        "max": 5,
-        "files": []
     }
 }

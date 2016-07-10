@@ -7,6 +7,6 @@
 var AbrDocument = require.main.require("./abr-document.js");
 
 $( function () {
-    var abrDoc = new AbrDocument();
+    var abrDoc = new AbrDocument(localStorage);
     window.abrDoc = abrDoc;
 });
