@@ -69,6 +69,19 @@
                 "permanent": true
             },
             {
+                "label": "Recent",
+                "id": "recentDocs",
+                "submenu": [
+                    {
+                    "type": "separator"
+                    },
+                    {
+                        "label": "Clear",
+                        "command": "clearRecentDocList"
+                    }
+                ]
+            },
+            {
                 "type": "separator"
             },
             {

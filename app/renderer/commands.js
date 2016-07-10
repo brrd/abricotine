@@ -319,6 +319,11 @@ var commands = {
     homepage: function (win, abrDoc, cm) {
         var homepageURL = constants.homepageURL;
         shell.openExternal(homepageURL);
+    },
+
+    clearRecentDocList: function (win, abrDoc, cm) {
+        //TODO recent-docs: clear
+        console.log("clearRecentDocList");
     }
 };
 
