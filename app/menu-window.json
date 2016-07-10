@@ -7,7 +7,8 @@
             {
                 "label": "About Abricotine",
                 "command": "about",
-                "permanent": true
+                "permanent": true,
+                "labelKey": "menu-about"
             },
             {
                 "type": "separator"
@@ -16,12 +17,14 @@
                 "label": "Edit Preferences",
                 "accelerator": "CmdOrCtrl+,",
                 "command": "editConfigFile",
-                "permanent": true
+                "permanent": true,
+                "labelKey": "menu-edit-preferences"
             },
             {
                 "label": "Open Config Directory",
                 "command": "openConfigDir",
-                "permanent": true
+                "permanent": true,
+                "labelKey": "menu-open-config-dir"
             },
             {
                 "type": "separator"
@@ -29,44 +32,51 @@
             {
                 "label": "Hide Abricotine",
                 "role": "hide",
-                "permanent": true
+                "permanent": true,
+                "labelKey": "menu-hide"
             },
             {
                 "label": "Hide Others",
                 "role": "hideothers",
-                "permanent": true
+                "permanent": true,
+                "labelKey": "menu-hide-others"
             },
             {
                 "label": "Show All",
                 "role": "unhide",
-                "permanent": true
+                "permanent": true,
+                "labelKey": "menu-show-all"
             },
             {
                 "type": "separator"
             },
             {
-                "label": "Quit Abricotine",
+                "label": "Quit",
                 "command": "quit",
                 "accelerator": "CmdOrCtrl+Q",
-                "permanent": true
+                "permanent": true,
+                "labelKey": "menu-quit"
             }
         ]
     },
     {
         "label": "&File",
         "permanent": true,
+        "labelKey": "menu-file",
         "submenu": [
             {
                 "label": "New Document",
                 "accelerator": "CmdOrCtrl+N",
                 "command": "new",
-                "permanent": true
+                "permanent": true,
+                "labelKey": "menu-new-document"
             },
             {
                 "label": "Open",
                 "accelerator": "CmdOrCtrl+O",
                 "command": "open",
-                "permanent": true
+                "permanent": true,
+                "labelKey": "menu-open"
             },
             {
                 "type": "separator"
@@ -74,12 +84,14 @@
             {
                 "label": "Save",
                 "accelerator": "CmdOrCtrl+S",
-                "command": "save"
+                "command": "save",
+                "labelKey": "menu-save"
             },
             {
                 "label": "Save As…",
                 "accelerator": "CmdOrCtrl+Shift+S",
-                "command": "saveAs"
+                "command": "saveAs",
+                "labelKey": "menu-save-as"
             },
             {
                 "type": "separator"
@@ -87,7 +99,8 @@
             {
                 "label": "Export as HTML",
                 "id": "exportHtml",
-                "submenu": []
+                "submenu": [],
+                "labelKey": "menu-export-html"
             },
             {
                 "type": "separator"
@@ -95,23 +108,27 @@
             {
                 "label": "Close Document",
                 "accelerator": "CmdOrCtrl+W",
-                "command": "close"
+                "command": "close",
+                "labelKey": "menu-close-document"
             },
             {
                 "label": "Close Window",
                 "accelerator": "CmdOrCtrl+Shift+W",
-                "role": "close"
+                "role": "close",
+                "labelKey": "menu-close-window"
             },
             {
                 "label": "Quit",
                 "accelerator": "CmdOrCtrl+Q",
                 "command": "quit",
-                "platform": "linux, win32"
+                "platform": "linux, win32",
+                "labelKey": "menu-quit"
             }
         ]
     },
     {
         "label": "&Edit",
+        "labelKey": "menu-edit",
         "submenu": [
             {
                 "label": "Undo",
@@ -143,7 +160,8 @@
             {
                 "label": "Copy as HTML",
                 "accelerator": "CmdOrCtrl+Shift+C",
-                "command": "copyHtml"
+                "command": "copyHtml",
+                "labelKey": "menu-copy-html"
             },
             {
                 "label": "Paste",
@@ -163,34 +181,40 @@
             {
                 "label": "Search",
                 "accelerator": "CmdOrCtrl+F",
-                "command": "find"
+                "command": "find",
+                "labelKey": "menu-find"
             },
             {
                 "label": "Find Next",
                 "accelerator": "F3",
                 "command": "findNext",
-                "enabled": true
+                "enabled": true,
+                "labelKey": "menu-find-next"
             },
             {
                 "label": "Find Previous",
                 "accelerator": "Shift+F3",
                 "command": "findPrev",
-                "enabled": true
+                "enabled": true,
+                "labelKey": "menu-find-previous"
             },
             {
                 "label": "Replace",
                 "accelerator": "CmdOrCtrl+H",
-                "command": "replace"
+                "command": "replace",
+                "labelKey": "menu-replace"
             },
             {
                 "label": "Replace All",
                 "accelerator": "CmdOrCtrl+Shift+H",
-                "command": "replaceAll"
+                "command": "replaceAll",
+                "labelKey": "menu-replace-all"
             },
             {
                 "label": "Clear Search",
                 "accelerator": "CmdOrCtrl+Shift+F",
-                "command": "clearSearch"
+                "command": "clearSearch",
+                "labelKey": "menu-search-clear"
             },
             {
                 "type": "separator"
@@ -198,9 +222,11 @@
             {
                 "label": "Spelling",
                 "id": "spelling",
+                "labelKey": "menu-spelling",
                 "submenu": [
                     {
                         "label": "Disabled",
+                        "labelKey": "menu-spelling-disabled",
                         "type": "radio",
                         "checked": false,
                         "command": "setDictionary",
@@ -215,7 +241,8 @@
                 "label": "Auto Close Brackets",
                 "command": "autoCloseBrackets",
                 "type": "checkbox",
-                "checked": "startup-commands:autoCloseBrackets"
+                "checked": "startup-commands:autoCloseBrackets",
+                "labelKey": "menu-brackets-auto-close"
             },
             {
                 "type": "separator",
@@ -224,41 +251,48 @@
             {
                 "label": "Edit Preferences",
                 "command": "editConfigFile",
-                "platform": "linux, win32"
+                "platform": "linux, win32",
+                "labelKey": "menu-edit-preferences"
             },
             {
                 "label": "Open Config Directory",
                 "command": "openConfigDir",
-                "platform": "linux, win32"
+                "platform": "linux, win32",
+                "labelKey": "menu-open-config-dir"
             }
         ]
     },
     {
         "label": "F&ormat",
+        "labelKey": "menu-format",
         "submenu": [
             {
                 "label": "Italic",
                 "accelerator": "CmdOrCtrl+I",
                 "command": "format",
-                "parameters": "italic"
+                "parameters": "italic",
+                "labelKey": "format-italic"
             },
             {
                 "label": "Bold",
                 "accelerator": "CmdOrCtrl+B",
                 "command": "format",
-                "parameters": "bold"
+                "parameters": "bold",
+                "labelKey": "format-bold"
             },
             {
                 "label": "Strikethrough",
                 "accelerator": "CmdOrCtrl+/",
                 "command": "format",
-                "parameters": "strikethrough"
+                "parameters": "strikethrough",
+                "labelKey": "format-strikethrough"
             },
             {
                 "label": "Code",
                 "accelerator": "CmdOrCtrl+.",
                 "command": "format",
-                "parameters": "code"
+                "parameters": "code",
+                "labelKey": "format-code"
             },
             {
                 "type": "separator"
@@ -267,37 +301,43 @@
                 "label": "Heading 1",
                 "accelerator": "CmdOrCtrl+F1",
                 "command": "format",
-                "parameters": "h1"
+                "parameters": "h1",
+                "labelKey": "format-heading1"
             },
             {
                 "label": "Heading 2",
                 "accelerator": "CmdOrCtrl+F2",
                 "command": "format",
-                "parameters": "h2"
+                "parameters": "h2",
+                "labelKey": "format-heading2"
             },
             {
                 "label": "Heading 3",
                 "accelerator": "CmdOrCtrl+F3",
                 "command": "format",
-                "parameters": "h3"
+                "parameters": "h3",
+                "labelKey": "format-heading3"
             },
             {
                 "label": "Heading 4",
                 "accelerator": "CmdOrCtrl+F4",
                 "command": "format",
-                "parameters": "h4"
+                "parameters": "h4",
+                "labelKey": "format-heading4"
             },
             {
                 "label": "Heading 5",
                 "accelerator": "CmdOrCtrl+F5",
                 "command": "format",
-                "parameters": "h5"
+                "parameters": "h5",
+                "labelKey": "format-heading5"
             },
             {
                 "label": "Heading 6",
                 "accelerator": "CmdOrCtrl+F6",
                 "command": "format",
-                "parameters": "h6"
+                "parameters": "h6",
+                "labelKey": "format-heading6"
             },
             {
                 "type": "separator"
@@ -306,50 +346,59 @@
                 "label": "Unordered List",
                 "accelerator": "CmdOrCtrl+Shift+L",
                 "command": "format",
-                "parameters": "ul"
+                "parameters": "ul",
+                "labelKey": "format-list-unordered"
             },
             {
                 "label": "Ordered List",
                 "accelerator": "CmdOrCtrl+Alt+Shift+L",
                 "command": "format",
-                "parameters": "ol"
+                "parameters": "ol",
+                "labelKey": "format-list-ordered"
             },
             {
                 "label": "Todo List",
                 "accelerator": "CmdOrCtrl+Shift+T",
                 "command": "format",
-                "parameters": "todolist"
+                "parameters": "todolist",
+                "labelKey": "format-list-todo"
             },
             {
                 "label": "Quote",
                 "accelerator": "CmdOrCtrl+Shift+Q",
                 "command": "format",
-                "parameters": "quote"
+                "parameters": "quote",
+                "labelKey": "format-quote"
             }
         ]
     },
     {
         "label": "&Insert",
+        "labelKey": "menu-insert",
         "submenu": [
             {
                 "label": "Image",
+                "labelKey": "menu-insert-image",
                 "submenu": [
                     {
                         "label": "Insert from Computer",
                         "accelerator": "CmdOrCtrl+Alt+I",
-                        "command": "imageFromComputer"
+                        "command": "imageFromComputer",
+                        "labelKey": "menu-insert-image-from-computer"
                     },
                     {
                         "label": "Insert from URL",
                         "command": "draw",
-                        "parameters": "image"
+                        "parameters": "image",
+                        "labelKey": "menu-insert-image-from-url"
                     },
                     {
                         "type": "separator"
                     },
                     {
                         "label": "Copy All Images in a Local Folder",
-                        "command": "imagesImportAll"
+                        "command": "imagesImportAll",
+                        "labelKey": "menu-image-copy-all"
                     }
                 ]
             },
@@ -357,56 +406,67 @@
                 "label": "Link",
                 "accelerator": "CmdOrCtrl+L",
                 "command": "draw",
-                "parameters": "link"
+                "parameters": "link",
+                "labelKey": "menu-insert-link"
             },
             {
                 "label": "Anchor",
                 "command": "draw",
-                "parameters": "anchor"
+                "parameters": "anchor",
+                "labelKey": "menu-insert-anchor"
             },
             {
                 "label": "Code Block",
                 "command": "draw",
-                "parameters": "codeblock"
+                "parameters": "codeblock",
+                "labelKey": "menu-insert-codeblock"
             },
             {
                 "label": "Math Formula",
                 "command": "draw",
-                "parameters": "math"
+                "parameters": "math",
+                "labelKey": "menu-insert-math-formula"
             },
             {
                 "label": "Horizontal Rule",
                 "accelerator": "CmdOrCtrl+R",
                 "command": "draw",
-                "parameters": "hr"
+                "parameters": "hr",
+                "labelKey": "menu-insert-hr"
             }
         ]
     },
     {
         "label": "&Table",
+        "labelKey": "menu-table",
         "submenu": [
             {
                 "label": "New Table",
+                "labelKey": "menu-new-table",
                 "submenu": [
                     {
                         "label": "2 Columns x 2 Rows",
                         "command": "tableCreate",
-                        "parameters": [2, 2]
+                        "parameters": [2, 2],
+                        "labelKey": "menu-new-table-2x2"
                     },
                     {
                         "label": "2 Columns x 3 Rows",
                         "command": "tableCreate",
-                        "parameters": [2, 3]
+                        "parameters": [2, 3],
+                        "labelKey": "menu-new-table-2x3"
                     },
                     {
                         "label": "2 Columns x 4 Rows",
                         "command": "tableCreate",
-                        "parameters": [2, 4]
+                        "parameters": [2, 4],
+                        "labelKey": "menu-new-table-2x4"
                     },
                     {
                         "label": "2 Columns x 5 Rows",
                         "command": "tableCreate",
-                        "parameters": [2, 5]
+                        "parameters": [2, 5],
+                        "labelKey": "menu-new-table-2x5"
                     },
                     {
                         "type": "separator"
@@ -414,22 +474,26 @@
                     {
                         "label": "3 Columns x 2 Rows",
                         "command": "tableCreate",
-                        "parameters": [3, 2]
+                        "parameters": [3, 2],
+                        "labelKey": "menu-new-table-3x2"
                     },
                     {
                         "label": "3 Columns x 3 Rows",
                         "command": "tableCreate",
-                        "parameters": [3, 3]
+                        "parameters": [3, 3],
+                        "labelKey": "menu-new-table-3x3"
                     },
                     {
                         "label": "3 Columns x 4 Rows",
                         "command": "tableCreate",
-                        "parameters": [3, 4]
+                        "parameters": [3, 4],
+                        "labelKey": "menu-new-table-3x4"
                     },
                     {
                         "label": "3 Columns x 5 Rows",
                         "command": "tableCreate",
-                        "parameters": [3, 5]
+                        "parameters": [3, 5],
+                        "labelKey": "menu-new-table-3x5"
                     },
                     {
                         "type": "separator"
@@ -437,22 +501,26 @@
                     {
                         "label": "4 Columns x 2 Rows",
                         "command": "tableCreate",
-                        "parameters": [4, 2]
+                        "parameters": [4, 2],
+                        "labelKey": "menu-new-table-4x2"
                     },
                     {
                         "label": "4 Columns x 3 Rows",
                         "command": "tableCreate",
-                        "parameters": [4, 3]
+                        "parameters": [4, 3],
+                        "labelKey": "menu-new-table-4x3"
                     },
                     {
                         "label": "4 Columns x 4 Rows",
                         "command": "tableCreate",
-                        "parameters": [4, 4]
+                        "parameters": [4, 4],
+                        "labelKey": "menu-new-table-4x4"
                     },
                     {
                         "label": "4 Columns x 5 Rows",
                         "command": "tableCreate",
-                        "parameters": [4, 5]
+                        "parameters": [4, 5],
+                        "labelKey": "menu-new-table-4x5"
                     },
                     {
                         "type": "separator"
@@ -460,22 +528,26 @@
                     {
                         "label": "5 Columns x 2 Rows",
                         "command": "tableCreate",
-                        "parameters": [5, 2]
+                        "parameters": [5, 2],
+                        "labelKey": "menu-new-table-5x2"
                     },
                     {
                         "label": "5 Columns x 3 Rows",
                         "command": "tableCreate",
-                        "parameters": [5, 3]
+                        "parameters": [5, 3],
+                        "labelKey": "menu-new-table-5x3"
                     },
                     {
                         "label": "5 Columns x 4 Rows",
                         "command": "tableCreate",
-                        "parameters": [5, 4]
+                        "parameters": [5, 4],
+                        "labelKey": "menu-new-table-5x4"
                     },
                     {
                         "label": "5 Columns x 5 Rows",
                         "command": "tableCreate",
-                        "parameters": [5, 5]
+                        "parameters": [5, 5],
+                        "labelKey": "menu-new-table-5x5"
                     }
                 ]
             },
@@ -484,60 +556,72 @@
             },
             {
                 "label": "Rows",
+                "labelKey": "menu-table-rows",
                 "submenu": [
                     {
                         "label": "Add Row Before",
-                        "command": "tableAddRowBefore"
+                        "command": "tableAddRowBefore",
+                        "labelKey": "menu-table-rows-add-before"
                     },
                     {
                         "label": "Add Row After",
-                        "command": "tableAddRowAfter"
+                        "command": "tableAddRowAfter",
+                        "labelKey": "menu-table-rows-add-after"
                     },
                     {
                         "type": "separator"
                     },
                     {
                         "label": "Remove Row",
-                        "command": "tableRemoveRow"
+                        "command": "tableRemoveRow",
+                        "labelKey": "menu-table-rows-remove"
                     }
                 ]
             },
             {
                 "label": "Columns",
+                "labelKey": "menu-table-columns",
                 "submenu": [
                     {
                         "label": "Add Column Before",
-                        "command": "tableAddColBefore"
+                        "command": "tableAddColBefore",
+                        "labelKey": "menu-table-columns-add-before"
                     },
                     {
                         "label": "Add Column After",
-                        "command": "tableAddColAfter"
+                        "command": "tableAddColAfter",
+                        "labelKey": "menu-table-columns-add-after"
                     },
                     {
                         "type": "separator"
                     },
                     {
                         "label": "Remove Column",
-                        "command": "tableRemoveCol"
+                        "command": "tableRemoveCol",
+                        "labelKey": "menu-table-columns-remove"
                     },
                     {
                         "type": "separator"
                     },
                     {
                         "label": "Align Left",
-                        "command": "tableAlignLeft"
+                        "command": "tableAlignLeft",
+                        "labelKey": "menu-table-align-left"
                     },
                     {
                         "label": "Align Center",
-                        "command": "tableAlignCenter"
+                        "command": "tableAlignCenter",
+                        "labelKey": "menu-table-align-center"
                     },
                     {
                         "label": "Align Right",
-                        "command": "tableAlignRight"
+                        "command": "tableAlignRight",
+                        "labelKey": "menu-table-align-right"
                     },
                     {
                         "label": "Clear Align",
-                        "command": "tableAlignClear"
+                        "command": "tableAlignClear",
+                        "labelKey": "menu-table-align-clear"
                     }
                 ]
             },
@@ -547,17 +631,20 @@
             {
                 "label": "Beautify",
                 "command": "tableBeautify",
-                "accelerator": "CmdOrCtrl+Shift+B"
+                "accelerator": "CmdOrCtrl+Shift+B",
+                "labelKey": "menu-table-beautify"
             }
         ]
     },
     {
         "label": "&View",
+        "labelKey": "menu-view",
         "submenu": [
             {
                 "label": "View Document in Browser",
                 "accelerator": "F6",
-                "command": "viewInBrowser"
+                "command": "viewInBrowser",
+                "labelKey": "menu-view-in-browser"
             },
             {
                 "type": "separator"
@@ -565,17 +652,20 @@
             {
                 "label": "Increase Font Size",
                 "accelerator": "CmdOrCtrl+=",
-                "command": "increaseFontSize"
+                "command": "increaseFontSize",
+                "labelKey": "menu-font-size-increase"
             },
             {
                 "label": "Decrease Font Size",
                 "accelerator": "CmdOrCtrl+-",
-                "command": "decreaseFontSize"
+                "command": "decreaseFontSize",
+                "labelKey": "menu-font-size-decrease"
             },
             {
                 "label": "Reset Font Size",
                 "accelerator": "CmdOrCtrl+0",
-                "command": "resetFontSize"
+                "command": "resetFontSize",
+                "labelKey": "menu-font-size-reset"
             },
             {
                 "type": "separator"
@@ -585,66 +675,76 @@
                 "command": "showMenuBar",
                 "type": "checkbox",
                 "checked": "window:showMenuBar",
-                "platform": "linux, win32"
+                "platform": "linux, win32",
+                "labelKey": "menu-show-menu-bar"
             },
             {
                 "label": "Show Table of Contents",
                 "command": "showTocPane",
                 "type": "checkbox",
-                "checked": "startup-commands:showTocPane"
+                "checked": "startup-commands:showTocPane",
+                "labelKey": "menu-show-table-of-contents"
             },
             {
                 "label": "Show Blocks",
                 "command": "showBlocks",
                 "type": "checkbox",
-                "checked": "startup-commands:showBlocks"
+                "checked": "startup-commands:showBlocks",
+                "labelKey": "menu-show-blocks"
             },
             {
                 "label": "Show Hidden Characters",
                 "command": "showHiddenCharacters",
                 "type": "checkbox",
-                "checked": "startup-commands:showHiddenCharacters"
+                "checked": "startup-commands:showHiddenCharacters",
+                "labelKey": "menu-show-hidden-chars"
             },
             {
                 "type": "separator"
             },
             {
                 "label": "Auto Preview",
+                "labelKey": "menu-auto-preview",
                 "submenu": [
                     {
                         "label": "Images",
                         "command": "toggleAutopreview",
                         "parameters": "image",
                         "type": "checkbox",
-                        "checked": "autopreview:image"
+                        "checked": "autopreview:image",
+                        "labelKey": "menu-auto-preview-images"
                     },
                     {
                         "label": "Todo Lists",
                         "command": "toggleAutopreview",
                         "parameters": "todolist",
                         "type": "checkbox",
-                        "checked": "autopreview:todolist"
+                        "checked": "autopreview:todolist",
+                        "labelKey": "menu-auto-preview-todolists"
                     },
                     {
                         "label": "Anchors",
                         "command": "toggleAutopreview",
                         "parameters": "anchor",
                         "type": "checkbox",
-                        "checked": "autopreview:anchor"
+                        "checked": "autopreview:anchor",
+                        "labelKey": "menu-auto-preview-anchors"
                     },
                     {
                         "label": "Math",
                         "command": "toggleAutopreview",
                         "parameters": "math",
                         "type": "checkbox",
-                        "checked": "autopreview:math"
+                        "checked": "autopreview:math",
+                        "labelKey": "menu-auto-preview-math"
                     },
                     {
                         "label": "Iframes",
                         "command": "toggleAutopreview",
                         "parameters": "iframe",
                         "type": "checkbox",
-                        "checked": "autopreview:iframe"
+                        "checked": "autopreview:iframe",
+                        "labelKey": "menu-auto-preview-iframes"
                     },
                     {
                         "type": "separator"
@@ -653,7 +753,8 @@
                         "label": "Filter Unallowed Content",
                         "command": "toggleAutopreviewSecurity",
                         "type": "checkbox",
-                        "checked": "autopreview-security"
+                        "checked": "autopreview-security",
+                        "labelKey": "menu-auto-preview-security"
                     }
                 ]
             },
@@ -665,7 +766,8 @@
                 "accelerator": "F11",
                 "command": "toggleFullscreen",
                 "type": "checkbox",
-                "checked": false
+                "checked": false,
+                "labelKey": "menu-fullscreen"
             }
         ]
     },
