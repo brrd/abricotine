@@ -49,5 +49,9 @@
     "theme": "default",
     "window": {
         "showMenuBar": true
+    },
+    "recent-docs": {
+        "max": 5,
+        "files": []
     }
 }

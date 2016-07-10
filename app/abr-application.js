@@ -39,6 +39,25 @@ AbrApplication.prototype = {
     // trigger
     setWinPath: function (path, winId) {
         this.windows[winId].path = path;
+        this.storeRecentPath(path, winId);
+    },
+
+    storeRecentPath: function (path, winId) {
+        if (path) {
+            var max = this.getConfig("recent-docs:max", winId);
+            if (!max) max = 5;
+            var recentPaths = this.getConfig("recent-docs:files", winId);
+            if (!recentPaths) recentPaths = [];
+            var indexOfPath = recentPaths.indexOf(path);
+            if (indexOfPath >= 0) {
+                recentPaths.splice(indexOfPath, 1);
+            }
+            recentPaths.unshift(path);
+            if (recentPaths.length > max) {
+                recentPaths = recentPaths.slice(0, max);
+            }
+            this.setConfig({"recent-docs:files": recentPaths}, winId);
+        }
     },
 
     // trigger
