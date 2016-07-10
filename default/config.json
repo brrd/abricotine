@@ -8,7 +8,8 @@
     },
     "autopreview-security": true,
     "editor": {
-        "font-size": "16px"
+        "font-size": "16px",
+        "max-recent": 5
     },
     "highlight-modes": "",
     "preview-template": "default",
@@ -24,9 +25,5 @@
     },
     "window": {
         "showMenuBar": true
-    },
-    "recent-docs": {
-        "max": 5,
-        "files": []
     }
 }

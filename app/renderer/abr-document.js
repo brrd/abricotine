@@ -19,8 +19,10 @@ var remote = require("electron").remote,
     shell = require("electron").shell,
     spellchecker = require('spellchecker');
 
-function AbrDocument () {
+function AbrDocument (theLocalStorage) {
     var that = this;
+
+    this.localStorage = theLocalStorage;
 
     // IPC init
     var ipcClient = this.ipcClient = new IpcClient();
@@ -286,6 +288,7 @@ AbrDocument.prototype = {
         if (!path) {
             return false;
         }
+        this.storeRecentPath(path);
         var that = this;
         if (!this.path && this.isClean()) {
             files.readFile(path, function (data, path) {
@@ -307,6 +310,7 @@ AbrDocument.prototype = {
 
     save: function (path, callback) {
         path = path || this.path;
+        this.storeRecentPath(path);
         if (!path) {
             return this.saveAs(callback);
         }
@@ -528,7 +532,42 @@ AbrDocument.prototype = {
     // About
     about: function () {
         dialogs.about();
-    }
+    },
+
+    storeRecentPath: function (path) {
+        var thisDoc = this;
+
+        this.getConfig(undefined, function(theConfig) {
+            console.log("storeRecentPath");
+
+            var max = theConfig.editor["max-recent"];
+            if (!max) max = 5;
+
+            var recentPaths = thisDoc.localStorage.getItem("recent-docs");
+            if (recentPaths) {
+                try {
+                    recentPaths = JSON.parse(recentPaths);
+                }
+                catch (e) {
+                    recentPaths = [];
+                }
+            }
+            if (!recentPaths) recentPaths = [];
+
+            var indexOfPath = recentPaths.indexOf(path);
+            if (indexOfPath >= 0) {
+                recentPaths.splice(indexOfPath, 1);
+            }
+            recentPaths.unshift(path);
+            if (recentPaths.length > max) {
+                recentPaths = recentPaths.slice(0, max);
+            }
+
+            thisDoc.localStorage.setItem("recent-docs", JSON.stringify(recentPaths));
+        });
+
+        this.ipcClient.trigger("storeRecentPath", path);
+    },
 };
 
 module.exports = AbrDocument;
