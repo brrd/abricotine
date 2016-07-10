@@ -43,6 +43,7 @@ AbrApplication.prototype = {
     },
 
     storeRecentPath: function (path, winId) {
+        //TODO recent-docs: storing does not work for the first opened doc
         if (path) {
             var max = this.getConfig("recent-docs:max", winId);
             if (!max) max = 5;
