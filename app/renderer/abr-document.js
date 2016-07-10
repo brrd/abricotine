@@ -939,9 +939,9 @@ AbrDocument.prototype = {
             }
 
             thisDoc.localStorage.setItem("recent-docs", JSON.stringify(recentPaths));
-        });
 
-        this.ipcClient.trigger("storeRecentPath", path);
+            thisDoc.ipcClient.trigger("updateRecentPaths", recentPaths);
+        });
     },
 };
 

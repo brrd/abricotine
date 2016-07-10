@@ -215,17 +215,18 @@ AbrMenu.prototype = {
             var items = menu.items,
                 menuItem;
             for (var i=0; i <items.length; i++) {
-                if (items[i].submenu) {
+                if (items[i].id === id) {
+                    menuItem = items[i];
+                }
+                else if (items[i].submenu) {
                     menuItem = doFindItem(items[i].submenu, id);
-                } else {
-                    menuItem = items[i].id === id ? items[i] : undefined;
                 }
                 if (menuItem) {
                     return menuItem;
                 }
             }
         }
-        return doFindItem(this, id);
+        return doFindItem(this.menu, id);
     },
 
     popup: function () {
@@ -236,6 +237,11 @@ AbrMenu.prototype = {
     attach: function () {
         // FIXME: use win.setMenu(menu) for Linux and Windows instead
         Menu.setApplicationMenu(this.menu);
+    },
+
+    setRecentDocsMenu: function(recentPaths) {
+        // TODO recent-docs: update recent docs menu
+        // var submenu = this.findItem("recentDocs").submenu;
     }
 };
 

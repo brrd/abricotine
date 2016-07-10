@@ -42,11 +42,14 @@ AbrApplication.prototype = {
         this.windows[winId].path = path;
     },
 
-    storeRecentPath: function (path) {
-        if (path) {
-            // Works only on Windows and MacOS
-            // See: https://github.com/electron/electron/blob/master/docs/tutorial/desktop-environment-integration.md#recent-documents-windows--macos
-            app.addRecentDocument(path);
+    updateRecentPaths: function (recentPaths) {
+        if (recentPaths) {
+            if (recentPaths.length > 0) {
+                // Works only on Windows and MacOS
+                // See: https://github.com/electron/electron/blob/master/docs/tutorial/desktop-environment-integration.md#recent-documents-windows--macos
+                app.addRecentDocument(recentPaths[0]);
+            }
+            this.menu.setRecentDocsMenu(recentPaths);
         }
     },
 
