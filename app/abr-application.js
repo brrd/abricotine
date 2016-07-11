@@ -41,6 +41,12 @@ AbrApplication.prototype = {
                 app.addRecentDocument(recentPaths[0]);
             }
             this.menu.setRecentDocsMenu(recentPaths);
+
+            for (var winId in this.windows) {
+                if (!this.windows.hasOwnProperty(winId)) continue;
+                var abrWin = this.windows[winId];
+                abrWin.menu.setRecentDocsMenu(recentPaths);
+            }
         }
     },
 
