@@ -364,12 +364,6 @@ var commands = {
     homepage: function (win, abrDoc, cm) {
         var homepageURL = constants.homepageURL;
         shell.openExternal(homepageURL);
-    },
-
-    clearRecentDocList: function (win, abrDoc, cm) {
-        //TODO recent-docs: clear
-        // See: https://github.com/electron/electron/blob/master/docs/tutorial/desktop-environment-integration.md#recent-documents-windows--macos
-        console.log("clearRecentDocList");
     }
 };
 

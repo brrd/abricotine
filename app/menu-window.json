@@ -71,15 +71,7 @@
             {
                 "label": "Recent",
                 "id": "recentDocs",
-                "submenu": [
-                    {
-                    "type": "separator"
-                    },
-                    {
-                        "label": "Clear",
-                        "command": "clearRecentDocList"
-                    }
-                ]
+                "submenu": []
             },
             {
                 "type": "separator"
