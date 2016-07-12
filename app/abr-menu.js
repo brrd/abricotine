@@ -9,6 +9,7 @@ var constants = require.main.require("./constants"),
     fs = require("fs"),
     langmap = require("langmap"),
     Menu = require("electron").Menu,
+    MenuItem = require("electron").MenuItem,
     pathModule = require("path"),
     spellchecker = require('spellchecker');
 
@@ -200,9 +201,49 @@ AbrMenu.prototype = {
         Menu.setApplicationMenu(this.menu);
     },
 
+    openRecentDoc: function (recentFile) {
+        // TODO recent-docs: open a recent doc
+        console.log("openRecentDoc: " + recentFile);
+    },
+
+    clearRecentDocs: function () {
+        // TODO recent-docs: clear recent docs menu
+        console.log("clearRecentDocs");
+    },
+
     setRecentDocsMenu: function(recentPaths) {
-        // TODO recent-docs: update recent docs menu
-        // var submenu = this.findItem("recentDocs").submenu;
+        var submenu = this.findItem("recentDocs").submenu, i, itemData, that = this;
+
+        // clear menu (this API is not public and may change between Electron releases)
+        submenu.clear();
+
+        function createOpenRecentCallback(recent) {
+            return function() {
+                that.openRecentDoc(recent);
+            };
+        }
+
+        // create items for recent files
+        for (i=0; i <recentPaths.length; i++) {
+            itemData = {
+                label: recentPaths[i],
+                click: createOpenRecentCallback(recentPaths[i])
+            };
+            submenu.append(new MenuItem(itemData));
+        }
+
+        submenu.append(new MenuItem({
+            type: "separator"
+        }));
+
+        // append "clear recent" item
+        submenu.append(new MenuItem({
+            label: "clear",
+            enabled: (recentPaths.length > 0),
+            click: function() {
+                that.clearRecentDocs();
+            }
+        }));
     }
 };
 
