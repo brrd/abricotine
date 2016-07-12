@@ -913,7 +913,6 @@ AbrDocument.prototype = {
         var thisDoc = this;
 
         this.getConfig(undefined, function(theConfig) {
-            console.log("storeRecentPath");
 
             var max = theConfig.editor["max-recent"];
             if (!max) max = 5;
