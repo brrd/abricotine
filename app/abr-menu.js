@@ -241,8 +241,8 @@ AbrMenu.prototype = {
     },
 
     openRecentDoc: function (recentFile) {
-        // TODO recent-docs: open a recent doc
-        console.log("openRecentDoc: " + recentFile);
+        this.abrWin.abrApp.open(recentFile);
+        // TODO recent-docs FIXME Recent doc list is not updated after re-opening a recent file
     },
 
     clearRecentDocs: function () {
