@@ -175,6 +175,8 @@ function AbrDocument (theLocalStorage) {
             }
         };
     });
+
+    this.updateRecentPath();
 }
 
 AbrDocument.prototype = {
@@ -288,7 +290,7 @@ AbrDocument.prototype = {
         if (!path) {
             return false;
         }
-        this.storeRecentPath(path);
+        this.updateRecentPath(path);
         var that = this;
         if (!this.path && this.isClean()) {
             files.readFile(path, function (data, path) {
@@ -310,7 +312,7 @@ AbrDocument.prototype = {
 
     save: function (path, callback) {
         path = path || this.path;
-        this.storeRecentPath(path);
+        this.updateRecentPath(path);
         if (!path) {
             return this.saveAs(callback);
         }
@@ -534,7 +536,7 @@ AbrDocument.prototype = {
         dialogs.about();
     },
 
-    storeRecentPath: function (path) {
+    updateRecentPath: function (path) {
         var thisDoc = this;
 
         this.getConfig(undefined, function(theConfig) {
@@ -553,13 +555,15 @@ AbrDocument.prototype = {
             }
             if (!recentPaths) recentPaths = [];
 
-            var indexOfPath = recentPaths.indexOf(path);
-            if (indexOfPath >= 0) {
-                recentPaths.splice(indexOfPath, 1);
-            }
-            recentPaths.unshift(path);
-            if (recentPaths.length > max) {
-                recentPaths = recentPaths.slice(0, max);
+            if (path) {
+                var indexOfPath = recentPaths.indexOf(path);
+                if (indexOfPath >= 0) {
+                    recentPaths.splice(indexOfPath, 1);
+                }
+                recentPaths.unshift(path);
+                if (recentPaths.length > max) {
+                    recentPaths = recentPaths.slice(0, max);
+                }
             }
 
             thisDoc.localStorage.setItem("recent-docs", JSON.stringify(recentPaths));
