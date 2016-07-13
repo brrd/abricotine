@@ -5,7 +5,8 @@ var commander = require("commander"),
     packager = require("electron-packager"),
     path = require("path"),
     pkg = require("../package.json"),
-    prettyMs = require("pretty-ms");
+    prettyMs = require("pretty-ms"),
+    semver = require("semver");
 
 var inputPath = ".",
     outputPath = "./dist",
@@ -29,7 +30,7 @@ var options = {
         name: pkg.name,
         platform: commander.platform || process.platform,
         arch: commander.arch || process.arch,
-        version: "0.35.1", // Electron version // TODO: match electron version in package.json
+        version: semver.clean(pkg.dependencies["electron-prebuilt"]),
         "app-version": pkg.version,
         icon: icoPath,
         out: outputPath,
