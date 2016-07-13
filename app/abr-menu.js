@@ -209,7 +209,7 @@ AbrMenu.prototype = {
     clearRecentDocs: function () {
         // TODO recent-docs: clear recent docs menu
         // See: https://github.com/electron/electron/blob/master/docs/tutorial/desktop-environment-integration.md#recent-documents-windows--macos
-        console.log("clearRecentDocs");
+        this.abrWin.abrApp.clearRecentDocs(this.abrWin);
     },
 
     setRecentDocsMenu: function(recentPaths) {
