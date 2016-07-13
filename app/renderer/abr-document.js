@@ -945,6 +945,16 @@ AbrDocument.prototype = {
             thisDoc.ipcClient.trigger("updateRecentPaths", recentPaths);
         });
     },
+
+    clearRecentDocs: function() {
+        var thisDoc = this;
+
+        this.getConfig(undefined, function(theConfig) {
+            var recentPaths = [];
+            thisDoc.localStorage.setItem("recent-docs", JSON.stringify(recentPaths));
+            thisDoc.ipcClient.trigger("updateRecentPaths", recentPaths);
+        });
+    }
 };
 
 module.exports = AbrDocument;

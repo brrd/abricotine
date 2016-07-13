@@ -367,7 +367,7 @@ var commands = {
     },
 
     clearRecentDocs: function(win, abrDoc, cm) {
-        // TODO recent-docs: clear recent docs menu
+        abrDoc.clearRecentDocs();
     },
 };
 
