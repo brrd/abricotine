@@ -59,6 +59,12 @@ AbrApplication.prototype = {
         }
     },
 
+    clearRecentDocs: function(abrWin) {
+        console.log("clearRecentDocs " + abrWin.browserWindow.id);
+        var webContents = abrWin.browserWindow.webContents;
+        webContents.send("command", "clearRecentDocs");
+    },
+
     // trigger
     getPathToLoad: function (arg, winId, callback) {
         var win = this.getFocusedAbrWindow(winId),
