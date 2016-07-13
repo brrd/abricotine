@@ -203,12 +203,10 @@ AbrMenu.prototype = {
 
     openRecentDoc: function (recentFile) {
         this.abrWin.abrApp.open(recentFile);
-        // TODO recent-docs FIXME Recent doc list is not updated after re-opening a recent file
+        // FIXCC recent-docs: Recent doc list is not updated after re-opening a recent file
     },
 
     clearRecentDocs: function () {
-        // TODO recent-docs: clear recent docs menu
-        // See: https://github.com/electron/electron/blob/master/docs/tutorial/desktop-environment-integration.md#recent-documents-windows--macos
         this.abrWin.abrApp.clearRecentDocs(this.abrWin);
     },
 

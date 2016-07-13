@@ -40,17 +40,26 @@ AbrApplication.prototype = {
                 // See: https://github.com/electron/electron/blob/master/docs/tutorial/desktop-environment-integration.md#recent-documents-windows--macos
                 app.addRecentDocument(recentPaths[0]);
             }
-            this.menu.setRecentDocsMenu(recentPaths);
 
-            for (var winId in this.windows) {
-                if (!this.windows.hasOwnProperty(winId)) continue;
-                var abrWin = this.windows[winId];
-                abrWin.menu.setRecentDocsMenu(recentPaths);
-            }
+            this.updateRecentPathsMenus(recentPaths);
+        }
+    },
+
+    updateRecentPathsMenus: function(recentPaths) {
+        this.menu.setRecentDocsMenu(recentPaths);
+
+        for (var winId in this.windows) {
+            if (!this.windows.hasOwnProperty(winId)) continue;
+            var abrWin = this.windows[winId];
+            // FIXCC recent-docs: error here when opening a file that is in the recent list but using the "File > Open" menu
+            abrWin.menu.setRecentDocsMenu(recentPaths);
         }
     },
 
     clearRecentDocs: function(abrWin) {
+        // See: https://github.com/electron/electron/blob/master/docs/tutorial/desktop-environment-integration.md#recent-documents-windows--macos
+        app.clearRecentDocuments();
+        // update storage
         var webContents = abrWin.browserWindow.webContents;
         webContents.send("command", "clearRecentDocs");
     },
