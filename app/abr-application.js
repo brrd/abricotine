@@ -60,7 +60,6 @@ AbrApplication.prototype = {
     },
 
     clearRecentDocs: function(abrWin) {
-        console.log("clearRecentDocs " + abrWin.browserWindow.id);
         var webContents = abrWin.browserWindow.webContents;
         webContents.send("command", "clearRecentDocs");
     },
