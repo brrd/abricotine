@@ -311,8 +311,6 @@ function AbrDocument (theLocalStorage) {
             });
         });
     });
-
-    this.updateRecentPath();
 }
 
 AbrDocument.prototype = {
@@ -327,6 +325,7 @@ AbrDocument.prototype = {
         this.setClean();
         this.updateWindowTitle();
         this.cm.refresh(); // CodeMirror scrollbar bug workaround
+        this.updateRecentPath(path);
     },
 
     close: function (force, destroyWindow) {
