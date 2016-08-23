@@ -237,7 +237,7 @@ AbrMenu.prototype = {
 
         // append "clear recent" item
         submenu.append(new MenuItem({
-            label: "clear",
+            label: "Clear",
             enabled: (recentPaths.length > 0),
             click: function() {
                 that.clearRecentDocs();
