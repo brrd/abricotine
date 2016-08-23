@@ -45,7 +45,7 @@ AbrApplication.prototype = {
     updateRecentPaths: function (recentPaths) {
         if (recentPaths) {
             if (recentPaths.length > 0) {
-                // Works only on Windows and MacOS
+                // May not work on all OS'es (electron doc says Windows and MacOS are OK, tests on Ubuntu 16 show it is OK too)
                 // See: https://github.com/electron/electron/blob/master/docs/tutorial/desktop-environment-integration.md#recent-documents-windows--macos
                 app.addRecentDocument(recentPaths[0]);
             }
@@ -60,8 +60,16 @@ AbrApplication.prototype = {
         for (var winId in this.windows) {
             if (!this.windows.hasOwnProperty(winId)) continue;
             var abrWin = this.windows[winId];
-            // FIXCC recent-docs: error here when opening a file that is in the recent list but using the "File > Open" menu
-            abrWin.menu.setRecentDocsMenu(recentPaths);
+            if (abrWin) {
+                // There are some cases when abrWin is null:
+                // Scenario 1: using menu "File > Close Document" on Windows that has no doc
+                // Scenario 2:
+                //      1. Start Abricotine ==> Opens a new empty window
+                //      2. Open one of the recent files using the "File > Recent" menu ==> Selected doc is opened in a new window (unlike the "File > Open menu")
+                //      3. Close the empty window (the one opened when Abricotine started)
+                //      4. Return the window opened at step 2, open a file using the "File > Open" menu
+                abrWin.menu.setRecentDocsMenu(recentPaths);
+            }
         }
     },
 
