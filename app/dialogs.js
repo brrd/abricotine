@@ -7,7 +7,7 @@
 var BrowserWindow = require("electron").BrowserWindow,
     constants = require("./constants.js"),
     dialog = require("electron").dialog,
-    NativeImage = require("electron").NativeImage,
+    NativeImage = require("electron").nativeImage,
     parsePath = require("parse-filepath");
 
 // Returns the most "logical" window object (it is quite useless actually)
