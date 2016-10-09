@@ -94,12 +94,12 @@
             },
             {
                 "label": "Close Document",
-                "accelerator": "CmdOrCtrl+W",
+                "accelerator": "CmdOrCtrl+Shift+W",
                 "command": "close"
             },
             {
                 "label": "Close Window",
-                "accelerator": "CmdOrCtrl+Shift+W",
+                "accelerator": "CmdOrCtrl+W",
                 "role": "close"
             },
             {
