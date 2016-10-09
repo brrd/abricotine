@@ -129,9 +129,14 @@ var commands = {
     },
 
     autoCloseBrackets: function(win, abrDoc, cm) {
-        var flag = cm.getOption("autoCloseBrackets");
-        cm.setOption("autoCloseBrackets", !flag);
-        abrDoc.setConfig("startup-commands:autoCloseBrackets", !flag);
+        if (cm) {
+            var flag = cm.getOption("autoCloseBrackets");
+            cm.setOption("autoCloseBrackets", !flag);
+            abrDoc.setConfig("startup-commands:autoCloseBrackets", !flag);
+        } else {
+            // If cm not loaded yet
+            abrDoc.commandsToTrigger.push("autoCloseBrackets");
+        }
     },
 
     editConfigFile: function(win, abrDoc, cm) {

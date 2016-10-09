@@ -26,6 +26,7 @@ function AbrDocument () {
     var ipcClient = this.ipcClient = new IpcClient();
 
     // Listener for commands sent by the menu
+    this.commandsToTrigger = [];
     ipcClient.listenToCommands(function (sender, command, parameters) {
         that.execCommand(command, parameters);
     });
@@ -36,6 +37,11 @@ function AbrDocument () {
     // Init CodeMirror fist because most of methods rely on it
     cmInit(function (cm) {
         that.cm = cm;
+
+        // Dirty fix to handle startup commands called before cm init
+        that.commandsToTrigger.forEach(function (commandName) {
+            that.execCommand(commandName);
+        });
 
         // Init pane
         that.pane = new AbrPane(that);
