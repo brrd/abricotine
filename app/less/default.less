@@ -15,10 +15,23 @@
 @ui-font-size: 14px;
 @ui-background-color: #fff;
 
-// Editor and Pane
-@ui-vertical-divider-width: 5px;
-@ui-pane-width: 200px;
-@ui-vertical-divider-color: #999;
+// Pane
+@ui-pane-color: #444;
+@ui-pane-background-color: #f9f9f9;
+@ui-pane-border-color: #999;
+.ui-pane-item() {
+}
+.ui-pane-item-hover() {
+    background: rgba(0,0,0,.03);
+    box-shadow: inset 0 0 1px rgba(0,0,0,.1);
+    text-shadow: 0 -1px 0 #fff;
+}
+.ui-pane-item-active() {
+    background: #009dd8;
+    color: #fff;
+    box-shadow: inset 0 2px 4px rgba(0,0,0,.2);
+    text-shadow: 0 -1px 0 rgba(0,0,0,.2);
+}
 
 // CodeMirror dialogs
 @ui-dialog-color: #fff;
@@ -45,44 +58,83 @@
 @editor-background-color: #fff;
 
 // Headers
-@editor-header-font-family: "Lucida Sans", "Lucida Grande", "Lucida Sans Unicode", "Luxi Sans", sans-serif;
-@editor-header-color: #000;
-@editor-header-1-size: 300%;
-@editor-header-2-size: 220%;
-@editor-header-3-size: 180%;
-@editor-header-4-size: 150%;
-@editor-header-5-size: 130%;
-@editor-header-6-size: 110%;
+.editor-headers() {
+    color: #000;
+    font-family: "Lucida Sans", "Lucida Grande", "Lucida Sans Unicode", "Luxi Sans", sans-serif;
+}
+.editor-header-1() {
+    font-size: 300%;
+}
+.editor-header-2() {
+    font-size: 220%;
+}
+.editor-header-3() {
+    font-size: 180%;
+}
+.editor-header-4() {
+    font-size: 150%;
+}
+.editor-header-5() {
+    font-size: 130%;
+}
+.editor-header-6() {
+    font-size: 110%;
+}
 
 // Code
 @editor-code-font-family: "Courier New", Courier, "Liberation Mono", monospace;
-@editor-code-color: #3d2249;
+.editor-code() {
+    color: #3d2249;
+}
 
 // Quote
-@editor-quote-color: #75787b;
+.editor-quote() {
+    color: #75787b;
+}
 
 // List
-@editor-list-color: auto;
 @editor-list-padding-left: 20px;
 @editor-list-checked-color: #999;
+.editor-list() {
+    color: auto;
+}
+.editor-list-checked() {
+    text-decoration: line-through;
+}
 
 // Horizontal rule
-@editor-hr-color: #75787b;
+.editor-hr() {
+    color: #75787b;
+}
 
 // Image
-@editor-image-color: #f50;
+.editor-image() {
+    color: #f50;
+}
 
 // Link and URL
-@editor-link-color: #05a;
-@editor-link-href-color: #75787b;
+.editor-link() {
+    color: #05a;
+}
+.editor-link-href() {
+    color: #75787b;
+}
 
-// Formatting and hidden characters
+// Text formating
+.editor-em() {};
+.editor-strong() {};
+.editor-strikethrough() {};
+
+// Formatting marks and hidden characters
 @editor-formatting-color: #1d75b3;
 @editor-hidden-characters-color: #0095dd;
 
 // Cursors and selections
-@editor-cursor-color: black;
-@editor-selection-background: #dce9f3;
+@editor-cursor-color: #1d75b3;
+@editor-cursor-width: 1px;
+.editor-selection() {
+    background-color: #dce9f3;
+}
 
 // Show blocks option
 @editor-block-margin-color: #ddd;
@@ -119,6 +171,3 @@
 @cm-variable-3-color: #085;
 @cm-negative-color: #d44;
 @cm-positive-color: #292;
-
-@import "ui.less";
-@import "editor.less";

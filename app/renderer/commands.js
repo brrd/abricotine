@@ -139,6 +139,14 @@ var commands = {
         }
     },
 
+    loadTheme: function (win, abrDoc, cm, param) {
+        abrDoc.loadTheme(param);
+    },
+
+    reloadTheme: function (win, abrDoc, cm) {
+        abrDoc.reloadTheme();
+    },
+
     editConfigFile: function(win, abrDoc, cm) {
         var dirPath = constants.path.userConfig;
         shell.openItem(dirPath);
