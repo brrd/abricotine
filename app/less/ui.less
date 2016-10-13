@@ -24,7 +24,7 @@
 
     body {
         overflow: hidden;
-        font-family: @ui-font-family;
+        font: caption;
         font-size: @ui-font-size;
         -webkit-user-select: none;
         user-select: none;
@@ -156,11 +156,13 @@
         left: 0;
         right: 0;
         z-index: 15;
-        padding: .1em .8em;
+        padding: .6em .8em;
         overflow: hidden;
         color: @ui-dialog-color;
         position: fixed;
-        font-family: Arial, sans-serif;
+        font-family: inherit;
+        font: small-caption;
+        font-size: @ui-font-size;
         cursor: default;
         background: @ui-dialog-background;
     }
@@ -182,25 +184,26 @@
         min-width: 300px !important;
         margin: auto 10px;
         color: inherit;
-        font-family: @ui-dialog-font-family;
-        font-size: inherit;
+        font-family: auto;
+        font: small-caption;
+        font-size: @ui-font-size;
         color: @ui-dialog-color;
         cursor: text;
     }
 
     .CodeMirror-dialog button {
-        font-size: 0.7em;
+        font-size: @ui-font-size * 0.8;
         background: @ui-dialog-button-background;
         border-radius: 1px;
         border: none;
         display: inline-block;
-        cursor: pointer;
+        cursor: default;
         color: @ui-dialog-button-color;
         font-weight: bold;
         text-decoration: none;
         padding: 4px 12px;
         vertical-align: top;
-        margin: 4px 0 0 6px;
+        margin: 0 0 0 6px;
         text-align: center;
         border: none;
         outline: none;
@@ -214,9 +217,11 @@
         background: @ui-dialog-button-focus-background;
     }
 
-    .CodeMirror-dialog span {
+    .CodeMirror-dialog span.CodeMirror-search-hint {
+        font-family: auto;
+        font: small-caption;
+        font-size: @ui-font-size;
         color: @ui-dialog-color !important;
-        font-size: .8em;
         float: right;
         clear: none;
     }
