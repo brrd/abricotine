@@ -43,9 +43,17 @@ creator.create = function () {
             }
         }),
         new Promise (function (resolve, reject) {
-            // Copy default template
+            // Copy default templates
             if (!files.dirExists(constants.path.templatesDir)) {
                 files.copyLocalDir(pathModule.join(constants.path.defaultDir, "/templates"), constants.path.templatesDir, resolve);
+            } else {
+                resolve();
+            }
+        }),
+        new Promise (function (resolve, reject) {
+            // Copy default themes
+            if (!files.dirExists(constants.path.themesDir)) {
+                files.copyLocalDir(pathModule.join(constants.path.defaultDir, "/themes"), constants.path.themesDir, resolve);
             } else {
                 resolve();
             }

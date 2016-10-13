@@ -24,6 +24,7 @@ module.exports = {
         dictionaries: pathModule.join(userDataPath, "/dict"),
         schema: pathModule.join(userDataPath, "/schema.json"),
         templatesDir: pathModule.join(userDataPath, "/templates"),
+        themesDir: pathModule.join(userDataPath, "/themes"),
         tmp: tmpPath,
         tmpThemes: pathModule.join(tmpPath, "/themes"),
         themes: pathModule.join(userDataPath, "/themes"),

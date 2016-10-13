@@ -61,6 +61,6 @@
     "semver": "^5.2.0"
   },
   "abricotine": {
-    "schema": 2
+    "schema": 3
   }
 }

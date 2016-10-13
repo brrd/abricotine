@@ -22,6 +22,7 @@
         "active": true,
         "language": "en_US"
     },
+    "theme": "default",
     "window": {
         "showMenuBar": true
     }
