@@ -33,7 +33,9 @@ function AbrDocument () {
     });
 
     // Load and set theme
-    that.getConfig("theme", that.loadTheme);
+    that.getConfig("theme", function (themeName) {
+        that.loadTheme.call(that, themeName);
+    });
 
     // Init CodeMirror fist because most of methods rely on it
     cmInit(function (cm) {
