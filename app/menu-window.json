@@ -655,6 +655,14 @@
                 "type": "separator"
             },
             {
+                "label": "Theme",
+                "id": "themes",
+                "submenu": []
+            },
+            {
+                "type": "separator"
+            },
+            {
                 "label": "Toggle Fullscreen",
                 "accelerator": "F11",
                 "command": "toggleFullscreen",

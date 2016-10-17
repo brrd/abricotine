@@ -50,6 +50,9 @@ function preprocessTemplate (abrApp, element, config, abrWin) {
                 if (item.id === "exportHtml") {
                     item.submenu = exportHtmlMenuGenerator(item.submenu, config);
                 }
+                if (item.id === "themes") {
+                    item.submenu = themesMenuGenerator(item.submenu, config);
+                }
                 preprocessTemplate(abrApp, item.submenu, config, abrWin);
             }
             return item;
@@ -157,6 +160,37 @@ function exportHtmlMenuGenerator (submenu, config) {
     var subdirs = files.getDirectories(constants.path.templatesDir);
     for (var i in subdirs) {
         submenu.push(getTemplateMenu(subdirs[i]));
+    }
+    return submenu;
+}
+
+// Generate themes menu template (before preprocesssing)
+// TODO: this function is basically the same than exportHtmlMenuGenerator(). This could be merged in a single place.
+function themesMenuGenerator (submenu, config) {
+    // Get a theme menu item
+    function getThemeMenu (themeName) {
+        var themePath = pathModule.join(constants.path.themesDir, themeName),
+            themeInfos = (function (themePath) {
+                var jsonPath = pathModule.join(themePath, "/theme.json");
+                try {
+                    var str = fs.readFileSync(jsonPath, "utf-8"); // TODO: async
+                    return JSON.parse(str);
+                } catch (err) {
+                    return {};
+                }
+            })(themePath);
+        var menuItem = {
+            label: themeInfos.label || themeInfos.name || themeName,
+            command: "loadTheme",
+            accelerator: themeInfos.accelerator,
+            parameters: themeName
+        };
+        return menuItem;
+    }
+    // Walk in themes dir and find themes
+    var subdirs = files.getDirectories(constants.path.themesDir);
+    for (var i in subdirs) {
+        submenu.push(getThemeMenu(subdirs[i]));
     }
     return submenu;
 }
