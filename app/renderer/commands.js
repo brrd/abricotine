@@ -141,6 +141,7 @@ var commands = {
 
     loadTheme: function (win, abrDoc, cm, param) {
         abrDoc.loadTheme(param);
+        abrDoc.setConfig("theme", param);
     },
 
     reloadTheme: function (win, abrDoc, cm) {
