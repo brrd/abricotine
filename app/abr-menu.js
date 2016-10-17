@@ -48,10 +48,10 @@ function preprocessTemplate (abrApp, element, config, abrWin) {
                     item.submenu = spellingMenuGenerator(item.submenu, config);
                 }
                 if (item.id === "exportHtml") {
-                    item.submenu = exportHtmlMenuGenerator(item.submenu, config);
+                    item.submenu = assetsMenuGenerator(item.submenu, constants.path.templatesDir, "template.json", "exportHtml");
                 }
                 if (item.id === "themes") {
-                    item.submenu = themesMenuGenerator(item.submenu, config);
+                    item.submenu = assetsMenuGenerator(item.submenu, constants.path.themesDir, "theme.json", "loadTheme");
                 }
                 preprocessTemplate(abrApp, item.submenu, config, abrWin);
             }
@@ -134,63 +134,32 @@ function spellingMenuGenerator (submenu, config) {
     return submenu;
 }
 
-// Generate export Html menu template (before preprocesssing)
-function exportHtmlMenuGenerator (submenu, config) {
-    // Get a template menu item
-    function getTemplateMenu (tplName) {
-        var tplPath = pathModule.join(constants.path.templatesDir, tplName),
-            tplInfos = (function (tplPath) {
-                var jsonPath = pathModule.join(tplPath, "/template.json");
+// Generate menu template (before preprocesssing)
+function assetsMenuGenerator (submenu, dirPath, jsonName, command) {
+    // Get a menu item
+    function getTemplateMenu (id) {
+        var itemPath = pathModule.join(dirPath, id),
+            itemInfos = (function (itemPath) {
+                var jsonPath = pathModule.join(itemPath, "/", jsonName);
                 try {
                     var str = fs.readFileSync(jsonPath, "utf-8"); // TODO: async
                     return JSON.parse(str);
                 } catch (err) {
                     return {};
                 }
-            })(tplPath);
+            })(itemPath);
         var menuItem = {
-            label: tplInfos.label || tplInfos.name || tplName,
-            command: "exportHtml",
-            accelerator: tplInfos.accelerator,
-            parameters: tplName
+            label: itemInfos.label || itemInfos.name || id,
+            command: command,
+            accelerator: itemInfos.accelerator,
+            parameters: id
         };
         return menuItem;
     }
-    // Walk in template dir and find templates
-    var subdirs = files.getDirectories(constants.path.templatesDir);
+    // Walk in dir and find items
+    var subdirs = files.getDirectories(dirPath);
     for (var i in subdirs) {
         submenu.push(getTemplateMenu(subdirs[i]));
-    }
-    return submenu;
-}
-
-// Generate themes menu template (before preprocesssing)
-// TODO: this function is basically the same than exportHtmlMenuGenerator(). This could be merged in a single place.
-function themesMenuGenerator (submenu, config) {
-    // Get a theme menu item
-    function getThemeMenu (themeName) {
-        var themePath = pathModule.join(constants.path.themesDir, themeName),
-            themeInfos = (function (themePath) {
-                var jsonPath = pathModule.join(themePath, "/theme.json");
-                try {
-                    var str = fs.readFileSync(jsonPath, "utf-8"); // TODO: async
-                    return JSON.parse(str);
-                } catch (err) {
-                    return {};
-                }
-            })(themePath);
-        var menuItem = {
-            label: themeInfos.label || themeInfos.name || themeName,
-            command: "loadTheme",
-            accelerator: themeInfos.accelerator,
-            parameters: themeName
-        };
-        return menuItem;
-    }
-    // Walk in themes dir and find themes
-    var subdirs = files.getDirectories(constants.path.themesDir);
-    for (var i in subdirs) {
-        submenu.push(getThemeMenu(subdirs[i]));
     }
     return submenu;
 }
