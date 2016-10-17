@@ -51,7 +51,8 @@ function preprocessTemplate (abrApp, element, config, abrWin) {
                     item.submenu = assetsMenuGenerator(item.submenu, constants.path.templatesDir, "template.json", "exportHtml");
                 }
                 if (item.id === "themes") {
-                    item.submenu = assetsMenuGenerator(item.submenu, constants.path.themesDir, "theme.json", "loadTheme");
+                    var checkId = getConfig(config, "theme");
+                    item.submenu = assetsMenuGenerator(item.submenu, constants.path.themesDir, "theme.json", "loadTheme", "radio", checkId);
                 }
                 preprocessTemplate(abrApp, item.submenu, config, abrWin);
             }
@@ -135,7 +136,7 @@ function spellingMenuGenerator (submenu, config) {
 }
 
 // Generate menu template (before preprocesssing)
-function assetsMenuGenerator (submenu, dirPath, jsonName, command) {
+function assetsMenuGenerator (submenu, dirPath, jsonName, command, menuType, checkId) {
     // Get a menu item
     function getTemplateMenu (id) {
         var itemPath = pathModule.join(dirPath, id),
@@ -154,6 +155,10 @@ function assetsMenuGenerator (submenu, dirPath, jsonName, command) {
             accelerator: itemInfos.accelerator,
             parameters: id
         };
+        if (menuType === "checkbox" || menuType === "radio") {
+            menuItem.type = menuType;
+            menuItem.checked = (checkId && checkId === id);
+        }
         return menuItem;
     }
     // Walk in dir and find items

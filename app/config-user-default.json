@@ -13,5 +13,6 @@
         "twitter.com",
         "vimeo.com",
         "youtube.com"
-    ]
+    ],
+    "theme": "default"
 }
