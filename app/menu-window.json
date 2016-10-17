@@ -681,6 +681,14 @@
                 "command": "reload"
             },
             {
+                "label": "Reload Theme",
+                "accelerator": "CmdOrCtrl+F5",
+                "command": "reloadTheme"
+            },
+            {
+                "type": "separator"
+            },
+            {
                 "label": "Run Command",
                 "accelerator": "F2",
                 "command": "execCommand"
