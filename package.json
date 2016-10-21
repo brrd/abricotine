@@ -19,6 +19,7 @@
     "packager": "node scripts/packager.js",
     "postinstall": "electron-rebuild",
     "start": "electron .",
+    "debug": "electron . --debug",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": {
