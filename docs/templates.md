@@ -24,7 +24,7 @@ The following entries are optional:
 * `accelerator`: an [accelerator](https://github.com/atom/electron/blob/master/docs/api/accelerator.md) for this template
 * `author`: the template author
 * `description`: the template description (if your template uses CSS or JS from another project then it could be a good idea to mention it here)
-* 
+* `license`: the template license
 
 ### `template.html`
 
