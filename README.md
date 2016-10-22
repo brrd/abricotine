@@ -12,8 +12,9 @@ In **Abricotine**, you can preview your document directly in the text editor rat
 
 ## Features
 
-* Write in markdown (or GFM) and export your documents in HTML,
+* Write in markdown (or GFM) and export your documents in HTML using templates,
 * Preview text elements (such as headers, images, math, embedded videos, todo lists...) while you type,
+* Use different themes to display your documents,
 * Display document table of content in the side pane,
 * Display syntax highlighting for code,
 * Show helpers, anchors and hidden characters,
@@ -29,6 +30,7 @@ Abricotine is still in beta development. If you find a bug please report it [in 
 
 * [Installation and usage](https://github.com/brrd/Abricotine/tree/master/docs/installation-and-usage.md)
 * [Configuration](https://github.com/brrd/Abricotine/tree/master/docs/configuration.md)
+* [Themes](https://github.com/brrd/Abricotine/tree/master/docs/themes.md)
 * [Templates](https://github.com/brrd/Abricotine/tree/master/docs/templates.md)
 
 ## Contributing
