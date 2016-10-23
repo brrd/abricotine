@@ -5,11 +5,12 @@
 */
 
 // Squirrel
-if(require("electron-squirrel-startup")) return;
+if (require("electron-squirrel-startup")) return;
 
 var AbrApplication = require.main.require("./abr-application.js"),
     app = require("electron").app,
-    creator = require.main.require("./creator.js");
+    creator = require.main.require("./creator.js"),
+    dialog = require("electron").dialog;
 
 var abrApp = null,
     osxOpenFilePaths = [];
@@ -50,6 +51,20 @@ app.on("window-all-closed", function() {
 });
 
 app.on("ready", function () {
+    // Install confirmation
+    if (process.argv.indexOf("--squirrel-firstrun") !== -1) {
+        var userChoice = dialog.showMessageBox({
+            title: "Abricotine setup",
+            message: "Abricotine has been successfully installed.",
+            type: "info",
+            buttons: ["Exit", "Run Abricotine"],
+            defaultId: 1
+        });
+        if (userChoice === 0) {
+            app.exit(0);
+        }    
+    }
+
     // Reset config when --reset argument is used, otherwise ensure the config files exist
     var creatorFunc = process.argv.indexOf("--reset") !== -1 ? creator.reset : creator.create;
     creatorFunc()
