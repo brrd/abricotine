@@ -29,6 +29,7 @@ if (platform === "win32") {
     options.setupExe = pkg.name + "-setup-" + platform + "-" + arch + ".exe";
     options.iconUrl = "http://raw.githubusercontent.com/brrd/Abricotine/master/icons/abricotine.ico";
     options.setupIcon = "icons/abricotine.ico";
+    options.loadingGif = "icons/abricotine-loading.gif";
     options.noMsi = true;
 
     console.log("Creating installer for platform " + platform + " " + arch);
