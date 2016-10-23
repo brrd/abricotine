@@ -32,6 +32,10 @@ Windows installers and Linux packages are not released yet.
 
 Run `$ npm run packager` from the built project to package the app for your os. Packages are created in the `dist` directory.
 
+Run `$ npm run installer` to create installers from packages.
+
+Use `$ npm run dist` to run both commands sequentially.
+
 #### Packaging for another os
 
 If you need to target another platform or arch, your can use `$ npm run packager -- -p <platform> -a <arch>`. See `$ npm run packager -- --help` for more information about allowed parameters.

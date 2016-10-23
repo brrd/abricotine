@@ -19,6 +19,7 @@
   "scripts": {
     "installer": "node scripts/installer.js",
     "packager": "node scripts/packager.js",
+    "dist": "node scripts/packager.js && node scripts/installer.js",
     "postinstall": "electron-rebuild",
     "start": "electron .",
     "test": "echo \"Error: no test specified\" && exit 1"
