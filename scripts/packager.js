@@ -40,10 +40,11 @@ var options = {
         asar: true,
         "asar-unpack": "*.node",
         "asar-unpack-dir": "default",
-        "version-string": {
-            ProductName: "Abricotine",
-            InternalName: "Abricotine",
-            LegalCopyright: "Copyright (c) 2015 Thomas Brouard"
+        "win32metadata": {
+            "CompanyName": pkg.name,
+            "FileDescription": pkg.description,
+            "ProductName": pkg.name,
+            "InternalName": pkg.name
         }
     },
     startTime = new Date().getTime();
