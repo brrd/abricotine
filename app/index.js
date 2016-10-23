@@ -4,6 +4,9 @@
 *   Licensed under GNU-GPLv3 <http://www.gnu.org/licenses/gpl.html>
 */
 
+// Squirrel
+if(require("electron-squirrel-startup")) return;
+
 var AbrApplication = require.main.require("./abr-application.js"),
     app = require("electron").app,
     creator = require("./creator.js");
