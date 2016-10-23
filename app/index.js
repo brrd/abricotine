@@ -9,7 +9,7 @@ if(require("electron-squirrel-startup")) return;
 
 var AbrApplication = require.main.require("./abr-application.js"),
     app = require("electron").app,
-    creator = require("./creator.js");
+    creator = require.main.require("./creator.js");
 
 var abrApp = null,
     osxOpenFilePaths = [];
