@@ -29,8 +29,8 @@ if (platform === "win32") {
     options.iconUrl = "http://raw.githubusercontent.com/brrd/Abricotine/master/icons/abricotine.ico";
     options.setupIcon = "icons/abricotine.ico";
     options.noMsi = true;
-    
-    console.log("Creating installers...");
+
+    console.log("Creating installer for platform " + platform + " " + arch);
     electronInstaller.createWindowsInstaller(options)
         .then(function () {
             console.log("Successfully created installers at " + options.dest + " in " + prettyMs(new Date().getTime() - startTime));
