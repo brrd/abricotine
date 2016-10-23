@@ -2,6 +2,7 @@
   "main": "app/index.js",
   "name": "Abricotine",
   "description": "A markdown editor for desktop",
+  "homepage" : "http://abricotine.brrd.fr",
   "repository": {
     "type": "git",
     "url": "https://github.com/brrd/Abricotine"
