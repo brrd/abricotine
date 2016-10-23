@@ -26,6 +26,7 @@ var options = {
 if (platform === "win32") {
     var electronInstaller = require('electron-winstaller');
 
+    options.setupExe = pkg.name + "-setup-" + platform + "-" + arch + ".exe";
     options.iconUrl = "http://raw.githubusercontent.com/brrd/Abricotine/master/icons/abricotine.ico";
     options.setupIcon = "icons/abricotine.ico";
     options.noMsi = true;
@@ -33,7 +34,7 @@ if (platform === "win32") {
     console.log("Creating installer for platform " + platform + " " + arch);
     electronInstaller.createWindowsInstaller(options)
         .then(function () {
-            console.log("Successfully created installers at " + options.dest + " in " + prettyMs(new Date().getTime() - startTime));
+            console.log("Successfully created installers at " + options.outputDirectory + " in " + prettyMs(new Date().getTime() - startTime));
         }, function (err) {
             console.error(err, err.stack);
         });
