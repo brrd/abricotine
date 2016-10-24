@@ -17,12 +17,12 @@
     "editor"
   ],
   "scripts": {
-    "installer": "node scripts/installer.js",
+    "deb": "node scripts/deb.js",
     "packager": "node scripts/packager.js",
-    "dist": "node scripts/packager.js && node scripts/installer.js",
     "postinstall": "electron-rebuild",
     "start": "electron .",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "winsetup": "node scripts/winsetup.js"
   },
   "author": {
     "name": "Thomas Brouard",
