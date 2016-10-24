@@ -37,10 +37,10 @@ var options = {
         overwrite: true,
         ignore: ["/node_modules/electron-prebuilt($|/)", "/node_modules/electron-packager($|/)", "/\.git($|/)", "/\.bin($|/)", "/node_modules/bower($|/)", "/node_modules/electron-rebuild($|/)", "/node_modules/commander($|/)", "^/dist($|/)"],
         prune: true,
-        asar: true,
-        "asar-unpack": "*.node",
-        "asar-unpack-dir": "default",
-        "win32metadata": {
+        asar: {
+            unpackDir: "default"
+        },
+        win32metadata: {
             "CompanyName": pkg.name,
             "FileDescription": pkg.description,
             "ProductName": pkg.name,
