@@ -2,17 +2,25 @@
 
 Abricotine is working on Windows (7 and later), Linux and OSX.
 
-## Installation from binaries
+## Installation
 
-The following installation method is recommended:
+### Windows
 
-1. Download prebuilt binaries for your os from the [Releases page](https://github.com/brrd/Abricotine/releases),
-2. Extract the archive,
-3. Run Abricotine.
+Download the windows installer from the [Releases page](https://github.com/brrd/Abricotine/releases) and run it.
 
-OSX users can also use Homebrew Cask: `$ brew cask install abricotine`.
+### OSX
 
-Windows installers and Linux packages are not released yet.
+Download OSX prebuilt binaries from the [Releases page](https://github.com/brrd/Abricotine/releases), extract the archive (if necessary) and run Abricotine.
+
+OSX users can also use Homebrew Cask to install Abricotine: `$ brew cask install abricotine`.
+
+### Ubuntu, Debian and other Debian-based distributions
+
+Download the provided .deb package from the [Releases page](https://github.com/brrd/Abricotine/releases) and install it.
+
+### Other Linux distributions
+
+Download linux prebuilt binaries from the [Releases page](https://github.com/brrd/Abricotine/releases), extract the archive and run Abricotine.
 
 ## Building and packaging
 
@@ -32,9 +40,10 @@ Windows installers and Linux packages are not released yet.
 
 Run `$ npm run packager` from the built project to package the app for your os. Packages are created in the `dist` directory.
 
-Run `$ npm run installer` to create installers from packages.
+Once packages are built you can use the following commands:
 
-Use `$ npm run dist` to run both commands sequentially.
+* `$ npm run winsetup`: create Windows installer.
+* `$ npm run deb`: create a Debian package.
 
 #### Packaging for another os
 
