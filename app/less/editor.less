@@ -23,6 +23,10 @@
         color: @editor-text-color;
     }
 
+    .CodeMirror pre when (@editor-ligatures = true) {
+        font-variant-ligatures: contextual;
+    }
+
     .CodeMirror-code {
         margin-top: 50px;
         margin-bottom: 50%;
