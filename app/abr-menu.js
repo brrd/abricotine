@@ -80,14 +80,16 @@ function spellingMenuGenerator (submenu, config) {
     // Get language name for its code
     function getLangName (code) {
         code = code.replace("_", "-");
-        return typeof langmap[code] !== "undefined" ? langmap[code].nativeName : code;
+        return typeof langmap[code] !== "undefined" ? langmap[code].nativeName : null;
     }
     // Get a language menuItem
     function getLangMenu (lang, path, config) {
+        var label = getLangName(lang);
+        if (!label) return null;
         var isConfigLang = getConfig(config, "spellchecker:active") && getConfig(config, "spellchecker:language") === lang;
         radioChecked = radioChecked || isConfigLang;
         return {
-            label: getLangName(lang),
+            label: label,
             type: "radio",
             checked: isConfigLang,
             command: "setDictionary",
@@ -112,18 +114,21 @@ function spellingMenuGenerator (submenu, config) {
         return dicts;
     }
     var sysDictionaries = spellchecker.getAvailableDictionaries(),
-        radioChecked = false;
+        radioChecked = false,
+        langMenu;
     if (sysDictionaries.length !== 0) {
         // System builtin dictionaries
         for (var i=0; i<sysDictionaries.length; i++) {
-            submenu.push(getLangMenu(sysDictionaries[i], null, config));
+            langMenu = getLangMenu(sysDictionaries[i], null, config);
+            if (langMenu) submenu.push(langMenu);
         }
     } else {
         // Hunspell dictionaries
         var hunspellDictionaries = getHunspellDictionaries();
         if (hunspellDictionaries.length !== 0) {
             for (var lang in hunspellDictionaries) {
-                submenu.push(getLangMenu(lang, hunspellDictionaries[lang], config));
+                langMenu = getLangMenu(lang, hunspellDictionaries[lang], config);
+                if (langMenu) submenu.push(langMenu);
                 if (getConfig(config, "spellchecker:language") === lang) {
                     config.set("spellchecker:src", hunspellDictionaries[lang]); // This src config key is used for init the spellchecker in abrDoc (renderer)
                 }
