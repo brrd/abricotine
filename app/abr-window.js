@@ -127,7 +127,7 @@ AbrWindow.prototype = {
         // Load window
         win.loadURL("file://" + constants.path.window);
 
-        // Open devtools on debug mode
+        // Open devtools on startup when --debug flag is used
         if (this.config.get("debug")) {
             win.openDevTools();
         }

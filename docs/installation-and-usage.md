@@ -50,10 +50,3 @@ Once packages are built you can use the following commands:
 If you need to target another platform or arch, your can use `$ npm run packager -- -p <platform> -a <arch>`. See `$ npm run packager -- --help` for more information about allowed parameters.
 
 Since Abricotine requires [native modules that need to be rebuild for each platform and arch](https://github.com/atom/electron/blob/master/docs/tutorial/using-native-node-modules.md), you should not try to target another operating system unless you provide a `node_module` directory which was built with `electron-rebuild` on an environment that matches the target.
-
-## Debug mode
-
-Use the `--debug` flag to open Abricotine with the following options activated:
-
-* Chrome developer tools
-* Debug menu visible

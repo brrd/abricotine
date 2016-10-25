@@ -27,4 +27,4 @@ The following entries are optional:
 
 The file where you can customize your theme by using LESS variables and mixins. See [the default theme](https://github.com/brrd/Abricotine/tree/master/default/themes/default) to view customizable elements. You can also add your own rules at the end of the file.
 
-It is recommanded to run Abricotine in [debug mode](https://github.com/brrd/Abricotine/blob/master/docs/installation-and-usage.md#debug-mode) when developing a new theme. Debug mode provides the ability to view styles with the devtools pane and to reload the current theme.
+It is recommanded to use the Developer menu when developing a new theme. Developer menu provides the ability to view styles with the devtools pane and to reload the current theme.

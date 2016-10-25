@@ -287,7 +287,7 @@ var commands = {
         win.setMenuBarVisibility(!flag);
     },
 
-    /* Debug */
+    /* Developer */
 
     devtools: function(win, abrDoc, cm) {
         win.toggleDevTools();
