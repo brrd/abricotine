@@ -22,6 +22,7 @@ In **Abricotine**, you can preview your document directly in the text editor rat
 * Write in a distraction-free fullscreen view,
 * Manage and beautify markdown tables,
 * Search and replace text,
+* Ligatures support ([Fira Code](https://github.com/tonsky/FiraCode) must be installed on your computer),
 * And more features to come...
 
 Abricotine is still in beta development. If you find a bug please report it [in the dedicated bug tracker](https://github.com/brrd/Abricotine/issues).
