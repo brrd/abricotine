@@ -115,7 +115,7 @@ function spellingMenuGenerator (submenu, config) {
         radioChecked = false;
     if (sysDictionaries.length !== 0) {
         // System builtin dictionaries
-        for (var i=0; i<sysDictionaries; i++) {
+        for (var i=0; i<sysDictionaries.length; i++) {
             submenu.push(getLangMenu(sysDictionaries[i], null, config));
         }
     } else {
