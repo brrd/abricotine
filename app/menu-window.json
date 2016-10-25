@@ -557,50 +557,9 @@
                 "type": "separator"
             },
             {
-                "label": "Increase Font Size",
-                "accelerator": "CmdOrCtrl+=",
-                "command": "increaseFontSize"
-            },
-            {
-                "label": "Decrease Font Size",
-                "accelerator": "CmdOrCtrl+-",
-                "command": "decreaseFontSize"
-            },
-            {
-                "label": "Reset Font Size",
-                "accelerator": "CmdOrCtrl+0",
-                "command": "resetFontSize"
-            },
-            {
-                "type": "separator"
-            },
-            {
-                "label": "Show Menu Bar",
-                "command": "showMenuBar",
-                "type": "checkbox",
-                "checked": "window:showMenuBar",
-                "platform": "linux, win32"
-            },
-            {
-                "label": "Show Table of Contents",
-                "command": "showTocPane",
-                "type": "checkbox",
-                "checked": "startup-commands:showTocPane"
-            },
-            {
-                "label": "Show Blocks",
-                "command": "showBlocks",
-                "type": "checkbox",
-                "checked": "startup-commands:showBlocks"
-            },
-            {
-                "label": "Show Hidden Characters",
-                "command": "showHiddenCharacters",
-                "type": "checkbox",
-                "checked": "startup-commands:showHiddenCharacters"
-            },
-            {
-                "type": "separator"
+                "label": "Theme",
+                "id": "themes",
+                "submenu": []
             },
             {
                 "label": "Auto Preview",
@@ -652,12 +611,89 @@
                 ]
             },
             {
+                "label": "Developer",
+                "submenu": [
+                    {
+                        "label": "Reload",
+                        "accelerator": "F5",
+                        "command": "reload"
+                    },
+                    {
+                        "label": "Reload Theme",
+                        "accelerator": "CmdOrCtrl+F5",
+                        "command": "reloadTheme"
+                    },
+                    {
+                        "type": "separator"
+                    },
+                    {
+                        "label": "Run Command",
+                        "accelerator": "F2",
+                        "command": "execCommand"
+                    },
+                    {
+                        "label": "Developer Tools",
+                        "accelerator": "F12",
+                        "command": "devtools"
+                    },
+                    {
+                        "type": "separator"
+                    },
+                    {
+                        "label": "Open Temp Folder",
+                        "command": "openTempDir"
+                    },
+                    {
+                        "label": "Open Application Folder",
+                        "command": "openAppDir"
+                    }
+                ]
+            },
+            {
                 "type": "separator"
             },
             {
-                "label": "Theme",
-                "id": "themes",
-                "submenu": []
+                "label": "Increase Font Size",
+                "accelerator": "CmdOrCtrl+=",
+                "command": "increaseFontSize"
+            },
+            {
+                "label": "Decrease Font Size",
+                "accelerator": "CmdOrCtrl+-",
+                "command": "decreaseFontSize"
+            },
+            {
+                "label": "Reset Font Size",
+                "accelerator": "CmdOrCtrl+0",
+                "command": "resetFontSize"
+            },
+            {
+                "type": "separator"
+            },
+            {
+                "label": "Show Menu Bar",
+                "command": "showMenuBar",
+                "type": "checkbox",
+                "checked": "window:showMenuBar",
+                "platform": "linux, win32"
+            },
+            {
+                "label": "Show Table of Contents",
+                "command": "showTocPane",
+                "type": "checkbox",
+                "checked": "startup-commands:showTocPane"
+            },
+            {
+                "label": "Show Blocks",
+                "command": "showBlocks",
+                "type": "checkbox",
+                "checked": "startup-commands:showBlocks"
+            },
+            {
+                "label": "Show Hidden Characters",
+                "command": "showHiddenCharacters",
+                "type": "checkbox",
+                "checked": "startup-commands:showHiddenCharacters"
             },
             {
                 "type": "separator"
@@ -668,51 +704,6 @@
                 "command": "toggleFullscreen",
                 "type": "checkbox",
                 "checked": false
-            }
-        ]
-    },
-    {
-        "label": "&Debug",
-        "condition": "debug",
-        "submenu": [
-            {
-                "label": "Reload",
-                "accelerator": "F5",
-                "command": "reload"
-            },
-            {
-                "label": "Reload Theme",
-                "accelerator": "CmdOrCtrl+F5",
-                "command": "reloadTheme"
-            },
-            {
-                "type": "separator"
-            },
-            {
-                "label": "Run Command",
-                "accelerator": "F2",
-                "command": "execCommand"
-            },
-            {
-                "label": "Developer Tools",
-                "accelerator": "F12",
-                "command": "devtools"
-            },
-            {
-                "type": "separator"
-            },
-            {
-                "label": "View in Explorer",
-                "submenu": [
-                    {
-                        "label": "Temp Folder",
-                        "command": "openTempDir"
-                    },
-                    {
-                        "label": "Application Folder",
-                        "command": "openAppDir"
-                    }
-                ]
             }
         ]
     },
