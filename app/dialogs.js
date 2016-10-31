@@ -32,7 +32,8 @@ var appDialogs = {
                 title: "About",
                 message: "ABRICOTINE - MARKDOWN EDITOR (v. " + constants.appVersion + ")\n\nCopyright (c) 2015 Thomas Brouard\n\nThis program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.\n\nThis program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.\n\nYou should have received a copy of the GNU General Public License along with this program. If not, see <http://www.gnu.org/licenses/>.",
                 buttons: ['OK'],
-                icon: image
+                icon: image,
+                noLink: true
             };
         if (win) {
             dialog.showMessageBox(win, options);
@@ -52,6 +53,7 @@ var appDialogs = {
                 message: 'Do you really want to close \'' + filename + '\' without saving?',
                 buttons: ['Don\'t Save', 'Cancel', 'Save…'],
                 defaultId: 2,
+                noLink: true
             });
         switch (userChoice) {
             case 0:
@@ -108,7 +110,8 @@ var appDialogs = {
         var userChoice = dialog.showMessageBox(win, {
                 title: 'Save document',
                 message: 'The current document needs to be saved before performing this operation.',
-                buttons: ['Cancel', 'Save document']
+                buttons: ['Cancel', 'Save'],
+                noLink: true
             });
         if (userChoice === 1) {
             abrDoc.save(null, callback);
@@ -121,7 +124,8 @@ var appDialogs = {
         var userChoice = dialog.showMessageBox(win, {
             title: "Permission denied",
             message: "The file '" + path + "' could not be written: permission denied. Please choose another path.",
-            buttons: ['Cancel', 'OK']
+            buttons: ['Cancel', 'OK'],
+            noLink: true
         });
         if (userChoice === 1) {
             callback();
@@ -134,7 +138,8 @@ var appDialogs = {
         dialog.showMessageBox(win, {
             title: "Images copied",
             message: "Document images have been copied in the '" + path + "' directory.",
-            buttons: ['OK']
+            buttons: ['OK'],
+            noLink: true
         });
     }
 };
