@@ -50,15 +50,15 @@ var appDialogs = {
             userChoice = dialog.showMessageBox(win, {
                 title: 'Unsaved document',
                 message: 'Do you really want to close \'' + filename + '\' without saving?',
-                buttons: ['Cancel', 'Save and close', 'Close without saving'],
-                defaultId: 1
+                buttons: ['Don\'t Save', 'Cancel', 'Save…'],
+                defaultId: 2,
             });
         switch (userChoice) {
-            case 1:
-                saveFunc(closeFunc);
+            case 0:
+                closeFunc();
                 break;
             case 2:
-                closeFunc();
+                saveFunc(closeFunc);
                 break;
         }
         return false;
