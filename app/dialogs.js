@@ -111,6 +111,7 @@ var appDialogs = {
                 title: 'Save document',
                 message: 'The current document needs to be saved before performing this operation.',
                 buttons: ['Cancel', 'Save'],
+                defaultId: 1,
                 noLink: true
             });
         if (userChoice === 1) {
@@ -125,6 +126,7 @@ var appDialogs = {
             title: "Permission denied",
             message: "The file '" + path + "' could not be written: permission denied. Please choose another path.",
             buttons: ['Cancel', 'OK'],
+            defaultId: 1,
             noLink: true
         });
         if (userChoice === 1) {
