@@ -213,6 +213,9 @@ AbrDocument.prototype = {
         } else {
             closeFunc();
         }
+        if (this.watcher) {
+            this.watcher.close();
+        }
     },
 
     // Path
@@ -325,7 +328,7 @@ AbrDocument.prototype = {
         if (!path) {
             return this.saveAs(callback);
         }
-        // Pause to avoid triggering watcher callbacks.
+        // Pause the watcher to avoid triggering callbacks after saving the document
         this.pauseWatcher();
         var that = this,
             data = this.getData();
