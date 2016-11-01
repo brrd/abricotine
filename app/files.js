@@ -4,7 +4,8 @@
 *   Licensed under GNU-GPLv3 <http://www.gnu.org/licenses/gpl.html>
 */
 
-var fs = require("fs"),
+var chokidar = require("chokidar"),
+    fs = require("fs"),
     isUrl = require("is-url"),
     mime = require("mime"),
     mkdirp = require('mkdirp'),
@@ -97,6 +98,26 @@ var files = {
         return destDir;
     },
 
+    createWatcher: function (path, callbacks) {
+        if (!path) {
+            console.error("Cannot create watcher for empty path");
+            return;
+        }
+        var watcher = chokidar.watch(path, {
+            persistent: true,
+            usePolling: false
+        });
+        var errorCallback = function (event) {
+            return function () {
+                console.error("No callback defined for watcher event", event);
+            };
+        };
+        watcher.on("change", callbacks.change || errorCallback("change"));
+        watcher.on("unlink", callbacks.unlink || errorCallback("unlink"));
+        watcher.on("error", callbacks.error || errorCallback("error"));
+        return watcher;
+    },
+
     // rm -rf wrapper
     deleteDir: function (target, callback) {
         rimraf(target, fs, callback);
@@ -134,31 +155,29 @@ var files = {
             var fileStat = fs.statSync(path);
             if (fileStat.isFile()) {
                 var mimetype = mime.lookup(path);
-                return (mimetype && mimetype.substr(0,4) === 'text');
+                return (mimetype && mimetype.substr(0,4) === "text");
             }
             return false;
-        }
-        catch(err) {
-            console.log(err);
+        } catch (err) {
+            console.error(err);
             return false;
         }
     },
 
     readFile: function (path, callback) {
-        fs.readFile(path, 'utf8', function (err, data) {
+        fs.readFile(path, "utf8", function (err, data) {
             if (err) {
                 console.error(err);
                 callback(null);
-            } else if (typeof callback === 'function') {
+            } else if (typeof callback === "function") {
                 callback(data, path);
             }
-            return true;
         });
     },
 
     writeFile: function (data, path, callback) {
         fs.writeFile(path, data, function (err) {
-            if (typeof callback === 'function') {
+            if (typeof callback === "function") {
                 callback(err);
             }
         });

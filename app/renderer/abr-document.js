@@ -18,7 +18,7 @@ var remote = require("electron").remote,
     parsePath = require("parse-filepath"),
     pathModule = require("path"),
     shell = require("electron").shell,
-    spellchecker = require('spellchecker');
+    spellchecker = require("spellchecker");
 
 function AbrDocument () {
     var that = this;
@@ -54,6 +54,8 @@ function AbrDocument () {
             if (path) {
                 files.readFile(path, function (data, path) {
                     that.clear(data, path);
+                    // Watch the file in case it is modified or deleted by another program
+                    that.startWatcher();
                 });
             } else {
                 that.clear();
@@ -188,8 +190,8 @@ AbrDocument.prototype = {
 
     // Clear editor
     clear: function (value, path) {
-        value = value || '';
-        path = path || '';
+        value = value || "";
+        path = path || "";
         this.setPath(path); // Must be done before everything else because it sets process.chdir
         this.cm.doc.setValue(value);
         this.cm.doc.clearHistory();
@@ -215,7 +217,7 @@ AbrDocument.prototype = {
 
     // Path
     setPath: function (path) {
-        this.path = path || '';
+        this.path = path || "";
         if (this.path) {
             var dir = parsePath(this.path).dirname;
             if (dir) {
@@ -265,7 +267,6 @@ AbrDocument.prototype = {
     updateWindowTitle: function () {
         var appName = "Abricotine",
             isClean = this.isClean(),
-            saveSymbol = "*",
             parsedPath,
             dir,
             title;
@@ -277,9 +278,13 @@ AbrDocument.prototype = {
             title = "New document - " + appName;
         }
         if (!isClean) {
-            title = saveSymbol + title;
+            title = this.getDirtyTitle(title);
         }
         document.title = title;
+    },
+
+    getDirtyTitle: function (title) {
+        return "*" + title;
     },
 
     // Files or/and windows operations
@@ -299,6 +304,7 @@ AbrDocument.prototype = {
         if (!this.path && this.isClean()) {
             files.readFile(path, function (data, path) {
                 that.clear(data, path);
+                that.startWatcher();
             });
             return this.ipcClient.trigger("setWinPath", path);
         } else {
@@ -319,23 +325,26 @@ AbrDocument.prototype = {
         if (!path) {
             return this.saveAs(callback);
         }
+        // Pause to avoid triggering watcher callbacks.
+        this.pauseWatcher();
         var that = this,
-            data = this.getData(),
-            callback2 = function (err) {
-                if (err) {
-                    return dialogs.fileAccessDenied(path, function () {
-                        that.saveAs(callback);
-                    });
-                }
-                that.setClean();
-                that.setPath(path);
-                that.ipcClient.trigger("setWinPath", path);
-                that.updateWindowTitle();
-                if (typeof callback === "function") {
-                    callback();
-                }
-            };
-        return files.writeFile(data, path, callback2);
+            data = this.getData();
+        files.writeFile(data, path, function (err) {
+            if (err) {
+                return dialogs.fileAccessDenied(path, function () {
+                    that.saveAs(callback);
+                });
+            }
+            that.setClean();
+            that.setPath(path);
+            that.ipcClient.trigger("setWinPath", path);
+            that.updateWindowTitle();
+            if (typeof callback === "function") {
+                callback();
+            }
+            that.startWatcher();
+        });
+        return true;
     },
 
     saveAs: function (callback) {
@@ -348,6 +357,63 @@ AbrDocument.prototype = {
             path += ".md";
         }
         return this.save(path, callback);
+    },
+
+    initWatcher: function () {
+        var that = this;
+        var updateTitle = function () {
+            document.title = that.getDirtyTitle(document.title);
+        };
+        this.watcher = files.createWatcher(this.path, {
+            change: function (path) {
+                dialogs.askFileReload(path, function (reloadRequired) {
+                    if (reloadRequired) {
+                        files.readFile(path, function (data, path) {
+                            that.clear(data, path);
+                        });
+                    } else {
+                        updateTitle();
+                    }
+                });
+            },
+            unlink: function (path) {
+                dialogs.warnFileDeleted(path, function () {
+                    updateTitle();
+                });
+            },
+            error: function (err) {
+                console.error('Watcher error', err);
+            }
+        });
+    },
+
+    startWatcher: function () {
+        if (!this.path) {
+            return;
+        }
+        if (this.watcher) {
+            // Should not watch more than one file at a time.
+            var paths = this.watcher.getWatched();
+            if (paths.length > 0 && paths[0] != this.path) {
+                this.watcher.unwatch(paths[0]);
+            }
+            this.watcher.add(this.path);
+        } else {
+            this.initWatcher();
+        }
+    },
+
+    pauseWatcher: function () {
+        if (this.watcher && this.path) {
+            this.watcher.unwatch(this.path);
+        }
+    },
+
+    stopWatcher: function () {
+        if (this.watcher) {
+            this.watcher.close();
+            this.watcher = null;
+        }
     },
 
     loadTheme: function (themeName) {
@@ -412,7 +478,7 @@ AbrDocument.prototype = {
     autopreview: function (types, lines) {
         var cm = this.cm;
         types = types || this.autopreviewTypes;
-        if (lines == null) {
+        if (lines === null) {
             // Preview the whole doc
             cm.doc.eachLine( function (line) {
                 cm.autopreview(line, types);
@@ -525,9 +591,9 @@ AbrDocument.prototype = {
     // Config
     setConfig: function (key, value, callback) {
         var args = {
-                key: key,
-                value: value
-            };
+            key: key,
+            value: value
+        };
         this.ipcClient.trigger("setConfig", args, callback);
     },
 
