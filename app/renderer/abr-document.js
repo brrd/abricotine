@@ -262,6 +262,10 @@ AbrDocument.prototype = {
         this.latestGeneration = this.getGeneration();
     },
 
+    setDirty: function () {
+        this.latestGeneration--;
+    },
+
     isClean: function () {
         return this.cm.doc.isClean(this.latestGeneration);
     },
@@ -375,12 +379,14 @@ AbrDocument.prototype = {
                             that.clear(data, path);
                         });
                     } else {
+                        that.setDirty();
                         updateTitle();
                     }
                 });
             },
             unlink: function (path) {
                 dialogs.warnFileDeleted(path, function () {
+                    that.setDirty();
                     updateTitle();
                 });
             },
