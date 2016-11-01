@@ -44,7 +44,7 @@ var appDialogs = {
 
     askClose: function (path, saveFunc, closeFunc, win) {
         if (!path) {
-            path = "New document";
+            path = "New Document";
         }
         win = getWindow(win);
         var filename = parsePath(path).basename || path,
@@ -81,7 +81,7 @@ var appDialogs = {
     askOpenPath: function (title, win) {
         win = getWindow(win);
         var path = dialog.showOpenDialog(win, {
-            title: title || "Open document",
+            title: title || "Open Document",
             properties: ["openFile"],
             defaultPath: process.cwd()
         });
@@ -94,7 +94,7 @@ var appDialogs = {
     askSavePath: function (title, win) {
         win = getWindow(win);
         var path = dialog.showSaveDialog(win, {
-            title: title || "Save document",
+            title: title || "Save Document",
             defaultPath: process.cwd()
         });
         if (path) {
@@ -106,7 +106,7 @@ var appDialogs = {
     askOpenImage: function (title, win) {
         win = getWindow(win);
         var path = dialog.showOpenDialog(win, {
-            title: title || "Insert image",
+            title: title || "Insert Image",
             properties: ["openFile"],
             filters: [{
                 name: "Images",
@@ -123,7 +123,7 @@ var appDialogs = {
     askNeedSave: function (abrDoc, callback, win) {
         win = getWindow(win);
         var userChoice = dialog.showMessageBox(win, {
-                title: "Save document",
+                title: "Save Document",
                 message: "The current document needs to be saved before performing this operation.",
                 buttons: ["Cancel", "Save"],
                 defaultId: 1,
@@ -138,7 +138,7 @@ var appDialogs = {
     fileAccessDenied: function (path, callback, win) {
         win = getWindow(win);
         var userChoice = dialog.showMessageBox(win, {
-            title: "Permission denied",
+            title: "Permission Denied",
             message: "The file '" + path + "' could not be written: permission denied. Please choose another path.",
             buttons: ["Cancel", "OK"],
             defaultId: 1,
@@ -153,7 +153,7 @@ var appDialogs = {
     importImagesDone: function (path, win) {
         win = getWindow(win);
         dialog.showMessageBox(win, {
-            title: "Images copied",
+            title: "Images Copied",
             message: "Document images have been copied in the '" + path + "' directory.",
             buttons: ["OK"],
             noLink: true
