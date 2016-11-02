@@ -385,9 +385,13 @@ AbrDocument.prototype = {
                 });
             },
             unlink: function (path) {
-                dialogs.warnFileDeleted(path, function () {
-                    that.setDirty();
-                    updateTitle();
+                dialogs.warnFileDeleted(path, function (keepFile) {
+                    if (keepFile) {
+                        that.setDirty();
+                        that.updateWindowTitle();
+                    } else {
+                        that.clear();
+                    }
                 });
             },
             error: function (err) {

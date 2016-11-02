@@ -123,12 +123,12 @@ var appDialogs = {
     askNeedSave: function (abrDoc, callback, win) {
         win = getWindow(win);
         var userChoice = dialog.showMessageBox(win, {
-                title: "Save Document",
-                message: "The current document needs to be saved before performing this operation.",
-                buttons: ["Cancel", "Save"],
-                defaultId: 1,
-                noLink: true
-            });
+            title: "Save Document",
+            message: "The current document needs to be saved before performing this operation.",
+            buttons: ["Cancel", "Save"],
+            defaultId: 1,
+            noLink: true
+        });
         if (userChoice === 1) {
             abrDoc.save(null, callback);
         }
@@ -160,9 +160,16 @@ var appDialogs = {
         });
     },
 
-    warnFileDeleted: function (path, callback) {
-        dialog.showErrorBox("Deleted file", "The file '" + path + "' doesn't exist anymore.");
-        callback();
+    warnFileDeleted: function (path, callback, win) {
+        win = getWindow(win);
+        var userChoice = dialog.showMessageBox(win, {
+            title: "Deleted file",
+            message: "The file '" + path + "' doesn't exist anymore. Keep this file in editor?",
+            buttons: ["Yes", "No"],
+            defaultId: 0,
+            noLink: true
+        });
+        callback(userChoice === 0);
     }
 };
 
