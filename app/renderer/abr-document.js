@@ -263,7 +263,7 @@ AbrDocument.prototype = {
     },
 
     setDirty: function () {
-        this.latestGeneration--;
+        this.latestGeneration = -1;
     },
 
     isClean: function () {
@@ -274,6 +274,7 @@ AbrDocument.prototype = {
     updateWindowTitle: function () {
         var appName = "Abricotine",
             isClean = this.isClean(),
+            saveSymbol = "*",
             parsedPath,
             dir,
             title;
@@ -285,13 +286,9 @@ AbrDocument.prototype = {
             title = "New document - " + appName;
         }
         if (!isClean) {
-            title = this.getDirtyTitle(title);
+            title = saveSymbol + title;
         }
         document.title = title;
-    },
-
-    getDirtyTitle: function (title) {
-        return "*" + title;
     },
 
     // Files or/and windows operations
@@ -338,6 +335,8 @@ AbrDocument.prototype = {
             data = this.getData();
         files.writeFile(data, path, function (err) {
             if (err) {
+                // Restart the watcher here in case the user discards the next message
+                that.startWatcher();
                 return dialogs.fileAccessDenied(path, function () {
                     that.saveAs(callback);
                 });
@@ -349,6 +348,7 @@ AbrDocument.prototype = {
             if (typeof callback === "function") {
                 callback();
             }
+            // Resume file watcher
             that.startWatcher();
         });
         return true;
@@ -368,9 +368,6 @@ AbrDocument.prototype = {
 
     initWatcher: function () {
         var that = this;
-        var updateTitle = function () {
-            document.title = that.getDirtyTitle(document.title);
-        };
         this.watcher = files.createWatcher(this.path, {
             change: function (path) {
                 dialogs.askFileReload(path, function (reloadRequired) {
@@ -380,7 +377,7 @@ AbrDocument.prototype = {
                         });
                     } else {
                         that.setDirty();
-                        updateTitle();
+                        that.updateWindowTitle();
                     }
                 });
             },
@@ -491,7 +488,7 @@ AbrDocument.prototype = {
     autopreview: function (types, lines) {
         var cm = this.cm;
         types = types || this.autopreviewTypes;
-        if (lines === null) {
+        if (lines == null) {
             // Preview the whole doc
             cm.doc.eachLine( function (line) {
                 cm.autopreview(line, types);
