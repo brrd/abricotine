@@ -370,10 +370,12 @@ AbrDocument.prototype = {
         var that = this;
         this.watcher = files.createWatcher(this.path, {
             change: function (path) {
+                that.pauseWatcher();
                 dialogs.askFileReload(path, function (reloadRequired) {
                     if (reloadRequired) {
                         files.readFile(path, function (data, path) {
                             that.clear(data, path);
+                            that.startWatcher();
                         });
                     } else {
                         that.setDirty();
@@ -387,6 +389,7 @@ AbrDocument.prototype = {
                         that.setDirty();
                         that.updateWindowTitle();
                     } else {
+                        that.pauseWatcher();
                         that.clear();
                     }
                 });
