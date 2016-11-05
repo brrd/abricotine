@@ -35,7 +35,7 @@ function getState (cm, pos) {
                 text = cm.getLine(pos.line);
                 if (/^\s*\d+\.\s/.test(text)) {
                     ret.ol = true;
-                } else if (/^\s*(\*|\-|\+)\s+\[x?\]\s/.test(text)) {
+                } else if (/^\s*(\*|\-|\+)\s+\[( |x)?\]\s/.test(text)) {
                     ret.todolist = true;
                 } else {
                     ret.ul = true;
@@ -146,7 +146,7 @@ function toggle (type) {
                 prepend: '. '
             },
             'todolist': {
-                re: /^(\s*)(\*|\-|\+)\s+\[x?\]\s+/,
+                re: /^(\s*)(\*|\-|\+)\s+\[( |x)?\]\s+/,
                 prepend: '* [ ] '
             },
             'h1': {
