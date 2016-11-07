@@ -134,7 +134,7 @@ function autopreview (cm, line, types) {
                     $element.click( function () {
                         var pos = textMarker.find(),
                             isChecked = $(this).hasClass("checked"),
-                            newText = isChecked ? "* [] " : "* [x] ";
+                            newText = isChecked ? "* [ ] " : "* [x] ";
                         doc.replaceRange(newText, pos.from, pos.to);
                         $(this).toggleClass("checked");
                     });
