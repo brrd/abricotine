@@ -18,7 +18,7 @@ var remote = require("electron").remote,
     parsePath = require("parse-filepath"),
     pathModule = require("path"),
     shell = require("electron").shell,
-    spellchecker = require('spellchecker');
+    spellchecker = require("spellchecker");
 
 function AbrDocument () {
     var that = this;
@@ -54,6 +54,8 @@ function AbrDocument () {
             if (path) {
                 files.readFile(path, function (data, path) {
                     that.clear(data, path);
+                    // Watch the file in case it is modified or deleted by another program
+                    that.startWatcher();
                 });
             } else {
                 that.clear();
@@ -188,8 +190,8 @@ AbrDocument.prototype = {
 
     // Clear editor
     clear: function (value, path) {
-        value = value || '';
-        path = path || '';
+        value = value || "";
+        path = path || "";
         this.setPath(path); // Must be done before everything else because it sets process.chdir
         this.cm.doc.setValue(value);
         this.cm.doc.clearHistory();
@@ -211,11 +213,14 @@ AbrDocument.prototype = {
         } else {
             closeFunc();
         }
+        if (this.watcher) {
+            this.watcher.close();
+        }
     },
 
     // Path
     setPath: function (path) {
-        this.path = path || '';
+        this.path = path || "";
         if (this.path) {
             var dir = parsePath(this.path).dirname;
             if (dir) {
@@ -255,6 +260,10 @@ AbrDocument.prototype = {
 
     setClean: function () {
         this.latestGeneration = this.getGeneration();
+    },
+
+    setDirty: function () {
+        this.latestGeneration = -1;
     },
 
     isClean: function () {
@@ -299,6 +308,7 @@ AbrDocument.prototype = {
         if (!this.path && this.isClean()) {
             files.readFile(path, function (data, path) {
                 that.clear(data, path);
+                that.startWatcher();
             });
             return this.ipcClient.trigger("setWinPath", path);
         } else {
@@ -319,23 +329,29 @@ AbrDocument.prototype = {
         if (!path) {
             return this.saveAs(callback);
         }
+        // Pause the watcher to avoid triggering callbacks after saving the document
+        this.pauseWatcher();
         var that = this,
-            data = this.getData(),
-            callback2 = function (err) {
-                if (err) {
-                    return dialogs.fileAccessDenied(path, function () {
-                        that.saveAs(callback);
-                    });
-                }
-                that.setClean();
-                that.setPath(path);
-                that.ipcClient.trigger("setWinPath", path);
-                that.updateWindowTitle();
-                if (typeof callback === "function") {
-                    callback();
-                }
-            };
-        return files.writeFile(data, path, callback2);
+            data = this.getData();
+        files.writeFile(data, path, function (err) {
+            if (err) {
+                // Restart the watcher here in case the user discards the next message
+                that.startWatcher();
+                return dialogs.fileAccessDenied(path, function () {
+                    that.saveAs(callback);
+                });
+            }
+            that.setClean();
+            that.setPath(path);
+            that.ipcClient.trigger("setWinPath", path);
+            that.updateWindowTitle();
+            if (typeof callback === "function") {
+                callback();
+            }
+            // Resume file watcher
+            that.startWatcher();
+        });
+        return true;
     },
 
     saveAs: function (callback) {
@@ -348,6 +364,69 @@ AbrDocument.prototype = {
             path += ".md";
         }
         return this.save(path, callback);
+    },
+
+    initWatcher: function () {
+        var that = this;
+        this.watcher = files.createWatcher(this.path, {
+            change: function (path) {
+                that.pauseWatcher();
+                dialogs.askFileReload(path, function (reloadRequired) {
+                    if (reloadRequired) {
+                        files.readFile(path, function (data, path) {
+                            that.clear(data, path);
+                            that.startWatcher();
+                        });
+                    } else {
+                        that.setDirty();
+                        that.updateWindowTitle();
+                    }
+                });
+            },
+            unlink: function (path) {
+                dialogs.warnFileDeleted(path, function (keepFile) {
+                    if (keepFile) {
+                        that.setDirty();
+                        that.updateWindowTitle();
+                    } else {
+                        that.pauseWatcher();
+                        that.clear();
+                    }
+                });
+            },
+            error: function (err) {
+                console.error('Watcher error', err);
+            }
+        });
+    },
+
+    startWatcher: function () {
+        if (!this.path) {
+            return;
+        }
+        if (this.watcher) {
+            // Should not watch more than one file at a time.
+            var paths = this.watcher.getWatched();
+            if (paths.length > 0 && paths[0] != this.path) {
+                this.watcher.unwatch(paths[0]);
+            }
+            this.watcher.add(this.path);
+        } else {
+            this.initWatcher();
+        }
+    },
+
+    pauseWatcher: function () {
+        if (this.watcher && this.path) {
+            this.watcher.unwatch(this.path);
+        }
+    },
+
+    stopWatcher: function () {
+        if (this.watcher) {
+            this.watcher.close();
+            this.watcher = null;
+        }
     },
 
     loadTheme: function (themeName) {
@@ -525,9 +604,9 @@ AbrDocument.prototype = {
     // Config
     setConfig: function (key, value, callback) {
         var args = {
-                key: key,
-                value: value
-            };
+            key: key,
+            value: value
+        };
         this.ipcClient.trigger("setConfig", args, callback);
     },
 
