@@ -242,7 +242,6 @@ AbrMenu.prototype = {
 
     openRecentDoc: function (recentFile) {
         this.abrWin.abrApp.open(recentFile);
-        // FIXCC recent-docs: Recent doc list is not updated after re-opening a recent file (using the recent menu)
     },
 
     clearRecentDocs: function () {
