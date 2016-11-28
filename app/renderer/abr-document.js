@@ -538,9 +538,7 @@ AbrDocument.prototype = {
     updateRecentPath: function (path) {
         var thisDoc = this;
 
-        this.getConfig(undefined, function(theConfig) {
-
-            var max = theConfig.editor["max-recent"];
+        this.getConfig("editor:max-recent", function(max) {
 
             var recentPaths = thisDoc.localStorage.getItem("recent-docs");
             if (recentPaths) {
