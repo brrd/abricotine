@@ -19,10 +19,8 @@ var remote = require("electron").remote,
     shell = require("electron").shell,
     spellchecker = require('spellchecker');
 
-function AbrDocument (theLocalStorage) {
+function AbrDocument () {
     var that = this;
-
-    this.localStorage = theLocalStorage;
 
     // IPC init
     var ipcClient = this.ipcClient = new IpcClient();
@@ -540,7 +538,7 @@ AbrDocument.prototype = {
 
         this.getConfig("editor:max-recent", function(max) {
 
-            var recentPaths = thisDoc.localStorage.getItem("recent-docs");
+            var recentPaths = localStorage.getItem("recent-docs");
             if (recentPaths) {
                 try {
                     recentPaths = JSON.parse(recentPaths);
@@ -562,7 +560,7 @@ AbrDocument.prototype = {
                 }
             }
 
-            thisDoc.localStorage.setItem("recent-docs", JSON.stringify(recentPaths));
+            localStorage.setItem("recent-docs", JSON.stringify(recentPaths));
 
             thisDoc.ipcClient.trigger("updateRecentPaths", recentPaths);
         });
@@ -573,7 +571,7 @@ AbrDocument.prototype = {
 
         this.getConfig(undefined, function(theConfig) {
             var recentPaths = [];
-            thisDoc.localStorage.setItem("recent-docs", JSON.stringify(recentPaths));
+            localStorage.setItem("recent-docs", JSON.stringify(recentPaths));
             thisDoc.ipcClient.trigger("updateRecentPaths", recentPaths);
         });
     }
