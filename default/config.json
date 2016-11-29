@@ -8,9 +8,9 @@
     },
     "autopreview-security": true,
     "editor": {
-        "font-size": "16px",
-        "max-recent": 5
+        "font-size": "16px"
     },
+    "max-recent": 5,
     "highlight-modes": "",
     "preview-template": "default",
     "startup-commands": {
