@@ -368,9 +368,21 @@ AbrDocument.prototype = {
 
     initWatcher: function () {
         var that = this;
-        this.watcher = files.createWatcher(this.path, {
-            change: function (path) {
-                that.pauseWatcher();
+        // All dialogs should be displayed only if the window is focused.
+        var runOnFocus = function (fn, path) {
+            var win = remote.getCurrentWindow();
+            if (win.isFocused()) {
+                fn(path);
+            } else {
+                win.once('focus', function () {
+                    fn(path);
+                });
+            }
+        };
+        var handleAsyncFileChange = function (path) {
+            // This can be called asynchronously, so other changes could
+            // happen before the window is focused.
+            if (files.fileExists(path)) {
                 dialogs.askFileReload(path, function (reloadRequired) {
                     if (reloadRequired) {
                         files.readFile(path, function (data, path) {
@@ -378,21 +390,34 @@ AbrDocument.prototype = {
                             that.startWatcher();
                         });
                     } else {
+                        // The previous document is dropped from the editor.
+                        // The watcher will resume on save.
                         that.setDirty();
                         that.updateWindowTitle();
                     }
                 });
-            },
-            unlink: function (path) {
+            } else {
                 dialogs.warnFileDeleted(path, function (keepFile) {
                     if (keepFile) {
                         that.setDirty();
                         that.updateWindowTitle();
+                        that.startWatcher();
                     } else {
-                        that.pauseWatcher();
                         that.clear();
                     }
                 });
+            }
+        };
+        this.watcher = files.createWatcher(this.path, {
+            change: function (path) {
+                // Pause the watcher to avoid triggering multiple warning dialogs
+                // while the first one is being handled.
+                that.pauseWatcher();
+                runOnFocus(handleAsyncFileChange, path);
+            },
+            unlink: function (path) {
+                that.pauseWatcher();
+                runOnFocus(handleAsyncFileChange, path);
             },
             error: function (err) {
                 console.error('Watcher error', err);
