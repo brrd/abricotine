@@ -180,7 +180,7 @@ function AbrDocument () {
                     closeFunc = function () {
                         win.destroy();
                     };
-                dialogs.askClose(that.path, saveFunc, closeFunc);
+                dialogs.askClose(that.path, saveFunc, closeFunc, win);
             }
         };
     });
@@ -202,6 +202,7 @@ AbrDocument.prototype = {
 
     close: function (force) {
         var that = this,
+        win = remote.getCurrentWindow(),
             saveFunc = function (callback) {
                 that.save(null, callback);
             },
@@ -209,7 +210,7 @@ AbrDocument.prototype = {
                 that.clear();
             };
         if (!force && !this.isClean()) {
-            dialogs.askClose(that.path, saveFunc, closeFunc);
+            dialogs.askClose(that.path, saveFunc, closeFunc, win);
         } else {
             closeFunc();
         }
