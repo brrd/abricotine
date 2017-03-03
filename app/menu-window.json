@@ -652,7 +652,9 @@
             {
                 "label": "Theme",
                 "id": "themes",
-                "submenu": []
+                "submenu": [],
+                "labelKey": "menu-theme"
+
             },
             {
                 "label": "Auto Preview",
@@ -712,16 +714,19 @@
             },
             {
                 "label": "Developer",
+                "label-key": "menu-developer",
                 "submenu": [
                     {
                         "label": "Reload",
                         "accelerator": "F5",
-                        "command": "reload"
+                        "command": "reload",
+                        "label-key": "menu-reload"
                     },
                     {
                         "label": "Reload Theme",
                         "accelerator": "CmdOrCtrl+F5",
-                        "command": "reloadTheme"
+                        "command": "reloadTheme",
+                        "label-key": "menu-reload-theme"
                     },
                     {
                         "type": "separator"
@@ -729,23 +734,27 @@
                     {
                         "label": "Run Command",
                         "accelerator": "F2",
-                        "command": "execCommand"
+                        "command": "execCommand",
+                        "label-key": "menu-run"
                     },
                     {
                         "label": "Developer Tools",
                         "accelerator": "F12",
-                        "command": "devtools"
+                        "command": "devtools",
+                        "label-key": "menu-devtools"
                     },
                     {
                         "type": "separator"
                     },
                     {
                         "label": "Open Temp Folder",
-                        "command": "openTempDir"
+                        "command": "openTempDir",
+                        "label-key": "menu-open-temp-dir"
                     },
                     {
                         "label": "Open Application Folder",
-                        "command": "openAppDir"
+                        "command": "openAppDir",
+                        "label-key": "menu-open-app-dir"
                     }
                 ]
             },
