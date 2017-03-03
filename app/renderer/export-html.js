@@ -15,7 +15,7 @@ var remote = require("electron").remote,
 function getDocTitle (data) {
     var firstLine = /^#+(.*)$/m,
         test = firstLine.exec(data),
-        title = test !== null ? test[1].trim() : "Abricotine document";
+        title = test !== null ? test[1].trim() : dialogs.localizer.get("html-export-title", "Abricotine document");
     return title;
 }
 

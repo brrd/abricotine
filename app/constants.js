@@ -22,6 +22,7 @@ module.exports = {
         icon: pathModule.join(appPath, "/icons/abricotine.png"),
         defaultDir: isAsar ? appPath + ".unpacked/default" :  appPath + "/default",
         dictionaries: pathModule.join(userDataPath, "/dict"),
+        languages: pathModule.join(userDataPath, "/lang"),
         schema: pathModule.join(userDataPath, "/schema.json"),
         templatesDir: pathModule.join(userDataPath, "/templates"),
         themesDir: pathModule.join(userDataPath, "/themes"),

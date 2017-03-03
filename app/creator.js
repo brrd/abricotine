@@ -4,9 +4,11 @@
 *   Licensed under GNU-GPLv3 <http://www.gnu.org/licenses/gpl.html>
 */
 
-var constants = require.main.require("./constants.js"),
+var app = require("electron").app,
+    constants = require.main.require("./constants.js"),
     dialog = require("electron").dialog,
     files = require.main.require("./files.js"),
+    Localizer = require.main.require("./localize.js"),
     pathModule = require("path"),
     pkg = require("../package.json");
 
@@ -43,7 +45,10 @@ creator.create = function () {
             }
         }),
         new Promise (function (resolve, reject) {
-            // Copy default templates
+            files.copyLocalDir(pathModule.join(constants.path.defaultDir, "/lang"), constants.path.languages, resolve);
+        }),
+        new Promise (function (resolve, reject) {
+            // Copy default template
             if (!files.dirExists(constants.path.templatesDir)) {
                 files.copyLocalDir(pathModule.join(constants.path.defaultDir, "/templates"), constants.path.templatesDir, resolve);
             } else {
@@ -77,11 +82,14 @@ creator.reset = function () {
 };
 
 function askForReset (callback) {
+    //TODO use Localizer from AbrApplication
+    var localizer = new Localizer(app.getLocale());
+
     var userChoice = dialog.showMessageBox({
-        title: "Abricotine - Configuration update",
-        message: "The current configuration is deprecated and need to be updated. Do you want to reset Abricotine configuration? \n\nWARNING: Your previous configuration (including custom templates and dictonaries) will be lost.",
+        title: localizer.get("reset-dialog", "Abricotine - Configuration update"),
+        message: localizer.get("", "The current configuration is deprecated and need to be updated. Do you want to reset Abricotine configuration? \n\nWARNING: Your previous configuration (including custom templates and dictonaries) will be lost."),
         type: "question",
-        buttons: ["No", "Yes (recommended)"],
+        buttons: [localizer.get("button-no", "No"), localizer.get("button-yes-recommended", "Yes (recommended)")],
         defaultId: 1
     });
     if (userChoice === 1) {
