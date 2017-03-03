@@ -74,9 +74,9 @@ var appDialogs = {
     askFileReload: function (path, callback, win) {
         win = getWindow(win);
         var userChoice = dialog.showMessageBox(win, {
-            title: "Changed file",
-            message: "The file '" + path + "' has been modified by another program. Do you want to reload it?",
-            buttons: ["Yes", "No"],
+            title: appDialogs.localizer.get("changed-file", "Changed file"),
+            message: appDialogs.localizer.get("changed-file-message", "The file '%0' has been modified by another program. Do you want to reload it?", [path]),
+            buttons: [appDialogs.localizer.get("button-yes", "Yes"), appDialogs.localizer.get("button-no", "No")],
             defaultId: 0,
             noLink: true
         });
@@ -144,7 +144,7 @@ var appDialogs = {
         win = getWindow(win);
         var userChoice = dialog.showMessageBox(win, {
             title: appDialogs.localizer.get("permission-denied", "Permission denied"),
-            message: appDialogs.localizer.get("permission-denied-message", "The file '%0' could not be written: permission denied. Please choose another path.", path),
+            message: appDialogs.localizer.get("permission-denied-message", "The file '%0' could not be written: permission denied. Please choose another path.", [path]),
             buttons: [appDialogs.localizer.get('button-cancel', 'Cancel'), appDialogs.localizer.get('button-ok', 'OK')],
             defaultId: 1,
             noLink: true
@@ -159,7 +159,7 @@ var appDialogs = {
         win = getWindow(win);
         dialog.showMessageBox(win, {
             title: appDialogs.localizer.get("images-copied", "Images copied"),
-            message: appDialogs.localizer.get("images-copied-message", "Document images have been copied in the '%0' directory.", path),
+            message: appDialogs.localizer.get("images-copied-message", "Document images have been copied in the '%0' directory.", [path]),
             buttons: [appDialogs.localizer.get('button-ok', 'OK')],
             noLink: true
         });
@@ -168,9 +168,9 @@ var appDialogs = {
     warnFileDeleted: function (path, callback, win) {
         win = getWindow(win);
         var userChoice = dialog.showMessageBox(win, {
-            title: "Deleted file",
-            message: "The file '" + path + "' doesn't exist anymore. Keep this file in editor?",
-            buttons: ["Yes", "No"],
+            title: appDialogs.localizer.get("file-deleted", "Deleted file"),
+            message: appDialogs.localizer.get("file-deleted-message", "The file '%0' doesn't exist anymore. Keep this file in editor?", [path]),
+            buttons: [appDialogs.localizer.get("button-yes", "Yes"), appDialogs.localizer.get("button-no", "No")],
             defaultId: 0,
             noLink: true
         });

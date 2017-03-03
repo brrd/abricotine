@@ -142,6 +142,7 @@
 
     "button-ok": "OK",
     "button-no": "Non",
+    "button-yes": "Oui",
     "button-yes-recommended": "Oui (recommandé)",
     "button-cancel": "Annuler",
     "button-save": "Enregistrer",
@@ -155,5 +156,11 @@
     "images-copied": "Images copiées",
     "images-copied-message": "Les images du document ont été copiées dans le répertoire '%0'.",
 
-    "html-export-title": "Document Abricotine"
+    "html-export-title": "Document Abricotine",
+
+    "changed-file": "Modification détectée",
+    "changed-file-message": "Le document '%0' a été modifié par un autre programme. Voulez-vous le recharger ?",
+
+    "file-deleted": "Suppression détectée",
+    "file-deleted-message": "Le fichier '%0' n'existe plus. Souhaitez-vous conserver ce document dans l'éditeur?"
 }
