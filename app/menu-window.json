@@ -714,19 +714,19 @@
             },
             {
                 "label": "Developer",
-                "label-key": "menu-developer",
+                "labelKey": "menu-developer",
                 "submenu": [
                     {
                         "label": "Reload",
                         "accelerator": "F5",
                         "command": "reload",
-                        "label-key": "menu-reload"
+                        "labelKey": "menu-reload"
                     },
                     {
                         "label": "Reload Theme",
                         "accelerator": "CmdOrCtrl+F5",
                         "command": "reloadTheme",
-                        "label-key": "menu-reload-theme"
+                        "labelKey": "menu-reload-theme"
                     },
                     {
                         "type": "separator"
@@ -735,13 +735,13 @@
                         "label": "Run Command",
                         "accelerator": "F2",
                         "command": "execCommand",
-                        "label-key": "menu-run"
+                        "labelKey": "menu-run"
                     },
                     {
                         "label": "Developer Tools",
                         "accelerator": "F12",
                         "command": "devtools",
-                        "label-key": "menu-devtools"
+                        "labelKey": "menu-devtools"
                     },
                     {
                         "type": "separator"
@@ -749,12 +749,12 @@
                     {
                         "label": "Open Temp Folder",
                         "command": "openTempDir",
-                        "label-key": "menu-open-temp-dir"
+                        "labelKey": "menu-open-temp-dir"
                     },
                     {
                         "label": "Open Application Folder",
                         "command": "openAppDir",
-                        "label-key": "menu-open-app-dir"
+                        "labelKey": "menu-open-app-dir"
                     }
                 ]
             },
