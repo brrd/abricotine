@@ -7,8 +7,7 @@
 // Squirrel
 if (require("electron-squirrel-startup")) return;
 
-var AbrApplication = require.main.require("./abr-application.js"),
-    app = require("electron").app,
+var app = require("electron").app,
     creator = require.main.require("./creator.js"),
     dialog = require("electron").dialog;
 
@@ -62,8 +61,11 @@ app.on("ready", function () {
         });
         if (userChoice === 0) {
             app.exit(0);
-        }    
+        }
     }
+
+    // Load AbrApplication once app is ready
+    var AbrApplication = require.main.require("./abr-application.js");
 
     // Reset config when --reset argument is used, otherwise ensure the config files exist
     var creatorFunc = process.argv.indexOf("--reset") !== -1 ? creator.reset : creator.create;
