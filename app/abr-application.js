@@ -6,7 +6,6 @@
 
 var AbrMenu = require.main.require("./abr-menu.js"),
     AbrWindow = require.main.require("./abr-window.js"),
-    app = require("electron").app,
     BrowserWindow = require("electron").BrowserWindow,
     commands = require.main.require("./commands-main.js"),
     files = require.main.require("./files.js"),
@@ -16,7 +15,7 @@ var AbrMenu = require.main.require("./abr-menu.js"),
     parsePath = require("parse-filepath");
 
 function AbrApplication (osxOpenFilePaths) {
-    this.localizer = new Localizer(app.getLocale());
+    this.localizer = new Localizer();
     // Windows reference
     this.windows = [];
     // IPC get & set

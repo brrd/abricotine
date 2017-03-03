@@ -7,7 +7,6 @@
 var BrowserWindow = require("electron").BrowserWindow,
     constants = require.main.require("./constants.js"),
     dialog = require("electron").dialog,
-    app = require("electron").app,
     Localizer = require("./localize.js"),
     NativeImage = require("electron").nativeImage,
     parsePath = require("parse-filepath");
@@ -28,7 +27,7 @@ function getWindow(win) {
 var appDialogs = {
 
     // TODO get localizer instance from AbrApplication or AbrDocument (depending of current process)
-    localizer: new Localizer(app.getLocale()),
+    localizer: new Localizer(),
 
     about: function (win) {
         win = getWindow(win);

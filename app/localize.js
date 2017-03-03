@@ -4,13 +4,15 @@
  *   Licensed under GNU-GPLv3 <http://www.gnu.org/licenses/gpl.html>
  */
 
-var constants = require("./constants.js"),
+var app = require("electron").app,
+    constants = require("./constants.js"),
     files = require.main.require("./files.js"),
     paths = require("path"),
     fs = require('fs');
 
 function Localizer(language) {
     this.translations = {};
+    language = language || app.getLocale();
     this.language = language;
 
     var languageFile = paths.join(constants.path.languages, language + ".json"),

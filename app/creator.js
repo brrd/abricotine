@@ -4,8 +4,7 @@
 *   Licensed under GNU-GPLv3 <http://www.gnu.org/licenses/gpl.html>
 */
 
-var app = require("electron").app,
-    constants = require.main.require("./constants.js"),
+var constants = require.main.require("./constants.js"),
     dialog = require("electron").dialog,
     files = require.main.require("./files.js"),
     Localizer = require.main.require("./localize.js"),
@@ -83,7 +82,7 @@ creator.reset = function () {
 
 function askForReset (callback) {
     //TODO use Localizer from AbrApplication
-    var localizer = new Localizer(app.getLocale());
+    var localizer = new Localizer();
 
     var userChoice = dialog.showMessageBox({
         title: localizer.get("reset-dialog", "Abricotine - Configuration update"),
