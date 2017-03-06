@@ -138,7 +138,7 @@
     "dialog-save-message": "Le document doit être enregistré avant d'effectuer cette opération.",
 
     "reset-dialog": "Abricotine - Mise à jour de la configuration",
-    "reset-dialog-message": "La configuration actuelle est obsolète et doit être mise à jour. Souhaitez-vous réinitialiser la configuration d'Abricotine ? \n\nATTENTION : votre configuration actuelle (dont vos patrons personnalisés et vos dictionnaires) seront perdus.",
+    "reset-dialog-message": "La configuration actuelle est obsolète et doit être mise à jour. Souhaitez-vous réinitialiser la configuration d'Abricotine ? \n\nATTENTION : votre configuration actuelle (dont vos thèmes, templates et dictionnaires personnalisés) seront perdus.",
 
     "button-ok": "OK",
     "button-no": "Non",
