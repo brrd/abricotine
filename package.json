@@ -36,6 +36,7 @@
     "chokidar": "^1.6.1",
     "codemirror": "^5.15.2",
     "deep-equal": "^1.0.1",
+    "deep-extend": "^0.4.1",
     "electron-prebuilt": "^1.2.3",
     "electron-squirrel-startup": "^1.0.0",
     "electron-window-state": "^3.0.3",
