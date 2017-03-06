@@ -5,227 +5,195 @@
         "permanent": true,
         "submenu": [
             {
-                "label": "About Abricotine",
+                "labelKey": "menu-about",
                 "command": "about",
-                "permanent": true,
-                "labelKey": "menu-about"
+                "permanent": true
             },
             {
                 "type": "separator"
             },
             {
-                "label": "Edit Preferences",
+                "labelKey": "menu-edit-preferences",
                 "accelerator": "CmdOrCtrl+,",
                 "command": "editConfigFile",
-                "permanent": true,
-                "labelKey": "menu-edit-preferences"
+                "permanent": true
             },
             {
-                "label": "Open Config Directory",
+                "labelKey": "menu-open-config-dir",
                 "command": "openConfigDir",
-                "permanent": true,
-                "labelKey": "menu-open-config-dir"
+                "permanent": true
             },
             {
                 "type": "separator"
             },
             {
-                "label": "Hide Abricotine",
+                "labelKey": "menu-hide",
                 "role": "hide",
-                "permanent": true,
-                "labelKey": "menu-hide"
+                "permanent": true
             },
             {
-                "label": "Hide Others",
+                "labelKey": "menu-hide-others",
                 "role": "hideothers",
-                "permanent": true,
-                "labelKey": "menu-hide-others"
+                "permanent": true
             },
             {
-                "label": "Show All",
+                "labelKey": "menu-show-all",
                 "role": "unhide",
-                "permanent": true,
-                "labelKey": "menu-show-all"
+                "permanent": true
             },
             {
                 "type": "separator"
             },
             {
-                "label": "Quit",
+                "labelKey": "menu-quit",
                 "command": "quit",
                 "accelerator": "CmdOrCtrl+Q",
-                "permanent": true,
-                "labelKey": "menu-quit"
+                "permanent": true
             }
         ]
     },
     {
-        "label": "&File",
-        "permanent": true,
         "labelKey": "menu-file",
+        "permanent": true,
         "submenu": [
             {
-                "label": "New Document",
+                "labelKey": "menu-new-document",
                 "accelerator": "CmdOrCtrl+N",
                 "command": "new",
-                "permanent": true,
-                "labelKey": "menu-new-document"
+                "permanent": true
             },
             {
-                "label": "Open",
+                "labelKey": "menu-open",
                 "accelerator": "CmdOrCtrl+O",
                 "command": "open",
-                "permanent": true,
-                "labelKey": "menu-open"
+                "permanent": true
             },
             {
                 "type": "separator"
             },
             {
-                "label": "Save",
+                "labelKey": "menu-save",
                 "accelerator": "CmdOrCtrl+S",
-                "command": "save",
-                "labelKey": "menu-save"
+                "command": "save"
             },
             {
-                "label": "Save As…",
+                "labelKey": "menu-save-as",
                 "accelerator": "CmdOrCtrl+Shift+S",
-                "command": "saveAs",
-                "labelKey": "menu-save-as"
+                "command": "saveAs"
             },
             {
                 "type": "separator"
             },
             {
-                "label": "Export as HTML",
+                "labelKey": "menu-export-html",
                 "id": "exportHtml",
-                "submenu": [],
-                "labelKey": "menu-export-html"
+                "submenu": []
             },
             {
                 "type": "separator"
             },
             {
-                "label": "Close Document",
+                "labelKey": "menu-close-document",
                 "accelerator": "CmdOrCtrl+Shift+W",
-                "command": "close",
-                "labelKey": "menu-close-document"
+                "command": "close"
             },
             {
-                "label": "Close Window",
+                "labelKey": "menu-close-window",
                 "accelerator": "CmdOrCtrl+W",
-                "role": "close",
-                "labelKey": "menu-close-window"
+                "role": "close"
             },
             {
-                "label": "Quit",
+                "labelKey": "menu-quit",
                 "accelerator": "CmdOrCtrl+Q",
                 "command": "quit",
-                "platform": "linux, win32",
-                "labelKey": "menu-quit"
+                "platform": "linux, win32"
             }
         ]
     },
     {
-        "label": "&Edit",
         "labelKey": "menu-edit",
         "submenu": [
             {
-                "label": "Undo",
+                "labelKey": "menu-undo",
                 "accelerator": "CmdOrCtrl+Z",
-                "role": "undo",
-                "labelKey": "menu-undo"
+                "role": "undo"
             },
             {
-                "label": "Redo",
+                "labelKey": "menu-redo",
                 "accelerator": "CmdOrCtrl+Y",
-                "role": "redo",
-                "labelKey": "menu-redo"
+                "role": "redo"
             },
             {
                 "type": "separator"
             },
             {
-                "label": "Cut",
+                "labelKey": "menu-cut",
                 "accelerator": "CmdOrCtrl+X",
-                "role": "cut",
-                "labelKey": "menu-cut"
+                "role": "cut"
             },
             {
-                "label": "Copy",
+                "labelKey": "menu-copy",
                 "accelerator": "CmdOrCtrl+C",
-                "role": "copy",
-                "labelKey": "menu-copy"
+                "role": "copy"
             },
             {
-                "label": "Copy as HTML",
+                "labelKey": "menu-copy-html",
                 "accelerator": "CmdOrCtrl+Shift+C",
-                "command": "copyHtml",
-                "labelKey": "menu-copy-html"
+                "command": "copyHtml"
             },
             {
-                "label": "Paste",
+                "labelKey": "menu-paste",
                 "accelerator": "CmdOrCtrl+V",
-                "role": "paste",
-                "labelKey": "menu-paste"
+                "role": "paste"
             },
             {
-                "label": "Select All",
+                "labelKey": "menu-selectAll",
                 "accelerator": "CmdOrCtrl+A",
-                "role": "selectall",
-                "labelKey": "menu-selectAll"
+                "role": "selectall"
             },
             {
                 "type": "separator"
             },
             {
-                "label": "Search",
+                "labelKey": "menu-find",
                 "accelerator": "CmdOrCtrl+F",
-                "command": "find",
-                "labelKey": "menu-find"
+                "command": "find"
             },
             {
-                "label": "Find Next",
+                "labelKey": "menu-find-next",
                 "accelerator": "F3",
                 "command": "findNext",
-                "enabled": true,
-                "labelKey": "menu-find-next"
+                "enabled": true
             },
             {
-                "label": "Find Previous",
+                "labelKey": "menu-find-previous",
                 "accelerator": "Shift+F3",
                 "command": "findPrev",
-                "enabled": true,
-                "labelKey": "menu-find-previous"
+                "enabled": true
             },
             {
-                "label": "Replace",
+                "labelKey": "menu-replace",
                 "accelerator": "CmdOrCtrl+H",
-                "command": "replace",
-                "labelKey": "menu-replace"
+                "command": "replace"
             },
             {
-                "label": "Replace All",
+                "labelKey": "menu-replace-all",
                 "accelerator": "CmdOrCtrl+Shift+H",
-                "command": "replaceAll",
-                "labelKey": "menu-replace-all"
+                "command": "replaceAll"
             },
             {
-                "label": "Clear Search",
+                "labelKey": "menu-search-clear",
                 "accelerator": "CmdOrCtrl+Shift+F",
-                "command": "clearSearch",
-                "labelKey": "menu-search-clear"
+                "command": "clearSearch"
             },
             {
                 "type": "separator"
             },
             {
-                "label": "Spelling",
-                "id": "spelling",
                 "labelKey": "menu-spelling",
+                "id": "spelling",
                 "submenu": [
                     {
-                        "label": "Disabled",
                         "labelKey": "menu-spelling-disabled",
                         "type": "radio",
                         "checked": false,
@@ -238,316 +206,270 @@
                 "type": "separator"
             },
             {
-                "label": "Auto Close Brackets",
+                "labelKey": "menu-brackets-auto-close",
                 "command": "autoCloseBrackets",
                 "type": "checkbox",
-                "checked": "startup-commands:autoCloseBrackets",
-                "labelKey": "menu-brackets-auto-close"
+                "checked": "startup-commands:autoCloseBrackets"
             },
             {
                 "type": "separator",
                 "platform": "linux, win32"
             },
             {
-                "label": "Edit Preferences",
+                "labelKey": "menu-edit-preferences",
                 "command": "editConfigFile",
-                "platform": "linux, win32",
-                "labelKey": "menu-edit-preferences"
+                "platform": "linux, win32"
             },
             {
-                "label": "Open Config Directory",
+                "labelKey": "menu-open-config-dir",
                 "command": "openConfigDir",
-                "platform": "linux, win32",
-                "labelKey": "menu-open-config-dir"
+                "platform": "linux, win32"
             }
         ]
     },
     {
-        "label": "F&ormat",
         "labelKey": "menu-format",
         "submenu": [
             {
-                "label": "Italic",
+                "labelKey": "format-italic",
                 "accelerator": "CmdOrCtrl+I",
                 "command": "format",
-                "parameters": "italic",
-                "labelKey": "format-italic"
+                "parameters": "italic"
             },
             {
-                "label": "Bold",
+                "labelKey": "format-bold",
                 "accelerator": "CmdOrCtrl+B",
                 "command": "format",
-                "parameters": "bold",
-                "labelKey": "format-bold"
+                "parameters": "bold"
             },
             {
-                "label": "Strikethrough",
+                "labelKey": "format-strikethrough",
                 "accelerator": "CmdOrCtrl+/",
                 "command": "format",
-                "parameters": "strikethrough",
-                "labelKey": "format-strikethrough"
+                "parameters": "strikethrough"
             },
             {
-                "label": "Code",
+                "labelKey": "format-code",
                 "accelerator": "CmdOrCtrl+.",
                 "command": "format",
-                "parameters": "code",
-                "labelKey": "format-code"
+                "parameters": "code"
             },
             {
                 "type": "separator"
             },
             {
-                "label": "Heading 1",
+                "labelKey": "format-heading1",
                 "accelerator": "CmdOrCtrl+F1",
                 "command": "format",
-                "parameters": "h1",
-                "labelKey": "format-heading1"
+                "parameters": "h1"
             },
             {
-                "label": "Heading 2",
+                "labelKey": "format-heading2",
                 "accelerator": "CmdOrCtrl+F2",
                 "command": "format",
-                "parameters": "h2",
-                "labelKey": "format-heading2"
+                "parameters": "h2"
             },
             {
-                "label": "Heading 3",
+                "labelKey": "format-heading3",
                 "accelerator": "CmdOrCtrl+F3",
                 "command": "format",
-                "parameters": "h3",
-                "labelKey": "format-heading3"
+                "parameters": "h3"
             },
             {
-                "label": "Heading 4",
+                "labelKey": "format-heading4",
                 "accelerator": "CmdOrCtrl+F4",
                 "command": "format",
-                "parameters": "h4",
-                "labelKey": "format-heading4"
+                "parameters": "h4"
             },
             {
-                "label": "Heading 5",
+                "labelKey": "format-heading5",
                 "accelerator": "CmdOrCtrl+F5",
                 "command": "format",
-                "parameters": "h5",
-                "labelKey": "format-heading5"
+                "parameters": "h5"
             },
             {
-                "label": "Heading 6",
+                "labelKey": "format-heading6",
                 "accelerator": "CmdOrCtrl+F6",
                 "command": "format",
-                "parameters": "h6",
-                "labelKey": "format-heading6"
+                "parameters": "h6"
             },
             {
                 "type": "separator"
             },
             {
-                "label": "Unordered List",
+                "labelKey": "format-list-unordered",
                 "accelerator": "CmdOrCtrl+Shift+L",
                 "command": "format",
-                "parameters": "ul",
-                "labelKey": "format-list-unordered"
+                "parameters": "ul"
             },
             {
-                "label": "Ordered List",
+                "labelKey": "format-list-ordered",
                 "accelerator": "CmdOrCtrl+Alt+Shift+L",
                 "command": "format",
-                "parameters": "ol",
-                "labelKey": "format-list-ordered"
+                "parameters": "ol"
             },
             {
-                "label": "Todo List",
+                "labelKey": "format-list-todo",
                 "accelerator": "CmdOrCtrl+Shift+T",
                 "command": "format",
-                "parameters": "todolist",
-                "labelKey": "format-list-todo"
+                "parameters": "todolist"
             },
             {
-                "label": "Quote",
+                "labelKey": "format-quote",
                 "accelerator": "CmdOrCtrl+Shift+Q",
                 "command": "format",
-                "parameters": "quote",
-                "labelKey": "format-quote"
+                "parameters": "quote"
             }
         ]
     },
     {
-        "label": "&Insert",
         "labelKey": "menu-insert",
         "submenu": [
             {
-                "label": "Image",
                 "labelKey": "menu-insert-image",
                 "submenu": [
                     {
-                        "label": "Insert from Computer",
+                        "labelKey": "menu-insert-image-from-computer",
                         "accelerator": "CmdOrCtrl+Alt+I",
-                        "command": "imageFromComputer",
-                        "labelKey": "menu-insert-image-from-computer"
+                        "command": "imageFromComputer"
                     },
                     {
-                        "label": "Insert from URL",
+                        "labelKey": "menu-insert-image-from-url",
                         "command": "draw",
-                        "parameters": "image",
-                        "labelKey": "menu-insert-image-from-url"
+                        "parameters": "image"
                     },
                     {
                         "type": "separator"
                     },
                     {
-                        "label": "Copy All Images in a Local Folder",
-                        "command": "imagesImportAll",
-                        "labelKey": "menu-image-copy-all"
+                        "labelKey": "menu-image-copy-all",
+                        "command": "imagesImportAll"
                     }
                 ]
             },
             {
-                "label": "Link",
+                "labelKey": "menu-insert-link",
                 "accelerator": "CmdOrCtrl+L",
                 "command": "draw",
-                "parameters": "link",
-                "labelKey": "menu-insert-link"
+                "parameters": "link"
             },
             {
-                "label": "Anchor",
+                "labelKey": "menu-insert-anchor",
                 "command": "draw",
-                "parameters": "anchor",
-                "labelKey": "menu-insert-anchor"
+                "parameters": "anchor"
             },
             {
-                "label": "Code Block",
+                "labelKey": "menu-insert-codeblock",
                 "command": "draw",
-                "parameters": "codeblock",
-                "labelKey": "menu-insert-codeblock"
+                "parameters": "codeblock"
             },
             {
-                "label": "Math Formula",
+                "labelKey": "menu-insert-math-formula",
                 "command": "draw",
-                "parameters": "math",
-                "labelKey": "menu-insert-math-formula"
+                "parameters": "math"
             },
             {
-                "label": "Horizontal Rule",
+                "labelKey": "menu-insert-hr",
                 "accelerator": "CmdOrCtrl+R",
                 "command": "draw",
-                "parameters": "hr",
-                "labelKey": "menu-insert-hr"
+                "parameters": "hr"
             }
         ]
     },
     {
-        "label": "&Table",
         "labelKey": "menu-table",
         "submenu": [
             {
-                "label": "New Table",
                 "labelKey": "menu-new-table",
                 "submenu": [
                     {
-                        "label": "2 Columns x 2 Rows",
+                        "labelKey": "menu-new-table-2x2",
                         "command": "tableCreate",
-                        "parameters": [2, 2],
-                        "labelKey": "menu-new-table-2x2"
+                        "parameters": [2, 2]
                     },
                     {
-                        "label": "2 Columns x 3 Rows",
+                        "labelKey": "menu-new-table-2x3",
                         "command": "tableCreate",
-                        "parameters": [2, 3],
-                        "labelKey": "menu-new-table-2x3"
+                        "parameters": [2, 3]
                     },
                     {
-                        "label": "2 Columns x 4 Rows",
+                        "labelKey": "menu-new-table-2x4",
                         "command": "tableCreate",
-                        "parameters": [2, 4],
-                        "labelKey": "menu-new-table-2x4"
+                        "parameters": [2, 4]
                     },
                     {
-                        "label": "2 Columns x 5 Rows",
+                        "labelKey": "menu-new-table-2x5",
                         "command": "tableCreate",
-                        "parameters": [2, 5],
-                        "labelKey": "menu-new-table-2x5"
+                        "parameters": [2, 5]
                     },
                     {
                         "type": "separator"
                     },
                     {
-                        "label": "3 Columns x 2 Rows",
+                        "labelKey": "menu-new-table-3x2",
                         "command": "tableCreate",
-                        "parameters": [3, 2],
-                        "labelKey": "menu-new-table-3x2"
+                        "parameters": [3, 2]
                     },
                     {
-                        "label": "3 Columns x 3 Rows",
+                        "labelKey": "menu-new-table-3x3",
                         "command": "tableCreate",
-                        "parameters": [3, 3],
-                        "labelKey": "menu-new-table-3x3"
+                        "parameters": [3, 3]
                     },
                     {
-                        "label": "3 Columns x 4 Rows",
+                        "labelKey": "menu-new-table-3x4",
                         "command": "tableCreate",
-                        "parameters": [3, 4],
-                        "labelKey": "menu-new-table-3x4"
+                        "parameters": [3, 4]
                     },
                     {
-                        "label": "3 Columns x 5 Rows",
+                        "labelKey": "menu-new-table-3x5",
                         "command": "tableCreate",
-                        "parameters": [3, 5],
-                        "labelKey": "menu-new-table-3x5"
+                        "parameters": [3, 5]
                     },
                     {
                         "type": "separator"
                     },
                     {
-                        "label": "4 Columns x 2 Rows",
+                        "labelKey": "menu-new-table-4x2",
                         "command": "tableCreate",
-                        "parameters": [4, 2],
-                        "labelKey": "menu-new-table-4x2"
+                        "parameters": [4, 2]
                     },
                     {
-                        "label": "4 Columns x 3 Rows",
+                        "labelKey": "menu-new-table-4x3",
                         "command": "tableCreate",
-                        "parameters": [4, 3],
-                        "labelKey": "menu-new-table-4x3"
+                        "parameters": [4, 3]
                     },
                     {
-                        "label": "4 Columns x 4 Rows",
+                        "labelKey": "menu-new-table-4x4",
                         "command": "tableCreate",
-                        "parameters": [4, 4],
-                        "labelKey": "menu-new-table-4x4"
+                        "parameters": [4, 4]
                     },
                     {
-                        "label": "4 Columns x 5 Rows",
+                        "labelKey": "menu-new-table-4x5",
                         "command": "tableCreate",
-                        "parameters": [4, 5],
-                        "labelKey": "menu-new-table-4x5"
+                        "parameters": [4, 5]
                     },
                     {
                         "type": "separator"
                     },
                     {
-                        "label": "5 Columns x 2 Rows",
+                        "labelKey": "menu-new-table-5x2",
                         "command": "tableCreate",
-                        "parameters": [5, 2],
-                        "labelKey": "menu-new-table-5x2"
+                        "parameters": [5, 2]
                     },
                     {
-                        "label": "5 Columns x 3 Rows",
+                        "labelKey": "menu-new-table-5x3",
                         "command": "tableCreate",
-                        "parameters": [5, 3],
-                        "labelKey": "menu-new-table-5x3"
+                        "parameters": [5, 3]
                     },
                     {
-                        "label": "5 Columns x 4 Rows",
+                        "labelKey": "menu-new-table-5x4",
                         "command": "tableCreate",
-                        "parameters": [5, 4],
-                        "labelKey": "menu-new-table-5x4"
+                        "parameters": [5, 4]
                     },
                     {
-                        "label": "5 Columns x 5 Rows",
+                        "labelKey": "menu-new-table-5x5",
                         "command": "tableCreate",
-                        "parameters": [5, 5],
-                        "labelKey": "menu-new-table-5x5"
+                        "parameters": [5, 5]
                     }
                 ]
             },
@@ -555,73 +477,61 @@
                 "type": "separator"
             },
             {
-                "label": "Rows",
                 "labelKey": "menu-table-rows",
                 "submenu": [
                     {
-                        "label": "Add Row Before",
-                        "command": "tableAddRowBefore",
-                        "labelKey": "menu-table-rows-add-before"
+                        "labelKey": "menu-table-rows-add-before",
+                        "command": "tableAddRowBefore"
                     },
                     {
-                        "label": "Add Row After",
-                        "command": "tableAddRowAfter",
-                        "labelKey": "menu-table-rows-add-after"
+                        "labelKey": "menu-table-rows-add-after",
+                        "command": "tableAddRowAfter"
                     },
                     {
                         "type": "separator"
                     },
                     {
-                        "label": "Remove Row",
-                        "command": "tableRemoveRow",
-                        "labelKey": "menu-table-rows-remove"
+                        "labelKey": "menu-table-rows-remove",
+                        "command": "tableRemoveRow"
                     }
                 ]
             },
             {
-                "label": "Columns",
                 "labelKey": "menu-table-columns",
                 "submenu": [
                     {
-                        "label": "Add Column Before",
-                        "command": "tableAddColBefore",
-                        "labelKey": "menu-table-columns-add-before"
+                        "labelKey": "menu-table-columns-add-before",
+                        "command": "tableAddColBefore"
                     },
                     {
-                        "label": "Add Column After",
-                        "command": "tableAddColAfter",
-                        "labelKey": "menu-table-columns-add-after"
-                    },
-                    {
-                        "type": "separator"
-                    },
-                    {
-                        "label": "Remove Column",
-                        "command": "tableRemoveCol",
-                        "labelKey": "menu-table-columns-remove"
+                        "labelKey": "menu-table-columns-add-after",
+                        "command": "tableAddColAfter"
                     },
                     {
                         "type": "separator"
                     },
                     {
-                        "label": "Align Left",
-                        "command": "tableAlignLeft",
-                        "labelKey": "menu-table-align-left"
+                        "labelKey": "menu-table-columns-remove",
+                        "command": "tableRemoveCol"
                     },
                     {
-                        "label": "Align Center",
-                        "command": "tableAlignCenter",
-                        "labelKey": "menu-table-align-center"
+                        "type": "separator"
                     },
                     {
-                        "label": "Align Right",
-                        "command": "tableAlignRight",
-                        "labelKey": "menu-table-align-right"
+                        "labelKey": "menu-table-align-left",
+                        "command": "tableAlignLeft"
                     },
                     {
-                        "label": "Clear Align",
-                        "command": "tableAlignClear",
-                        "labelKey": "menu-table-align-clear"
+                        "labelKey": "menu-table-align-center",
+                        "command": "tableAlignCenter"
+                    },
+                    {
+                        "labelKey": "menu-table-align-right",
+                        "command": "tableAlignRight"
+                    },
+                    {
+                        "labelKey": "menu-table-align-clear",
+                        "command": "tableAlignClear"
                     }
                 ]
             },
@@ -629,132 +539,114 @@
                 "type": "separator"
             },
             {
-                "label": "Beautify",
+                "labelKey": "menu-table-beautify",
                 "command": "tableBeautify",
-                "accelerator": "CmdOrCtrl+Shift+B",
-                "labelKey": "menu-table-beautify"
+                "accelerator": "CmdOrCtrl+Shift+B"
             }
         ]
     },
     {
-        "label": "&View",
         "labelKey": "menu-view",
         "submenu": [
             {
-                "label": "View Document in Browser",
+                "labelKey": "menu-view-in-browser",
                 "accelerator": "F6",
-                "command": "viewInBrowser",
-                "labelKey": "menu-view-in-browser"
+                "command": "viewInBrowser"
             },
             {
                 "type": "separator"
             },
             {
-                "label": "Theme",
+                "labelKey": "menu-theme",
                 "id": "themes",
-                "submenu": [],
-                "labelKey": "menu-theme"
+                "submenu": []
 
             },
             {
-                "label": "Auto Preview",
                 "labelKey": "menu-auto-preview",
                 "submenu": [
                     {
-                        "label": "Images",
+                        "labelKey": "menu-auto-preview-images",
                         "command": "toggleAutopreview",
                         "parameters": "image",
                         "type": "checkbox",
-                        "checked": "autopreview:image",
-                        "labelKey": "menu-auto-preview-images"
+                        "checked": "autopreview:image"
                     },
                     {
-                        "label": "Todo Lists",
+                        "labelKey": "menu-auto-preview-todolists",
                         "command": "toggleAutopreview",
                         "parameters": "todolist",
                         "type": "checkbox",
-                        "checked": "autopreview:todolist",
-                        "labelKey": "menu-auto-preview-todolists"
+                        "checked": "autopreview:todolist"
                     },
                     {
-                        "label": "Anchors",
+                        "labelKey": "menu-auto-preview-anchors",
                         "command": "toggleAutopreview",
                         "parameters": "anchor",
                         "type": "checkbox",
-                        "checked": "autopreview:anchor",
-                        "labelKey": "menu-auto-preview-anchors"
+                        "checked": "autopreview:anchor"
                     },
                     {
-                        "label": "Math",
+                        "labelKey": "menu-auto-preview-math",
                         "command": "toggleAutopreview",
                         "parameters": "math",
                         "type": "checkbox",
-                        "checked": "autopreview:math",
-                        "labelKey": "menu-auto-preview-math"
+                        "checked": "autopreview:math"
                     },
                     {
-                        "label": "Iframes",
+                        "labelKey": "menu-auto-preview-iframes",
                         "command": "toggleAutopreview",
                         "parameters": "iframe",
                         "type": "checkbox",
-                        "checked": "autopreview:iframe",
-                        "labelKey": "menu-auto-preview-iframes"
+                        "checked": "autopreview:iframe"
                     },
                     {
                         "type": "separator"
                     },
                     {
-                        "label": "Filter Unallowed Content",
+                        "labelKey": "menu-auto-preview-security",
                         "command": "toggleAutopreviewSecurity",
                         "type": "checkbox",
-                        "checked": "autopreview-security",
-                        "labelKey": "menu-auto-preview-security"
+                        "checked": "autopreview-security"
                     }
                 ]
             },
             {
-                "label": "Developer",
                 "labelKey": "menu-developer",
                 "submenu": [
                     {
-                        "label": "Reload",
+                        "labelKey": "menu-reload",
                         "accelerator": "F5",
-                        "command": "reload",
-                        "labelKey": "menu-reload"
+                        "command": "reload"
                     },
                     {
-                        "label": "Reload Theme",
+                        "labelKey": "menu-reload-theme",
                         "accelerator": "CmdOrCtrl+F5",
-                        "command": "reloadTheme",
-                        "labelKey": "menu-reload-theme"
+                        "command": "reloadTheme"
                     },
                     {
                         "type": "separator"
                     },
                     {
-                        "label": "Run Command",
+                        "labelKey": "menu-run",
                         "accelerator": "F2",
-                        "command": "execCommand",
-                        "labelKey": "menu-run"
+                        "command": "execCommand"
                     },
                     {
-                        "label": "Developer Tools",
+                        "labelKey": "menu-devtools",
                         "accelerator": "F12",
-                        "command": "devtools",
-                        "labelKey": "menu-devtools"
+                        "command": "devtools"
                     },
                     {
                         "type": "separator"
                     },
                     {
-                        "label": "Open Temp Folder",
-                        "command": "openTempDir",
-                        "labelKey": "menu-open-temp-dir"
+                        "labelKey": "menu-open-temp-dir",
+                        "command": "openTempDir"
                     },
                     {
-                        "label": "Open Application Folder",
-                        "command": "openAppDir",
-                        "labelKey": "menu-open-app-dir"
+                        "labelKey": "menu-open-app-dir",
+                        "command": "openAppDir"
                     }
                 ]
             },
@@ -762,85 +654,74 @@
                 "type": "separator"
             },
             {
-                "label": "Increase Font Size",
+                "labelKey": "menu-font-size-increase",
                 "accelerator": "CmdOrCtrl+=",
-                "command": "increaseFontSize",
-                "labelKey": "menu-font-size-increase"
+                "command": "increaseFontSize"
             },
             {
-                "label": "Decrease Font Size",
+                "labelKey": "menu-font-size-decrease",
                 "accelerator": "CmdOrCtrl+-",
-                "command": "decreaseFontSize",
-                "labelKey": "menu-font-size-decrease"
+                "command": "decreaseFontSize"
             },
             {
-                "label": "Reset Font Size",
+                "labelKey": "menu-font-size-reset",
                 "accelerator": "CmdOrCtrl+0",
-                "command": "resetFontSize",
-                "labelKey": "menu-font-size-reset"
+                "command": "resetFontSize"
             },
             {
                 "type": "separator"
             },
             {
-                "label": "Show Menu Bar",
+                "labelKey": "menu-show-menu-bar",
                 "command": "showMenuBar",
                 "type": "checkbox",
                 "checked": "window:showMenuBar",
-                "platform": "linux, win32",
-                "labelKey": "menu-show-menu-bar"
+                "platform": "linux, win32"
             },
             {
-                "label": "Show Table of Contents",
+                "labelKey": "menu-show-table-of-contents",
                 "command": "showTocPane",
                 "type": "checkbox",
-                "checked": "startup-commands:showTocPane",
-                "labelKey": "menu-show-table-of-contents"
+                "checked": "startup-commands:showTocPane"
             },
             {
-                "label": "Show Blocks",
+                "labelKey": "menu-show-blocks",
                 "command": "showBlocks",
                 "type": "checkbox",
-                "checked": "startup-commands:showBlocks",
-                "labelKey": "menu-show-blocks"
+                "checked": "startup-commands:showBlocks"
             },
             {
-                "label": "Show Hidden Characters",
+                "labelKey": "menu-show-hidden-chars",
                 "command": "showHiddenCharacters",
                 "type": "checkbox",
-                "checked": "startup-commands:showHiddenCharacters",
-                "labelKey": "menu-show-hidden-chars"
+                "checked": "startup-commands:showHiddenCharacters"
             },
             {
                 "type": "separator"
             },
             {
-                "label": "Toggle Fullscreen",
+                "labelKey": "menu-fullscreen",
                 "accelerator": "F11",
                 "command": "toggleFullscreen",
                 "type": "checkbox",
-                "checked": false,
-                "labelKey": "menu-fullscreen"
+                "checked": false
             }
         ]
     },
     {
-        "label": "&Help",
+        "labelKey": "menu-help",
         "role": "help",
         "permanent": true,
-        "labelKey": "menu-help",
         "submenu": [
             {
-                "label": "About Abricotine",
+                "labelKey": "menu-about",
                 "command": "about",
-                "platform": "linux, win32",
-                "labelKey": "menu-about"
+                "platform": "linux, win32"
             },
             {
-                "label": "Visit Homepage",
+                "labelKey": "menu-visitHomepage",
                 "command": "homepage",
-                "permanent": true,
-                "labelKey": "menu-visitHomepage"
+                "permanent": true
             }
         ]
     }

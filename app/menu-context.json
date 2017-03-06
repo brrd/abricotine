@@ -1,41 +1,35 @@
 [
     {
-        "label": "Undo",
+        "labelKey": "menu-undo",
         "accelerator": "CmdOrCtrl+Z",
-        "role": "undo",
-        "labelKey": "menu-undo"
+        "role": "undo"
     },
     {
-        "label": "Redo",
+        "labelKey": "menu-redo",
         "accelerator": "CmdOrCtrl+Y",
-        "role": "redo",
-        "labelKey": "menu-redo"
+        "role": "redo"
     },
     {
         "type": "separator"
     },
     {
-        "label": "Cut",
-        "role": "cut",
-        "labelKey": "menu-cut"
+        "labelKey": "menu-cut",
+        "role": "cut"
     },
     {
-        "label": "Copy",
-        "role": "copy",
-        "labelKey": "menu-copy"
+        "labelKey": "menu-copy",
+        "role": "copy"
     },
     {
-        "label": "Paste",
-        "role": "paste",
-        "labelKey": "menu-paste"
+        "labelKey": "menu-paste",
+        "role": "paste"
     },
     {
         "type": "separator"
     },
     {
-        "label": "Select All",
+        "labelKey": "menu-selectAll",
         "accelerator": "CmdOrCtrl+A",
-        "role": "selectall",
-        "labelKey": "menu-selectAll"
+        "role": "selectall"
     }
 ]
