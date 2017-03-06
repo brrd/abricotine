@@ -28,9 +28,17 @@ function getTranslations(lang) {
     return deepExtend.apply(this, translations);
 }
 
+function normalizeLang(lang) {
+    // https://electron.atom.io/docs/api/locales/
+    var regex = /^[a-z]*/,
+        res = regex.exec(lang);
+    return res ? res[0] : null;
+}
+
 function Localizer(lang) {
     this.translations = {};
     lang = lang || app.getLocale();
+    lang = normalizeLang(lang);
     this.lang = lang;
     this.translations = getTranslations(lang);
 }
