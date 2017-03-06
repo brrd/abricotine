@@ -44,7 +44,11 @@ creator.create = function () {
             }
         }),
         new Promise (function (resolve, reject) {
-            files.copyLocalDir(pathModule.join(constants.path.defaultDir, "/lang"), constants.path.languages, resolve);
+            if (!files.dirExists(constants.path.languages)) {
+                files.copyLocalDir(pathModule.join(constants.path.defaultDir, "/lang"), constants.path.languages, resolve);
+            } else {
+                resolve();
+            }
         }),
         new Promise (function (resolve, reject) {
             // Copy default template
