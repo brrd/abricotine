@@ -86,7 +86,7 @@ function askForReset (callback) {
 
     var userChoice = dialog.showMessageBox({
         title: localizer.get("reset-dialog", "Abricotine - Configuration update"),
-        message: localizer.get("", "The current configuration is deprecated and need to be updated. Do you want to reset Abricotine configuration? \n\nWARNING: Your previous configuration (including custom templates and dictonaries) will be lost."),
+        message: localizer.get("reset-dialog-message", "The current configuration is deprecated and need to be updated. Do you want to reset Abricotine configuration? \n\nWARNING: Your previous configuration (including custom templates and dictonaries) will be lost."),
         type: "question",
         buttons: [localizer.get("button-no", "No"), localizer.get("button-yes-recommended", "Yes (recommended)")],
         defaultId: 1
