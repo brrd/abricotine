@@ -284,7 +284,7 @@ AbrDocument.prototype = {
             dir = parsedPath.dirname || process.cwd();
             title = parsedPath.basename + " - " + dir + " - " + appName;
         } else {
-            var newDocument = dialogs.localizer.get("new-document", "New document");
+            var newDocument = dialogs.localizer.get("new-document");
             title = newDocument + " - " + appName;
         }
         if (!isClean) {
