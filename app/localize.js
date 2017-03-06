@@ -41,12 +41,11 @@ Localizer.prototype = {
         return this.lang;
     },
 
-    get: function (key, defaultTranslation, argsArray) {
-        var translation;
-        if (this.translations[key]) {
-            translation = this.translations[key];
-        } else if (defaultTranslation) {
-            translation = defaultTranslation;
+    get: function (key, argsArray) {
+        var translation = this.translations[key];
+        if (!translation) {
+            console.warn("'" + key + "': translation not found");
+            return key;
         }
         // insert message args
         if (translation && argsArray && argsArray.length) {
