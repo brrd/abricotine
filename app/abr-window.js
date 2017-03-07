@@ -8,9 +8,8 @@ var AbrMenu = require.main.require("./abr-menu.js"),
     BrowserWindow = require("electron").BrowserWindow,
     constants = require.main.require("./constants.js"),
     contextMenuTemplate = require.main.require("./menu-context.json"),
-    defaultConfig = require.main.require("../default/config.json"),
+    createConfig = require.main.require("./config.js"),
     menuTemplate = require.main.require("./menu-window.json"),
-    nconf = require('nconf'),
     windowStateKeeper = require('electron-window-state');
 
 function alreadyOpen (abrApp, path) {
@@ -25,17 +24,6 @@ function alreadyOpen (abrApp, path) {
         }
     }
     return false;
-}
-
-// Config creation (config is specific to the window)
-function createConfig () {
-    var config = new nconf.Provider(); // https://github.com/indexzero/nconf/issues/39
-    config.overrides({
-            "debug": process.argv.indexOf("--debug") !== -1
-        })
-        .file(constants.path.userConfig)
-        .defaults(defaultConfig);
-    return config;
 }
 
 function AbrWindow (abrApp, path) {
