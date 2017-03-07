@@ -19,7 +19,7 @@ function AbrApplication (osxOpenFilePaths) {
     // Config
     this.config = createConfig();
     // Localizer
-    this.localizer = new Localizer();
+    this.localizer = new Localizer(this.config.get("lang"));
     // Windows reference
     this.windows = [];
     // IPC get & set
