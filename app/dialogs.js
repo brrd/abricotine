@@ -60,11 +60,11 @@ var appDialogs = {
                 noLink: true
             });
         switch (userChoice) {
-            case 0:
-                closeFunc();
+            case 1:
+                saveFunc(closeFunc);
                 break;
             case 2:
-                saveFunc(closeFunc);
+                closeFunc();
                 break;
         }
         return false;
