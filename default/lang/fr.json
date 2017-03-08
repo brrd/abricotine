@@ -162,5 +162,7 @@
     "changed-file-message": "Le document '%0' a été modifié par un autre programme. Voulez-vous le recharger ?",
 
     "file-deleted": "Suppression détectée",
-    "file-deleted-message": "Le fichier '%0' n'existe plus. Souhaitez-vous conserver ce document dans l'éditeur?"
+    "file-deleted-message": "Le fichier '%0' n'existe plus. Souhaitez-vous conserver ce document dans l'éditeur?",
+
+    "pane-table-of-contents": "Table des matières"
 }

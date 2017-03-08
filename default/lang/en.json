@@ -162,5 +162,7 @@
     "changed-file-message": "The file '%0' has been modified by another program. Do you want to reload it?",
 
     "file-deleted": "Deleted File",
-    "file-deleted-message": "The file '%0' doesn't exist anymore. Keep this file in editor?"
+    "file-deleted-message": "The file '%0' doesn't exist anymore. Keep this file in editor?",
+
+    "pane-table-of-contents": "Table of contents"
 }
