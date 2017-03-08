@@ -6,16 +6,15 @@
 
 var remote = require("electron").remote,
     constants = remote.require("./constants"),
-    dialogs = remote.require("./dialogs.js"),
     files = remote.require("./files.js"),
     md2html = require.main.require("./md2html.js"),
     parsePath = require("parse-filepath"),
     pathModule = require("path");
 
-function getDocTitle (data) {
+function getDocTitle (data, defaultTitle) {
     var firstLine = /^#+(.*)$/m,
         test = firstLine.exec(data),
-        title = test !== null ? test[1].trim() : dialogs.localizer.get("html-export-title");
+        title = test !== null ? test[1].trim() : defaultTitle;
     return title;
 }
 
@@ -26,7 +25,7 @@ function exportHtml (abrDoc, templateName, destPath, callback) {
     // Get editor content
     var markdown = abrDoc.getData();
     // Ask for destination path if undefined
-    destPath = destPath || dialogs.askSavePath();
+    destPath = destPath || abrDoc.dialogs.askSavePath();
     if (!destPath || markdown.trim() === "") {
         return false;
     }
@@ -45,7 +44,8 @@ function exportHtml (abrDoc, templateName, destPath, callback) {
     // Process and save HTML
     files.readFile(pathModule.join(templatePath, "/template.html"), function (template) {
         // Process templating
-        var page = template.replace(/\$DOCUMENT_TITLE/g, getDocTitle(markdown))
+        var defaultTitle = abrDoc.localizer.get("html-export-title"),
+            page = template.replace(/\$DOCUMENT_TITLE/g, getDocTitle(markdown, defaultTitle))
                            .replace(/\$DOCUMENT_CONTENT/g, htmlContent)
                            .replace(/\$ASSETS_PATH/g, "./" + parsePath(destPath).basename + "_files");
         // Write output file

@@ -9,6 +9,7 @@ var AbrMenu = require.main.require("./abr-menu.js"),
     BrowserWindow = require("electron").BrowserWindow,
     commands = require.main.require("./commands-main.js"),
     createConfig = require.main.require("./config.js"),
+    Dialogs = require.main.require("./dialogs.js"),
     files = require.main.require("./files.js"),
     ipcServer = require.main.require("./ipc-server.js"),
     Localizer = require("./localize.js"),
@@ -20,6 +21,8 @@ function AbrApplication (osxOpenFilePaths) {
     this.config = createConfig();
     // Localizer
     this.localizer = new Localizer(this.config.get("lang"));
+    // Dialogs
+    this.dialogs = new Dialogs(this.localizer);
     // Windows reference
     this.windows = [];
     // IPC get & set

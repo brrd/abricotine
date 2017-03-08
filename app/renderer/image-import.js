@@ -5,7 +5,6 @@
 */
 
 var remote = require("electron").remote,
-    dialogs = remote.require("./dialogs.js"),
     files = remote.require("./files.js"),
     isUrl = require("is-url"),
     pathModule = require("path"),
@@ -74,7 +73,7 @@ function imageImport (abrDoc, destFolder, updateEditor) {
             if (saveDocOnFinish) {
                 abrDoc.save();
             }
-            dialogs.importImagesDone(destFolder);
+            abrDoc.dialogs.importImagesDone(destFolder);
         }
     }
 
@@ -104,7 +103,7 @@ function imageImport (abrDoc, destFolder, updateEditor) {
 
     if (!abrDoc.path) {
         saveDocOnFinish = true;
-        dialogs.askNeedSave(abrDoc, main);
+        abrDoc.dialogs.askNeedSave(abrDoc, main);
     } else {
         main();
     }
