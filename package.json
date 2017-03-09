@@ -37,7 +37,7 @@
     "codemirror": "^5.15.2",
     "deep-equal": "^1.0.1",
     "deep-extend": "^0.4.1",
-    "electron-prebuilt": "^1.2.3",
+    "electron": "^1.6.2",
     "electron-squirrel-startup": "^1.0.0",
     "electron-window-state": "^3.0.3",
     "font-awesome": "^4.5.0",
@@ -62,7 +62,7 @@
   "devDependencies": {
     "commander": "^2.9.0",
     "electron-packager": "^8.1.0",
-    "electron-rebuild": "^1.1.5",
+    "electron-rebuild": "^1.5.7",
     "electron-winstaller": "^2.3.4",
     "pretty-ms": "^2.1.0",
     "semver": "^5.2.0"
