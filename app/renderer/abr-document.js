@@ -53,7 +53,8 @@ function AbrDocument () {
             that.localizer = new Localizer(config.lang);
 
             // Dialogs
-            that.dialogs = new Dialogs(that.localizer, remote.getCurrentWindow());
+            var dirpath = that.path ? parsePath(that.path).dirname : null;
+            that.dialogs = new Dialogs(that.localizer, remote.getCurrentWindow(), dirpath);
 
             // Init pane
             that.pane = new AbrPane(that);
@@ -232,6 +233,7 @@ AbrDocument.prototype = {
             var dir = parsePath(this.path).dirname;
             if (dir) {
                 process.chdir(dir);
+                this.dialogs.setDir(dir);
             }
         }
     },

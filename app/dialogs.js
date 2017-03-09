@@ -24,12 +24,18 @@ function getWindow(win) {
     }
 }
 
-function Dialogs (localizer, win) {
+function Dialogs (localizer, win, dirpath) {
     this.localizer = localizer || new Localizer();
     this.win = getWindow(win);
+    this.setDir(dirpath);
 }
 
 Dialogs.prototype = {
+
+    // Set the current doc dir path, otherwise use "My Documents" path
+    setDir: function (dirpath) {
+        this.dir = dirpath || constants.path.documents;
+    },
 
     about: function () {
         var image = NativeImage.createFromPath(constants.path.icon),
@@ -85,7 +91,7 @@ Dialogs.prototype = {
         var path = dialog.showOpenDialog(this.win, {
             title: title || this.localizer.get('dialog-open'),
             properties: ['openFile'],
-            defaultPath: process.cwd()
+            defaultPath: this.dir
         });
         if (path) {
             return path[0];
@@ -96,7 +102,7 @@ Dialogs.prototype = {
     askSavePath: function (title) {
         var path = dialog.showSaveDialog(this.win, {
             title: title || this.localizer.get('dialog-save'),
-            defaultPath: process.cwd()
+            defaultPath: this.dir
         });
         if (path) {
             return path;
@@ -112,7 +118,7 @@ Dialogs.prototype = {
                 name: this.localizer.get('insert-image-filter'),
                 extensions: ['jpg', 'jpeg', 'png', 'gif', 'svg']
             }],
-            defaultPath: process.cwd()
+            defaultPath: this.dir
         });
         if (path) {
             return path[0];
