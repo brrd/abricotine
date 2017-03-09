@@ -316,7 +316,7 @@
             },
             {
                 "labelKey": "format-quote",
-                "accelerator": "CmdOrCtrl+Shift+Q",
+                "accelerator": "CmdOrCtrl+K",
                 "command": "format",
                 "parameters": "quote"
             }
