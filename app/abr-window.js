@@ -71,13 +71,13 @@ AbrWindow.prototype = {
         win = new BrowserWindow({
             title: constants.appName || "Abricotine",
             icon: constants.path.icon,
-            "min-width": 100,
-            "min-height": 100,
-            "x": mainWindowState.x,
-            "y": mainWindowState.y,
-            "width": mainWindowState.width,
-            "height": mainWindowState.height,
-            "auto-hide-menu-bar": typeof showMenubar !== "undefined" ? !showMenubar : false
+            minWidth: 100,
+            minHeight: 100,
+            x: mainWindowState.x,
+            y: mainWindowState.y,
+            width: mainWindowState.width,
+            height: mainWindowState.height,
+            autoHideMenuBar: typeof showMenubar !== "undefined" ? !showMenubar : false
         });
         mainWindowState.manage(win);
 
