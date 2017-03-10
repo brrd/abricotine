@@ -61,16 +61,16 @@ Dialogs.prototype = {
             userChoice = dialog.showMessageBox(this.win, {
                 title: this.localizer.get('confirm-close-title'),
                 message: this.localizer.get('confirm-close-message', [filename]),
-                buttons: [this.localizer.get('button-cancel'), this.localizer.get('confirm-save-and-close'), this.localizer.get('confirm-close-without-saving')],
+                buttons: [this.localizer.get('button-cancel'), this.localizer.get('confirm-close-without-saving'), this.localizer.get('confirm-save-and-close')],
                 defaultId: 2,
                 noLink: true
             });
         switch (userChoice) {
             case 1:
-                saveFunc(closeFunc);
+                closeFunc();
                 break;
             case 2:
-                closeFunc();
+                saveFunc(closeFunc);
                 break;
         }
         return false;
