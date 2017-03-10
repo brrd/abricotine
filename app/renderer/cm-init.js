@@ -73,7 +73,8 @@ function initCodeMirror () {
         // Spelling and no-spelling modes shortcuts
         defineAbrMode(CodeMirror, "abr-spellcheck-off", {
             name: "gfm",
-            highlightFormatting: true
+            highlightFormatting: true,
+            allowAtxHeaderWithoutSpace: true
         });
         defineAbrMode(CodeMirror, "abr-spellcheck-on", "spellchecker");
 

@@ -36,7 +36,8 @@ function initSpellcheck (CodeMirror) {
         	},
             mode = CodeMirror.getMode(config, {
                 name: "gfm",
-                highlightFormatting: true
+                highlightFormatting: true,
+                allowAtxHeaderWithoutSpace: true
             });
         return CodeMirror.overlayMode(mode, overlay, true);
     });
