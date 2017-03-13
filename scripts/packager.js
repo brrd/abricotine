@@ -30,12 +30,12 @@ var options = {
         name: pkg.name,
         platform: commander.platform || process.platform,
         arch: commander.arch || process.arch,
-        version: semver.clean(pkg.dependencies["electron-prebuilt"]),
+        version: semver.clean(pkg.dependencies["electron"]),
         "app-version": pkg.version,
         icon: icoPath,
         out: outputPath,
         overwrite: true,
-        ignore: ["/node_modules/electron-prebuilt($|/)", "/node_modules/electron-packager($|/)", "/\.git($|/)", "/\.bin($|/)", "/node_modules/bower($|/)", "/node_modules/electron-rebuild($|/)", "/node_modules/commander($|/)", "^/dist($|/)"],
+        ignore: ["/node_modules/electron-prebuilt($|/)", "/node_modules/electron($|/)", "/node_modules/electron-packager($|/)", "/\.git($|/)", "/\.bin($|/)", "/node_modules/bower($|/)", "/node_modules/electron-rebuild($|/)", "/node_modules/commander($|/)", "^/dist($|/)"],
         prune: true,
         asar: {
             unpackDir: "default"
