@@ -71,6 +71,6 @@
     "electron-installer-debian": "^0.4.0"
   },
   "abricotine": {
-    "schema": 3
+    "schema": 4
   }
 }
