@@ -30,7 +30,7 @@ var options = {
         name: pkg.name,
         platform: commander.platform || process.platform,
         arch: commander.arch || process.arch,
-        version: semver.clean(pkg.dependencies["electron"]),
+        version: semver.clean(pkg.dependencies.electron),
         "app-version": pkg.version,
         icon: icoPath,
         out: outputPath,
