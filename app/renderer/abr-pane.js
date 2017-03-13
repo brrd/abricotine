@@ -48,6 +48,8 @@ function AbrPane (abrDoc) {
     var cm = abrDoc.cm;
 
     // Init UI
+    $("#pane-title").text(abrDoc.localizer.get("pane-table-of-contents"));
+
     $("#pane").on("click", "li", function () {
         var index = parseInt($(this).attr("data-abricotine-header-index")),
             line = that.lineNumbers[index],

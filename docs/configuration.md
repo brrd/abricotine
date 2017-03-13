@@ -48,6 +48,12 @@ Example:
 
 HTML, CSS, Javascript, XML and [C-like](http://codemirror.net/mode/clike/index.html) languages are supported regardless of this option.
 
+### `lang`
+
+Sets the user interface language. By default, this value is `null`, which means that Abricotine will try to match your OS language and fall back to English if it is not available among [supported languages](https://github.com/brrd/Abricotine/tree/master/default/lang).
+
+You can add your own translations in the `lang` subdirectory of Abricotine configuration folder. Feel free to commit your translations, contributions are welcome!
+
 ### `preview-template`
 
 The name of the template to use when previewing document in the browser.

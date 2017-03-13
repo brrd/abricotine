@@ -10,7 +10,7 @@
   "bugs": {
     "url": "https://github.com/brrd/Abricotine/issues"
   },
-  "version": "0.4.0",
+  "version": "0.5.0",
   "keywords": [
     "markdown",
     "text",
@@ -33,9 +33,11 @@
   "dependencies": {
     "@shagstrom/split-pane": "^0.9.2",
     "celldown.js": "latest",
-    "codemirror": "^5.15.2",
+    "chokidar": "^1.6.1",
+    "codemirror": "^5.24.2",
     "deep-equal": "^1.0.1",
-    "electron-prebuilt": "^1.2.3",
+    "deep-extend": "^0.4.1",
+    "electron": "^1.6.2",
     "electron-squirrel-startup": "^1.0.0",
     "electron-window-state": "^3.0.3",
     "font-awesome": "^4.5.0",
@@ -60,8 +62,8 @@
   "devDependencies": {
     "commander": "^2.9.0",
     "electron-packager": "^8.1.0",
-    "electron-rebuild": "^1.1.5",
-    "electron-winstaller": "^2.3.4",
+    "electron-rebuild": "^1.5.7",
+    "electron-winstaller": "^2.5.2",
     "pretty-ms": "^2.1.0",
     "semver": "^5.2.0"
   },
@@ -69,6 +71,6 @@
     "electron-installer-debian": "^0.4.0"
   },
   "abricotine": {
-    "schema": 3
+    "schema": 4
   }
 }

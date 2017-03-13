@@ -5,7 +5,6 @@
 */
 
 var app = require("electron").app,
-    dialogs = require("./dialogs.js"),
     constants = require("./constants.js"),
     shell = require("electron").shell;
 
@@ -16,7 +15,7 @@ var commands = {
     },
 
     open: function (abrApp) {
-        var path = dialogs.askOpenPath();
+        var path = abrApp.dialogs.askOpenPath();
         if (!path) {
             return false;
         }
@@ -38,7 +37,7 @@ var commands = {
     },
 
     about: function (abrApp) {
-        dialogs.about();
+        abrApp.dialogs.about();
     },
 
     homepage: function (win, abrDoc, cm) {

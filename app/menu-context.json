@@ -1,11 +1,11 @@
 [
     {
-        "label": "Undo",
+        "labelKey": "menu-undo",
         "accelerator": "CmdOrCtrl+Z",
         "role": "undo"
     },
     {
-        "label": "Redo",
+        "labelKey": "menu-redo",
         "accelerator": "CmdOrCtrl+Y",
         "role": "redo"
     },
@@ -13,22 +13,22 @@
         "type": "separator"
     },
     {
-        "label": "Cut",
+        "labelKey": "menu-cut",
         "role": "cut"
     },
     {
-        "label": "Copy",
+        "labelKey": "menu-copy",
         "role": "copy"
     },
     {
-        "label": "Paste",
+        "labelKey": "menu-paste",
         "role": "paste"
     },
     {
         "type": "separator"
     },
     {
-        "label": "Select All",
+        "labelKey": "menu-selectAll",
         "accelerator": "CmdOrCtrl+A",
         "role": "selectall"
     }

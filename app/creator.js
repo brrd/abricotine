@@ -7,6 +7,7 @@
 var constants = require.main.require("./constants.js"),
     dialog = require("electron").dialog,
     files = require.main.require("./files.js"),
+    Localizer = require.main.require("./localize.js"),
     pathModule = require("path"),
     pkg = require("../package.json");
 
@@ -43,7 +44,14 @@ creator.create = function () {
             }
         }),
         new Promise (function (resolve, reject) {
-            // Copy default templates
+            if (!files.dirExists(constants.path.languages)) {
+                files.copyLocalDir(pathModule.join(constants.path.defaultDir, "/lang"), constants.path.languages, resolve);
+            } else {
+                resolve();
+            }
+        }),
+        new Promise (function (resolve, reject) {
+            // Copy default template
             if (!files.dirExists(constants.path.templatesDir)) {
                 files.copyLocalDir(pathModule.join(constants.path.defaultDir, "/templates"), constants.path.templatesDir, resolve);
             } else {
@@ -77,12 +85,16 @@ creator.reset = function () {
 };
 
 function askForReset (callback) {
+    //TODO use Localizer from AbrApplication
+    var localizer = new Localizer();
+
     var userChoice = dialog.showMessageBox({
-        title: "Abricotine - Configuration update",
-        message: "The current configuration is deprecated and need to be updated. Do you want to reset Abricotine configuration? \n\nWARNING: Your previous configuration (including custom templates and dictonaries) will be lost.",
+        title: localizer.get("reset-dialog"),
+        message: localizer.get("reset-dialog-message"),
         type: "question",
-        buttons: ["No", "Yes (recommended)"],
-        defaultId: 1
+        buttons: [localizer.get("button-no"), localizer.get("button-yes-recommended")],
+        defaultId: 1,
+        noLink: true
     });
     if (userChoice === 1) {
         creator.reset().then(callback);

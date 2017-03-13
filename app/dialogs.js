@@ -1,17 +1,18 @@
 /*
-*   Abricotine - Markdown Editor
-*   Copyright (c) 2015 Thomas Brouard
-*   Licensed under GNU-GPLv3 <http://www.gnu.org/licenses/gpl.html>
-*/
+ *   Abricotine - Markdown Editor
+ *   Copyright (c) 2015 Thomas Brouard
+ *   Licensed under GNU-GPLv3 <http://www.gnu.org/licenses/gpl.html>
+ */
 
 var BrowserWindow = require("electron").BrowserWindow,
     constants = require.main.require("./constants.js"),
     dialog = require("electron").dialog,
+    Localizer = require("./localize.js"),
     NativeImage = require("electron").nativeImage,
     parsePath = require("parse-filepath");
 
 // Returns the most "logical" window object (it is quite useless actually)
-function getWindow (win) {
+function getWindow(win) {
     if (typeof win === "number") {
         return BrowserWindow.fromId(win);
     } else if (win instanceof BrowserWindow) {
@@ -23,52 +24,74 @@ function getWindow (win) {
     }
 }
 
-var appDialogs = {
+function Dialogs (localizer, win, dirpath) {
+    this.localizer = localizer || new Localizer();
+    this.win = getWindow(win);
+    this.setDir(dirpath);
+}
 
-    about: function (win) {
-        win = getWindow(win);
+Dialogs.prototype = {
+
+    // Set the current doc dir path, otherwise use "My Documents" path
+    setDir: function (dirpath) {
+        this.dir = dirpath || constants.path.documents;
+    },
+
+    about: function () {
         var image = NativeImage.createFromPath(constants.path.icon),
             options = {
-                title: "About",
-                message: "ABRICOTINE - MARKDOWN EDITOR (v. " + constants.appVersion + ")\n\nCopyright (c) 2015 Thomas Brouard\n\nThis program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.\n\nThis program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.\n\nYou should have received a copy of the GNU General Public License along with this program. If not, see <http://www.gnu.org/licenses/>.",
-                buttons: ['OK'],
-                icon: image
+                title: this.localizer.get("about-title"),
+                message: this.localizer.get("about-message", [constants.appVersion]),
+                buttons: [this.localizer.get('button-ok')],
+                icon: image,
+                noLink: true
             };
-        if (win) {
-            dialog.showMessageBox(win, options);
+        if (this.win) {
+            dialog.showMessageBox(this.win, options);
         } else {
             dialog.showMessageBox(options);
         }
     },
 
-    askClose: function (path, saveFunc, closeFunc, win) {
+    askClose: function (path, saveFunc, closeFunc) {
         if (!path) {
-            path = 'New document';
+            path = this.localizer.get('new-document');
         }
-        win = getWindow(win);
         var filename = parsePath(path).basename || path,
-            userChoice = dialog.showMessageBox(win, {
-                title: 'Unsaved document',
-                message: 'Do you really want to close \'' + filename + '\' without saving?',
-                buttons: ['Cancel', 'Save and close', 'Close without saving']
+            userChoice = dialog.showMessageBox(this.win, {
+                title: this.localizer.get('confirm-close-title'),
+                message: this.localizer.get('confirm-close-message', [filename]),
+                buttons: [this.localizer.get('button-cancel'), this.localizer.get('confirm-close-without-saving'), this.localizer.get('confirm-save-and-close')],
+                defaultId: 2,
+                noLink: true
             });
         switch (userChoice) {
             case 1:
-                saveFunc(closeFunc);
+                closeFunc();
                 break;
             case 2:
-                closeFunc();
+                saveFunc(closeFunc);
                 break;
         }
         return false;
     },
 
-    askOpenPath: function (title, win) {
-        win = getWindow(win);
-        var path = dialog.showOpenDialog(win, {
-            title: title || 'Open document',
+    askFileReload: function (path, callback) {
+        var userChoice = dialog.showMessageBox(this.win, {
+            title: this.localizer.get("changed-file"),
+            message: this.localizer.get("changed-file-message", [path]),
+            buttons: [this.localizer.get("button-yes"), this.localizer.get("button-no")],
+            defaultId: 0,
+            noLink: true
+        });
+        callback(userChoice === 0);
+    },
+
+    askOpenPath: function (title) {
+        var path = dialog.showOpenDialog(this.win, {
+            title: title || this.localizer.get('dialog-open'),
             properties: ['openFile'],
-            defaultPath: process.cwd()
+            defaultPath: this.dir
         });
         if (path) {
             return path[0];
@@ -76,11 +99,10 @@ var appDialogs = {
         return false;
     },
 
-    askSavePath: function (title, win) {
-        win = getWindow(win);
-        var path = dialog.showSaveDialog(win, {
-            title: title || 'Save document',
-            defaultPath: process.cwd()
+    askSavePath: function (title) {
+        var path = dialog.showSaveDialog(this.win, {
+            title: title || this.localizer.get('dialog-save'),
+            defaultPath: this.dir
         });
         if (path) {
             return path;
@@ -88,13 +110,15 @@ var appDialogs = {
         return false;
     },
 
-    askOpenImage: function (title, win) {
-        win = getWindow(win);
-        var path = dialog.showOpenDialog(win, {
-            title: title || 'Insert image',
+    askOpenImage: function (title) {
+        var path = dialog.showOpenDialog(this.win, {
+            title: title || this.localizer.get('insert-image'),
             properties: ['openFile'],
-            filters: [{ name: 'Images', extensions: ['jpg', 'jpeg', 'png', 'gif', 'svg'] }],
-            defaultPath: process.cwd()
+            filters: [{
+                name: this.localizer.get('insert-image-filter'),
+                extensions: ['jpg', 'jpeg', 'png', 'gif', 'svg']
+            }],
+            defaultPath: this.dir
         });
         if (path) {
             return path[0];
@@ -102,25 +126,27 @@ var appDialogs = {
         return false;
     },
 
-    askNeedSave: function (abrDoc, callback, win) {
-        win = getWindow(win);
-        var userChoice = dialog.showMessageBox(win, {
-                title: 'Save document',
-                message: 'The current document needs to be saved before performing this operation.',
-                buttons: ['Cancel', 'Save document']
-            });
+    askNeedSave: function (abrDoc, callback) {
+        var userChoice = dialog.showMessageBox(this.win, {
+            title: this.localizer.get('dialog-save'),
+            message: this.localizer.get('dialog-save-message'),
+            buttons: [this.localizer.get('button-cancel'), this.localizer.get('button-save')],
+            defaultId: 1,
+            noLink: true
+        });
         if (userChoice === 1) {
             abrDoc.save(null, callback);
         }
         return false;
     },
 
-    fileAccessDenied: function (path, callback, win) {
-        win = getWindow(win);
-        var userChoice = dialog.showMessageBox(win, {
-            title: "Permission denied",
-            message: "The file '" + path + "' could not be written: permission denied. Please choose another path.",
-            buttons: ['Cancel', 'OK']
+    fileAccessDenied: function (path, callback) {
+        var userChoice = dialog.showMessageBox(this.win, {
+            title: this.localizer.get("permission-denied"),
+            message: this.localizer.get("permission-denied-message", [path]),
+            buttons: [this.localizer.get('button-cancel'), this.localizer.get('button-ok')],
+            defaultId: 1,
+            noLink: true
         });
         if (userChoice === 1) {
             callback();
@@ -128,14 +154,25 @@ var appDialogs = {
         return false;
     },
 
-    importImagesDone: function (path, win) {
-        win = getWindow(win);
-        dialog.showMessageBox(win, {
-            title: "Images copied",
-            message: "Document images have been copied in the '" + path + "' directory.",
-            buttons: ['OK']
+    importImagesDone: function (path) {
+        dialog.showMessageBox(this.win, {
+            title: this.localizer.get("images-copied"),
+            message: this.localizer.get("images-copied-message", [path]),
+            buttons: [this.localizer.get('button-ok')],
+            noLink: true
         });
+    },
+
+    warnFileDeleted: function (path, callback) {
+        var userChoice = dialog.showMessageBox(this.win, {
+            title: this.localizer.get("file-deleted"),
+            message: this.localizer.get("file-deleted-message", [path]),
+            buttons: [this.localizer.get("button-yes"), this.localizer.get("button-no")],
+            defaultId: 0,
+            noLink: true
+        });
+        callback(userChoice === 0);
     }
 };
 
-module.exports = appDialogs;
+module.exports = Dialogs;

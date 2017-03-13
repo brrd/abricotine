@@ -6,6 +6,21 @@
         "anchor": true,
         "math": true
     },
+    "autopreview-domains": [
+        "dailymotion.com",
+        "deezer.com",
+        "dribbble.com",
+        "facebook.com",
+        "github.com",
+        "google.com",
+        "instagram.com",
+        "pinterest.com",
+        "soundcloud.com",
+        "spotify.com",
+        "twitter.com",
+        "vimeo.com",
+        "youtube.com"
+    ],
     "autopreview-security": true,
     "editor": {
         "font-size": "16px"

@@ -252,6 +252,7 @@ var commands = {
     showMenuBar: function(win, abrDoc, cm) {
         var flag = win.isMenuBarAutoHide();
         win.setAutoHideMenuBar(!flag);
+        win.setMenuBarVisibility(flag);
         abrDoc.setConfig("window:showMenuBar", flag);
     },
 

@@ -8,12 +8,21 @@ var AbrMenu = require.main.require("./abr-menu.js"),
     AbrWindow = require.main.require("./abr-window.js"),
     BrowserWindow = require("electron").BrowserWindow,
     commands = require.main.require("./commands-main.js"),
+    createConfig = require.main.require("./config.js"),
+    Dialogs = require.main.require("./dialogs.js"),
     files = require.main.require("./files.js"),
     ipcServer = require.main.require("./ipc-server.js"),
+    Localizer = require("./localize.js"),
     menuTemplate = require.main.require("./menu-window.json"),
     parsePath = require("parse-filepath");
 
 function AbrApplication (osxOpenFilePaths) {
+    // Config
+    this.config = createConfig();
+    // Localizer
+    this.localizer = new Localizer(this.config.get("lang"));
+    // Dialogs
+    this.dialogs = new Dialogs(this.localizer);
     // Windows reference
     this.windows = [];
     // IPC get & set
@@ -44,10 +53,11 @@ AbrApplication.prototype = {
 
     // trigger
     setConfig: function (args, winId, callback) {
-        var abrWin = this.getFocusedAbrWindow(winId);
-        if (!abrWin || typeof args.key === "undefined" || typeof args.value === "undefined") {
+        if (typeof args.key === "undefined" || typeof args.value === "undefined") {
             return;
         }
+        var abrWin = this.getFocusedAbrWindow(winId),
+            config = abrWin ? abrWin.config : this.config;
         // Update window menu if needed (args.menu indicates the menu id)
         if (args.menu && typeof args.value === "boolean") {
             var menuItem = abrWin.menu.findItem(args.menu);
@@ -55,10 +65,10 @@ AbrApplication.prototype = {
                 menuItem.checked = args.value;
             }
         }
-        // Set window config
-        abrWin.config.set(args.key, args.value);
+        // Set config
+        config.set(args.key, args.value);
         // Save the config each time it is modified, so the next opened window would get the latest config
-        abrWin.config.save(function (err) {
+        config.save(function (err) {
             if (typeof callback === "function") {
                 callback(err);
             }
@@ -67,11 +77,9 @@ AbrApplication.prototype = {
 
     // trigger
     getConfig: function (arg, winId, callback) {
-        var abrWin = this.getFocusedAbrWindow(winId);
-        if (!abrWin) {
-            return;
-        }
-        var res = abrWin.config.get(arg);
+        var abrWin = this.getFocusedAbrWindow(winId),
+            config = abrWin ? abrWin.config : this.config,
+            res = config.get(arg);
         if (typeof callback === "function") {
             callback(res);
         } else {

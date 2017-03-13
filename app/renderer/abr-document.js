@@ -9,16 +9,17 @@ var remote = require("electron").remote,
     cmInit = require.main.require("./cm-init.js"),
     commands = require.main.require("./commands.js"),
     constants = remote.require("./constants.js"),
-    dialogs = remote.require("./dialogs.js"),
+    Dialogs = remote.require("./dialogs.js"),
     imageImport = require.main.require("./image-import.js"),
     IpcClient = require.main.require("./ipc-client.js"),
     exportHtml = require.main.require("./export-html.js"),
     files = remote.require("./files.js"),
     loadTheme = require.main.require("./load-theme.js"),
+    Localizer = remote.require("./localize.js"),
     parsePath = require("parse-filepath"),
     pathModule = require("path"),
     shell = require("electron").shell,
-    spellchecker = require('spellchecker');
+    spellchecker = require("spellchecker");
 
 function AbrDocument () {
     var that = this;
@@ -46,22 +47,31 @@ function AbrDocument () {
             that.execCommand(commandName);
         });
 
-        // Init pane
-        that.pane = new AbrPane(that);
-
-        // Check if there is a doc to load
-        ipcClient.trigger("getPathToLoad", undefined, function (path) {
-            if (path) {
-                files.readFile(path, function (data, path) {
-                    that.clear(data, path);
-                });
-            } else {
-                that.clear();
-            }
-        });
-
         // Load config and perform related operations
         that.getConfig(undefined, function (config) {
+            // Localizer
+            that.localizer = new Localizer(config.lang);
+
+            // Dialogs
+            var dirpath = that.path ? parsePath(that.path).dirname : null;
+            that.dialogs = new Dialogs(that.localizer, remote.getCurrentWindow(), dirpath);
+
+            // Init pane
+            that.pane = new AbrPane(that);
+
+            // Check if there is a doc to load
+            ipcClient.trigger("getPathToLoad", undefined, function (path) {
+                if (path) {
+                    files.readFile(path, function (data, path) {
+                        that.clear(data, path);
+                        // Watch the file in case it is modified or deleted by another program
+                        that.startWatcher();
+                    });
+                } else {
+                    that.clear();
+                }
+            });
+
             // Autopreview init
             that.cm.setOption("autopreviewAllowedDomains", config["autopreview-domains"]);
             that.cm.setOption("autopreviewSecurity", config["autopreview-security"]);
@@ -178,7 +188,7 @@ function AbrDocument () {
                     closeFunc = function () {
                         win.destroy();
                     };
-                dialogs.askClose(that.path, saveFunc, closeFunc);
+                that.dialogs.askClose(that.path, saveFunc, closeFunc);
             }
         };
     });
@@ -188,8 +198,8 @@ AbrDocument.prototype = {
 
     // Clear editor
     clear: function (value, path) {
-        value = value || '';
-        path = path || '';
+        value = value || "";
+        path = path || "";
         this.setPath(path); // Must be done before everything else because it sets process.chdir
         this.cm.doc.setValue(value);
         this.cm.doc.clearHistory();
@@ -207,19 +217,23 @@ AbrDocument.prototype = {
                 that.clear();
             };
         if (!force && !this.isClean()) {
-            dialogs.askClose(that.path, saveFunc, closeFunc);
+            that.dialogs.askClose(that.path, saveFunc, closeFunc);
         } else {
             closeFunc();
+        }
+        if (this.watcher) {
+            this.watcher.close();
         }
     },
 
     // Path
     setPath: function (path) {
-        this.path = path || '';
+        this.path = path || "";
         if (this.path) {
             var dir = parsePath(this.path).dirname;
             if (dir) {
                 process.chdir(dir);
+                this.dialogs.setDir(dir);
             }
         }
     },
@@ -257,6 +271,10 @@ AbrDocument.prototype = {
         this.latestGeneration = this.getGeneration();
     },
 
+    setDirty: function () {
+        this.latestGeneration = -1;
+    },
+
     isClean: function () {
         return this.cm.doc.isClean(this.latestGeneration);
     },
@@ -274,7 +292,8 @@ AbrDocument.prototype = {
             dir = parsedPath.dirname || process.cwd();
             title = parsedPath.basename + " - " + dir + " - " + appName;
         } else {
-            title = "New document - " + appName;
+            var newDocument = this.localizer.get("new-document");
+            title = newDocument + " - " + appName;
         }
         if (!isClean) {
             title = saveSymbol + title;
@@ -291,7 +310,7 @@ AbrDocument.prototype = {
     },
 
     open: function (path) {
-        path = path || dialogs.askOpenPath();
+        path = path || this.dialogs.askOpenPath();
         if (!path) {
             return false;
         }
@@ -299,6 +318,7 @@ AbrDocument.prototype = {
         if (!this.path && this.isClean()) {
             files.readFile(path, function (data, path) {
                 that.clear(data, path);
+                that.startWatcher();
             });
             return this.ipcClient.trigger("setWinPath", path);
         } else {
@@ -307,7 +327,7 @@ AbrDocument.prototype = {
     },
 
     openNewWindow: function (path) {
-        path = path || dialogs.askOpenPath();
+        path = path || this.dialogs.askOpenPath();
         if (!path) {
             return false;
         }
@@ -319,27 +339,33 @@ AbrDocument.prototype = {
         if (!path) {
             return this.saveAs(callback);
         }
+        // Pause the watcher to avoid triggering callbacks after saving the document
+        this.pauseWatcher();
         var that = this,
-            data = this.getData(),
-            callback2 = function (err) {
-                if (err) {
-                    return dialogs.fileAccessDenied(path, function () {
-                        that.saveAs(callback);
-                    });
-                }
-                that.setClean();
-                that.setPath(path);
-                that.ipcClient.trigger("setWinPath", path);
-                that.updateWindowTitle();
-                if (typeof callback === "function") {
-                    callback();
-                }
-            };
-        return files.writeFile(data, path, callback2);
+            data = this.getData();
+        files.writeFile(data, path, function (err) {
+            if (err) {
+                // Restart the watcher here in case the user discards the next message
+                that.startWatcher();
+                return that.dialogs.fileAccessDenied(path, function () {
+                    that.saveAs(callback);
+                });
+            }
+            that.setClean();
+            that.setPath(path);
+            that.ipcClient.trigger("setWinPath", path);
+            that.updateWindowTitle();
+            if (typeof callback === "function") {
+                callback();
+            }
+            // Resume file watcher
+            that.startWatcher();
+        });
+        return true;
     },
 
     saveAs: function (callback) {
-        var path = dialogs.askSavePath();
+        var path = this.dialogs.askSavePath();
         if (!path) {
             return false;
         }
@@ -348,6 +374,94 @@ AbrDocument.prototype = {
             path += ".md";
         }
         return this.save(path, callback);
+    },
+
+    initWatcher: function () {
+        var that = this;
+        // All dialogs should be displayed only if the window is focused.
+        var runOnFocus = function (fn, path) {
+            var win = remote.getCurrentWindow();
+            if (win.isFocused()) {
+                fn(path);
+            } else {
+                win.once('focus', function () {
+                    fn(path);
+                });
+            }
+        };
+        var handleAsyncFileChange = function (path) {
+            // This can be called asynchronously, so other changes could
+            // happen before the window is focused.
+            if (files.fileExists(path)) {
+                that.dialogs.askFileReload(path, function (reloadRequired) {
+                    if (reloadRequired) {
+                        files.readFile(path, function (data, path) {
+                            that.clear(data, path);
+                            that.startWatcher();
+                        });
+                    } else {
+                        // The previous document is dropped from the editor.
+                        // The watcher will resume on save.
+                        that.setDirty();
+                        that.updateWindowTitle();
+                    }
+                });
+            } else {
+                that.dialogs.warnFileDeleted(path, function (keepFile) {
+                    if (keepFile) {
+                        that.setDirty();
+                        that.updateWindowTitle();
+                        that.startWatcher();
+                    } else {
+                        that.clear();
+                    }
+                });
+            }
+        };
+        this.watcher = files.createWatcher(this.path, {
+            change: function (path) {
+                // Pause the watcher to avoid triggering multiple warning dialogs
+                // while the first one is being handled.
+                that.pauseWatcher();
+                runOnFocus(handleAsyncFileChange, path);
+            },
+            unlink: function (path) {
+                that.pauseWatcher();
+                runOnFocus(handleAsyncFileChange, path);
+            },
+            error: function (err) {
+                console.error('Watcher error', err);
+            }
+        });
+    },
+
+    startWatcher: function () {
+        if (!this.path) {
+            return;
+        }
+        if (this.watcher) {
+            // Should not watch more than one file at a time.
+            var paths = this.watcher.getWatched();
+            if (paths.length > 0 && paths[0] != this.path) {
+                this.watcher.unwatch(paths[0]);
+            }
+            this.watcher.add(this.path);
+        } else {
+            this.initWatcher();
+        }
+    },
+
+    pauseWatcher: function () {
+        if (this.watcher && this.path) {
+            this.watcher.unwatch(this.path);
+        }
+    },
+
+    stopWatcher: function () {
+        if (this.watcher) {
+            this.watcher.close();
+            this.watcher = null;
+        }
     },
 
     loadTheme: function (themeName) {
@@ -361,7 +475,7 @@ AbrDocument.prototype = {
 
     // Images
     insertImage: function (path) {
-        path = path || dialogs.askOpenImage();
+        path = path || this.dialogs.askOpenImage();
         if (!path) {
             return false;
         }
@@ -378,7 +492,7 @@ AbrDocument.prototype = {
         var that = this;
         exportHtml(this, template, null, function (err, path) {
             if (err) {
-                return dialogs.fileAccessDenied(path, function () {
+                return that.dialogs.fileAccessDenied(path, function () {
                     that.exportHtml(template);
                 });
             }
@@ -525,9 +639,9 @@ AbrDocument.prototype = {
     // Config
     setConfig: function (key, value, callback) {
         var args = {
-                key: key,
-                value: value
-            };
+            key: key,
+            value: value
+        };
         this.ipcClient.trigger("setConfig", args, callback);
     },
 
@@ -537,7 +651,7 @@ AbrDocument.prototype = {
 
     // About
     about: function () {
-        dialogs.about();
+        this.dialogs.about();
     }
 };
 
