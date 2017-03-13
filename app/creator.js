@@ -93,7 +93,8 @@ function askForReset (callback) {
         message: localizer.get("reset-dialog-message"),
         type: "question",
         buttons: [localizer.get("button-no"), localizer.get("button-yes-recommended")],
-        defaultId: 1
+        defaultId: 1,
+        noLink: true
     });
     if (userChoice === 1) {
         creator.reset().then(callback);
