@@ -1,0 +1,7 @@
+{
+    "name": "Github",
+    "label": "Github template",
+    "author": "Thomas Brouard",
+    "description": "Created from Sindre Sorhus github-markdown-css (MIT): http://sindresorhus.com/github-markdown-css",
+    "license": "MIT"
+}
