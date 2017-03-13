@@ -64,7 +64,7 @@ function autopreview (cm, line, types) {
     var doc = cm.doc,
         config = {
             image: {
-                regex: /!\[([^\]]*)\]\(([\(\)\[\]-a-zA-Z0-9@:%_\+~#=\.\\\/ ]+\.(jpg|jpeg|png|gif|svg))(\s("|')([-a-zA-Z0-9@:%_\+~#=\.\/! ]*)("|')\s?)?\)/gi,
+                regex: /!\[(.*)\]\((.+\.(jpg|jpeg|png|gif|svg))(\s("|')(.*)("|')\s?)?\)/gi,
                 createElement: function (match) {
                     function getImageUrl (href) {
                         if (isUrl(href)) {
