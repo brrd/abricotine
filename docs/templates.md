@@ -54,7 +54,3 @@ Your template may contain an `assets` subdirectory to store the custom CSS and j
 ```html
 <link rel="stylesheet" type="text/css" href="$ASSETS_PATH/my_styles.css">
 ```
-
-## Finding templates
-
-You can find new templates and share your own creations [on the dedicated repository](https://github.com/brrd/Abricotine-templates).
