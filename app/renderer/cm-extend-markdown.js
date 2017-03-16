@@ -147,7 +147,7 @@ function toggle (type) {
             },
             'todolist': {
                 re: /^(\s*)(\*|\-|\+)\s+\[( |x)?\]\s+/,
-                prepend: '* [ ] '
+                prepend: '- [ ] '
             },
             'h1': {
                 re: /^(\s*)#\s+/,
