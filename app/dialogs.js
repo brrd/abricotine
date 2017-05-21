@@ -9,7 +9,8 @@ var BrowserWindow = require("electron").BrowserWindow,
     dialog = require("electron").dialog,
     Localizer = require("./localize.js"),
     NativeImage = require("electron").nativeImage,
-    parsePath = require("parse-filepath");
+    parsePath = require("parse-filepath"),
+    pathModule = require("path");
 
 // Returns the most "logical" window object (it is quite useless actually)
 function getWindow(win) {
@@ -99,10 +100,10 @@ Dialogs.prototype = {
         return false;
     },
 
-    askSavePath: function (title) {
+    askSavePath: function (title, docTitle = '') {
         var path = dialog.showSaveDialog(this.win, {
             title: title || this.localizer.get('dialog-save'),
-            defaultPath: this.dir
+            defaultPath: pathModule.join(this.dir, docTitle)
         });
         if (path) {
             return path;

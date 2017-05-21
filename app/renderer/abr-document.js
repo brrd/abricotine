@@ -19,7 +19,8 @@ var remote = require("electron").remote,
     parsePath = require("parse-filepath"),
     pathModule = require("path"),
     shell = require("electron").shell,
-    spellchecker = require("spellchecker");
+    spellchecker = require("spellchecker"),
+    os = require("os");
 
 function AbrDocument () {
     var that = this;
@@ -243,6 +244,25 @@ AbrDocument.prototype = {
         return this.cm.doc.getValue();
     },
 
+    getTitleSuggestion: function() {
+        var eol = JSON.stringify(os.EOL);
+        var data = this.cm.doc.getValue(eol);
+
+        if (data.length < 1) {
+          return "";
+        }
+
+        var firstLine = data.split(eol)[0];
+        console.log(firstLine);
+        var match = firstLine.match(/[\w\s-]+/ig);
+        var suggestion = match[0].trim();
+
+        if (suggestion) {
+          suggestion = suggestion.toLowerCase().replace(' ', '-');
+          return `${suggestion}.md`;
+        }
+    },
+
     setData: function (data) {
         return this.cm.doc.setValue(data);
     },
@@ -365,7 +385,8 @@ AbrDocument.prototype = {
     },
 
     saveAs: function (callback) {
-        var path = this.dialogs.askSavePath();
+        var docTitle = this.getTitleSuggestion();
+        var path = this.dialogs.askSavePath(null, docTitle);
         if (!path) {
             return false;
         }
