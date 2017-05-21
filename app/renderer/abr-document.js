@@ -260,23 +260,25 @@ AbrDocument.prototype = {
           return "";
         }
 
-        data = data.split(os.EOL);
+        var lines = data.split(os.EOL);
+        var filename = /[\w][\w\s-]*/;
+        var filenameCapture = /([\w][\w\s-]*)/; // Captures are expensive, so use it only if required
+        var specialChar = /[^\w\s-]/g;
 
-        // Loop through lines
-        for (var i = 0; i < data.length; i++) {
-          var line = data[i].trim().replace(/[^\w\s]/ig, '');
-          // Find file-name-appropriate text in line.
-          // Must start with a-z or 0-9, and contain
-          // only alphanumeric, space, and '-'
-          var match = line.match(/[\w][\w\s-]+/ig);
+        var titleLine = lines.find((line) => filename.test(line)); // Find first interesting line
 
-          if (match !== null) {
-            var suggestion = match[0].trim()
-                .toLowerCase()
-                .replace(/\s/g, '-');
-            return `${suggestion}.md`;
-          }
+        if (typeof titleLine === "undefined") {
+          // No appropriate line
+          return "";
         }
+
+        var match = titleLine.trim()
+            .replace(specialChar, '')
+            .match(filenameCapture);
+        var suggestion = match[0].trim()
+            .toLowerCase()
+            .replace(/\s/g, '_');
+        return `${suggestion}.md`;
     },
 
     // Exec commands
