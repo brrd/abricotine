@@ -247,19 +247,23 @@ AbrDocument.prototype = {
     getTitleSuggestion: function() {
         var eol = JSON.stringify(os.EOL);
         var data = this.cm.doc.getValue(eol);
+        var lines = data.split(eol);
 
-        if (data.length < 1) {
+        if (lines.length < 1) {
           return "";
         }
 
-        var firstLine = data.split(eol)[0];
-        console.log(firstLine);
-        var match = firstLine.match(/[\w\s-]+/ig);
-        var suggestion = match[0].trim();
-
-        if (suggestion) {
-          suggestion = suggestion.toLowerCase().replace(' ', '-');
-          return `${suggestion}.md`;
+        for (var i = 0; i < lines.length; i++) {
+          var line = lines[i].trim();
+          var match = line.match(/[\w\s-]+/ig);
+          
+          if (match !== null) {
+            var suggestion = match.sort((a, b) => b.length - a.length)[0];
+            var suggestion = suggestion.trim()
+                .toLowerCase()
+                .replace(' ', '-');
+            return `${suggestion}.md`;
+          }
         }
     },
 
