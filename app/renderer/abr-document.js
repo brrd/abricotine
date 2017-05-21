@@ -259,7 +259,7 @@ AbrDocument.prototype = {
           
           if (match !== null) {
             var suggestion = match.sort((a, b) => b.length - a.length)[0];
-            var suggestion = suggestion.trim()
+            suggestion = suggestion.trim()
                 .toLowerCase()
                 .replace(' ', '-');
             return `${suggestion}.md`;
