@@ -264,16 +264,16 @@ AbrDocument.prototype = {
 
         // Loop through lines
         for (var i = 0; i < data.length; i++) {
-          var line = data[i].trim();
-          // Find file-name-appropriate text in line
-          var match = line.match(/[\w\s-]+/ig);
+          var line = data[i].trim().replace(/[^\w\s]/ig, '');
+          // Find file-name-appropriate text in line.
+          // Must start with a-z or 0-9, and contain
+          // only alphanumeric, space, and '-'
+          var match = line.match(/[\w][\w\s-]+/ig);
 
           if (match !== null) {
-            // Get longest appropriate string of words
-            var suggestion = match.sort((a, b) => b.length - a.length)[0];
-            suggestion = suggestion.trim()
+            var suggestion = match[0].trim()
                 .toLowerCase()
-                .replace(' ', '-');
+                .replace(/\s/g, '-');
             return `${suggestion}.md`;
           }
         }
