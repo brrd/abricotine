@@ -244,20 +244,32 @@ AbrDocument.prototype = {
         return this.cm.doc.getValue();
     },
 
-    getTitleSuggestion: function() {
-        var eol = JSON.stringify(os.EOL);
-        var data = this.cm.doc.getValue(eol);
-        var lines = data.split(eol);
+    setData: function (data) {
+        return this.cm.doc.setValue(data);
+    },
 
-        if (lines.length < 1) {
+    clearData: function () {
+        return this.cm.doc.setValue("");
+    },
+
+    // Get document title suggestion for save-dialog
+    getTitleSuggestion: function() {
+        var data = this.getData();
+        if (data.trim().length < 1) {
+          // Document is empty
           return "";
         }
 
-        for (var i = 0; i < lines.length; i++) {
-          var line = lines[i].trim();
+        data = data.split(os.EOL);
+
+        // Loop through lines
+        for (var i = 0; i < data.length; i++) {
+          var line = data[i].trim();
+          // Find file-name-appropriate text in line
           var match = line.match(/[\w\s-]+/ig);
-          
+
           if (match !== null) {
+            // Get longest appropriate string of words
             var suggestion = match.sort((a, b) => b.length - a.length)[0];
             suggestion = suggestion.trim()
                 .toLowerCase()
@@ -265,14 +277,6 @@ AbrDocument.prototype = {
             return `${suggestion}.md`;
           }
         }
-    },
-
-    setData: function (data) {
-        return this.cm.doc.setValue(data);
-    },
-
-    clearData: function () {
-        return this.cm.doc.setValue("");
     },
 
     // Exec commands
