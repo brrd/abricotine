@@ -20,7 +20,6 @@ var remote = require("electron").remote,
     pathModule = require("path"),
     shell = require("electron").shell,
     spellchecker = require("spellchecker"),
-    os = require('os'),
     cp = require("child_process");
 
 function AbrDocument () {
@@ -298,19 +297,32 @@ AbrDocument.prototype = {
         var filenameCapture = /([\w][\w\s-]*)/; // Captures are expensive, so use it only if required
         var specialChar = /[^\w\s-]/g;
 
-        if (this.cm.doc.lineCount() < 1) {
+        if (this.getData().trim().length < 1) {
           return "";
         }
 
-        // Find first usable header or line
-        var titleLine = this.toc.find((header) => filename.test(header));
-        if (titleLine) {
-          var data = this.getData();
-          var lines = data.split(os.EOL);
-          titleLine = lines.find((line) => filename.test(line));
+        // Find first usable header
+        var titleHeader = this.toc.find((header) => filename.test(header.content));
+        var titleLine = null;
+
+        if (titleHeader == null) {
+          // There were no usable headers
+          // Check document text for usable lines
+
+          // Use a for loop instead of cm.doc.eachLine()
+          // so we can stop iterating when we have what we need
+          for (var i = 0; i < this.cm.doc.lineCount(); i++) {
+            var line = this.cm.doc.getLine(i);
+            if (filename.test(line)) {
+              titleLine = line;
+              break;
+            }
+          }
         }
 
-        if (!titleLine) {
+        titleLine = titleLine || titleHeader.content;
+
+        if (titleLine == null) {
           // There were no usable headers or lines in the document
           return "";
         }
