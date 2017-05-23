@@ -20,13 +20,20 @@ var remote = require("electron").remote,
     pathModule = require("path"),
     shell = require("electron").shell,
     spellchecker = require("spellchecker"),
-    os = require("os");
+    os = require('os'),
+    cp = require("child_process");
 
 function AbrDocument () {
     var that = this;
 
     // IPC init
     var ipcClient = this.ipcClient = new IpcClient();
+
+    // Start with an empty table of contents
+    var toc = this.toc = [];
+
+    // Run this in a background thread
+    var worker = cp.fork(__dirname + "/toc-worker.js");
 
     // Listener for commands sent by the menu
     this.commandsToTrigger = [];
@@ -87,6 +94,51 @@ function AbrDocument () {
             var fontSize = config.editor["font-size"] || "16px";
             that.setFontSize(fontSize);
 
+            // Events concerning AbrPane
+            that.cm.on("cursorActivity", function(cm) {
+              // Window title update
+              that.updateWindowTitle();
+              // Autopreview changed lines
+              that.runAutopreviewQueue();
+
+              // Trigger only if nothing changed
+              // (otherwise do it during the "changes" event)
+              if (that.pane.latestCursorUpdate == null ||
+                  that.getGeneration() === that.pane.latestCursorUpdate) {
+                  var cursorLine = cm.doc.getCursor().line;
+                  // Also dont trigger if cursor is still on the same line
+                  if (cursorLine === that.pane.currentCursorLine) return;
+                  that.pane.currentCursorLine = cursorLine;
+                  worker.send({
+                      cursorLine: cursorLine
+                  });
+              }
+            });
+
+            that.cm.on("changes", function(cm, changeObj) {
+              // Autopreview changed lines
+              that.runAutopreviewQueue();
+
+              var cursorLine = cm.doc.getCursor().line;
+              worker.send({
+                  text: cm.getValue(),
+                  cursorLine: cursorLine
+              });
+            })
+
+            worker.on("message", function(msg) {
+                if (msg.lineNumbers) {
+                    that.pane.setLineNumbers(msg.lineNumbers);
+                }
+                if (msg.toc) {
+                    that.toc = msg.toc;
+                    that.pane.setTocHtml(msg.toc);
+                }
+                if (msg.activeHeaderIndex != null) {
+                    that.pane.setActiveHeaderHtml(msg.activeHeaderIndex);
+                }
+            }, false);
+
             // Syntax highlighting
             var modes = config["highlight-modes"];
             if (!modes) return;
@@ -122,18 +174,6 @@ function AbrDocument () {
                     that.addToAutopreviewQueue(line);
                 }
             });
-        });
-
-        that.cm.on("cursorActivity", function (cm) {
-            // Autopreview changed lines
-            that.runAutopreviewQueue();
-        });
-
-        that.cm.on("changes", function (cm, changeObj) {
-            // Window title update
-            that.updateWindowTitle();
-            // Autopreview changed lines
-            that.runAutopreviewQueue();
         });
 
         that.cm.on("drop", function (cm, event) {
@@ -254,21 +294,24 @@ AbrDocument.prototype = {
 
     // Get document title suggestion for save-dialog
     getTitleSuggestion: function() {
-        var data = this.getData();
-        if (data.trim().length < 1) {
-          // Document is empty
-          return "";
-        }
-
-        var lines = data.split(os.EOL);
         var filename = /[\w][\w\s-]*/;
         var filenameCapture = /([\w][\w\s-]*)/; // Captures are expensive, so use it only if required
         var specialChar = /[^\w\s-]/g;
 
-        var titleLine = lines.find((line) => filename.test(line)); // Find first interesting line
+        if (this.cm.doc.lineCount() < 1) {
+          return "";
+        }
 
-        if (typeof titleLine === "undefined") {
-          // No appropriate line
+        // Find first usable header or line
+        var titleLine = this.toc.find((header) => filename.test(header));
+        if (titleLine) {
+          var data = this.getData();
+          var lines = data.split(os.EOL);
+          titleLine = lines.find((line) => filename.test(line));
+        }
+
+        if (!titleLine) {
+          // There were no usable headers or lines in the document
           return "";
         }
 
