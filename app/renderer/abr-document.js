@@ -291,49 +291,80 @@ AbrDocument.prototype = {
         return this.cm.doc.setValue("");
     },
 
-    // Get document title suggestion for save-dialog
-    getTitleSuggestion: function() {
-        var filename = /[\w][\w\s-]*/;
+    // Functions for title suggestion
+
+    // Examines table of contents for a suitable title
+    // Returns the first header or the first header that
+    // matches the given regexp.
+    getFirstHeader: function(regex) {
+        if (regex) {
+            var titleHeader = this.toc.find((header) => regex.test(header.content));
+            return titleHeader && titleHeader.content;
+        } else {
+          return this.toc[0] && this.toc[0].content;
+        }
+    },
+
+    // Examines the document content for a suitable title
+    // Returns the first line or the first line that matches the
+    // given regexp.
+    getFirstLine: function(regex) {
+        if (regex) {
+          var titleLine = '';
+          this.cm.doc.eachLine((lineHandle) => {
+            if (regex.test(lineHandle.text)) {
+              titleLine = lineHandle.text;
+              return false; // break of iterator
+            }
+          });
+
+          return titleLine;
+        } else {
+          return this.cm.doc.getLine(0);
+        }
+    },
+
+    // Normalizes the given string
+    //  * Throws out special character
+    //  * Finds the first filename-suitable substring
+    //  * Sends to lower case
+    //  * Replaces whitespaces with underscore (_)
+    getNormalizedTitleSuggestion: function(titleText) {
         var filenameCapture = /([\w][\w\s-]*)/; // Captures are expensive, so use it only if required
         var specialChar = /[^\w\s-]/g;
 
-        if (this.getData().trim().length < 1) {
-          return "";
+        // Capture filename-suitable text from line
+        var match = titleText.trim()
+            .replace(specialChar, '')
+            .match(filenameCapture);
+        if (match) {
+          // Since the method is public, don't assume the text matches
+          var suggestion = match[0].trim()
+              .toLowerCase()
+              .replace(/\s/g, '_');
+          return `${suggestion}.md`;
         }
+
+        return "";
+    },
+
+    getTitleSuggestion: function() {
+        var filename = /[\w][\w\s-]*/;
 
         // Find first usable header
-        var titleHeader = this.toc.find((header) => filename.test(header.content));
-        var titleLine = null;
+        var titleText = this.getFirstHeader(filename);
 
-        if (titleHeader == null) {
-          // There were no usable headers
-          // Check document text for usable lines
-
-          // Use a for loop instead of cm.doc.eachLine()
-          // so we can stop iterating when we have what we need
-          for (var i = 0; i < this.cm.doc.lineCount(); i++) {
-            var line = this.cm.doc.getLine(i);
-            if (filename.test(line)) {
-              titleLine = line;
-              break;
-            }
-          }
+        if (titleText == null) {
+          //  There were no usable headers
+          titleText = this.getFirstLine(filename);
         }
 
-        titleLine = titleLine || titleHeader.content;
-
-        if (titleLine == null) {
+        if (titleText == null) {
           // There were no usable headers or lines in the document
           return "";
         }
 
-        var match = titleLine.trim()
-            .replace(specialChar, '')
-            .match(filenameCapture);
-        var suggestion = match[0].trim()
-            .toLowerCase()
-            .replace(/\s/g, '_');
-        return `${suggestion}.md`;
+        return this.getNormalizedTitleSuggestion(titleText);
     },
 
     // Exec commands
