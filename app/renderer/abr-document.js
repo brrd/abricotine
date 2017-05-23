@@ -95,8 +95,6 @@ function AbrDocument () {
 
             // Events concerning AbrPane
             that.cm.on("cursorActivity", function(cm) {
-              // Window title update
-              that.updateWindowTitle();
               // Autopreview changed lines
               that.runAutopreviewQueue();
 
@@ -115,6 +113,8 @@ function AbrDocument () {
             });
 
             that.cm.on("changes", function(cm, changeObj) {
+              // Window title update
+              that.updateWindowTitle();
               // Autopreview changed lines
               that.runAutopreviewQueue();
 
