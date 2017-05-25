@@ -10,22 +10,6 @@ var cp = require("child_process"),
     diff = svd.diff,
     patch = svd.patch;
 
-// function setTocHtml (abrPane, toc) {
-//     var newTree = renderTree(toc);
-//     var patches = diff(abrPane.tree, newTree);
-//     patch(abrPane.node, patches);
-//     abrPane.tree = newTree;
-// }
-//
-// function setActiveHeaderHtml (abrPane, index) {
-//     var $activeHeader = $("#toc-container li").eq(index);
-//     if ($activeHeader && !$activeHeader.hasClass("pane-active")) {
-//         $("#toc-container li.pane-active").removeClass("pane-active");
-//         $activeHeader.addClass("pane-active");
-//     }
-//     abrPane.latestCursorUpdate = abrPane.abrDoc.getGeneration();
-// }
-
 function renderTree (toc) {
     var children = [];
     if (!toc) return el("ul", {id: "toc-container"});
