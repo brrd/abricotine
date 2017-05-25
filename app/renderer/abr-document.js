@@ -295,17 +295,19 @@ AbrDocument.prototype = {
 
     getTitleSuggestion: function() {
         var filename = /[\w][\w\s-]*/;
+        var toc = this.toc;
+        var doc = this.cm.doc;
 
         // Check table of contents
-        var getTitleHeader = function() {
-            var titleHeader = this.toc.find((header) => filename.test(header.content));
+        function getTitleHeader() {
+            var titleHeader = toc.find((header) => filename.test(header.content));
             return titleHeader && titleHeader.content;
-        }.bind(this);
+        }
 
         // Check document contents
-        var getTitleLine = function() {
+        function getTitleHeader() {
             var titleLine = '';
-            this.cm.doc.eachLine((lineHandle) => {
+            doc.eachLine((lineHandle) => {
               if (filename.test(lineHandle.text)) {
                 titleLine = lineHandle.text;
                 return false; // break of iterator
@@ -313,14 +315,14 @@ AbrDocument.prototype = {
             });
 
             return titleLine;
-        }.bind(this);
+        }
 
         // Normalizes the given string
         //  * Throws out special character
         //  * Finds the first filename-suitable substring
         //  * Sends to lower case
         //  * Replaces whitespaces with underscore (_)
-        var getNormalizedSuggestion = function(titleText) {
+        function getNormalizedSuggestion(titleText) {
             var filenameCapture = /([\w][\w\s-]*)/; // Captures are expensive, so use it only if required
             var specialChar = /[^\w\s-]/g;
 
@@ -337,7 +339,7 @@ AbrDocument.prototype = {
             }
 
             return "";
-        }.bind(this);
+        }
 
         // Find first usable header
         var titleText = getTitleHeader();
