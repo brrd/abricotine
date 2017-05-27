@@ -19,13 +19,20 @@ var remote = require("electron").remote,
     parsePath = require("parse-filepath"),
     pathModule = require("path"),
     shell = require("electron").shell,
-    spellchecker = require("spellchecker");
+    spellchecker = require("spellchecker"),
+    cp = require("child_process");
 
 function AbrDocument () {
     var that = this;
 
     // IPC init
     var ipcClient = this.ipcClient = new IpcClient();
+
+    // Start with an empty table of contents
+    var toc = this.toc = [];
+
+    // Run this in a background thread
+    var worker = cp.fork(__dirname + "/toc-worker.js");
 
     // Listener for commands sent by the menu
     this.commandsToTrigger = [];
@@ -86,6 +93,51 @@ function AbrDocument () {
             var fontSize = config.editor["font-size"] || "16px";
             that.setFontSize(fontSize);
 
+            // Events concerning AbrPane
+            that.cm.on("cursorActivity", function(cm) {
+              // Autopreview changed lines
+              that.runAutopreviewQueue();
+
+              // Trigger only if nothing changed
+              // (otherwise do it during the "changes" event)
+              if (that.pane.latestCursorUpdate == null ||
+                  that.getGeneration() === that.pane.latestCursorUpdate) {
+                  var cursorLine = cm.doc.getCursor().line;
+                  // Also dont trigger if cursor is still on the same line
+                  if (cursorLine === that.pane.currentCursorLine) return;
+                  that.pane.currentCursorLine = cursorLine;
+                  worker.send({
+                      cursorLine: cursorLine
+                  });
+              }
+            });
+
+            that.cm.on("changes", function(cm, changeObj) {
+              // Window title update
+              that.updateWindowTitle();
+              // Autopreview changed lines
+              that.runAutopreviewQueue();
+
+              var cursorLine = cm.doc.getCursor().line;
+              worker.send({
+                  text: cm.getValue(),
+                  cursorLine: cursorLine
+              });
+            })
+
+            worker.on("message", function(msg) {
+                if (msg.lineNumbers) {
+                    that.pane.setLineNumbers(msg.lineNumbers);
+                }
+                if (msg.toc) {
+                    that.toc = msg.toc;
+                    that.pane.setTocHtml(msg.toc);
+                }
+                if (msg.activeHeaderIndex != null) {
+                    that.pane.setActiveHeaderHtml(msg.activeHeaderIndex);
+                }
+            }, false);
+
             // Syntax highlighting
             var modes = config["highlight-modes"];
             if (!modes) return;
@@ -121,18 +173,6 @@ function AbrDocument () {
                     that.addToAutopreviewQueue(line);
                 }
             });
-        });
-
-        that.cm.on("cursorActivity", function (cm) {
-            // Autopreview changed lines
-            that.runAutopreviewQueue();
-        });
-
-        that.cm.on("changes", function (cm, changeObj) {
-            // Window title update
-            that.updateWindowTitle();
-            // Autopreview changed lines
-            that.runAutopreviewQueue();
         });
 
         that.cm.on("drop", function (cm, event) {
@@ -251,6 +291,72 @@ AbrDocument.prototype = {
         return this.cm.doc.setValue("");
     },
 
+    // Functions for title suggestion
+
+    getTitleSuggestion: function() {
+        var filename = /[\w][\w\s-]*/;
+        var toc = this.toc;
+        var doc = this.cm.doc;
+
+        // Check table of contents
+        function getTitleHeader() {
+            var titleHeader = toc.find((header) => filename.test(header.content));
+            return titleHeader && titleHeader.content;
+        }
+
+        // Check document contents
+        function getTitleHeader() {
+            var titleLine = '';
+            doc.eachLine((lineHandle) => {
+              if (filename.test(lineHandle.text)) {
+                titleLine = lineHandle.text;
+                return false; // break of iterator
+              }
+            });
+
+            return titleLine;
+        }
+
+        // Normalizes the given string
+        //  * Throws out special character
+        //  * Finds the first filename-suitable substring
+        //  * Sends to lower case
+        //  * Replaces whitespaces with underscore (_)
+        function getNormalizedSuggestion(titleText) {
+            var filenameCapture = /([\w][\w\s-]*)/; // Captures are expensive, so use it only if required
+            var specialChar = /[^\w\s-]/g;
+
+            // Capture filename-suitable text from line
+            var match = titleText.trim()
+                .replace(specialChar, '')
+                .match(filenameCapture);
+            if (match) {
+              // Since the method is public, don't assume the text matches
+              var suggestion = match[0].trim()
+                  .toLowerCase()
+                  .replace(/\s/g, '_');
+              return `${suggestion}.md`;
+            }
+
+            return "";
+        }
+
+        // Find first usable header
+        var titleText = getTitleHeader();
+
+        if (titleText == null) {
+          //  There were no usable headers
+          titleText = getTitleLine();
+        }
+
+        if (titleText == null) {
+          // There were no usable headers or lines in the document
+          return "";
+        }
+
+        return getNormalizedSuggestion(titleText);
+    },
+
     // Exec commands
     execCommand: function (command, parameters) {
         var win = remote.getCurrentWindow(),
@@ -365,7 +471,8 @@ AbrDocument.prototype = {
     },
 
     saveAs: function (callback) {
-        var path = this.dialogs.askSavePath();
+        var docTitle = this.getTitleSuggestion();
+        var path = this.dialogs.askSavePath(null, docTitle);
         if (!path) {
             return false;
         }

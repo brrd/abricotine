@@ -10,22 +10,6 @@ var cp = require("child_process"),
     diff = svd.diff,
     patch = svd.patch;
 
-function setTocHtml (abrPane, toc) {
-    var newTree = renderTree(toc);
-    var patches = diff(abrPane.tree, newTree);
-    patch(abrPane.node, patches);
-    abrPane.tree = newTree;
-}
-
-function setActiveHeaderHtml (abrPane, index) {
-    var $activeHeader = $("#toc-container li").eq(index);
-    if ($activeHeader && !$activeHeader.hasClass("pane-active")) {
-        $("#toc-container li.pane-active").removeClass("pane-active");
-        $activeHeader.addClass("pane-active");
-    }
-    abrPane.latestCursorUpdate = abrPane.abrDoc.getGeneration();
-}
-
 function renderTree (toc) {
     var children = [];
     if (!toc) return el("ul", {id: "toc-container"});
@@ -75,47 +59,30 @@ function AbrPane (abrDoc) {
     this.tree = el("ul", {id: "toc-container"});
     this.node = this.tree.render();
     $("#pane").append(this.node);
-
-    // Events
-    var that = this;
-    // Run this in a background thread
-    var worker = cp.fork(__dirname + "/abr-pane-worker.js");
-
-    cm.on("cursorActivity", function (cm) {
-        // Trigger only if nothing changed (otherwise do it during the "changes" event)
-        if (that.latestCursorUpdate == null || that.abrDoc.getGeneration() === that.latestCursorUpdate) {
-            var cursorLine = cm.doc.getCursor().line;
-            // Also dont trigger if cursor is still on the same line
-            if (cursorLine === that.currentCursorLine) return;
-            that.currentCursorLine = cursorLine;
-            worker.send({
-                cursorLine: cursorLine
-            });
-        }
-    });
-
-    cm.on("changes", function (cm, changeObj) {
-        var cursorLine = cm.doc.getCursor().line;
-        worker.send({
-            text: cm.getValue(),
-            cursorLine: cursorLine
-        });
-    });
-
-    worker.on("message", function(msg) {
-        if (msg.lineNumbers) {
-            that.lineNumbers = msg.lineNumbers;
-        }
-        if (msg.toc) {
-            setTocHtml(that, msg.toc);
-        }
-        if (msg.activeHeaderIndex != null) {
-            setActiveHeaderHtml(that, msg.activeHeaderIndex);
-        }
-    }, false);
 }
 
 AbrPane.prototype = {
+    setLineNumbers: function(lineNumbers) {
+      this.lineNumbers = lineNumbers;
+    },
+
+    setTocHtml: function(toc) {
+      var newTree = renderTree(toc);
+      var patches = diff(this.tree, newTree);
+      patch(this.node, patches);
+      this.tree = newTree;
+    },
+
+    setActiveHeaderHtml: function(index) {
+      var $activeHeader = $('#toc-container li').eq(index);
+      if ($activeHeader && !$activeHeader.hasClass('pane-active')) {
+        $('#toc-container li.pane-active').removeClass('pane-active');
+        $activeHeader.addClass('pane-active');
+      }
+
+      this.latestCursorUpdate = this.abrDoc.getGeneration();
+    },
+
     // Is pane visible
     isVisible: function () {
         return $('body').hasClass('pane-visible');
