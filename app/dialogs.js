@@ -100,7 +100,8 @@ Dialogs.prototype = {
         return false;
     },
 
-    askSavePath: function (title, docTitle = '') {
+    askSavePath: function (title, docTitle) {
+        docTitle = docTitle || "";
         var path = dialog.showSaveDialog(this.win, {
             title: title || this.localizer.get('dialog-save'),
             defaultPath: pathModule.join(this.dir, docTitle)

@@ -300,20 +300,21 @@ AbrDocument.prototype = {
 
         // Check table of contents
         function getTitleHeader() {
-            var titleHeader = toc.find((header) => filename.test(header.content));
+            var titleHeader = toc.find(function(header) {
+                filename.test(header.content);
+            });
             return titleHeader && titleHeader.content;
         }
 
         // Check document contents
         function getTitleLine() {
             var titleLine = '';
-            doc.eachLine((lineHandle) => {
+            doc.eachLine(function(lineHandle) {
               if (filename.test(lineHandle.text)) {
                 titleLine = lineHandle.text;
                 return false; // break of iterator
               }
             });
-
             return titleLine;
         }
 
@@ -335,7 +336,7 @@ AbrDocument.prototype = {
               var suggestion = match[0].trim()
                   .toLowerCase()
                   .replace(/\s/g, '_');
-              return `${suggestion}.md`;
+              return suggestion + ".md";
             }
 
             return "";
