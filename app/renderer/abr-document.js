@@ -29,7 +29,7 @@ function AbrDocument () {
     var ipcClient = this.ipcClient = new IpcClient();
 
     // Start with an empty table of contents
-    var toc = this.toc = [];
+    this.toc = [];
 
     // Run this in a background thread
     var worker = cp.fork(__dirname + "/toc-worker.js");
@@ -123,7 +123,7 @@ function AbrDocument () {
                   text: cm.getValue(),
                   cursorLine: cursorLine
               });
-            })
+            });
 
             worker.on("message", function(msg) {
                 if (msg.lineNumbers) {
