@@ -4,8 +4,7 @@
 *   Licensed under GNU-GPLv3 <http://www.gnu.org/licenses/gpl.html>
 */
 
-var cp = require("child_process"),
-    svd = require('simple-virtual-dom'),
+var svd = require('simple-virtual-dom'),
     el = svd.el,
     diff = svd.diff,
     patch = svd.patch;
