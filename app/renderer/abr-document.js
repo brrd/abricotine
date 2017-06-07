@@ -305,7 +305,7 @@ AbrDocument.prototype = {
         }
 
         // Check document contents
-        function getTitleHeader() {
+        function getTitleLine() {
             var titleLine = '';
             doc.eachLine((lineHandle) => {
               if (filename.test(lineHandle.text)) {
