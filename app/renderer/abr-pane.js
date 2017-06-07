@@ -28,7 +28,8 @@ function renderTree (toc) {
 function AbrPane (abrDoc) {
     this.abrDoc = abrDoc;
     this.lineNumbers = [];
-    var cm = abrDoc.cm;
+    var cm = abrDoc.cm,
+        that = this;
 
     // Init UI
     $("#pane-title").text(abrDoc.localizer.get("pane-table-of-contents"));
