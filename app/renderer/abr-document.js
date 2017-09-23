@@ -193,6 +193,15 @@ function AbrDocument () {
             }
         });
 
+        that.cm.on("mousedown", function(cm, event) {
+          if (document.body.classList.contains("ctrl-pressed")) {
+            event.preventDefault();
+          }
+          
+          var isLink = event.target.classList.contains("cm-link");
+          var isUrl = event.target.classList.contains("cm-url");
+        });
+
         // Handle local keybindings that arent linked to a specific menu
         document.onkeydown = function(evt) {
             evt = evt || window.event;
@@ -206,6 +215,17 @@ function AbrDocument () {
                 that.execCommand("clearSearch");
             }
         };
+
+
+        var CtrlKeyHandler = function(e) {
+          if (e.keyCode !== 17) return; // ALT
+
+          var isKeyDown = e.type === "keydown";
+          document.body.classList.toggle("ctrl-pressed", isKeyDown);
+        }
+
+        window.addEventListener("keydown", CtrlKeyHandler, false);
+        window.addEventListener("keyup", CtrlKeyHandler, false);
 
         // Handle CTRL+MouseWheel events
         var MouseWheelHandler = function (e) {
