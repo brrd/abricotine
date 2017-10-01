@@ -547,16 +547,21 @@ AbrDocument.prototype = {
         if (!this.path) {
             return;
         }
-        if (this.watcher) {
-            // Should not watch more than one file at a time.
-            var paths = this.watcher.getWatched();
-            if (paths.length > 0 && paths[0] != this.path) {
-                this.watcher.unwatch(paths[0]);
+        // Delay this function because watcher is often too slow on OSX
+        var that = this;
+        var delay = 1000;
+        window.setTimeout(function () {
+            if (that.watcher) {
+                // Should not watch more than one file at a time
+                var paths = that.watcher.getWatched();
+                if (paths.length > 0 && paths[0] !== that.path) {
+                    that.watcher.unwatch(paths[0]);
+                }
+                that.watcher.add(that.path);
+            } else {
+                that.initWatcher();
             }
-            this.watcher.add(this.path);
-        } else {
-            this.initWatcher();
-        }
+        }, delay);
     },
 
     pauseWatcher: function () {
