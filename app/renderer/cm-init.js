@@ -94,7 +94,8 @@ function initCodeMirror () {
                 "End": "goLineRight",
                 "Ctrl-Up": "goPrevParagraph",
                 "Ctrl-Down": "goNextParagraph",
-                "Tab": "indentList"
+                "Tab": "indentList",
+                "Shift-Tab": "indentLess"
             }
         };
 
