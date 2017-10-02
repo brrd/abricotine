@@ -1,3 +1,9 @@
+/*
+*   Abricotine - Markdown Editor
+*   Copyright (c) 2015 Thomas Brouard
+*   Licensed under GNU-GPLv3 <http://www.gnu.org/licenses/gpl.html>
+*/
+
 /* jshint esversion: 6 */
 // TODO: support multiple selections
 // TODO: reverse images and links
