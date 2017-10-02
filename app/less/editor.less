@@ -116,9 +116,6 @@
         // Image
         &.cm-tag { .editor-image(); }
 
-        // Formatting
-        &.cm-formatting { color: @editor-formatting-color; }
-
         // Link
         &.cm-link { .editor-link(); }
 
@@ -139,10 +136,16 @@
     // Underline-style headers fix
     .header-underline .cm-header-1, .header-underline .cm-header-2 { font-size: 100%; }
 
+    // Formatting
+    &.cm-formatting {
+      font-family: @editor-font-family;
+      color: @editor-formatting-color;
+    }
+
 // Code coloration
 // ===============
 
-    .CodeMirror-lines span:not(.cm-m-markdown) {
+    .CodeMirror-lines span:not(.cm-m-markdown):not(.cm-formatting) {
         font-family: @editor-code-font-family;
 
         &.cm-atom {color: @cm-atom-color;}
