@@ -90,7 +90,7 @@ function initCodeMirror () {
             // TODO: replace default keymap by a custom one which removes most of hotkeys (CodeMirror interferences with menu accelerators)
             extraKeys: {
                 "Enter": "newlineAndIndentContinueMarkdownList",
-                "Home": "goLineLeft",
+                "Home": "homeList",
                 "End": "goLineRight",
                 "Ctrl-Up": "goPrevParagraph",
                 "Ctrl-Down": "goNextParagraph"
