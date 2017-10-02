@@ -550,7 +550,10 @@ AbrDocument.prototype = {
         // Delay this function because watcher is often too slow on OSX
         var that = this;
         var delay = 1000;
-        window.setTimeout(function () {
+        if (this.watcherTimeout) {
+            window.clearTimeout(this.watcherTimeout);
+        }
+        this.watcherTimeout = window.setTimeout(function () {
             if (that.watcher) {
                 // Should not watch more than one file at a time
                 var paths = that.watcher.getWatched();
