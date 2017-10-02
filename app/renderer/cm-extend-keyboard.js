@@ -24,4 +24,14 @@ module.exports = function (CodeMirror) {
         }
         cm.setCursor({line: pos.line, ch: newCh});
     };
+
+    CodeMirror.commands.indentList = function(cm) {
+        const pos = cm.getCursor();
+        const eolTokenType = cm.getTokenTypeAt({line: pos.line});
+        const inList = /(variable-(2|3)|keyword)/.test(eolTokenType);
+        if (inList) {
+          return cm.execCommand("indentMore");
+        }
+        cm.execCommand("defaultTab");
+    };
 };

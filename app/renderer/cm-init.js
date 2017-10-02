@@ -93,7 +93,8 @@ function initCodeMirror () {
                 "Home": "homeList",
                 "End": "goLineRight",
                 "Ctrl-Up": "goPrevParagraph",
-                "Ctrl-Down": "goNextParagraph"
+                "Ctrl-Down": "goNextParagraph",
+                "Tab": "indentList"
             }
         };
 
