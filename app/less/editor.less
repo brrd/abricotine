@@ -74,7 +74,7 @@
 // Text
 // ====
 
-    .CodeMirror span.cm-m-markdown {
+    span.cm-m-markdown {
         font-family: @editor-font-family;
 
         // Header
@@ -137,9 +137,13 @@
     .header-underline .cm-header-1, .header-underline .cm-header-2 { font-size: 100%; }
 
     // Formatting
-    .CodeMirror span.cm-m-markdown.cm-formatting, .CodeMirror span.cm-formatting {
+    .cm-formatting, .cm-formatting-math {
       font-family: @editor-font-family;
       color: @editor-formatting-color;
+    }
+    span.cm-m-markdown.cm-formatting-header {
+      color: @editor-formatting-color;
+      font-weight: normal;
     }
 
 // Code coloration
