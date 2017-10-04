@@ -73,7 +73,7 @@ const styles = {
       return [text, "\n\n***\n\n", anchor, head];
     }
   },
-  codeblock: { // TODO: formatting: code-block (but not contents)
+  codeblock: {
     type: "inline",
     set: ({text, anchor, head, delimiter}) => [delimiter, "\n", anchor, text, head, "\n", delimiter],
     delimiter: "```"
