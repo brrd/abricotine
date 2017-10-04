@@ -7,7 +7,6 @@
 /* jshint esversion: 6 */
 // TODO: support multiple selections
 // TODO: reverse images and links
-// TODO: reversible math => need to fix recognition of math delimiters as cm-formatting tokens
 // FIXME: lists can also be "variable-3" and "keyword"
 
 const styles = {
@@ -43,8 +42,10 @@ const styles = {
   math: {
     type: "inline",
     classname: "m-stex",
+    delimiterClassname: "math",
     set: "wrap",
-    delimiter: "$$"
+    delimiter: "$$",
+    reversible: true
   },
   image: {
     type: "inline",
@@ -185,7 +186,8 @@ const addon = {
     const isApplied = (classnames, style) => {
       const isMatch = (name) => classnames.indexOf(name) > -1;
       const classname = getClassname(style);
-      return isMatch(classname);
+      const delimiterClassname = `formatting-${getClassname(style, true)}`;
+      return isMatch(classname) || isMatch(delimiterClassname);
     };
 
     const removeInlineStyle = (style) => {
