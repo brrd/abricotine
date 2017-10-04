@@ -33,7 +33,8 @@ const styles = {
     reversible: true
   },
   code: {
-    classname: "code", // FIXME: code?  comment? (formatting is not the same). See: https://github.com/codemirror/CodeMirror/blob/master/mode/markdown/markdown.js#L58
+    classname: "comment",
+    delimiterClassname: "code",
     type: "inline",
     set: "wrap",
     delimiter: "`",
@@ -173,8 +174,8 @@ const addon = {
       return classnames;
     };
 
-    const getClassname = (style) => {
-      const hint = style.classname;
+    const getClassname = (style, getDelimiter = false) => {
+      const hint = getDelimiter ? (style.delimiterClassname || style.classname) : style.classname;
       if (typeof hint === "function") {
         return hint(this, style);
       }
@@ -226,9 +227,9 @@ const addon = {
 
       const cursorFrom = this.getCursor("from");
       const cursorTo = this.getCursor("to");
-      const classname = getClassname(style);
-      const prevDelimiter = getDelimiter(cursorFrom, classname, -1);
-      const nextDelimiter = getDelimiter(cursorTo, classname, 1);
+      const delimiterClassname = getClassname(style, true);
+      const prevDelimiter = getDelimiter(cursorFrom, delimiterClassname, -1);
+      const nextDelimiter = getDelimiter(cursorTo, delimiterClassname, 1);
       if (!prevDelimiter || !nextDelimiter) return;
 
       // Get text
