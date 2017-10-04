@@ -7,7 +7,6 @@
 /* jshint esversion: 6 */
 // TODO: support multiple selections
 // TODO: reverse images and links
-// FIXME: lists can also be "variable-3" and "keyword"
 
 const styles = {
   italic: {
@@ -90,8 +89,8 @@ const styles = {
     classname: function (cm, style) {
       const pos = cm.getCursor();
       const text = cm.getLine(pos.line);
-      const regex = /^(\s*)(\*|\-|\+)\s(?!\[( |x)?\])/;
-      if (regex.test(text)) return "variable-2";
+      const regex = /^(\s*)(\*|\-|\+)(?!\s\[( |x)?\])\s+/;
+      if (regex.test(text)) return "list";
     },
     regex: /^(\s*)(\*|\-|\+)\s+/,
     prepend: "* "
@@ -101,7 +100,7 @@ const styles = {
     classname: function (cm, style) {
       const pos = cm.getCursor();
       const text = cm.getLine(pos.line);
-      if (style.regex.test(text)) return "variable-2";
+      if (style.regex.test(text)) return "list";
     },
     regex: /^(\s*)\d+\.\s+/,
     prepend: ". ",
@@ -112,7 +111,7 @@ const styles = {
     classname: function (cm, style) {
       const pos = cm.getCursor();
       const text = cm.getLine(pos.line);
-      if (style.regex.test(text)) return "variable-2";
+      if (style.regex.test(text)) return "list";
     },
     regex: /^(\s*)(\*|\-|\+)\s+\[( |x)?\]\s+/,
     prepend: "- [ ] "

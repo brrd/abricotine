@@ -75,15 +75,21 @@ function initCodeMirror () {
     return new Promise ( function (resolve, reject) {
         // Spelling and no-spelling modes shortcuts
         defineAbrMode(CodeMirror, "abr-spellcheck-off", {
+            // FIXME: duplicate code
             name: "gfm",
             highlightFormatting: true,
-            allowAtxHeaderWithoutSpace: true
+            allowAtxHeaderWithoutSpace: true,
+            tokenTypeOverrides: {
+                "list1": "list",
+                "list2": "list",
+                "list3": "list"
+            }
         });
         defineAbrMode(CodeMirror, "abr-spellcheck-on", "spellchecker");
 
         var options = {
             theme: "", // Disable CodeMirror themes
-            addModeClass: true, // Used to disable colors on markdow lists (cm-variable-2, cm-variable-3, cm-keyword) but keep it in other modes
+            addModeClass: true, // Used to disable colors on markdow lists (cm-variable-2, cm-variable-3, cm-keyword) but keep it in other modes,
             lineNumbers: false,
             lineWrapping: true,
             autofocus: true,

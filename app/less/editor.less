@@ -98,7 +98,7 @@
         &.cm-quote { .editor-quote(); }
 
         // Lists (3 levels)
-        &.cm-variable-2, &.cm-variable-3, &.cm-keyword {
+        &.cm-list {
             .editor-list();
 
             &:first-child {
@@ -282,7 +282,7 @@
     }
 
     span.todolist.checked {
-        .cm-variable-2, .cm-variable-3, .cm-keyword {
+        .cm-list {
             color:  @editor-list-checked-color;
         }
         &:before {
@@ -295,12 +295,12 @@
         text-decoration: line-through;
         color: @editor-list-checked-color;
 
-        &.cm-trailing-whitespace, &.cm-property, &.cm-variable-2:first-child, &.cm-variable-3:first-child, &.cm-keyword:first-child {
+        &.cm-trailing-whitespace, &.cm-property, &.cm-list:first-child {
             text-decoration: none;
             color: @editor-list-checked-color;
         }
 
-        & > .cm-variable-2, & > .cm-variable-3, & > .cm-keyword {
+        & > .cm-list {
             color: @editor-list-checked-color;
         }
     }

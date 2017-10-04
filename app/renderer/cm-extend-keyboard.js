@@ -9,7 +9,7 @@ module.exports = function (CodeMirror) {
     CodeMirror.commands.homeList = function (cm) {
         const pos = cm.getCursor();
         const eolTokenType = cm.getTokenTypeAt({line: pos.line});
-        const inList = /(variable-(2|3)|keyword)/.test(eolTokenType);
+        const inList = eolTokenType.includes("list");
         const line = cm.getLine(pos.line);
         const bulletRegex = /^(\s*(?:\*|\-|\+)(?:\s+\[(?: |x)?\])?\s)/;
         const textBeforeCursor = line.slice(0, pos.ch);
@@ -34,7 +34,7 @@ module.exports = function (CodeMirror) {
     CodeMirror.commands.indentList = function(cm) {
         const pos = cm.getCursor();
         const eolTokenType = cm.getTokenTypeAt({line: pos.line});
-        const inList = /(variable-(2|3)|keyword)/.test(eolTokenType);
+        const inList = eolTokenType.includes("list");
         if (inList) {
           return cm.execCommand("indentMore");
         }
