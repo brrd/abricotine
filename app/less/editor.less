@@ -201,13 +201,20 @@
 
     // Tabs
     body.show-hidden-characters .cm-m-markdown .cm-tab, body.show-hidden-characters .cm-m-markdown.cm-tab {
+        font-family: @editor-font-family;
+        position: relative;
         &:after {
             content: '⇥';
             color: @editor-hidden-characters-color;
             font-family: @editor-font-family;
             font-weight: normal;
             font-style: normal;
-            margin-left: -50%;
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            text-align: center;
         }
     }
 
