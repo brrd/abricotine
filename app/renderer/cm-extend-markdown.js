@@ -326,7 +326,10 @@ const addon = {
         return sum;
       }, "");
 
-      this.doc.replaceSelection(newText);
+      // FIXME: duplicate actions
+      const start = this.getCursor("from");
+      const end = this.getCursor("to");
+      this.replaceRange(newText, start, end, "+addInlineStyle");
       this.setSelection(selection.anchor, selection.head);
     };
 
