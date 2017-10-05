@@ -116,7 +116,7 @@ function autopreview (cm, line, types) {
                 }
             },
             todolist: {
-                regex: /^(\*|-|\+)\s+\[(\s*|x)?\]\s+/g,
+                regex: /(\*|-|\+)\s+\[(\s*|x)?\]\s+/g,
                 createElement: function (match) {
                     var isChecked = match[2] === "x",
                         checkedClass = isChecked ? " checked" : "",
