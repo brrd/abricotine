@@ -46,10 +46,12 @@ const styles = {
   },
   image: {
     type: "inline",
+    classname: "image",
     set: ({text, anchor, head}) => ["![", text, "](", anchor, "http://", head, ")"]
   },
-  link: {
+  link: { // TODO: delete links
     type: "inline",
+    classname: "link",
     set: ({text, anchor, head}) => {
       if (text.length === 0) {
         return ["[", anchor, text, head, "](http://)"];

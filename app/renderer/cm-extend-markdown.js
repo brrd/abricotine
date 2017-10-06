@@ -6,7 +6,6 @@
 
 /* jshint esversion: 6 */
 // TODO: support multiple selections
-// TODO: reverse images and links
 
 const styles = require.main.require("./cm-markdown-styles.js");
 
@@ -35,6 +34,8 @@ module.exports = function (CodeMirror) {
     };
 
     const removeInlineStyle = (style) => {
+      if (!style.reversible || style.delimiter == null) return;
+
       const getDelimiter = (pos, classname, step) => {
         const getNextMove = (pos, step) => {
           const lineLength = this.getLine(pos.line).length;
