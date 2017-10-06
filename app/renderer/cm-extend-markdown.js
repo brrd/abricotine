@@ -10,8 +10,8 @@
 
 const styles = require.main.require("./cm-markdown-styles.js");
 
-const addon = {
-  format: function (name) {
+module.exports = function (CodeMirror) {
+  CodeMirror.prototype.format = function (name) {
     const getState = (pos = this.getCursor("start")) => {
       const type = this.getTokenTypeAt(pos);
       if (!type) return [];
@@ -242,9 +242,5 @@ const addon = {
     }
     const fn = style.type === "inline" ? toggleInline : toggleBlock;
     return fn(style);
-  }
-};
-
-module.exports = function (CodeMirror) {
-  Object.assign(CodeMirror.prototype, addon);
+  };
 };
