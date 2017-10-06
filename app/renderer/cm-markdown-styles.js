@@ -46,7 +46,7 @@ const styles = {
   },
   image: {
     type: "inline",
-    set: ({text, anchor, head}) => ["![", text, "(", anchor, "http://", head, ")"]
+    set: ({text, anchor, head}) => ["![", text, "](", anchor, "http://", head, ")"]
   },
   link: {
     type: "inline",
