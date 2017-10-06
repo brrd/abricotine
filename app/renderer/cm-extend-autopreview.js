@@ -126,7 +126,7 @@ function autopreview (cm, line, types) {
                 marker: {
                     clearOnEnter: true,
                     handleMouseEvents: false,
-                    inclusiveLeft: true,
+                    inclusiveLeft: false,
                     inclusiveRight: true
                 },
                 callback: function (textMarker, element) {
