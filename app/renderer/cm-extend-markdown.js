@@ -11,12 +11,7 @@
 const styles = require.main.require("./cm-markdown-styles.js");
 
 const addon = {
-  // TODO: compatibility fix => remove draw() when 100% done
-  draw: function (name) {
-    return this.toggle.bind(this)(name);
-  },
-
-  toggle: function (name) {
+  format: function (name) {
     const getState = (pos = this.getCursor("start")) => {
       const type = this.getTokenTypeAt(pos);
       if (!type) return [];

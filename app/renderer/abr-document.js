@@ -587,7 +587,7 @@ AbrDocument.prototype = {
         if (!path) {
             return false;
         }
-        this.cm.draw("image", path);
+        this.cm.format("image", path);
     },
 
     imageImport: function (destFolder, updateEditor) {

@@ -335,7 +335,7 @@
                     },
                     {
                         "labelKey": "menu-insert-image-from-url",
-                        "command": "draw",
+                        "command": "format",
                         "parameters": "image"
                     },
                     {
@@ -350,28 +350,28 @@
             {
                 "labelKey": "menu-insert-link",
                 "accelerator": "CmdOrCtrl+L",
-                "command": "draw",
+                "command": "format",
                 "parameters": "link"
             },
             {
                 "labelKey": "menu-insert-anchor",
-                "command": "draw",
+                "command": "format",
                 "parameters": "anchor"
             },
             {
                 "labelKey": "menu-insert-codeblock",
-                "command": "draw",
+                "command": "format",
                 "parameters": "codeblock"
             },
             {
                 "labelKey": "menu-insert-math-formula",
-                "command": "draw",
+                "command": "format",
                 "parameters": "math"
             },
             {
                 "labelKey": "menu-insert-hr",
                 "accelerator": "CmdOrCtrl+R",
-                "command": "draw",
+                "command": "format",
                 "parameters": "hr"
             }
         ]
