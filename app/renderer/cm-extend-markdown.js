@@ -79,7 +79,7 @@ module.exports = function (CodeMirror) {
           ch: step > 0 ? pos.ch + 1 : pos.ch
         };
         while (move) {
-          const type = this.getTokenTypeAt(move) || [];
+          const type = this.getTokenTypeAt(move) || "";
           if (type.split(" ").includes(`formatting-${classname}`)) {
             move.ch--;
             return move;
