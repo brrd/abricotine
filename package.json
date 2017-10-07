@@ -34,7 +34,7 @@
     "@shagstrom/split-pane": "^0.9.2",
     "celldown.js": "latest",
     "chokidar": "^1.6.1",
-    "codemirror": "^5.25.0",
+    "codemirror": "^5.29.0",
     "deep-equal": "^1.0.1",
     "deep-extend": "^0.4.1",
     "electron": "^1.6.2",

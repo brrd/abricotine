@@ -35,9 +35,15 @@ function initSpellcheck (CodeMirror) {
         		}
         	},
             mode = CodeMirror.getMode(config, {
+                // FIXME: duplicate code
                 name: "gfm",
                 highlightFormatting: true,
-                allowAtxHeaderWithoutSpace: true
+                allowAtxHeaderWithoutSpace: true,
+                tokenTypeOverrides: {
+                    "list1": "list",
+                    "list2": "list",
+                    "list3": "list"
+                }
             });
         return CodeMirror.overlayMode(mode, overlay, true);
     });

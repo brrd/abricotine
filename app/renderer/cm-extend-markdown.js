@@ -4,331 +4,262 @@
 *   Licensed under GNU-GPLv3 <http://www.gnu.org/licenses/gpl.html>
 */
 
-// Markdown functions for CodeMirror
-// Inspiration: https://github.com/airpub/ninja
-// FIXME: doesnt work in case of multiple selection
+/* jshint esversion: 6 */
+// TODO: support multiple selections
 
-// The state of CodeMirror at the given position.
-function getState (cm, pos) {
-    pos = pos || cm.getCursor('start');
-    var stat = cm.getTokenAt(pos);
-    if (!stat.type) {
-        return {};
-    }
-    var types = stat.type.split(' ');
-    var ret = {}, text;
-    for (var i = 0; i < types.length; i++) {
-        switch (types[i]) {
-            case 'strong':
-                ret.bold = true;
-                break;
-            case 'quote':
-                ret.quote = true;
-                break;
-            case 'em':
-                ret.italic = true;
-                break;
-            case 'link':
-                ret.link = true;
-                break;
-            case 'variable-2':
-                text = cm.getLine(pos.line);
-                if (/^\s*\d+\.\s/.test(text)) {
-                    ret.ol = true;
-                } else if (/^\s*(\*|\-|\+)\s+\[( |x)?\]\s/.test(text)) {
-                    ret.todolist = true;
-                } else {
-                    ret.ul = true;
-                }
-                break;
-            case 'header-1':
-                ret.h1 = true;
-                ret.header = 1;
-                break;
-            case 'header-2':
-                ret.h2 = true;
-                ret.header = 2;
-                break;
-            case 'header-3':
-                ret.h3 = true;
-                ret.header = 3;
-                break;
-            case 'header-4':
-                ret.h4 = true;
-                ret.header = 4;
-                break;
-            case 'header-5':
-                ret.h5 = true;
-                ret.header = 5;
-                break;
-            case 'header-6':
-                ret.h6 = true;
-                ret.header = 6;
-                break;
-            case 'string':
-                ret.string = true;
-                break;
-            case 'comment':
-                ret.code = true;
-                break;
-            case 'strikethrough':
-                ret.strikethrough = true;
-                break;
-            default:
-                break;
-        }
-    }
-    return ret;
-}
-
-// inject text into current Pos
-function inject (cm, texts, triggered) {
-    if (!cm) {
-        return;
-    }
-    var startPoint = cm.getCursor('start');
-    var endPoint = cm.getCursor('end');
-    var text = cm.getSelection();
-    // todo: toggle link/image
-    cm.replaceSelection(
-        texts.length > 1 ?
-        texts[0] + text + texts[1] :
-        text + texts.join()
-    );
-    if (texts.length >= 1) {
-        var newLines = texts[0].match('\n');
-        if (newLines) {
-            var lastLineLength = texts[0].length - texts[0].lastIndexOf('\n');
-            startPoint.line += newLines.length;
-            endPoint.line += newLines.length;
-            startPoint.ch = lastLineLength;
-            endPoint.ch = lastLineLength;
-        } else {
-            startPoint.ch += texts[0].length;
-            endPoint.ch += texts[0].length;
-        }
-    }
-    cm.setSelection(startPoint, endPoint);
-    cm.focus();
-}
-
-function setLine (line, text, cm) {
-    var lineStart = {
-        line: line,
-        ch: 0
-    };
-    var lineEnd = {
-        line: line
-    };
-    cm.replaceRange(text, lineStart, lineEnd);
-}
-
-// Toggle whatever you like
-function toggle (type) {
-    // Toggle a line to selected block style
-    function toggleBlock(type, cm) {
-        var stat = getState(cm);
-        var startPoint = cm.getCursor('start');
-        var endPoint = cm.getCursor('end');
-        var count = 1;
-        var gap = endPoint.line - startPoint.line;
-        var styleMap = {
-            'quote': {
-                re: /^(\s*)\>\s+/,
-                prepend: '> '
-            },
-            'ul': {
-                re: /^(\s*)(\*|\-|\+)\s+/,
-                prepend: '* '
-            },
-            'ol': {
-                re: /^(\s*)\d+\.\s+/,
-                prepend: '. '
-            },
-            'todolist': {
-                re: /^(\s*)(\*|\-|\+)\s+\[( |x)?\]\s+/,
-                prepend: '- [ ] '
-            },
-            'h1': {
-                re: /^(\s*)#\s+/,
-                prepend: '# '
-            },
-            'h2': {
-                re: /^(\s*)##\s+/,
-                prepend: '## '
-            },
-            'h3': {
-                re: /^(\s*)###\s+/,
-                prepend: '### '
-            },
-            'h4': {
-                re: /^(\s*)####\s+/,
-                prepend: '#### '
-            },
-            'h5': {
-                re: /^(\s*)#####\s+/,
-                prepend: '##### '
-            },
-            'h6': {
-                re: /^(\s*)######\s+/,
-                prepend: '###### '
-            }
-        };
-        var style = styleMap[type];
-        for (var i = startPoint.line; i <= endPoint.line; i++) {
-            var text = cm.getLine(i);
-
-            var olderTypes = Object.keys(stat);
-            var hasTypeBefore = olderTypes.length > 0 && type !== olderTypes[0];
-
-            if (hasTypeBefore && styleMap[olderTypes[0]]) {
-                text = text.replace(styleMap[olderTypes[0]].re, '$1');
-            }
-
-            if (stat[type]) {
-                text = text.replace(style.re, '$1'); // FIXME: $1 === " " ???
-            } else {
-                if (type === 'ol') {
-                    // count how many line we want to add order.
-                    if (gap !== 0) {
-                        text = count + style.prepend + text;
-                        count ++;
-                    } else {
-                        text = 1 + style.prepend + text;
-                    }
-                } else {
-                    text = style.prepend + text;
-                }
-            }
-            setLine(i, text, cm);
-        }
-        cm.focus();
-    }
-
-    // Toggle a wrappered text to selected style
-    function toggleText(type) {
-
-        function toggleTextByStyle(cm) {
-            var style = styleMap[type];
-            var stat = getState(cm);
-            var text;
-
-            var start = style.start;
-            var end = style.end;
-
-            var startPoint = cm.getCursor('start');
-            var endPoint = cm.getCursor('end');
-
-            if (stat[type]) {
-                text = cm.getLine(startPoint.line);
-                start = text.slice(0, startPoint.ch);
-                end = text.slice(startPoint.ch);
-
-                start = start.replace(style.re.start, '$1$3');
-                end = end.replace(style.re.end, '$1$3');
-
-                startPoint.ch -= style.offset;
-                endPoint.ch -= style.offset;
-
-                setLine(startPoint.line, start + end, cm);
-            } else {
-                text = cm.getSelection();
-                cm.replaceSelection(start + text + end);
-
-                startPoint.ch += style.offset;
-                endPoint.ch += style.offset;
-            }
-            cm.setSelection(startPoint, endPoint);
-            cm.focus();
-        }
-
-        var styleMap = {
-            bold: {
-                start: '**',
-                end: '**',
-                re: {
-                    start: /(.*)?(\*|\_){2}(\S*.*)?$/,
-                    end: /^(.*\S*)?(\*|\_){2}(\s*.*)?/
-                },
-                offset: 2
-            },
-            italic: {
-                start: '*',
-                end: '*',
-                re: {
-                    start: /(.*)?(\*|\_)(\S*.*)?$/,
-                    end: /^(.*\S*)?(\*|\_)(\s*.*)?/
-                },
-                offset: 1
-            },
-            strikethrough: {
-                start: '~~',
-                end: '~~',
-                re: {
-                    start: /(.*)?(~){2}(\S*.*)?$/,
-                    end: /^(.*\S*)?(~){2}(\s*.*)?/
-                },
-                offset: 2
-            },
-            code: {
-                start: '`',
-                end: '`',
-                re: {
-                    start: /(.*)?(`)(\S*.*)?$/,
-                    end: /^(.*\S*)?(`)(\s*.*)?/
-                },
-                offset: 1
-            }
-        };
-        return toggleTextByStyle;
-    }
-
-    function toggleWhatever(cm) {
-        if (!cm) {
-            console.log("cm is not defined");
-            return;
-        } else if (toggleTextList.indexOf(type) > -1) {
-            return toggleText(type)(cm);
-        } else {
-            return toggleBlock(type, cm);
-        }
-    }
-    var toggleTextList = ['bold', 'italic', 'strikethrough', 'code'];
-    return toggleWhatever;
-}
-
-// Draw something, and wrap current cursor
-function draw(type, url) {
-    function drawWhatever(cm) {
-        var stat = getState(cm);
-        inject(cm, placeholders[type], stat[type]);
-    }
-    url = url || "http://";
-    var placeholders = {
-        link: ['[', '](' + url + ')'],
-        image: ['![', '](' + url + ')'],
-        hr: ['\n***'],
-        math: ["$$", "$$"],
-        anchor: ["<a name=\"", "\"></a>"],
-        codeblock: ["\n```\n", "\n```"]
-    };
-    return drawWhatever;
-}
+const styles = require.main.require("./cm-markdown-styles.js");
 
 module.exports = function (CodeMirror) {
-    CodeMirror.prototype.getState = function (pos) {
-        return getState(this, pos);
+  CodeMirror.prototype.format = function (name) {
+    const getState = (pos = this.getCursor("start")) => {
+      const type = this.getTokenTypeAt(pos);
+      if (!type) return [];
+      const classnames = type.split(" ");
+      return classnames;
     };
-    CodeMirror.prototype.inject = function (texts, triggered) {
-        return inject (this, texts, triggered);
+
+    const getClassname = (style, getDelimiter = false) => {
+      const hint = getDelimiter ? (style.delimiterClassname || style.classname) : style.classname;
+      if (typeof hint === "function") {
+        return hint(this, style);
+      }
+      return hint;
     };
-    CodeMirror.prototype.setLine = function (line, text) {
-        return setLine (line, text, this);
+
+    const isApplied = (classnames, style) => {
+      const isMatch = (name) => classnames.indexOf(name) > -1;
+      const classname = getClassname(style);
+      const delimiterClassname = `formatting-${getClassname(style, true)}`;
+      return isMatch(classname) || isMatch(delimiterClassname);
     };
-    CodeMirror.prototype.toggle = function (type) {
-        return toggle(type)(this);
+
+    const removeInlineStyle = (style) => {
+      if (!style.reversible || style.delimiter == null) return;
+
+      // Fix selection if it contains formatting characters
+      const fixSelection = () => {
+        const delimiter = style.delimiter;
+        const length = delimiter.length;
+        const text = this.getSelection("\n");
+        if (text.length < length);
+        const cursorFrom = this.getCursor("from");
+        const cursorTo = this.getCursor("to");
+        if (text.slice(0, length) === delimiter) {
+          cursorFrom.ch += length;
+        }
+        if (text.slice(0 - length) === delimiter) {
+          cursorTo.ch -= length;
+        }
+      };
+
+      const getDelimiter = (pos, classname, step) => {
+        const getNextMove = (pos, step) => {
+          const lineLength = this.getLine(pos.line).length;
+          const chStep = pos.ch + step;
+          const isOutOfLine = chStep < 0 || chStep > lineLength;
+          if (isOutOfLine) {
+            const firstLine = this.firstLine();
+            const lastLine = this.lastLine();
+            const lineStep = pos.line + step;
+            const isOutOfEditor = lineStep < firstLine || lineStep > lastLine;
+            if (isOutOfEditor) return null;
+            return {
+              line: lineStep,
+              ch: step > 0 ? 0 : this.getLine(lineStep).length
+            };
+          }
+          return {
+            line: pos.line,
+            ch: chStep
+          };
+        };
+
+        let move = {
+          line: pos.line,
+          ch: step > 0 ? pos.ch + 1 : pos.ch
+        };
+        while (move) {
+          const type = this.getTokenTypeAt(move) || "";
+          if (type.split(" ").includes(`formatting-${classname}`)) {
+            move.ch--;
+            return move;
+          }
+          move = getNextMove(move, step);
+        }
+      };
+
+      fixSelection();
+
+      const cursorFrom = this.getCursor("from");
+      const cursorTo = this.getCursor("to");
+      const delimiterClassname = getClassname(style, true);
+      const prevDelimiter = getDelimiter(cursorFrom, delimiterClassname, -1);
+      const nextDelimiter = getDelimiter(cursorTo, delimiterClassname, 1);
+      if (!prevDelimiter || !nextDelimiter) return;
+
+      // Get text
+      const delimiterLength = style.delimiter.length;
+      const insideFrom = Object.assign({}, prevDelimiter);
+      const insideTo = Object.assign({}, nextDelimiter);
+      insideFrom.ch++;
+      const text = this.getRange(insideFrom, insideTo);
+
+      // Replace text (without delimiters)
+      const outsideFrom = Object.assign({}, insideFrom);
+      const outsideTo = Object.assign({}, insideTo);
+      outsideFrom.ch -= delimiterLength;
+      outsideTo.ch += delimiterLength;
+      this.replaceRange(text, outsideFrom, outsideTo);
+
+      // Select new text
+      const selFrom = Object.assign({}, outsideFrom);
+      const selTo = Object.assign({}, insideTo);
+      if (selFrom.line === selTo.line) {
+        selTo.ch -= delimiterLength;
+      }
+      this.setSelection(selFrom, selTo);
     };
-    CodeMirror.prototype.draw = function (type, param) {
-        return draw(type, param)(this);
+
+    const countNewLines = (str) => {
+      const match = str.match(/\n/g);
+      const newLines = match ? match.length : 0;
+      return newLines;
     };
+
+    const getLastLineLength = (start, str) => {
+      const newLinePos = str.lastIndexOf("\n");
+      if (newLinePos === -1) return start.ch + str.length;
+      return str.length - str.lastIndexOf("\n") - 1;
+    };
+
+    const addInlineStyle = (style) => {
+      const getSetFunc = (style) => {
+        if (style.set === "wrap") {
+          return ({text, anchor, head, delimiter}) => [delimiter, anchor, text, head, delimiter];
+        }
+        if (typeof style.set !== "function") {
+          throw Error("style.set is not a function");
+        }
+        return style.set;
+      };
+
+      const getTrimmedText = () => {
+        const getMatchesNb = (text, regex) => {
+          return (text.match(regex) || [""])[0].length;
+        };
+        const text = this.getSelection();
+        const nbSpacesBefore = getMatchesNb(text, /^\s+/);
+        const nbSpacesAfter = getMatchesNb(text, /\s+$/);
+        if (nbSpacesBefore === 0 && nbSpacesAfter === 0) return text;
+        const start = this.getCursor("from");
+        const end = this.getCursor("to");
+        start.ch += nbSpacesBefore;
+        end.ch -= nbSpacesAfter;
+        this.setSelection(start, end);
+        return this.getRange(start, end);
+      };
+
+      const setFunc = getSetFunc(style);
+      const text = getTrimmedText();
+      const anchor = Symbol("anchor");
+      const head = Symbol("head");
+      const delimiter = style.delimiter;
+      const template = setFunc({text, anchor, head, delimiter}, this);
+      const selection = {};
+
+      const getCurrentPosition = (sum) => {
+        const newLines = countNewLines(sum);
+        // TODO: get those values once and for all
+        const start = this.getCursor("start");
+        const lastLineLength = getLastLineLength(start, sum);
+        return {
+          line: start.line + newLines,
+          ch: lastLineLength
+        };
+      };
+
+      const newText = template.reduce((sum, el) => {
+        if (typeof el === "string") {
+          return sum + el;
+        }
+        if (el === anchor) {
+          selection.anchor = getCurrentPosition(sum);
+        } else if (el === head) {
+          selection.head = getCurrentPosition(sum);
+        }
+        return sum;
+      }, "");
+
+      // FIXME: duplicate actions
+      const start = this.getCursor("from");
+      const end = this.getCursor("to");
+      this.replaceRange(newText, start, end, "+addInlineStyle");
+      this.setSelection(selection.anchor, selection.head);
+    };
+
+    const toggleInline = (style) => {
+      const classnames = getState();
+      const styleIsApplied = isApplied(classnames, style);
+      if (styleIsApplied) {
+        removeInlineStyle(style);
+      } else {
+        addInlineStyle(style);
+      }
+    };
+
+    const toggleBlock = (style) => {
+      const setLine = (line, text) => {
+        const start = {line, ch: 0};
+        const end = {line};
+        this.replaceRange(text, start, end, "+setLine");
+      };
+
+      const start = this.getCursor("start");
+      const end = this.getCursor("end");
+      // FIXME: use a consistent varname for "state" everywhere
+      const state = getState();
+      const classname = getClassname(style);
+      const alreadyHasThisType = state.includes(classname);
+
+      const clearTypes = (state, text) => {
+        Object.keys(styles).forEach((key) => {
+          const style = styles[key];
+          if (style.type !== "block") return;
+          const styleIsApplied = isApplied(state, style);
+          if (styleIsApplied) {
+            text = text.replace(style.regex, "$1");
+          }
+        });
+        return text;
+      };
+
+      const doc = this.doc;
+      let count = 0;
+      doc.eachLine(start.line, end.line + 1, (line) => {
+        const lineNumber = doc.getLineNumber(line);
+        let text = line.text;
+        text = clearTypes(state, text);
+        if (!alreadyHasThisType) {
+          text = style.prepend + text;
+          if (style.prependDigit) {
+            count++;
+            text = count + text;
+          }
+        }
+        setLine(lineNumber, text);
+      });
+
+      // Update selection
+      if (start.line !== end.line || start.ch !== end.ch) {
+        this.setSelection({ch: 0, line: start.line}, {line: end.line});
+      }
+    };
+
+    const style = styles[name];
+    if (style == null) {
+      throw Error(`Can't find style '${name}'`);
+    }
+    const fn = style.type === "inline" ? toggleInline : toggleBlock;
+    return fn(style);
+  };
 };
