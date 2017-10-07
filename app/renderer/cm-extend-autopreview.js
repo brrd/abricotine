@@ -227,7 +227,7 @@ function autopreview (cm, line, types) {
                 }
             },
             math: {
-                regex: /\${2}[^$]+\${2}/gi,
+                regex: /\${1,2}[^$]+\${1,2}/gi,
                 createElement: function (match) {
                     var $element = $("<span class='math autopreview-math'>" + match[0] + "</span>");
                     return $element.get(0);

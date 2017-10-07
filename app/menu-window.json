@@ -369,6 +369,11 @@
                 "parameters": "math"
             },
             {
+                "labelKey": "menu-insert-displaymath-formula",
+                "command": "format",
+                "parameters": "displaymath"
+            },
+            {
                 "labelKey": "menu-insert-hr",
                 "accelerator": "CmdOrCtrl+R",
                 "command": "format",

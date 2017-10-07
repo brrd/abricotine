@@ -61,12 +61,16 @@ function defineAbrMode (CodeMirror, newModeName, baseMode) {
             {open: "\\$", close: " ",
              mode: CodeMirror.getMode(config, "text/plain")},
             // Maths
-            {open: "$$", close: "$$",
+            {open: "$", close: "$",
              mode: CodeMirror.getMode(config, "text/x-latex"),
              delimStyle: "formatting formatting-math",
              parseDelimiters: false
+            },
+            {open: "$$", close: "$$",
+             mode: CodeMirror.getMode(config, "text/x-latex"),
+             delimStyle: "formatting formatting-displaymath",
+             parseDelimiters: false
             }
-            // .. more multiplexed styles can follow here
         );
     });
 }

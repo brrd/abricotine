@@ -41,6 +41,14 @@ const styles = {
     classname: "m-stex",
     delimiterClassname: "math",
     set: "wrap",
+    delimiter: "$",
+    reversible: true
+  },
+  displaymath: {
+    type: "inline",
+    classname: "m-stex",
+    delimiterClassname: "displaymath",
+    set: "wrap",
     delimiter: "$$",
     reversible: true
   },
