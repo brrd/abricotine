@@ -36,6 +36,22 @@ module.exports = function (CodeMirror) {
     const removeInlineStyle = (style) => {
       if (!style.reversible || style.delimiter == null) return;
 
+      // Fix selection if it contains formatting characters
+      const fixSelection = () => {
+        const delimiter = style.delimiter;
+        const length = delimiter.length;
+        const text = this.getSelection("\n");
+        if (text.length < length);
+        const cursorFrom = this.getCursor("from");
+        const cursorTo = this.getCursor("to");
+        if (text.slice(0, length) === delimiter) {
+          cursorFrom.ch += length;
+        }
+        if (text.slice(0 - length) === delimiter) {
+          cursorTo.ch -= length;
+        }
+      };
+
       const getDelimiter = (pos, classname, step) => {
         const getNextMove = (pos, step) => {
           const lineLength = this.getLine(pos.line).length;
@@ -71,6 +87,8 @@ module.exports = function (CodeMirror) {
           move = getNextMove(move, step);
         }
       };
+
+      fixSelection();
 
       const cursorFrom = this.getCursor("from");
       const cursorTo = this.getCursor("to");
