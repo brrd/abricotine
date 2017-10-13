@@ -194,12 +194,12 @@ function AbrDocument () {
         });
 
         that.cm.on("mousedown", function(cm, event) {
-          if (document.body.classList.contains("ctrl-pressed")) {
-            event.preventDefault();
-          }
-          
-          var isLink = event.target.classList.contains("cm-link");
-          var isUrl = event.target.classList.contains("cm-url");
+            var isLink = !event.target.classList.contains("cm-formatting") &&
+                (event.target.classList.contains("cm-link") ||
+                event.target.classList.contains("cm-url"))
+            if (isLink) {
+                OpenLinkHandler(event);
+              }
         });
 
         // Handle local keybindings that arent linked to a specific menu
@@ -216,16 +216,34 @@ function AbrDocument () {
             }
         };
 
-
-        var CtrlKeyHandler = function(e) {
-          if (e.keyCode !== 17) return; // ALT
-
-          var isKeyDown = e.type === "keydown";
-          document.body.classList.toggle("ctrl-pressed", isKeyDown);
+        // Handle ALT modifier key
+        var AltKeyHandler = function(e) {
+          var isKeyDown = e.type === "keydown" && e.keyCode === 18;
+          document.body.classList.toggle("alt-pressed", isKeyDown);
         }
 
-        window.addEventListener("keydown", CtrlKeyHandler, false);
-        window.addEventListener("keyup", CtrlKeyHandler, false);
+        window.addEventListener("keydown", AltKeyHandler, false);
+        window.addEventListener("keyup", AltKeyHandler, false);
+        // when leaving Abricotine to go the browser, the keyup event doesn't trigger
+        window.addEventListener("blur", AltKeyHandler, false);
+
+        var OpenLinkHandler = function(e) {
+          if (!document.body.classList.contains("alt-pressed")) return;
+
+          var word = that.cm.findWordAt(that.cm.getCursor());
+          var range = that.cm.getRange(word.anchor, word.head);
+          var open = null;
+          if (e.target.classList.contains("cm-url")) {
+              open = $(e.target).prevAll(".cm-formatting-link-string").first();
+          } else if (e.target.classList.contains("cm-link")) {
+              open = $(e.target).nextAll(".cm-formatting-link-string").first();
+          }
+
+          var url = open.nextUntil(".cm-formatting-link-string").text();
+          if (url !== "") {
+            shell.openExternal(url);
+          }
+        }
 
         // Handle CTRL+MouseWheel events
         var MouseWheelHandler = function (e) {
