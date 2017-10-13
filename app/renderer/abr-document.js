@@ -567,16 +567,24 @@ AbrDocument.prototype = {
         if (!this.path) {
             return;
         }
-        if (this.watcher) {
-            // Should not watch more than one file at a time.
-            var paths = this.watcher.getWatched();
-            if (paths.length > 0 && paths[0] != this.path) {
-                this.watcher.unwatch(paths[0]);
-            }
-            this.watcher.add(this.path);
-        } else {
-            this.initWatcher();
+        // Delay this function because watcher is often too slow on OSX
+        var that = this;
+        var delay = 1000;
+        if (this.watcherTimeout) {
+            window.clearTimeout(this.watcherTimeout);
         }
+        this.watcherTimeout = window.setTimeout(function () {
+            if (that.watcher) {
+                // Should not watch more than one file at a time
+                var paths = that.watcher.getWatched();
+                if (paths.length > 0 && paths[0] !== that.path) {
+                    that.watcher.unwatch(paths[0]);
+                }
+                that.watcher.add(that.path);
+            } else {
+                that.initWatcher();
+            }
+        }, delay);
     },
 
     pauseWatcher: function () {
@@ -607,7 +615,7 @@ AbrDocument.prototype = {
         if (!path) {
             return false;
         }
-        this.cm.draw("image", path);
+        this.cm.format("image", path);
     },
 
     imageImport: function (destFolder, updateEditor) {

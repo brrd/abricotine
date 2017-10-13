@@ -62,7 +62,10 @@ function defineAbrMode (CodeMirror, newModeName, baseMode) {
              mode: CodeMirror.getMode(config, "text/plain")},
             // Maths
             {open: "$$", close: "$$",
-             mode: CodeMirror.getMode(config, "text/x-latex")}
+             mode: CodeMirror.getMode(config, "text/x-latex"),
+             delimStyle: "formatting formatting-math",
+             parseDelimiters: false
+            }
             // .. more multiplexed styles can follow here
         );
     });
@@ -72,28 +75,38 @@ function initCodeMirror () {
     return new Promise ( function (resolve, reject) {
         // Spelling and no-spelling modes shortcuts
         defineAbrMode(CodeMirror, "abr-spellcheck-off", {
+            // FIXME: duplicate code
             name: "gfm",
             highlightFormatting: true,
-            allowAtxHeaderWithoutSpace: true
+            allowAtxHeaderWithoutSpace: true,
+            tokenTypeOverrides: {
+                "list1": "list",
+                "list2": "list",
+                "list3": "list"
+            }
         });
         defineAbrMode(CodeMirror, "abr-spellcheck-on", "spellchecker");
 
         var options = {
             theme: "", // Disable CodeMirror themes
-            addModeClass: true, // Used to disable colors on markdow lists (cm-variable-2, cm-variable-3, cm-keyword) but keep it in other modes
+            addModeClass: true, // Used to disable colors on markdow lists (cm-variable-2, cm-variable-3, cm-keyword) but keep it in other modes,
             lineNumbers: false,
             lineWrapping: true,
             autofocus: true,
             autoCloseBrackets: false,
             scrollbarStyle: "overlay",
             mode: "abr-spellcheck-off",
+            indentUnit: 4,
+            tabSize: 4,
             // TODO: replace default keymap by a custom one which removes most of hotkeys (CodeMirror interferences with menu accelerators)
             extraKeys: {
                 "Enter": "newlineAndIndentContinueMarkdownList",
-                "Home": "goLineLeft",
+                "Home": "homeList",
                 "End": "goLineRight",
                 "Ctrl-Up": "goPrevParagraph",
-                "Ctrl-Down": "goNextParagraph"
+                "Ctrl-Down": "goNextParagraph",
+                "Tab": "indentList",
+                "Shift-Tab": "indentLess"
             }
         };
 

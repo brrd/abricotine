@@ -157,17 +157,11 @@ var commands = {
 
     format: function (win, abrDoc, cm, param) {
         if (typeof param !== "undefined") {
-            cm.toggle(param);
+            cm.format(param);
         }
     },
 
     /* Insert */
-
-    draw: function (win, abrDoc, cm, param) {
-        if (typeof param !== "undefined") {
-            cm.draw(param);
-        }
-    },
 
     imageFromComputer: function(win, abrDoc, cm) {
         abrDoc.insertImage();

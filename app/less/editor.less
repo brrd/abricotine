@@ -80,7 +80,7 @@
 // Text
 // ====
 
-    .CodeMirror span.cm-m-markdown {
+    span.cm-m-markdown {
         font-family: @editor-font-family;
 
         // Header
@@ -104,7 +104,7 @@
         &.cm-quote { .editor-quote(); }
 
         // Lists (3 levels)
-        &.cm-variable-2, &.cm-variable-3, &.cm-keyword {
+        &.cm-list {
             .editor-list();
 
             &:first-child {
@@ -121,9 +121,6 @@
 
         // Image
         &.cm-tag { .editor-image(); }
-
-        // Formatting
-        &.cm-formatting { color: @editor-formatting-color; }
 
         // Link
         &.cm-link { .editor-link(); }
@@ -145,10 +142,25 @@
     // Underline-style headers fix
     .header-underline .cm-header-1, .header-underline .cm-header-2 { font-size: 100%; }
 
+    // Formatting
+    .cm-formatting, .cm-formatting-math {
+      font-family: @editor-font-family;
+      color: @editor-formatting-color;
+    }
+    span.cm-m-markdown.cm-formatting-header {
+      color: @editor-formatting-color;
+      font-weight: normal;
+    }
+    span.cm-formatting.cm-formatting-code-block {
+      font-family: @editor-font-family;
+      color: @editor-formatting-color;
+      font-size: 80%;
+    }
+
 // Code coloration
 // ===============
 
-    .CodeMirror-lines span:not(.cm-m-markdown) {
+    .CodeMirror-lines span:not(.cm-m-markdown):not(.cm-formatting) {
         font-family: @editor-code-font-family;
 
         &.cm-atom {color: @cm-atom-color;}
@@ -195,13 +207,20 @@
 
     // Tabs
     body.show-hidden-characters .cm-m-markdown .cm-tab, body.show-hidden-characters .cm-m-markdown.cm-tab {
+        font-family: @editor-font-family;
+        position: relative;
         &:after {
             content: '⇥';
             color: @editor-hidden-characters-color;
             font-family: @editor-font-family;
             font-weight: normal;
             font-style: normal;
-            margin-left: -50%;
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            text-align: center;
         }
     }
 
@@ -285,7 +304,7 @@
     }
 
     span.todolist.checked {
-        .cm-variable-2, .cm-variable-3, .cm-keyword {
+        .cm-list {
             color:  @editor-list-checked-color;
         }
         &:before {
@@ -298,12 +317,12 @@
         text-decoration: line-through;
         color: @editor-list-checked-color;
 
-        &.cm-trailing-whitespace, &.cm-property, &.cm-variable-2:first-child, &.cm-variable-3:first-child, &.cm-keyword:first-child {
+        &.cm-trailing-whitespace, &.cm-property, &.cm-list:first-child {
             text-decoration: none;
             color: @editor-list-checked-color;
         }
 
-        & > .cm-variable-2, & > .cm-variable-3, & > .cm-keyword {
+        & > .cm-list {
             color: @editor-list-checked-color;
         }
     }
