@@ -194,12 +194,14 @@ function AbrDocument () {
         });
 
         that.cm.on("mousedown", function(cm, event) {
-            var isLink = !event.target.classList.contains("cm-formatting") &&
+            var shouldOpenLink = document.body.classList.contains("shift-pressed") &&
+                !event.target.classList.contains("cm-formatting") &&
                 (event.target.classList.contains("cm-link") ||
-                event.target.classList.contains("cm-url"))
-            if (isLink) {
+                event.target.classList.contains("cm-url"));
+            if (shouldOpenLink) {
+                event.preventDefault();
                 OpenLinkHandler(event);
-              }
+            }
         });
 
         // Handle local keybindings that arent linked to a specific menu
@@ -217,21 +219,21 @@ function AbrDocument () {
         };
 
         // Handle ALT modifier key
-        var AltKeyHandler = function(e) {
-          var isKeyDown = e.type === "keydown" && e.keyCode === 18;
-          document.body.classList.toggle("alt-pressed", isKeyDown);
+        var ShiftKeyHandler = function(e) {
+            var linkIsClickable = !that.cm.somethingSelected() &&
+                e.type === "keydown" &&
+                e.shiftKey;
+            document.body.classList.toggle("shift-pressed", linkIsClickable);
         }
 
-        window.addEventListener("keydown", AltKeyHandler, false);
-        window.addEventListener("keyup", AltKeyHandler, false);
+        window.addEventListener("keydown", ShiftKeyHandler, false);
+        window.addEventListener("keyup", ShiftKeyHandler, false);
         // when leaving Abricotine to go the browser, the keyup event doesn't trigger
-        window.addEventListener("blur", AltKeyHandler, false);
+        window.addEventListener("blur", ShiftKeyHandler, false);
 
         var OpenLinkHandler = function(e) {
-            if (!document.body.classList.contains("alt-pressed")) return;
+            if (!document.body.classList.contains("shift-pressed")) return;
 
-            var word = that.cm.findWordAt(that.cm.getCursor());
-            var range = that.cm.getRange(word.anchor, word.head);
             var open = null;
             if (e.target.classList.contains("cm-url")) {
                 open = $(e.target).prevAll(".cm-formatting-link-string").first();
