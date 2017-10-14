@@ -235,13 +235,23 @@ function AbrDocument () {
             if (!document.body.classList.contains("shift-pressed")) return;
 
             var open = null;
+            var url = null;
             if (e.target.classList.contains("cm-url")) {
-                open = $(e.target).prevAll(".cm-formatting-link-string").first();
+                open = $(e.target).prevUntil(":not(.cm-url)").andSelf().first();
+                url = open.nextUntil(".cm-formatting-link-string").text();
             } else if (e.target.classList.contains("cm-link")) {
-                open = $(e.target).nextAll(".cm-formatting-link-string").first();
+                open = $(e.target).prevUntil(":not(.cm-link)");
+                if (open.first().is(".cm-formatting-link")) {
+                    // link is in standard MD format
+                    open = $(e.target).nextAll(".cm-formatting-link-string").first();
+                    url = open.nextUntil(".cm-formatting-link-string").text();
+                } else {
+                    // link is a raw url
+                    open = open.andSelf().first();
+                    url = open.nextUntil(":not(.cm-link)").andSelf().text();
+                }
             }
 
-            var url = open.nextUntil(".cm-formatting-link-string").text();
             if (url === "") return;
             var hasProtocol = /^[a-z]+:\/\//.test(url);
             if (!hasProtocol) {
