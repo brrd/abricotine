@@ -228,21 +228,24 @@ function AbrDocument () {
         window.addEventListener("blur", AltKeyHandler, false);
 
         var OpenLinkHandler = function(e) {
-          if (!document.body.classList.contains("alt-pressed")) return;
+            if (!document.body.classList.contains("alt-pressed")) return;
 
-          var word = that.cm.findWordAt(that.cm.getCursor());
-          var range = that.cm.getRange(word.anchor, word.head);
-          var open = null;
-          if (e.target.classList.contains("cm-url")) {
-              open = $(e.target).prevAll(".cm-formatting-link-string").first();
-          } else if (e.target.classList.contains("cm-link")) {
-              open = $(e.target).nextAll(".cm-formatting-link-string").first();
-          }
+            var word = that.cm.findWordAt(that.cm.getCursor());
+            var range = that.cm.getRange(word.anchor, word.head);
+            var open = null;
+            if (e.target.classList.contains("cm-url")) {
+                open = $(e.target).prevAll(".cm-formatting-link-string").first();
+            } else if (e.target.classList.contains("cm-link")) {
+                open = $(e.target).nextAll(".cm-formatting-link-string").first();
+            }
 
-          var url = open.nextUntil(".cm-formatting-link-string").text();
-          if (url !== "") {
+            var url = open.nextUntil(".cm-formatting-link-string").text();
+            if (url === "") return;
+            var hasProtocol = /^[a-z]+:\/\//.test(url);
+            if (!hasProtocol) {
+              url = "http://" + url;
+            }
             shell.openExternal(url);
-          }
         }
 
         // Handle CTRL+MouseWheel events
