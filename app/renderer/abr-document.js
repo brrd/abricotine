@@ -193,17 +193,6 @@ function AbrDocument () {
             }
         });
 
-        that.cm.on("mousedown", function(cm, event) {
-            var shouldOpenLink = document.body.classList.contains("shift-pressed") &&
-                !event.target.classList.contains("cm-formatting") &&
-                (event.target.classList.contains("cm-link") ||
-                event.target.classList.contains("cm-url"));
-            if (shouldOpenLink) {
-                event.preventDefault();
-                OpenLinkHandler(event);
-            }
-        });
-
         // Handle local keybindings that arent linked to a specific menu
         document.onkeydown = function(evt) {
             evt = evt || window.event;
@@ -218,12 +207,39 @@ function AbrDocument () {
             }
         };
 
+        // Listeners for opening links on shift-click.
+
+        // Helper method to tell us if we should open a link from
+        // the target that has been clicked on. Check the global
+        // link-clickable class first to see if there's some reason
+        // that we shouldn't open a valid link (like selected text),
+        // then check for Markdown indicators.
+        var shouldOpenLink = function(event) {
+            return document.body.classList.contains("link-clickable") &&
+                !event.target.classList.contains("cm-formatting") &&
+                (event.target.classList.contains("cm-link") ||
+                event.target.classList.contains("cm-url"));
+        }
+
+        that.cm.on("mousedown", function(cm, event) { // prevent selection by shift-click
+            if (shouldOpenLink(event)) {
+                event.preventDefault();
+            }
+        });
+
+        document.addEventListener("mouseup", function(event) { // actually open the browser on mouseup
+            if (shouldOpenLink(event)) {
+                event.preventDefault();
+                OpenLinkHandler(event);
+            }
+        });
+
         // Handle ALT modifier key
         var ShiftKeyHandler = function(e) {
             var linkIsClickable = !that.cm.somethingSelected() &&
                 e.type === "keydown" &&
                 e.shiftKey;
-            document.body.classList.toggle("shift-pressed", linkIsClickable);
+            document.body.classList.toggle("link-clickable", linkIsClickable);
         }
 
         window.addEventListener("keydown", ShiftKeyHandler, false);
@@ -232,21 +248,19 @@ function AbrDocument () {
         window.addEventListener("blur", ShiftKeyHandler, false);
 
         var OpenLinkHandler = function(e) {
-            if (!document.body.classList.contains("shift-pressed")) return;
+            if (!document.body.classList.contains("link-clickable")) return;
 
             var open = null;
             var url = null;
-            if (e.target.classList.contains("cm-url")) {
+            if (e.target.classList.contains("cm-url")) { // link in standard MD format, url part was clicked on
                 open = $(e.target).prevUntil(":not(.cm-url)").andSelf().first();
                 url = open.nextUntil(".cm-formatting-link-string").text();
             } else if (e.target.classList.contains("cm-link")) {
                 open = $(e.target).prevUntil(":not(.cm-link)");
-                if (open.first().is(".cm-formatting-link")) {
-                    // link is in standard MD format
+                if (open.first().is(".cm-formatting-link")) { // link in standard MD format, link text was clicked on
                     open = $(e.target).nextAll(".cm-formatting-link-string").first();
                     url = open.nextUntil(".cm-formatting-link-string").text();
-                } else {
-                    // link is a raw url
+                } else { // link is a raw url
                     open = open.andSelf().first();
                     url = open.nextUntil(":not(.cm-link)").andSelf().text();
                 }
