@@ -142,7 +142,6 @@ function initCodeMirror () {
             }
         });
         // Code blocks
-        // FIXME: does not work with empty line. We could use blankLine(state) method, but state is useless with overlay modes. Possible workaround: auto add 1 tab on typing in codeblock empty lines. Best solution: write a real mode and use blankLine(state);
         cm.addOverlay({
             token: function(stream) {
                 var baseToken = stream.baseToken();
@@ -162,6 +161,20 @@ function initCodeMirror () {
                 }
                 return null;
             }
+        });
+        // Code blocks: empty lines workaround
+        cm.on("update", function (cm, arg) {
+          cm.eachLine(function (line) {
+            var isBlank = line.text === "";
+            if (!isBlank) return;
+            var lineNumber = cm.getLineNumber(line);
+            var mode = cm.getModeAt({line: lineNumber});
+            if (mode.name && mode.name === "markdown") {
+              cm.removeLineClass(line, "background", "codeblock");
+              return;
+            }
+            cm.addLineClass(line, "background", "codeblock");
+          });
         });
         resolve(cm);
     });
