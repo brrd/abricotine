@@ -161,6 +161,20 @@
 // Code coloration
 // ===============
 
+    .codeblock, .codeblock-start, .codeblock-end {
+      background: #eee;
+    }
+
+    .codeblock-start {
+      border-top-left-radius: 10px;
+      border-top-right-radius: 10px;
+    }
+
+    .codeblock-end {
+      border-bottom-left-radius: 10px;
+      border-bottom-right-radius: 10px;
+    }
+
     .CodeMirror-lines span:not(.cm-m-markdown):not(.cm-formatting) {
         font-family: @editor-code-font-family;
 
