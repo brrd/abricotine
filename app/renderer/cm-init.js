@@ -141,6 +141,41 @@ function initCodeMirror () {
                 return "line-not-blank";
             }
         });
+        // Code blocks
+        cm.addOverlay({
+            token: function(stream) {
+                var baseToken = stream.baseToken();
+                if (!baseToken || !baseToken.type) return null;
+                var type = baseToken.type;
+                stream.match(/^\s*\S*/);
+
+                var hasTypeFormatting = /\bformatting-code-block\b/.test(type);
+                var hasTypeMarkdown = /\b(m-markdown)\b/.test(type);
+
+                if (hasTypeFormatting && hasTypeMarkdown) {
+                    return "line-background-codeblock-start";
+                } else if (!hasTypeFormatting && !hasTypeMarkdown) {
+                    return "line-background-codeblock";
+                } else if (hasTypeFormatting && !hasTypeMarkdown) {
+                    return "line-background-codeblock-end";
+                }
+                return null;
+            }
+        });
+        // Code blocks: empty lines workaround
+        cm.on("update", function (cm, arg) {
+          cm.eachLine(function (line) {
+            var isBlank = line.text === "";
+            if (!isBlank) return;
+            var lineNumber = cm.getLineNumber(line);
+            var mode = cm.getModeAt({line: lineNumber});
+            if (mode.name && mode.name === "markdown") {
+              cm.removeLineClass(line, "background", "codeblock");
+              return;
+            }
+            cm.addLineClass(line, "background", "codeblock");
+          });
+        });
         resolve(cm);
     });
 }
