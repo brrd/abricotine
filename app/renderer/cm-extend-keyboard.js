@@ -16,7 +16,7 @@ module.exports = function (CodeMirror) {
         const cursorAfterBullet = bulletRegex.test(textBeforeCursor);
 
         if (!inList || !cursorAfterBullet) {
-          return cm.execCommand("goLineStartSmart");
+          return cm.execCommand("goLineLeftSmart");
         }
 
         // Move cursor to bullet
@@ -26,7 +26,7 @@ module.exports = function (CodeMirror) {
         const newCh = bulletPos + bulletLength;
         // ...except if it's already there
         if (newCh === pos.ch) {
-          return cm.execCommand("goLineStartSmart");
+          return cm.execCommand("goLineLeftSmart");
         }
         cm.setCursor({line: pos.line, ch: newCh});
     };
