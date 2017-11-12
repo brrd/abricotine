@@ -18,17 +18,17 @@ module.exports = function (CodeMirror) {
       return classnames;
     };
 
-    const getClassname = (style, getDelimiter = false) => {
+    const getClassname = (style, text, getDelimiter = false) => {
       const hint = getDelimiter ? (style.delimiterClassname || style.classname) : style.classname;
       if (typeof hint === "function") {
-        return hint(this, style);
+        return hint(text, style);
       }
       return hint;
     };
 
-    const isApplied = (classnames, style) => {
+    const isApplied = (classnames, style, text) => {
       const isMatch = (name) => classnames.indexOf(name) > -1;
-      const classname = getClassname(style);
+      const classname = getClassname(style, text);
       const delimiterClassname = `formatting-${getClassname(style, true)}`;
       return isMatch(classname) || isMatch(delimiterClassname);
     };
@@ -216,16 +216,13 @@ module.exports = function (CodeMirror) {
 
       const start = this.getCursor("start");
       const end = this.getCursor("end");
-      // FIXME: use a consistent varname for "state" everywhere
-      const state = getState();
-      const classname = getClassname(style);
-      const alreadyHasThisType = state.includes(classname);
 
       const clearTypes = (state, text) => {
         Object.keys(styles).forEach((key) => {
           const style = styles[key];
           if (style.type !== "block") return;
-          const styleIsApplied = isApplied(state, style);
+          // We pass text to isApplied because we need it to distinguish different list styles
+          const styleIsApplied = isApplied(state, style, text);
           if (styleIsApplied) {
             text = text.replace(style.regex, "$1");
           }
@@ -237,7 +234,14 @@ module.exports = function (CodeMirror) {
       let count = 0;
       doc.eachLine(start.line, end.line + 1, (line) => {
         const lineNumber = doc.getLineNumber(line);
+
         let text = line.text;
+        const state = getState({line: lineNumber, ch: 0});
+        // FIXME: use a consistent varname for "state" everywhere
+        // FIXME: we should do this only once (see isApplied())
+        const classname = getClassname(style, text);
+        const alreadyHasThisType = state.includes(classname);
+
         text = clearTypes(state, text);
         if (!alreadyHasThisType) {
           text = style.prepend + text;

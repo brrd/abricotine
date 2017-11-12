@@ -86,9 +86,7 @@ const styles = {
   },
   ul: {
     type: "block",
-    classname: function (cm, style) {
-      const pos = cm.getCursor();
-      const text = cm.getLine(pos.line);
+    classname: function (text, style) {
       const regex = /^(\s*)(\*|\-|\+)(?!\s\[( |x)?\])\s+/;
       if (regex.test(text)) return "list";
     },
@@ -97,9 +95,7 @@ const styles = {
   },
   ol: {
     type: "block",
-    classname: function (cm, style) {
-      const pos = cm.getCursor();
-      const text = cm.getLine(pos.line);
+    classname: function (text, style) {
       if (style.regex.test(text)) return "list";
     },
     regex: /^(\s*)\d+\.\s+/,
@@ -108,9 +104,7 @@ const styles = {
   },
   todolist: {
     type: "block",
-    classname: function (cm, style) {
-      const pos = cm.getCursor();
-      const text = cm.getLine(pos.line);
+    classname: function (text, style) {
       if (style.regex.test(text)) return "list";
     },
     regex: /^(\s*)(\*|\-|\+)\s+\[( |x)?\]\s+/,
