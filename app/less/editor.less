@@ -343,13 +343,9 @@
 // ============
 
     span.cm-m-markdown.cm-spell-error {
-        display: inline-block;
-        position:relative;
-        background: data-uri("image/svg+xml;charset=UTF-8", "./svg/spellcheck-underline.svg") left bottom repeat-x;
-    }
-
-    span.cm-m-markdown.cm-spell-error {
-        &.cm-string, &.cm-link, &.cm-formatting, &.cm-tag, &.cm-hr, &.cm-comment {
-            background: none;
+        &:not(.cm-string, .cm-link, .cm-formatting, .cm-tag, .cm-hr, .cm-comment) {
+            display: inline-block;
+            position:relative;
+            background: data-uri("image/svg+xml;charset=UTF-8", "./svg/spellcheck-underline.svg") left bottom repeat-x;
         }
     }
