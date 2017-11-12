@@ -144,20 +144,31 @@ function initCodeMirror () {
         // Code blocks
         cm.addOverlay({
             token: function(stream) {
+                if (stream.start > 0) {
+                  stream.match(/^\s*\S*/);
+                  return null;
+                }
+
+                stream.match(/^\s*/);
                 var baseToken = stream.baseToken();
                 if (!baseToken || !baseToken.type) return null;
-                var type = baseToken.type;
+                var type = baseToken.type.split(" ");
                 stream.match(/^\s*\S*/);
 
-                var hasTypeFormatting = /\bformatting-code-block\b/.test(type);
-                var hasTypeMarkdown = /\b(m-markdown)\b/.test(type);
+                var hasTypeFormattingCodeblock = type.includes("formatting-code-block");
+                var hasTypeFormattingCode = type.includes("formatting-code");
+                var hasTypeFormattingMath = type.includes("formatting-math");
+                var hasTypeMarkdown = type.includes("m-markdown");
+                var hasTypeComment = type.includes("comment");
 
-                if (hasTypeFormatting && hasTypeMarkdown) {
-                    return "line-background-codeblock-start";
-                } else if (!hasTypeFormatting && !hasTypeMarkdown) {
+                if (hasTypeFormattingCode || hasTypeFormattingMath) {
+                  return null;
+                }
+                if (hasTypeFormattingCodeblock) {
+                    return "line-background-codeblock-delimiter";
+                }
+                if (!hasTypeMarkdown || (hasTypeComment && hasTypeMarkdown)) {
                     return "line-background-codeblock";
-                } else if (hasTypeFormatting && !hasTypeMarkdown) {
-                    return "line-background-codeblock-end";
                 }
                 return null;
             }
