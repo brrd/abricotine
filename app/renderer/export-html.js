@@ -45,9 +45,11 @@ function exportHtml (abrDoc, templateName, destPath, callback) {
     files.readFile(pathModule.join(templatePath, "/template.html"), function (template) {
         // Process templating
         var defaultTitle = abrDoc.localizer.get("html-export-title"),
-            page = template.replace(/\$DOCUMENT_TITLE/g, getDocTitle(markdown, defaultTitle))
-                           .replace(/\$DOCUMENT_CONTENT/g, htmlContent)
-                           .replace(/\$ASSETS_PATH/g, "./" + parsePath(destPath).basename + "_files");
+            docTitle = getDocTitle(markdown, defaultTitle),
+            assetsPath = "./" + parsePath(destPath).basename + "_files",
+            page = template.replace(/\$DOCUMENT_TITLE/g, function () { return docTitle; })
+                           .replace(/\$DOCUMENT_CONTENT/g, function () { return htmlContent; })
+                           .replace(/\$ASSETS_PATH/g, function () { return assetsPath; });
         // Write output file
         files.writeFile(page, destPath, function (err) {
             if (err) {
