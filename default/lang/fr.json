@@ -3,7 +3,8 @@
     "menu-redo": "Refaire",
     "menu-cut": "Couper",
     "menu-copy": "Copier",
-    "menu-copy-html": "Copier en tant que HTML",
+    "menu-copy-html": "Copier sous forme HTML",
+    "menu-copy-with-formatting": "Copier avec Mise en forme",
     "menu-paste": "Coller",
     "menu-selectAll": "Sélectionner tout",
 
