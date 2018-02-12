@@ -66,6 +66,12 @@ var commands = {
 
     copyHtml: function(win, abrDoc, cm) {
         var data = cm.doc.getSelection("\n"),
+            html = md2html(data);
+        clipboard.writeText(html);
+    },
+
+    copyRTF: function(win, abrDoc, cm) {
+        var data = cm.doc.getSelection("\n"),
             html = md2html(data),
             text = $(html).text();
         clipboard.write({
