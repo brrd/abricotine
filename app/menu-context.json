@@ -21,6 +21,14 @@
         "role": "copy"
     },
     {
+        "labelKey": "menu-copy-with-formatting",
+        "command": "copyRTF"
+    },
+    {
+        "labelKey": "menu-copy-html",
+        "command": "copyHtml"
+    },
+    {
         "labelKey": "menu-paste",
         "role": "paste"
     },
