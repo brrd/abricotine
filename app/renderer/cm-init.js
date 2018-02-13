@@ -99,6 +99,7 @@ function initCodeMirror () {
             indentUnit: 4,
             tabSize: 4,
             // TODO: replace default keymap by a custom one which removes most of hotkeys (CodeMirror interferences with menu accelerators)
+            keyMap: "sublime",
             extraKeys: {
                 "Enter": "newlineAndIndentContinueMarkdownList",
                 "Home": "homeList",
