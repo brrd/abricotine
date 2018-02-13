@@ -219,7 +219,7 @@ function AbrDocument () {
                 !event.target.classList.contains("cm-formatting") &&
                 (event.target.classList.contains("cm-link") ||
                 event.target.classList.contains("cm-url"));
-        }
+        };
 
         that.cm.on("mousedown", function(cm, event) { // prevent selection by shift-click
             if (shouldOpenLink(event)) {
@@ -240,7 +240,7 @@ function AbrDocument () {
                 e.type === "keydown" &&
                 e.shiftKey;
             document.body.classList.toggle("link-clickable", linkIsClickable);
-        }
+        };
 
         window.addEventListener("keydown", ShiftKeyHandler, false);
         window.addEventListener("keyup", ShiftKeyHandler, false);
@@ -272,7 +272,7 @@ function AbrDocument () {
               url = "http://" + url;
             }
             shell.openExternal(url);
-        }
+        };
 
         // Handle CTRL+MouseWheel events
         var MouseWheelHandler = function (e) {
