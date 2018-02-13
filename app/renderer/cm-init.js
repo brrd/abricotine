@@ -106,7 +106,8 @@ function initCodeMirror () {
                 "Ctrl-Up": "goPrevParagraph",
                 "Ctrl-Down": "goNextParagraph",
                 "Tab": "indentList",
-                "Shift-Tab": "indentLess"
+                "Shift-Tab": "indentLess",
+                "Shift-Ctrl-F": "clearSearch"
             }
         };
 
