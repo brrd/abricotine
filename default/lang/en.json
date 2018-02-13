@@ -4,6 +4,7 @@
     "menu-cut": "Cut",
     "menu-copy": "Copy",
     "menu-copy-html": "Copy as HTML",
+    "menu-copy-with-formatting": "Copy with Formatting",
     "menu-paste": "Paste",
     "menu-selectAll": "Select All",
 

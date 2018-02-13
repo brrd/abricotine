@@ -137,8 +137,12 @@
                 "role": "copy"
             },
             {
-                "labelKey": "menu-copy-html",
+                "labelKey": "menu-copy-with-formatting",
                 "accelerator": "CmdOrCtrl+Shift+C",
+                "command": "copyRTF"
+            },
+            {
+                "labelKey": "menu-copy-html",
                 "command": "copyHtml"
             },
             {
