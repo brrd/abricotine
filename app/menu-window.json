@@ -143,6 +143,7 @@
             },
             {
                 "labelKey": "menu-copy-html",
+                "accelerator": "Alt+Shift+C",
                 "command": "copyHtml"
             },
             {
@@ -263,37 +264,37 @@
             },
             {
                 "labelKey": "format-heading1",
-                "accelerator": "CmdOrCtrl+F1",
+                "accelerator": "CmdOrCtrl+1",
                 "command": "format",
                 "parameters": "h1"
             },
             {
                 "labelKey": "format-heading2",
-                "accelerator": "CmdOrCtrl+F2",
+                "accelerator": "CmdOrCtrl+2",
                 "command": "format",
                 "parameters": "h2"
             },
             {
                 "labelKey": "format-heading3",
-                "accelerator": "CmdOrCtrl+F3",
+                "accelerator": "CmdOrCtrl+3",
                 "command": "format",
                 "parameters": "h3"
             },
             {
                 "labelKey": "format-heading4",
-                "accelerator": "CmdOrCtrl+F4",
+                "accelerator": "CmdOrCtrl+4",
                 "command": "format",
                 "parameters": "h4"
             },
             {
                 "labelKey": "format-heading5",
-                "accelerator": "CmdOrCtrl+F5",
+                "accelerator": "CmdOrCtrl+5",
                 "command": "format",
                 "parameters": "h5"
             },
             {
                 "labelKey": "format-heading6",
-                "accelerator": "CmdOrCtrl+F6",
+                "accelerator": "CmdOrCtrl+6",
                 "command": "format",
                 "parameters": "h6"
             },
@@ -339,6 +340,7 @@
                     },
                     {
                         "labelKey": "menu-insert-image-from-url",
+                        "accelerator": "Shift+Alt+I",
                         "command": "format",
                         "parameters": "image"
                     },
@@ -359,16 +361,19 @@
             },
             {
                 "labelKey": "menu-insert-anchor",
+                "accelerator": "CmdOrCtrl+Shift+A",
                 "command": "format",
                 "parameters": "anchor"
             },
             {
                 "labelKey": "menu-insert-codeblock",
+                "accelerator": "CmdOrCtrl+Shift+.",
                 "command": "format",
                 "parameters": "codeblock"
             },
             {
                 "labelKey": "menu-insert-math-formula",
+                "accelerator": "CmdOrCtrl+M",
                 "command": "format",
                 "parameters": "math"
             },
@@ -620,7 +625,7 @@
                 "submenu": [
                     {
                         "labelKey": "menu-reload",
-                        "accelerator": "F5",
+                        "accelerator": "CmdOrCtrl+Alt+F5",
                         "command": "reload"
                     },
                     {
@@ -677,6 +682,7 @@
             },
             {
                 "labelKey": "menu-show-menu-bar",
+                "accelerator": "Alt+Shift+M",
                 "command": "showMenuBar",
                 "type": "checkbox",
                 "checked": "window:showMenuBar",
@@ -684,18 +690,21 @@
             },
             {
                 "labelKey": "menu-show-table-of-contents",
+                "accelerator": "Alt+Shift+T",
                 "command": "showTocPane",
                 "type": "checkbox",
                 "checked": "startup-commands:showTocPane"
             },
             {
                 "labelKey": "menu-show-blocks",
+                "accelerator": "Alt+Shift+B",
                 "command": "showBlocks",
                 "type": "checkbox",
                 "checked": "startup-commands:showBlocks"
             },
             {
                 "labelKey": "menu-show-hidden-chars",
+                "accelerator": "Alt+Shift+H",
                 "command": "showHiddenCharacters",
                 "type": "checkbox",
                 "checked": "startup-commands:showHiddenCharacters"
