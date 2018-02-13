@@ -343,7 +343,7 @@
 // ============
 
     span.cm-m-markdown.cm-spell-error {
-        &:not(.cm-string, .cm-link, .cm-formatting, .cm-tag, .cm-hr, .cm-comment) {
+        &:not(.cm-string):not(.cm-link):not(.cm-formatting):not(.cm-tag):not(.cm-hr):not(.cm-comment) {
             display: inline-block;
             position:relative;
             background: data-uri("image/svg+xml;charset=UTF-8", "./svg/spellcheck-underline.svg") left bottom repeat-x;
