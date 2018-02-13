@@ -359,7 +359,6 @@ AbrDocument.prototype = {
     },
 
     // Functions for title suggestion
-
     getTitleSuggestion: function() {
         var filename = /[\w][\w\s-]*/;
         var toc = this.toc;
@@ -375,14 +374,13 @@ AbrDocument.prototype = {
 
         // Check document contents
         function getTitleLine() {
-            var titleLine = '';
-            doc.eachLine(function(lineHandle) {
-              if (filename.test(lineHandle.text)) {
-                titleLine = lineHandle.text;
-                return false; // break of iterator
-              }
-            });
-            return titleLine;
+            var firstLine = doc.firstLine();
+            var lastLine = doc.lastLine();
+            for (var i=firstLine; i<=lastLine; i++) {
+                var text = doc.getLine(i);
+                if (filename.test(text)) return text;
+            }
+            return "";
         }
 
         // Normalizes the given string
@@ -405,7 +403,6 @@ AbrDocument.prototype = {
                   .replace(/\s/g, '_');
               return suggestion + ".md";
             }
-
             return "";
         }
 
