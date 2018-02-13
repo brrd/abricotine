@@ -69,14 +69,19 @@ creator.create = function () {
     ]);
 };
 
-// Erase the whole configuration
+// Erase the whole configuration + temporary files
 creator.erase = function () {
-    return new Promise (function (resolve, reject) {
-        files.deleteDir(constants.path.userData, function (err) {
-            if (err) reject(err);
-            else resolve();
-        });
-    });
+    function getErasePromise (dirPath) {
+      return new Promise (function (resolve, reject) {
+          files.deleteDir(dirPath, function (err) {
+              if (err) reject(err);
+              else resolve();
+          });
+      });
+    }
+    var p1 = getErasePromise(constants.path.userData);
+    var p2 = getErasePromise(constants.path.tmp);
+    return Promise.all([p1, p2]);
 };
 
 // Reset: erase then create a new clear config
