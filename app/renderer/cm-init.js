@@ -98,18 +98,7 @@ function initCodeMirror () {
             mode: "abr-spellcheck-off",
             indentUnit: 4,
             tabSize: 4,
-            // TODO: replace default keymap by a custom one which removes most of hotkeys (CodeMirror interferences with menu accelerators)
-            keyMap: "sublime",
-            extraKeys: {
-                "Enter": "newlineAndIndentContinueMarkdownList",
-                "Home": "homeList",
-                "End": "goLineRight",
-                "Ctrl-Up": "goPrevParagraph",
-                "Ctrl-Down": "goNextParagraph",
-                "Tab": "indentList",
-                "Shift-Tab": "indentLess",
-                "Shift-Ctrl-F": "clearSearch"
-            }
+            keyMap: "abricotine"
         };
 
         // Start editor
