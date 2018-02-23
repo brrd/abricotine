@@ -40,4 +40,21 @@ module.exports = function (CodeMirror) {
         }
         cm.execCommand("defaultTab");
     };
+
+    CodeMirror.commands.toggleCase = function(cm) {
+        const texts = cm.getSelections();
+        const isLowerCase = (str) => str === str.toLowerCase();
+        const isUpperCase = (str) => str === str.toUpperCase();
+        const toTilleCase = (str) => str.toLowerCase().replace(/^(.)|\s(.)/g, ($1) => $1.toUpperCase());
+        const replacements = texts.map((text) => {
+          if (isLowerCase(text)) {
+            return text.toUpperCase();
+          }
+          if (isUpperCase(text)) {
+            return toTilleCase(text);
+          }
+          return text.toLowerCase();
+        });
+        cm.replaceSelections(replacements, "around");
+    };
 };
