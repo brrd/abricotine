@@ -20,7 +20,7 @@ module.exports = function (CodeMirror) {
     "Cmd-T": "transposeChars",
     "Ctrl-Left": "goSubwordLeft",
     "Ctrl-Right": "goSubwordRight",
-    "Shift-L": "selectLine",
+    "Cmd-Shift-L": "selectLine",
     "Cmd-Alt-L": "splitSelectionByLine",
     "Esc": "singleSelectionTop",
     "Cmd-Enter": "insertLineAfter",
@@ -45,6 +45,8 @@ module.exports = function (CodeMirror) {
     "Cmd-H": "replace",
     "F3": "findNext",
     "Shift-F3": "findPrev",
+    "Cmd-U": false,
+    "Cmd-Shift-U": false,
     "fallthrough": "macDefault"
   };
   CodeMirror.normalizeKeyMap(keyMap.macAbricotine);
@@ -63,7 +65,7 @@ module.exports = function (CodeMirror) {
     "Ctrl-T": "transposeChars",
     "Alt-Left": "goSubwordLeft",
     "Alt-Right": "goSubwordRight",
-    "Shift-L": "selectLine",
+    "Ctrl-Shift-L": "selectLine",
     "Ctrl-Alt-L": "splitSelectionByLine",
     "Esc": "singleSelectionTop",
     "Ctrl-Enter": "insertLineAfter",
@@ -88,6 +90,8 @@ module.exports = function (CodeMirror) {
     "Ctrl-H": "replace",
     "F3": "findNext",
     "Shift-F3": "findPrev",
+    "Ctrl-U": false,
+    "Ctrl-Shift-U": false,
     "fallthrough": "pcDefault"
   };
   CodeMirror.normalizeKeyMap(keyMap.pcAbricotine);

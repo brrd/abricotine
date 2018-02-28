@@ -303,13 +303,13 @@
             },
             {
                 "labelKey": "format-list-unordered",
-                "accelerator": "CmdOrCtrl+Shift+L",
+                "accelerator": "CmdOrCtrl+Shift+U",
                 "command": "format",
                 "parameters": "ul"
             },
             {
                 "labelKey": "format-list-ordered",
-                "accelerator": "CmdOrCtrl+Alt+Shift+L",
+                "accelerator": "CmdOrCtrl+Shift+O",
                 "command": "format",
                 "parameters": "ol"
             },
