@@ -1,0 +1,9 @@
+{
+    "name": "academic template",
+    "label": "academic",
+    "accelerator": "CmdOrCtrl+E",
+    "author": "Thomas Jensen.",
+    "description": "Created from Abricotine default template",
+    "license": "MIT"
+    "toc":"toc.js script taken from http://www.whitsoftdev.com/articles/toc.html" 
+}

@@ -1,0 +1,226 @@
+@import url('https://fonts.googleapis.com/css?family=Ubuntu');
+
+/* reset script begynd */
+
+html,body,div,span,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,abbr,address,cite,code,del,dfn,em,img,ins,kbd,q,samp,small,strong,var,b,i,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td,article,aside,canvas,details,figcaption,figure,footer,header,hgroup,menu,nav,section,summary,time,mark,audio,video{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}
+body{line-height:1}
+article,aside,details,figcaption,figure,footer,header,hgroup,menu,nav,section{display:block}
+nav ul{list-style:none}
+blockquote,q{quotes:none}
+blockquote:before,blockquote:after,q:before,q:after{content:none}
+a{margin:0;padding:0;font-size:100%;vertical-align:baseline;background:transparent}
+ins{background-color:#ff9;color:#000;text-decoration:none}
+mark{background-color:#ff9;color:#000;font-style:italic;font-weight:bold}
+del{text-decoration:line-through}
+abbr[title],dfn[title]{border-bottom:1px dotted;cursor:help}
+table{border-collapse:collapse;border-spacing:0}
+hr{display:block;height:1px;border:0;border-top:1px solid #ccc;margin:1em 0;padding:0}
+input,select{vertical-align:middle}
+
+/* reset script slut */
+
+
+
+body {
+  font-family:ubuntu;
+  line-height:1.6;
+  margin:0;
+  padding:2em 2em 5em;
+  margin:auto;
+  max-width:33	em;
+
+}
+
+a {outline:none !important; text-decoration:none;}
+/*
+a:link {color:#c00;}
+a:visited {color:#606;}
+a:hover {color:#606;}
+a:active {color:#900; outline:none;}
+*/
+
+#dok_titel {font-size: 3em; text-align: center;}
+
+h1, h2, h3, h4, h5, h6 { 
+
+	font-family: Ubuntu, sans-serif;
+	font-weight: 700;
+	margin-top: 1em;
+	margin-bottom: -.35em
+
+}
+
+h1 {display:none;}
+
+h2{font-size: 1.6em;}
+
+h3{font-size: 1.3em;}
+
+h4{font-size: 1.2em;}
+
+h5{font-size: 1.1em;}
+
+p {
+  text-align:left;
+  font-size:100%;
+  margin:1em 0 0;
+}
+
+p.lead {
+  font-size:150%;
+  margin:1em 0;
+}
+
+p + ul, p + ol, p + dl {margin-bottom:1.5em;}
+p.lead + p {text-indent:0;}
+
+
+
+blockquote {
+border-left:3px solid #aaaaaa; 
+padding-left:1.5em; 
+margin:1em 0;
+background-color: #f0f0f0;}
+/*
+blockquote small {display:block; line-height:1.7em;}
+*/
+
+
+ul, ol, dl {
+  text-align:left;
+  padding-left: 2em;
+}
+
+dt {font-weight:bold;}
+code {font-family:courier, monospace;}
+p > code {padding:0.25em; background:#f0f0f0;}
+pre {text-align:left; font-size:1.2em;}
+hr {height:0; color:#eee; border:1px solid #eee; margin:2em 0 1em;}
+
+.normal {font-weight:normal;}
+.quiet {color:#999;}
+.pull-left {float:left; margin:0.5em 2em 1em 0;}
+.pull-right {float:right; margin:0.5em 0 1em 2em;}
+
+li.task-list-item {
+    list-style: none;
+    margin-left: -1em;
+}
+
+/*
+li.task-list-item-checked {
+    color: #666;
+    text-decoration: line-through;
+*/
+}
+
+img, iframe {
+    max-width: 100%;
+    max-height: 800px;
+}
+
+table {
+margin : 0 auto;
+margin-top: 1.2em;
+margin-bottom: 1.6em;
+width:90%;
+border-collapse:collapse;
+border-spacing:0
+
+
+}
+
+table thead th {
+
+background-color: #585858 ;
+color: #E8E8E8  ;
+font-family: Ubuntu mono;
+border: .1em solid black  ;
+padding: 1em .4em;
+text-align: left;
+}
+
+
+td {
+
+border: .1em solid black  ;
+padding: .5em .4em;
+
+}
+
+/* FODNOTER */
+
+*[id^='fn_'] {
+
+background-color: transparent;
+border: none;
+
+}
+
+/* LISTS */
+
+ol { counter-reset: item }
+ol li{ display: block }
+ol li:before { content: counters(item, ".") " "; counter-increment: item }
+
+ul li ul li {list-style-type: disc;}
+
+/* PRINT */
+
+table { page-break-inside: avoid; }
+
+.pb { page-break-before: always; }
+
+/* TOC */
+
+
+div#toc::before {
+
+content: "Indholdsfortegnelse";
+font-size: 1.6em;
+
+}
+
+
+div#toc {
+
+/*
+page-break-before: always;
+*/
+font-size: 1.3em;
+
+}
+
+div#toc li {
+
+list-style-type: none;
+margin-left: -1em;
+font-size: .95em;
+
+}
+
+div#toc>ul>li {
+
+padding-top: .7em;
+
+}
+
+div#toc a {color: black;}
+div#toc a:hover {color: #666;}
+
+/*
+div#toc ul>li {
+
+color:red;
+
+}
+*/
+
+
+
+div#fixed {
+
+white-space:pre;
+
+}
+
