@@ -1,5 +1,12 @@
 [
     {
+        "labelKey": "menu-add-to-dictionary",
+        "command": "addToDict"
+    },
+    {
+        "type": "separator"
+    },
+    {
         "labelKey": "menu-undo",
         "accelerator": "CmdOrCtrl+Z",
         "role": "undo"

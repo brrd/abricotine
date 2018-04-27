@@ -31,6 +31,9 @@ function AbrDocument () {
     // Start with an empty table of contents
     this.toc = [];
 
+    // Custom words
+    this.words = [];
+
     // Run this in a background thread
     var worker = cp.fork(__dirname + "/toc-worker.js");
 
@@ -88,9 +91,10 @@ function AbrDocument () {
             if (config.spellchecker.active) {
                 that.setDictionary(config.spellchecker.language, config.spellchecker.src);
 
-                // custom words
+                // load custom words
                 var words = config.spellchecker["custom-words"];
                 if (words != null) {
+                    that.words = words;
                     words.forEach(function (word) {
                         // just for safety
                         if (word != "") {
@@ -784,6 +788,15 @@ AbrDocument.prototype = {
     setDictionary: function (lang, path) {
         if (lang) {
             spellchecker.setDictionary(lang, path);
+
+            // reload custom words
+            this.words.forEach(function (word) {
+                // just for safety
+                if (word != "") {
+                    spellchecker.add(word)
+                }
+            });
+
             // Refresh CodeMirror highlight + enable spelling
             this.cm.setOption("mode", "abr-spellcheck-on");
             this.setConfig("spellchecker:active", true);
@@ -798,6 +811,18 @@ AbrDocument.prototype = {
     // Returns the spellchecking function
     getSpellcheckFunc: function () {
         return spellchecker.isMisspelled;
+    },
+
+    // Adds the given word to our custom spellcheck-ok words
+    addSpelledWord: function (word) {
+        // add to in-memory spellchecker
+        spellchecker.add(word);
+
+        // add to config file
+        if (this.words.indexOf(word) == -1) {
+            this.words.push(word)
+            this.setConfig("spellchecker:custom-words", this.words)
+        }
     },
 
     // Scale text

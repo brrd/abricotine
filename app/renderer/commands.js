@@ -90,6 +90,62 @@ var commands = {
         document.execCommand("paste");
     },
 
+    addToDict: function(win, abrDoc, cm) {
+        var pos = cm.doc.getCursor();
+        var line = cm.doc.getLine(pos.line);
+
+        // split all words on the currently-selected line
+        var wordDelimiters = "!\"#$%&()*+,-./:;<=>?@[\\]^_`{|}~ \t",
+            initialChar = 0,
+            word = "",
+            words = [];
+
+        for (var i = 0; i < line.length; i++) {
+            var ch = line[i];
+
+            if (wordDelimiters.includes(ch)) {
+                if (word != "") {
+                    words.push([initialChar, word.replace(/[’ʼ]/g, "'")]);
+                    word = "";
+                }
+                initialChar = i;
+            } else {
+                word += ch;
+            }
+        }
+        if (word != "") {
+            words.push([initialChar, word.replace(/[’ʼ]/g, "'")]);
+        }
+
+        // if there are no words on this line, return
+        if (words.length < 1) {
+            return
+        }
+
+        // find which specific word which is selected
+        var selectedWord = words[0][1];
+
+        for(var i = 0; i < words.length; i++) {
+            var newWordStart = words[i][0],
+                newWord = words[i][1];
+
+            if (newWordStart < pos.ch) {
+                selectedWord = newWord;
+            }
+        }
+
+        // confirm the selected word is misspelled
+        var isMisspelled = abrDoc.getSpellcheckFunc()(selectedWord)
+
+        if (isMisspelled) {
+            abrDoc.addSpelledWord(selectedWord);
+
+            // refresh overlays so user sees the word get marked as spelled fine
+            cm.setOption("mode", "abr-spellcheck-off");
+            cm.setOption("mode", "abr-spellcheck-on");
+        }
+    },
+
     find: function(win, abrDoc, cm) {
         $(".CodeMirror-dialog").remove(); // FIXME: error when double key
         cm.execCommand("clearSearch");
