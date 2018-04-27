@@ -87,6 +87,17 @@ function AbrDocument () {
             // Spellchecker init
             if (config.spellchecker.active) {
                 that.setDictionary(config.spellchecker.language, config.spellchecker.src);
+
+                // custom words
+                var words = config.spellchecker["custom-words"];
+                if (words != null) {
+                    words.forEach(function (word) {
+                        // just for safety
+                        if (word != "") {
+                            spellchecker.add(word)
+                        }
+                    });
+                }
             }
 
             // Editor font-size
