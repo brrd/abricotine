@@ -30,6 +30,10 @@ var commands = {
         abrDoc.saveAs();
     },
 
+    autosave: function(win, abrDoc, cm) {
+        abrDoc.autosave();
+    },
+
     exportHtml: function(win, abrDoc, cm, param) {
         abrDoc.exportHtml(param);
     },
@@ -142,6 +146,17 @@ var commands = {
         } else {
             // If cm not loaded yet
             abrDoc.commandsToTrigger.push("autoCloseBrackets");
+        }
+    },
+
+    autoSaveOnFocusLost: function(win, abrDoc, cm) {
+        if (cm) {
+            var flag = cm.getOption("autoSaveOnFocusLost");
+            cm.setOption("autoSaveOnFocusLost", !flag);
+            abrDoc.setConfig("startup-commands:autoSaveOnFocusLost", !flag);
+        } else {
+            // If cm not loaded yet
+            abrDoc.commandsToTrigger.push("autoSaveOnFocusLost");
         }
     },
 
