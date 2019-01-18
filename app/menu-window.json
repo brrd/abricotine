@@ -85,7 +85,7 @@
                 "labelKey": "menu-save-autosave",
                 "command": "autoSaveOnFocusLost",
                 "type": "checkbox",
-                "checked": "autosave_on_focus_lost"
+                "checked": "startup-commands:autoSaveOnFocusLost"
             },
             {
                 "type": "separator"
