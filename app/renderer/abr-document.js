@@ -548,6 +548,15 @@ AbrDocument.prototype = {
         return this.save(path, callback);
     },
 
+    autosave: function(path, callback) {
+        path = path || this.path;
+        // Only autosave if it's an existing file
+        if (!path) {
+            return false;
+        }
+        return this.save(path, callback);
+    },
+
     initWatcher: function () {
         var that = this;
         // All dialogs should be displayed only if the window is focused.

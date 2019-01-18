@@ -82,6 +82,12 @@
                 "command": "saveAs"
             },
             {
+                "labelKey": "menu-save-autosave",
+                "command": "autoSaveOnFocusLost",
+                "type": "checkbox",
+                "checked": "startup-commands:autoSaveOnFocusLost"
+            },
+            {
                 "type": "separator"
             },
             {

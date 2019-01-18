@@ -31,7 +31,8 @@
         "showBlocks": false,
         "showHiddenCharacters": true,
         "showTocPane": false,
-        "autoCloseBrackets": true
+        "autoCloseBrackets": true,
+        "autoSaveOnFocusLost" : false
     },
     "spellchecker": {
         "active": true,

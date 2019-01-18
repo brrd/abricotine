@@ -24,6 +24,7 @@
     "menu-open": "Open",
     "menu-save": "Save",
     "menu-save-as": "Save As…",
+    "menu-save-autosave": "Save on Focus Lost",
     "menu-export-html": "Export as HTML",
     "menu-close-document": "Close Document",
     "menu-close-window": "Close Window",
