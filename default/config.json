@@ -35,8 +35,8 @@
         "autoSaveOnFocusLost" : false
     },
     "spellchecker": {
-        "active": true,
-        "language": "en_US"
+        "active": false,
+        "language": ""
     },
     "theme": "default",
     "window": {
