@@ -5,6 +5,7 @@
 */
 
 var remote = require("electron").remote,
+    baseMode = require("./cm-base-mode.js"),
     constants = remote.require("./constants.js"),
     glob = require("glob"),
     pathModule = require("path");
@@ -74,17 +75,7 @@ function defineAbrMode (CodeMirror, newModeName, baseMode) {
 function initCodeMirror () {
     return new Promise ( function (resolve, reject) {
         // Spelling and no-spelling modes shortcuts
-        defineAbrMode(CodeMirror, "abr-spellcheck-off", {
-            // FIXME: duplicate code
-            name: "gfm",
-            highlightFormatting: true,
-            allowAtxHeaderWithoutSpace: true,
-            tokenTypeOverrides: {
-                "list1": "list",
-                "list2": "list",
-                "list3": "list"
-            }
-        });
+        defineAbrMode(CodeMirror, "abr-spellcheck-off", baseMode);
         defineAbrMode(CodeMirror, "abr-spellcheck-on", "spellchecker");
 
         var options = {
@@ -151,8 +142,9 @@ function initCodeMirror () {
                 var hasTypeFormattingMath = type.includes("formatting-math");
                 var hasTypeMarkdown = type.includes("m-markdown");
                 var hasTypeComment = type.includes("comment");
+                var hasTypeNull = type.includes("m-null");
 
-                if (hasTypeFormattingCode || hasTypeFormattingMath) {
+                if (hasTypeFormattingCode || hasTypeFormattingMath || hasTypeNull) {
                   return null;
                 }
                 if (hasTypeFormattingCodeblock) {
@@ -167,9 +159,8 @@ function initCodeMirror () {
         // Code blocks: empty lines workaround
         cm.on("update", function (cm, arg) {
           cm.eachLine(function (line) {
-            var isBlank = line.text === "";
-            if (!isBlank) return;
             var lineNumber = cm.getLineNumber(line);
+            if (lineNumber === 0) return;
             var mode = cm.getModeAt({line: lineNumber});
             if (mode.name && mode.name === "markdown") {
               cm.removeLineClass(line, "background", "codeblock");

@@ -6,6 +6,8 @@
 
 // Spellchecker for CodeMirror
 
+var baseMode = require("./cm-base-mode.js");
+
 function initSpellcheck (CodeMirror) {
     // Create overlay
     // Inspiration: https://github.com/NextStepWebs/codemirror-spell-checker/blob/master/src/js/spell-checker.js
@@ -34,17 +36,7 @@ function initSpellcheck (CodeMirror) {
         			return null;
         		}
         	},
-            mode = CodeMirror.getMode(config, {
-                // FIXME: duplicate code
-                name: "gfm",
-                highlightFormatting: true,
-                allowAtxHeaderWithoutSpace: true,
-                tokenTypeOverrides: {
-                    "list1": "list",
-                    "list2": "list",
-                    "list3": "list"
-                }
-            });
+            mode = CodeMirror.getMode(config, baseMode);
         return CodeMirror.overlayMode(mode, overlay, true);
     });
 }
