@@ -283,21 +283,6 @@ function AbrDocument () {
             }
         };
         document.getElementById("editor").addEventListener("mousewheel", MouseWheelHandler, false);
-
-        // Close event
-        window.onbeforeunload = function(e) {
-            if (!that.isClean()) {
-                e.returnValue = false;
-                var win = remote.getCurrentWindow(),
-                    saveFunc = function (callback) {
-                        that.save(null, callback);
-                    },
-                    closeFunc = function () {
-                        win.destroy();
-                    };
-                that.dialogs.askClose(that.path, saveFunc, closeFunc);
-            }
-        };
     });
 }
 
@@ -315,13 +300,18 @@ AbrDocument.prototype = {
         this.cm.refresh(); // CodeMirror scrollbar bug workaround
     },
 
-    close: function (force) {
+    close: function (force, destroyWindow) {
         var that = this,
             saveFunc = function (callback) {
                 that.save(null, callback);
             },
             closeFunc = function () {
-                that.clear();
+              if (destroyWindow) {
+                  var win = remote.getCurrentWindow();
+                   win.destroy();
+                   return;
+              }
+              that.clear();
             };
         if (!force && !this.isClean()) {
             that.dialogs.askClose(that.path, saveFunc, closeFunc);

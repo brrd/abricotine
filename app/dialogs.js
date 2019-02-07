@@ -66,15 +66,15 @@ Dialogs.prototype = {
                 defaultId: 2,
                 noLink: true
             });
-        switch (userChoice) {
-            case 1:
-                closeFunc();
-                break;
-            case 2:
-                saveFunc(closeFunc);
-                break;
+        if (userChoice === 1) {
+          // Close without saving
+          return closeFunc();
+        } else if (userChoice === 2) {
+          // Save and close
+          return saveFunc(closeFunc);
         }
-        return false;
+        // Cancel
+        return true;
     },
 
     askFileReload: function (path, callback) {

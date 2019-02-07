@@ -42,9 +42,9 @@ var commands = {
         abrDoc.close();
     },
 
-    // Deprecated: replaced by "role" in menu
-    closeWin: function(win, abrDoc, cm) {
-        win.close();
+    // Replaced by "role" in menu
+    closeWindow: function(win, abrDoc, cm) {
+        abrDoc.close(false, true);
     },
 
     quit: function(win, abrDoc, cm) {
@@ -53,17 +53,17 @@ var commands = {
 
     /* Edit */
 
-    // Deprecated: replaced by "role" in menu
+    // Replaced by "role" in menu
     undo: function(win, abrDoc, cm) {
         cm.execCommand("undo");
     },
 
-    // Deprecated: replaced by "role" in menu
+    // Replaced by "role" in menu
     redo: function(win, abrDoc, cm) {
         cm.execCommand("redo");
     },
 
-    // Deprecated: replaced by "role" in menu
+    // Replaced by "role" in menu
     copy: function(win, abrDoc, cm) {
         document.execCommand("copy");
     },
@@ -84,12 +84,12 @@ var commands = {
         });
     },
 
-    // Deprecated: replaced by "role" in menu
+    // Replaced by "role" in menu
     cut: function(win, abrDoc, cm) {
         document.execCommand("cut");
     },
 
-    // Deprecated: replaced by "role" in menu
+    // Replaced by "role" in menu
     paste: function(win, abrDoc, cm) {
         document.execCommand("paste");
     },
@@ -127,7 +127,7 @@ var commands = {
         cm.execCommand("clearSearch");
     },
 
-    // Deprecated: replaced by "role" in menu
+    // Replaced by "role" in menu
     selectAll: function(win, abrDoc, cm) {
         cm.execCommand("selectAll");
     },

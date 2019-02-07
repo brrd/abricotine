@@ -113,6 +113,10 @@ AbrWindow.prototype = {
                 abrWin.execCommand("autosave");
             }
         });
+        win.on("close", function (e) {
+            e.preventDefault() // Prevents the window from closing
+            abrWin.execCommand("closeWindow");
+        });
         win.on("closed", function () {
             // Destroy the window
             abrApp.windows[abrWin.id] = null;
