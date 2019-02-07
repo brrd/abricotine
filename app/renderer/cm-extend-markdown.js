@@ -10,7 +10,7 @@
 const styles = require.main.require("./cm-markdown-styles.js");
 
 module.exports = function (CodeMirror) {
-  CodeMirror.prototype.format = function (name) {
+  CodeMirror.prototype.format = function (name, param) {
     const getState = (pos = this.getCursor("start")) => {
       const type = this.getTokenTypeAt(pos);
       if (!type) return [];
@@ -132,7 +132,7 @@ module.exports = function (CodeMirror) {
       return str.length - str.lastIndexOf("\n") - 1;
     };
 
-    const addInlineStyle = (style) => {
+    const addInlineStyle = (style, param) => {
       const getSetFunc = (style) => {
         if (style.set === "wrap") {
           return ({text, anchor, head, delimiter}) => [delimiter, anchor, text, head, delimiter];
@@ -164,7 +164,7 @@ module.exports = function (CodeMirror) {
       const anchor = Symbol("anchor");
       const head = Symbol("head");
       const delimiter = style.delimiter;
-      const template = setFunc({text, anchor, head, delimiter}, this);
+      const template = setFunc({text, anchor, head, delimiter, param}, this);
       const selection = {};
 
       const getCurrentPosition = (sum) => {
@@ -197,17 +197,18 @@ module.exports = function (CodeMirror) {
       this.setSelection(selection.anchor, selection.head);
     };
 
-    const toggleInline = (style) => {
+    const toggleInline = (style, param) => {
       const classnames = getState();
       const styleIsApplied = isApplied(classnames, style);
       if (styleIsApplied) {
         removeInlineStyle(style);
       } else {
-        addInlineStyle(style);
+        addInlineStyle(style, param);
       }
     };
 
-    const toggleBlock = (style) => {
+    // NOTE: param not used yet in blocks
+    const toggleBlock = (style, param) => {
       const setLine = (line, text) => {
         const start = {line, ch: 0};
         const end = {line};
@@ -264,6 +265,6 @@ module.exports = function (CodeMirror) {
       throw Error(`Can't find style '${name}'`);
     }
     const fn = style.type === "inline" ? toggleInline : toggleBlock;
-    return fn(style);
+    return fn(style, param);
   };
 };
