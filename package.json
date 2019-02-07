@@ -36,7 +36,7 @@
     "chokidar": "1.6.1",
     "codemirror": "5.43.0",
     "deep-equal": "1.0.1",
-    "deep-extend": "0.4.1",
+    "deep-extend": "0.6.0",
     "electron": "4.0.4",
     "electron-rebuild": "1.7.3",
     "electron-squirrel-startup": "1.0.0",
