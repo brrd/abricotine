@@ -20,10 +20,9 @@ var options = {
 
 console.log("Creating debian package for linux " + process.arch);
 
-installer(options, function (err) {
-    if (err) {
-        console.error(err, err.stack);
-        process.exit(1);
-    }
-    console.log("Package successfully created at " + options.outputDirectory + " in " + prettyMs(new Date().getTime() - startTime));
-});
+installer(options)
+    .then(() => console.log("Package successfully created at " + options.outputDirectory + " in " + prettyMs(new Date().getTime() - startTime)))
+    .catch(err => {
+        console.error(err, err.stack)
+        process.exit(1)
+    });
