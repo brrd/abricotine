@@ -10,7 +10,8 @@ var constants = require.main.require("./constants"),
     langmap = require("langmap"),
     Menu = require("electron").Menu,
     pathModule = require("path"),
-    spellchecker = require('spellchecker');
+    spellchecker = require('spellchecker'),
+    sysDictionaries = spellchecker.getAvailableDictionaries();
 
 function getConfig (config, key) {
     if (config && typeof config.get === "function") {
@@ -120,8 +121,7 @@ function spellingMenuGenerator (submenu, config) {
         }
         return dicts;
     }
-    var sysDictionaries = spellchecker.getAvailableDictionaries(),
-        radioChecked = false,
+    var radioChecked = false,
         langMenu;
     if (sysDictionaries.length !== 0) {
         // System builtin dictionaries
