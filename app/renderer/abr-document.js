@@ -125,6 +125,16 @@ function AbrDocument () {
               });
             });
 
+            // Refresh autopreview on scroll
+            that.cm.on("scroll", function(cm) {
+                // Wait until editor finished to scroll
+              	window.clearTimeout(window.isScrolling);
+              	window.isScrolling = window.setTimeout(function() {
+                  // Autopreview changed lines
+                  that.runAutopreviewQueue();
+              	}, 100);
+            });
+
             worker.on("message", function(msg) {
                 if (msg.lineNumbers) {
                     that.pane.setLineNumbers(msg.lineNumbers);
