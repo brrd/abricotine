@@ -40,6 +40,7 @@ app.on("open-file", function(event, path) {
 // Quit app when all windows are closed
 app.on("window-all-closed", function() {
     if (process.platform != "darwin") {
+        app.releaseSingleInstanceLock();
         app.quit();
     } else {
         abrApp.showMenu();
