@@ -78,7 +78,7 @@ AbrWindow.prototype = {
             width: mainWindowState.width,
             height: mainWindowState.height,
             autoHideMenuBar: typeof showMenubar !== "undefined" ? !showMenubar : false,
-            nodeIntegration: true
+            webPreferences: { nodeIntegration: true }
         });
         mainWindowState.manage(win);
 
