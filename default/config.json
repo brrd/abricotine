@@ -29,7 +29,7 @@
     "preview-template": "default",
     "startup-commands": {
         "showBlocks": false,
-        "showHiddenCharacters": true,
+        "showHiddenCharacters": false,
         "showTocPane": false,
         "autoCloseBrackets": true,
         "autoSaveOnFocusLost" : false
