@@ -15,20 +15,17 @@ var abrApp = null,
     osxOpenFilePaths = [];
 
 // Check app is single instance
-var isSecondaryInstance = app.makeSingleInstance(function(argv, workingDir) {
-        process.chdir(workingDir);
-        if (abrApp == null) {
-            console.error("Error when trying to reach primary Abricotine instance");
-            app.quit();
-            return false;
-        }
-        abrApp.run(argv);
-        return true;
-    });
-if (isSecondaryInstance) {
-    app.quit();
-    return;
-}
+app.requestSingleInstanceLock();
+app.on("second-instance", (event, argv, cwd) => {
+    process.chdir(cwd);
+    if (abrApp == null) {
+        console.error("Error when trying to reach primary Abricotine instance");
+        app.quit();
+        return false;
+    }
+    abrApp.run(argv);
+    return true;
+});
 
 // OSX open-file
 app.on("open-file", function(event, path) {

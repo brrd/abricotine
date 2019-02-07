@@ -37,9 +37,10 @@
     "codemirror": "5.34.0",
     "deep-equal": "1.0.1",
     "deep-extend": "0.4.1",
-    "electron": "1.8.2",
+    "electron": "4.0.4",
+    "electron-rebuild": "1.7.3",
     "electron-squirrel-startup": "1.0.0",
-    "electron-window-state": "4.1.1",
+    "electron-window-state": "5.0.3",
     "font-awesome": "4.7.0",
     "glob": "5.0.15",
     "is-url": "1.2.2",
@@ -57,7 +58,7 @@
     "rimraf": "2.6.1",
     "salvator": "0.2.0",
     "simple-virtual-dom": "0.1.9",
-    "spellchecker": "3.4.4"
+    "spellchecker": "3.5.1"
   },
   "devDependencies": {
     "commander": "2.9.0",
