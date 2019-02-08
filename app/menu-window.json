@@ -341,7 +341,7 @@
                 "submenu": [
                     {
                         "labelKey": "menu-insert-image-from-computer",
-                        "accelerator": "CmdOrCtrl+Alt+I",
+                        "accelerator": "CmdOrCtrl+Shift+I",
                         "command": "imageFromComputer"
                     },
                     {
