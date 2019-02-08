@@ -12,7 +12,7 @@ var remote = require("electron").remote,
     salvator = require("salvator");
 
 // Import all images
-function imageImport (abrDoc, destFolder, updateEditor, showDialog) {
+function imageImport (abrDoc, destFolder, { updateEditor = false, showDialog = false } = {}) {
 
     function getImageUrl (href) {
         if (isUrl(href)) {
@@ -26,12 +26,19 @@ function imageImport (abrDoc, destFolder, updateEditor, showDialog) {
         }
     }
 
+    function getAbsPath (filepath) {
+      if (parsePath(filepath).isAbsolute) return filepath;
+      var dirpath = parsePath(abrDoc.path).dirname;
+      return pathModule.join(dirpath, filepath);
+    }
+
     function processMatch (match, line) {
         var url = match[2],
             filename = parsePath(url).basename,
-            target = pathModule.join(destFolder, filename);
-        // Si l'url correspond déjà au dest folder alors continue
-        if (url === target) {
+            target = pathModule.join(destFolder, filename),
+            absTarget = pathModule.join(absDestFolder, filename);
+        // Skip if URL is already equals to dest folder
+        if (url === target || url === absTarget) {
             return;
         }
         // Jump to next file if already copied
@@ -41,16 +48,16 @@ function imageImport (abrDoc, destFolder, updateEditor, showDialog) {
             return;
         }
         sources.push(source);
-        // Si le fichier de destination existe déjà alors on
-        salvator.safe(target, { exclude: dests }).then(function(safePath) {
-            target = safePath;
-            dests.push(target);
+        // Use a safe path if destination file already exist
+        salvator.safe(absTarget, { exclude: dests }).then(function(safePath) {
+            absTarget = safePath;
+            dests.push(absTarget);
             // Process next file
             next();
-            // Copier l'image dans le destFolder
-            files.copyFile(source, target);
+            // Copy image to destFolder
+            files.copyFile(source, absTarget);
             if (updateEditor !== false) {
-                // Changer l'url dans l'éditeur
+                // Change URL in editor
                 var lineNumber = cm.doc.getLineNumber(line),
                     from = {
                         line: lineNumber,
@@ -60,7 +67,8 @@ function imageImport (abrDoc, destFolder, updateEditor, showDialog) {
                         line: lineNumber,
                         ch: from.ch + match[2].length
                     };
-                cm.doc.replaceRange(target, from, to, "*");
+                var relTarget = pathModule.relative(absDestFolder, absTarget);
+                cm.doc.replaceRange(relTarget, from, to, "*");
             }
         });
     }
@@ -82,8 +90,7 @@ function imageImport (abrDoc, destFolder, updateEditor, showDialog) {
     function main() {
         var regex = /(!\[[^\]]*\]\()([\(\)\[\]-a-zA-Z0-9@:%_\+~#=\.\\\/ ]+\.(?:jpg|jpeg|png|gif|svg))(?:\s(?:"|')(?:[-a-zA-Z0-9@:%_\+~#=\.\/! ]*)(?:"|')\s?)?\)/gi,
             match;
-        destFolder = destFolder || parsePath(abrDoc.path).basename + "_files";
-        files.createDir(destFolder);
+        files.createDir(absDestFolder);
         // Each line
         cm.doc.eachLine( function (line) {
             // Each image in the current line
@@ -101,7 +108,9 @@ function imageImport (abrDoc, destFolder, updateEditor, showDialog) {
         queue = [],
         sources = [],
         dests = [],
-        saveDocOnFinish = false;
+        saveDocOnFinish = false,
+        destFolder = destFolder || parsePath(abrDoc.path).basename + "_files",
+        absDestFolder = getAbsPath(destFolder);
 
     if (!abrDoc.path) {
         saveDocOnFinish = true;

@@ -189,7 +189,7 @@ var commands = {
     },
 
     imagesImportAll: function(win, abrDoc, cm) {
-        abrDoc.imageImport();
+        abrDoc.imageImport(null, { showDialog: true });
     },
 
     /* Table */

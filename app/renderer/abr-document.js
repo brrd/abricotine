@@ -671,10 +671,8 @@ AbrDocument.prototype = {
         this.cm.format("image", path);
     },
 
-    imageImport: function (destFolder, updateEditor, showDialog) {
-        updateEditor = updateEditor === false ? false : true;
-        showDialog = showDialog === false ? false : true;
-        imageImport(this, destFolder, updateEditor, showDialog);
+    imageImport: function (destFolder, options) {
+        return imageImport(this, destFolder, options);
     },
 
     // Export

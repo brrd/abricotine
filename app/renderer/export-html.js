@@ -40,7 +40,7 @@ function exportHtml (abrDoc, templateName, destPath, callback) {
     // Copy images
     // TODO: should be an option
     var imgDirAbs = destPath + "_files/images";
-    abrDoc.imageImport(imgDirAbs, false, false);
+    abrDoc.imageImport(imgDirAbs);
 
     // Update images src attributes
     var assetsPath = "./" + parsePath(destPath).basename + "_files"
