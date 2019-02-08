@@ -82,7 +82,7 @@
 // Text
 // ====
 
-    span.cm-m-markdown {
+    span.cm-m-markdown, span.cm-m-null {
         font-family: @editor-font-family;
 
         // Header
@@ -141,15 +141,6 @@
 
     }
 
-    // Fist line fix
-    span.cm-m-null.cm-formatting-header {
-      line-height: 100%;
-      .editor-headers();
-      .editor-header-1();
-      .cm-formatting;
-      font-weight: normal;
-    }
-
     // Underline-style headers fix
     .header-underline .cm-header-1, .header-underline .cm-header-2 { font-size: 100%; }
 
@@ -158,7 +149,7 @@
       font-family: @editor-font-family;
       color: @editor-formatting-color;
     }
-    span.cm-m-markdown.cm-formatting-header {
+    span.cm-m-markdown.cm-formatting-header, span.cm-m-null.cm-formatting-header {
       color: @editor-formatting-color;
       font-weight: normal;
     }
@@ -171,7 +162,7 @@
 // Code coloration
 // ===============
 
-    .CodeMirror-lines span:not(.cm-m-markdown):not(.cm-formatting) {
+    .CodeMirror-lines span:not(.cm-m-markdown):not(.cm-m-null):not(.cm-formatting) {
         font-family: @editor-code-font-family;
 
         &.cm-atom {color: @cm-atom-color;}
@@ -206,7 +197,11 @@
 // =================
 
     // Line breaks
-    body.show-hidden-characters .cm-m-markdown .cm-trailing-whitespace, body.show-hidden-characters .cm-m-markdown.cm-trailing-whitespace {
+    body.show-hidden-characters .cm-m-markdown .cm-trailing-whitespace,
+    body.show-hidden-characters .cm-m-markdown.cm-trailing-whitespace,
+    body.show-hidden-characters .cm-m-null .cm-trailing-whitespace,
+    body.show-hidden-characters .cm-m-null.cm-trailing-whitespace
+    {
         &:last-child:after {
             content: '↵';
             color: @editor-hidden-characters-color;
@@ -217,7 +212,11 @@
     }
 
     // Tabs
-    body.show-hidden-characters .cm-m-markdown .cm-tab, body.show-hidden-characters .cm-m-markdown.cm-tab {
+    body.show-hidden-characters .cm-m-markdown .cm-tab,
+    body.show-hidden-characters .cm-m-markdown.cm-tab,
+    body.show-hidden-characters .cm-m-null .cm-tab,
+    body.show-hidden-characters .cm-m-null.cm-tab
+    {
         font-family: @editor-font-family;
         position: relative;
         &:after {
@@ -352,7 +351,8 @@
 // Spellchecker
 // ============
 
-    span.cm-m-markdown.cm-spell-error {
+    span.cm-m-markdown.cm-spell-error,
+    span.cm-m-null.cm-spell-error {
         &:not(.cm-string):not(.cm-link):not(.cm-formatting):not(.cm-tag):not(.cm-hr):not(.cm-comment) {
             display: inline-block;
             position:relative;
