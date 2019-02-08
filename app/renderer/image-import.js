@@ -12,7 +12,7 @@ var remote = require("electron").remote,
     salvator = require("salvator");
 
 // Import all images
-function imageImport (abrDoc, destFolder, updateEditor) {
+function imageImport (abrDoc, destFolder, updateEditor, showDialog) {
 
     function getImageUrl (href) {
         if (isUrl(href)) {
@@ -73,7 +73,9 @@ function imageImport (abrDoc, destFolder, updateEditor) {
             if (saveDocOnFinish) {
                 abrDoc.save();
             }
-            abrDoc.dialogs.importImagesDone(destFolder);
+            if (showDialog !== false) {
+              abrDoc.dialogs.importImagesDone(destFolder);
+            }
         }
     }
 

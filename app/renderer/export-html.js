@@ -34,19 +34,28 @@ function exportHtml (abrDoc, templateName, destPath, callback) {
         destPath += ".html";
     }
 
-    // Copy images
-    // TODO: should be an option
-    // TODO: change img url in generated content
-    // abrDoc.imageImport(destPath + "_files/images", false);
-
     // Markdown to HTML conversion
     var htmlContent = md2html(markdown);
+
+    // Copy images
+    // TODO: should be an option
+    var imgDirAbs = destPath + "_files/images";
+    abrDoc.imageImport(imgDirAbs, false, false);
+
+    // Update images src attributes
+    var assetsPath = "./" + parsePath(destPath).basename + "_files"
+    var re = /(<img[^>]+src=['"])([^">]+)(['"])/gmi;
+    htmlContent = htmlContent.replace(re, function (str, p1, p2, p3) {
+        var basename = parsePath(p2).basename;
+        var replacement = p1 + pathModule.join(assetsPath, "/images", basename) + p3;
+        return replacement;
+    });
+
     // Process and save HTML
     files.readFile(pathModule.join(templatePath, "/template.html"), function (template) {
         // Process templating
         var defaultTitle = abrDoc.localizer.get("html-export-title"),
             docTitle = getDocTitle(markdown, defaultTitle),
-            assetsPath = "./" + parsePath(destPath).basename + "_files",
             page = template.replace(/\$DOCUMENT_TITLE/g, function () { return docTitle; })
                            .replace(/\$DOCUMENT_CONTENT/g, function () { return htmlContent; })
                            .replace(/\$ASSETS_PATH/g, function () { return assetsPath; });
