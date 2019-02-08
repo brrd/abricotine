@@ -161,9 +161,8 @@ function initCodeMirror () {
         cm.on("update", function (cm, arg) {
           cm.eachLine(function (line) {
             var lineNumber = cm.getLineNumber(line);
-            if (lineNumber === 0) return;
             var mode = cm.getModeAt({line: lineNumber});
-            if (mode.name && mode.name === "markdown") {
+            if (mode.name && mode.name === "markdown" || lineNumber === 0) {
               cm.removeLineClass(line, "background", "codeblock");
               return;
             }
