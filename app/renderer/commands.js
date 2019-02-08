@@ -277,6 +277,12 @@ var commands = {
         abrDoc.setConfig("startup-commands:showBlocks", flag);
     },
 
+    showLastLineIndicator: function(win, abrDoc, cm) {
+        $("body").toggleClass("show-last-line-indicator");
+        var flag = $("body").hasClass("show-last-line-indicator");
+        abrDoc.setConfig("startup-commands:showLastLineIndicator", flag);
+    },
+
     showHiddenCharacters: function(win, abrDoc, cm) {
         $("body").toggleClass("show-hidden-characters");
         var flag = $("body").hasClass("show-hidden-characters");

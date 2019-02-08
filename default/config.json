@@ -31,6 +31,7 @@
         "showBlocks": false,
         "showHiddenCharacters": false,
         "showTocPane": false,
+        "showLastLineIndicator": true,
         "autoCloseBrackets": true,
         "autoSaveOnFocusLost" : false
     },

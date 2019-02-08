@@ -709,6 +709,13 @@
                 "checked": "startup-commands:showBlocks"
             },
             {
+                "labelKey": "menu-show-last-line-indicator",
+                "accelerator": "Alt+Shift+L",
+                "command": "showLastLineIndicator",
+                "type": "checkbox",
+                "checked": "startup-commands:showLastLineIndicator"
+            },
+            {
                 "labelKey": "menu-show-hidden-chars",
                 "accelerator": "Alt+Shift+H",
                 "command": "showHiddenCharacters",

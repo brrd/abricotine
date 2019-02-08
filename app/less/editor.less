@@ -30,7 +30,6 @@
     .CodeMirror-code {
         margin-top: 50px;
         margin-bottom: 50%;
-        border-bottom: 1px dotted #aaa;
     }
 
     .CodeMirror-sizer {
@@ -347,6 +346,14 @@
     body.show-blocks pre.not-blank {
         border-left: @editor-block-margin-size solid @editor-block-margin-color;
     }
+
+// Last line indicator
+// ===================
+
+    body.show-last-line-indicator .CodeMirror-code {
+        border-bottom: 1px dotted @editor-block-margin-color;
+    }
+
 
 // Spellchecker
 // ============
