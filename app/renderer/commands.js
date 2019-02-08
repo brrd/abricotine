@@ -38,6 +38,13 @@ var commands = {
         abrDoc.exportHtml(param);
     },
 
+    toggleCopyImagesOnHtmlExport: function(win, abrDoc, cm) {
+        abrDoc.getConfig("copy-images-on-html-export", function(value) {
+            var flag = value === true;
+            abrDoc.setConfig("copy-images-on-html-export", !flag);
+        });
+    },
+
     close: function(win, abrDoc, cm) {
         abrDoc.close();
     },

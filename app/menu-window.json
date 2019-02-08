@@ -96,6 +96,12 @@
                 "submenu": []
             },
             {
+                "labelKey": "menu-copy-images-on-html-export",
+                "command": "toggleCopyImagesOnHtmlExport",
+                "type": "checkbox",
+                "checked": "copy-images-on-html-export"
+            },
+            {
                 "type": "separator"
             },
             {

@@ -678,12 +678,14 @@ AbrDocument.prototype = {
     // Export
     exportHtml: function (template) {
         var that = this;
-        exportHtml(this, template, null, function (err, path) {
-            if (err) {
-                return that.dialogs.fileAccessDenied(path, function () {
-                    that.exportHtml(template);
-                });
-            }
+        this.getConfig("copy-images-on-html-export", function(copyImages) {
+            exportHtml(that, template, null, { copyImages }, function (err, path) {
+                if (err) {
+                    return that.dialogs.fileAccessDenied(path, function () {
+                        that.exportHtml(template);
+                    });
+                }
+            });
         });
     },
 
@@ -694,7 +696,7 @@ AbrDocument.prototype = {
         var that = this,
             filePath = this.tmpPreviewPath,
             doExport = function (template) {
-                exportHtml(that, template, filePath, function (err, path) {
+                exportHtml(that, template, filePath, { copyImages: false }, function (err, path) {
                     if (err) {
                         if (forceNewPath === true) {
                             // Second try, abort here

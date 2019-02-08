@@ -18,7 +18,7 @@ function getDocTitle (data, defaultTitle) {
     return title;
 }
 
-function exportHtml (abrDoc, templateName, destPath, callback) {
+function exportHtml (abrDoc, templateName, destPath, options, callback) {
     templateName = templateName || "default";
     // Get template path
     var templatePath = pathModule.join(constants.path.templatesDir, "/" + templateName);
@@ -38,18 +38,19 @@ function exportHtml (abrDoc, templateName, destPath, callback) {
     var htmlContent = md2html(markdown);
 
     // Copy images
-    // TODO: should be an option
-    var imgDirAbs = destPath + "_files/images";
-    abrDoc.imageImport(imgDirAbs);
+    if (options.copyImages === true) {
+        var imgDirAbs = destPath + "_files/images";
+        abrDoc.imageImport(imgDirAbs);
 
-    // Update images src attributes
-    var assetsPath = "./" + parsePath(destPath).basename + "_files"
-    var re = /(<img[^>]+src=['"])([^">]+)(['"])/gmi;
-    htmlContent = htmlContent.replace(re, function (str, p1, p2, p3) {
-        var basename = parsePath(p2).basename;
-        var replacement = p1 + pathModule.join(assetsPath, "/images", basename) + p3;
-        return replacement;
-    });
+        // Update images src attributes
+        var assetsPath = "./" + parsePath(destPath).basename + "_files"
+        var re = /(<img[^>]+src=['"])([^">]+)(['"])/gmi;
+        htmlContent = htmlContent.replace(re, function (str, p1, p2, p3) {
+            var basename = parsePath(p2).basename;
+            var replacement = p1 + pathModule.join(assetsPath, "/images", basename) + p3;
+            return replacement;
+        });
+    }
 
     // Process and save HTML
     files.readFile(pathModule.join(templatePath, "/template.html"), function (template) {

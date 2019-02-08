@@ -26,6 +26,7 @@
         "font-size": "16px"
     },
     "highlight-modes": "",
+    "copy-images-on-html-export": true,
     "preview-template": "default",
     "startup-commands": {
         "showBlocks": false,
