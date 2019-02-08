@@ -87,10 +87,9 @@ function imageImport (abrDoc, destFolder, { updateEditor = false, showDialog = f
         }
     }
 
-    function main() {
+    function start() {
         var regex = /(!\[[^\]]*\]\()([\(\)\[\]-a-zA-Z0-9@:%_\+~#=\.\\\/ ]+\.(?:jpg|jpeg|png|gif|svg))(?:\s(?:"|')(?:[-a-zA-Z0-9@:%_\+~#=\.\/! ]*)(?:"|')\s?)?\)/gi,
             match;
-        files.createDir(absDestFolder);
         // Each line
         cm.doc.eachLine( function (line) {
             // Each image in the current line
@@ -102,6 +101,14 @@ function imageImport (abrDoc, destFolder, { updateEditor = false, showDialog = f
             }
         });
         next();
+    }
+
+    function main() {
+        if (files.dirExists(absDestFolder)) {
+            return files.rm(absDestFolder + "/*", start);
+        }
+        files.createDir(absDestFolder);
+        start();
     }
 
     var cm = abrDoc.cm,

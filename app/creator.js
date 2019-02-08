@@ -73,7 +73,7 @@ creator.create = function () {
 creator.erase = function () {
     function getErasePromise (dirPath) {
       return new Promise (function (resolve, reject) {
-          files.deleteDir(dirPath, function (err) {
+          files.rm(dirPath, function (err) {
               if (err) reject(err);
               else resolve();
           });

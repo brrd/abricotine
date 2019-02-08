@@ -696,7 +696,7 @@ AbrDocument.prototype = {
         var that = this,
             filePath = this.tmpPreviewPath,
             doExport = function (template) {
-                exportHtml(that, template, filePath, { copyImages: false }, function (err, path) {
+                exportHtml(that, template, filePath, { copyImages: true }, function (err, path) {
                     if (err) {
                         if (forceNewPath === true) {
                             // Second try, abort here

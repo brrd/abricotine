@@ -119,7 +119,7 @@ var files = {
     },
 
     // rm -rf wrapper
-    deleteDir: function (target, callback) {
+    rm: function (target, callback) {
         rimraf(target, fs, callback);
     },
 
