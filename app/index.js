@@ -47,6 +47,10 @@ app.on("window-all-closed", function() {
     }
 });
 
+app.on("will-quit", function() {
+    abrApp.emptyTmpHTML();
+});
+
 app.on("ready", function () {
     // Install confirmation
     if (process.argv.indexOf("--squirrel-firstrun") !== -1) {

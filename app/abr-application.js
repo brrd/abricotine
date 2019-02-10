@@ -8,6 +8,7 @@ var AbrMenu = require.main.require("./abr-menu.js"),
     AbrWindow = require.main.require("./abr-window.js"),
     BrowserWindow = require("electron").BrowserWindow,
     commands = require.main.require("./commands-main.js"),
+    constants = require.main.require("./constants.js"),
     createConfig = require.main.require("./config.js"),
     Dialogs = require.main.require("./dialogs.js"),
     files = require.main.require("./files.js"),
@@ -138,6 +139,11 @@ AbrApplication.prototype = {
 
     showMenu: function () {
         this.menu.attach();
+    },
+
+    emptyTmpHTML: function () {
+        var path = constants.path.tmp + "/!(themes)";
+        files.rm(path);
     }
 };
 
