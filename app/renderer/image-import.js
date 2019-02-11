@@ -114,16 +114,21 @@ function imageImport (abrDoc, destFolder, { updateEditor = false, showDialog = f
     var cm = abrDoc.cm,
         queue = [],
         sources = [],
-        dests = [],
-        saveDocOnFinish = false,
-        destFolder = destFolder || parsePath(abrDoc.path).basename + "_files",
+        dests = [];
+
+    if (!destFolder && !abrDoc.path) {
+      throw Error("Error while importing images: destination folder is not a valid path.");
+    }
+
+    destFolder = destFolder || parsePath(abrDoc.path).basename + "_files";
+
+    var saveDocOnFinish = destFolder ? false : true,
         absDestFolder = getAbsPath(destFolder);
 
-    if (!abrDoc.path) {
-        saveDocOnFinish = true;
-        abrDoc.dialogs.askNeedSave(abrDoc, main);
-    } else {
+    if (destFolder) {
         main();
+    } else {
+        abrDoc.dialogs.askNeedSave(abrDoc, main);
     }
 }
 
