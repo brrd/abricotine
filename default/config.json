@@ -42,7 +42,7 @@
     },
     "tasks": [
         {
-            "name": "Pandoc",
+            "name": "Export with Pandoc",
             "exec": "pandoc %inputFilepath% -o %outputFilepath%"
         }
     ],
