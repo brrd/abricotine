@@ -7,6 +7,7 @@
 var remote = require("electron").remote,
     constants = remote.require("./constants"),
     files = remote.require("./files.js"),
+    isUrl = require("is-url"),
     md2html = require.main.require("./md2html.js"),
     parsePath = require("parse-filepath"),
     pathModule = require("path");
@@ -18,7 +19,7 @@ function getDocTitle (data, defaultTitle) {
     return title;
 }
 
-function exportHtml (abrDoc, templateName, destPath, options, callback) {
+function exportHtml (abrDoc, templateName, destPath, options = {}, callback) {
     templateName = templateName || "default";
     // Get template path
     var templatePath = pathModule.join(constants.path.templatesDir, "/" + templateName);
@@ -40,12 +41,15 @@ function exportHtml (abrDoc, templateName, destPath, options, callback) {
     // Copy images
     if (options.copyImages === true) {
         var imgDirAbs = destPath + "_files/images";
-        abrDoc.imageImport(imgDirAbs);
+        abrDoc.imageImport(imgDirAbs, { copyRemote: options.copyImagesRemote });
 
         // Update images src attributes
         var assetsPath = "./" + parsePath(destPath).basename + "_files"
         var re = /(<img[^>]+src=['"])([^">]+)(['"])/gmi;
         htmlContent = htmlContent.replace(re, function (str, p1, p2, p3) {
+            if (options.copyImagesRemote === false && isUrl(p2)) {
+              return str;
+            }
             var basename = parsePath(p2).basename;
             var replacement = p1 + pathModule.join(assetsPath, "/images", basename) + p3;
             return replacement;

@@ -12,18 +12,14 @@ var remote = require("electron").remote,
     salvator = require("salvator");
 
 // Import all images
-function imageImport (abrDoc, destFolder, { updateEditor = false, showDialog = false } = {}) {
+function imageImport (abrDoc, destFolder, { updateEditor = false, showDialog = false, copyRemote = true } = {}) {
 
     function getImageUrl (href) {
-        if (isUrl(href)) {
-            return href;
-        }
         var parsedPath = parsePath(href);
         if (parsedPath.isAbsolute) {
             return parsedPath.absolute;
-        } else {
-            return pathModule.join(process.cwd(), href);
         }
+        return pathModule.join(process.cwd(), href);
     }
 
     function getAbsPath (filepath) {
@@ -33,17 +29,18 @@ function imageImport (abrDoc, destFolder, { updateEditor = false, showDialog = f
     }
 
     function processMatch (match, line) {
-        var url = match[2],
-            filename = parsePath(url).basename,
+        var src = match[2],
+            filename = parsePath(src).basename,
             target = pathModule.join(destFolder, filename),
             absTarget = pathModule.join(absDestFolder, filename);
-        // Skip if URL is already equals to dest folder
-        if (url === target || url === absTarget) {
+        // Skip if src already equals dest folder
+        if (src === target || src === absTarget) {
             return;
         }
-        // Jump to next file if already copied
-        var source = getImageUrl(url);
-        if (sources.indexOf(source) !== -1) {
+        var isRemote = isUrl(src);
+        var source = isRemote ? src : getImageUrl(src);
+        // Jump to next file if this one is not needed or already copied
+        if ((copyRemote === false && isRemote) || sources.indexOf(source) !== -1) {
             next();
             return;
         }
