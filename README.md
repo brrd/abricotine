@@ -6,7 +6,7 @@
 
 In **Abricotine**, you can preview your document directly in the text editor rather than in a side pane.
 
-**Abricotine** is an [open-source software](LICENSE.txt) based on modern web technologies (HTML5, CSS3 & Node.js).
+**Abricotine** is an [open-source software](LICENSE) based on modern web technologies (HTML5, CSS3 & Node.js). It is available on Windows (7 and +), Linux and OS X.
 
 ## Features
 
