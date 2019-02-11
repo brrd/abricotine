@@ -128,7 +128,7 @@ Dialogs.prototype = {
         return false;
     },
 
-    askNeedSave: function (abrDoc, callback) {
+    askNeedSave: function (callback) {
         var userChoice = dialog.showMessageBox(this.win, {
             title: this.localizer.get('dialog-save'),
             message: this.localizer.get('dialog-save-message'),
@@ -136,8 +136,8 @@ Dialogs.prototype = {
             defaultId: 1,
             noLink: true
         });
-        if (userChoice === 1) {
-            abrDoc.save(null, callback);
+        if (userChoice === 1 && typeof callback === "function") {
+            callback();
         }
         return false;
     },

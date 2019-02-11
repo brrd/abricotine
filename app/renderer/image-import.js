@@ -125,7 +125,9 @@ function imageImport (abrDoc, destFolder, { updateEditor = false, showDialog = f
     if (destFolder) {
         main();
     } else {
-        abrDoc.dialogs.askNeedSave(abrDoc, main);
+        abrDoc.dialogs.askNeedSave(function () {
+            abrDoc.save(null, main);
+        });
     }
 }
 

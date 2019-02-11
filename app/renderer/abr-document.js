@@ -718,7 +718,9 @@ AbrDocument.prototype = {
 
         // Ask for saving if not clean
         if (instruction.indexOf("%inputFilepath%") !== -1 && (!this.path || !this.isClean())) {
-            that.dialogs.askNeedSave(this, main);
+            that.dialogs.askNeedSave(function () {
+                that.save(null, main);
+            });
         } else {
             main();
         }
