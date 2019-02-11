@@ -58,6 +58,29 @@ You can add your own translations in the `lang` subdirectory of Abricotine confi
 
 The name of the template to use when previewing document in the browser.
 
+### `tasks`
+
+"Tasks" are commands which can be run from the menu to easily send your documents to third-party command-line applications installed on your computer. Tasks can be used to convert your documents to specific formats, to run postprocessors, etc.
+
+In `config.json`, `tasks` is an array which contains a list of tasks. Each entry must have the following properties:
+
+* `name` (string): name of the task to display in the application menu
+* `exec` (string): command to run when the menu item is clicked
+
+`exec` supports the following placeholders:
+
+* `%inputFilepath%` will be replaced by the filepath of the current markdown document,
+* If `%outputFilepath%` is found in `exec`, then the user will have to select a location on the computer. The selected path will replace the `%outputFilepath%` placeholder in the command.
+
+For instance, this task is a very basic call to [Pandoc](https://pandoc.org/) which can be used to convert documents to various formats:
+
+```json
+{
+	"name": "Export with Pandoc",
+	"exec": "pandoc %inputFilepath% -o %outputFilepath%"
+}
+````
+
 ## Spell checker dictionaries
 
 Abricotine uses [hunspell](http://hunspell.sourceforge.net/) dictionaries for Linux and Windows 7. If you want to add dictionaries, simply drop the dictionary folder in the `dict` subdirectory of Abricotine configuration folder.
