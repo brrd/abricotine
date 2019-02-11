@@ -2,11 +2,9 @@
 
 > A markdown editor for desktop
 
-![Screenshot](screenshot.jpg)
+![Abricotine Screenshot](screenshot.jpg)
 
 In **Abricotine**, you can preview your document directly in the text editor rather than in a side pane.
-
-![Another screenshot](screenshot2.jpg)
 
 **Abricotine** is an [open-source software](LICENSE.txt) based on modern web technologies (HTML5, CSS3 & Node.js).
 
