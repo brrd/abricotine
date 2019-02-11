@@ -55,6 +55,9 @@ function preprocessTemplate (abrApp, element, config, abrWin) {
                 if (item.id === "spelling") {
                     item.submenu = spellingMenuGenerator(item.submenu, config);
                 }
+                if (item.id === "tasks") {
+                    item.submenu = tasksMenuGenerator(item.submenu, config);
+                }
                 if (item.id === "exportHtml") {
                     item.submenu = assetsMenuGenerator(item.submenu, constants.path.templatesDir, "template.json", "exportHtml");
                 }
@@ -144,6 +147,22 @@ function spellingMenuGenerator (submenu, config) {
     }
     // Check the "Disabled" menu if no radio has been checked
     submenu[0].checked = !radioChecked;
+    return submenu;
+}
+
+// Generate tasks menu template (before preprocesssing)
+function tasksMenuGenerator (submenu, config) {
+    var tasks = getConfig(config, "tasks") || [];
+    var submenu = tasks.reduce(function (res, task) {
+        if (task.name && task.exec) {
+            res.push({
+                label: task.name,
+                command: "runTask",
+                parameters: task.exec
+            });
+        }
+        return res;
+    }, []);
     return submenu;
 }
 

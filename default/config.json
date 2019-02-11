@@ -40,6 +40,12 @@
         "active": false,
         "language": ""
     },
+    "tasks": [
+        {
+            "name": "Pandoc",
+            "exec": "pandoc %inputFilepath% -o %outputFilepath%"
+        }
+    ],
     "theme": "default",
     "window": {
         "showMenuBar": true

@@ -27,6 +27,7 @@
     "menu-save-autosave": "Save on Focus Lost",
     "menu-export-html": "Export as HTML",
     "menu-copy-images-on-html-export": "Copy Images when Exporting",
+    "menu-tasks": "Run Task",
     "menu-close-document": "Close Document",
     "menu-close-window": "Close Window",
 
@@ -159,6 +160,11 @@
 
     "images-copied": "Images Copied",
     "images-copied-message": "Document images have been copied in the '%0' directory.",
+
+    "task-done-title": "Task Completed",
+    "task-done-message": "The task was successfully completed: \n%0",
+    "task-error-title": "Task Error",
+    "task-error-message": "An error occurred while running the task: \n%0",
 
     "html-export-title": "Abricotine Document",
 

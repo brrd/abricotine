@@ -105,6 +105,14 @@
                 "type": "separator"
             },
             {
+                "labelKey": "menu-tasks",
+                "id": "tasks",
+                "submenu": []
+            },
+            {
+                "type": "separator"
+            },
+            {
                 "labelKey": "menu-close-document",
                 "accelerator": "CmdOrCtrl+Shift+W",
                 "command": "close"

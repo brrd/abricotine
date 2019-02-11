@@ -45,6 +45,10 @@ var commands = {
         });
     },
 
+    runTask: function(win, abrDoc, cm, param) {
+        abrDoc.runTask(param);
+    },
+
     close: function(win, abrDoc, cm) {
         abrDoc.close();
     },

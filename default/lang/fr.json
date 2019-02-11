@@ -27,6 +27,7 @@
     "menu-save-autosave": "Sauvegarde automatique",
     "menu-export-html": "Exporter en HTML",
     "menu-copy-images-on-html-export": "Copier les images lors de l'export",
+    "menu-tasks": "Exécuter une tâche",
     "menu-close-document": "Fermer le document",
     "menu-close-window": "Fermer la fenêtre",
 
@@ -159,6 +160,11 @@
 
     "images-copied": "Images copiées",
     "images-copied-message": "Les images du document ont été copiées dans le répertoire '%0'.",
+
+    "task-done-title": "Tâche terminée",
+    "task-done-message": "La tâche a été exécutée avec succès : \n%0",
+    "task-error-title": "Échec de la tâche",
+    "task-error-message": "Une erreur a été rencontrée lors de l'exécution de la tâche : \n%0",
 
     "html-export-title": "Document Abricotine",
 

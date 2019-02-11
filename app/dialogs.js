@@ -142,6 +142,29 @@ Dialogs.prototype = {
         return false;
     },
 
+    taskDone: function (cmd, stdout) {
+        var options = {
+            title: this.localizer.get("task-done-title"),
+            message: this.localizer.get("task-done-message", [cmd]),
+            buttons: [this.localizer.get('button-ok')],
+            detail: stdout,
+            noLink: true
+        };
+        dialog.showMessageBox(this.win, options);
+    },
+
+    taskError: function (cmd, errMsg) {
+        var options = {
+            type: "error",
+            title: this.localizer.get("task-error-title"),
+            message: this.localizer.get("task-error-message", [cmd]),
+            detail: errMsg,
+            buttons: [this.localizer.get('button-ok')],
+            noLink: true
+        };
+        dialog.showMessageBox(this.win, options);
+    },
+
     fileAccessDenied: function (path, callback) {
         var userChoice = dialog.showMessageBox(this.win, {
             title: this.localizer.get("permission-denied"),

@@ -712,6 +712,46 @@ AbrDocument.prototype = {
         that.getConfig("preview-template", doExport); // TODO: log error if template don't exist
     },
 
+    // Run tasks
+    runTask: function (instruction) {
+        var that = this;
+
+        // Ask for saving if not clean
+        if (instruction.indexOf("%inputFilepath%") !== -1 && (!this.path || !this.isClean())) {
+            that.dialogs.askNeedSave(this, main);
+        } else {
+            main();
+        }
+
+        function main () {
+            var args = {
+                inputFilepath: '"' + that.path.replace('"', '\"') + '"'
+            };
+
+            // Ask user for outputFilepath
+            if (instruction.indexOf("%outputFilepath%") !== -1) {
+                var path = that.dialogs.askSavePath(null, "document");
+                if (!path) return;
+                args.outputFilepath = '"' + path.replace('"', '\"') + '"';
+            }
+
+            // Replace args in command
+            var re = /%(inputFilepath|outputFilepath)%/g;
+            var cmd = instruction.replace(re, function (str, p1) {
+                return args[p1] ? args[p1] : str;
+            });
+
+            // Run command
+            cp.exec(cmd, function (err, stdout) {
+                if (err) {
+                    that.dialogs.taskError(cmd, err.toString());
+                    return;
+                }
+                that.dialogs.taskDone(cmd, stdout);
+            });
+        }
+    },
+
     // Inline autopreview
     autopreview: function (types, lines) {
         var cm = this.cm;
