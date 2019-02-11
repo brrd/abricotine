@@ -169,6 +169,34 @@ function initCodeMirror () {
             cm.addLineClass(line, "background", "codeblock");
           });
         });
+
+        // Indented wrapped line hack
+        // https://codemirror.net/demo/indentwrap.html
+        CodeMirror.defineOption("actualCharWidth", $(".ruler").width());
+        var basePadding = 20,
+            bulletRe = /^([\t ]*)((\*|-|\+|>)( +\[( *|x)?\])?|[0-9]+\.)[\t ]+/;
+        cm.on("renderLine", function(cm, line, el) {
+            var charWidth = cm.getOption("actualCharWidth");
+            var off = CodeMirror.countColumn(line.text, null, cm.getOption("tabSize")) * charWidth;
+
+            // Get list and quote bullet width
+            var lineNumber = cm.getLineNumber(line);
+            var tokenType = cm.getTokenTypeAt({line: lineNumber}) || "";
+            var type = tokenType.split(" ");
+            var isList = type.includes("m-markdown") && (type.includes("list") || type.includes("quote"));
+            var bulletWidth = 0;
+            if (isList) {
+                var match = line.text.match(bulletRe);
+                if (match !== null) {
+                    bulletWidth = (match[0].length - match[1].length) * charWidth;
+                }
+            }
+
+            el.style.textIndent = "-" + (off + bulletWidth) + "px";
+            el.style.paddingLeft = (basePadding + off + bulletWidth) + "px";
+        });
+        cm.refresh();
+
         resolve(cm);
     });
 }

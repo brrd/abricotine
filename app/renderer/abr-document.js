@@ -857,7 +857,8 @@ AbrDocument.prototype = {
             size = max;
         }
         var newSize =  size.toString() + "px";
-        $(".CodeMirror").css("font-size", newSize);
+        $(".CodeMirror, .ruler").css("font-size", newSize);
+        this.cm.setOption("actualCharWidth", $(".ruler").width());
         this.cm.refresh();
         this.setConfig("editor:font-size", newSize);
     },

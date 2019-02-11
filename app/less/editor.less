@@ -23,6 +23,19 @@
         color: @editor-text-color;
     }
 
+    .ruler {
+        font-size: 100%;
+        font-size: 16px;
+        font-family: @editor-font-family;
+        line-height: 170%;
+        text-indent: 0px;
+    }
+
+    // https://codemirror.net/demo/indentwrap.html
+    .CodeMirror pre > * {
+        text-indent: 0px;
+    }
+
     .CodeMirror pre when (@editor-ligatures = true) {
         font-variant-ligatures: contextual;
     }
