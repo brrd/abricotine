@@ -172,9 +172,19 @@ function initCodeMirror () {
 
         // Indented wrapped line hack
         // https://codemirror.net/demo/indentwrap.html
-        CodeMirror.defineOption("actualCharWidth", $(".ruler").width());
+        CodeMirror.defineOption("actualCharWidth", $(".ruler").width(), fixTodolistWidth);
+        var todolistStyleEl = document.getElementById("todolist-style");
+        var todolistLength = 3;
         var basePadding = 20,
             bulletRe = /^([\t ]*)((\*|-|\+|>)( +\[( *|x)?\])?|[0-9]+\.)[\t ]+/;
+
+        function fixTodolistWidth (cm, value) {
+            var charWidth = value || $(".ruler").width();
+            formerCharWidth = charWidth;
+            var todolistWidth = todolistLength * charWidth;
+            todolistStyleEl.innerHTML = "span.todolist:before { width: " + todolistWidth + "px }";
+        }
+
         cm.on("renderLine", function(cm, line, el) {
             var charWidth = cm.getOption("actualCharWidth");
             var off = CodeMirror.countColumn(line.text, null, cm.getOption("tabSize")) * charWidth;
@@ -188,13 +198,19 @@ function initCodeMirror () {
             if (isList) {
                 var match = line.text.match(bulletRe);
                 if (match !== null) {
-                    bulletWidth = (match[0].length - match[1].length) * charWidth;
+                    if (match[4]) {
+                        // Todolist
+                        bulletWidth = todolistLength * charWidth;
+                    } else {
+                        bulletWidth = (match[0].length - match[1].length) * charWidth;
+                    }
                 }
             }
 
             el.style.textIndent = "-" + (off + bulletWidth) + "px";
             el.style.paddingLeft = (basePadding + off + bulletWidth) + "px";
         });
+
         cm.refresh();
 
         resolve(cm);
