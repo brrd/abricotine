@@ -42,257 +42,257 @@ function AbrDocument () {
 
     // Load and set theme
     that.getConfig("theme", function (themeName) {
-        that.loadTheme.call(that, themeName);
-    });
+        that.loadTheme.call(that, themeName, function () {
+            // Init CodeMirror fist because most of methods rely on it
+            cmInit(function (cm) {
+                that.cm = cm;
 
-    // Init CodeMirror fist because most of methods rely on it
-    cmInit(function (cm) {
-        that.cm = cm;
+                // Dirty fix to handle startup commands called before cm init
+                that.commandsToTrigger.forEach(function (commandName) {
+                    that.execCommand(commandName);
+                });
 
-        // Dirty fix to handle startup commands called before cm init
-        that.commandsToTrigger.forEach(function (commandName) {
-            that.execCommand(commandName);
-        });
+                // Load config and perform related operations
+                that.getConfig(undefined, function (config) {
+                    // Localizer
+                    that.localizer = new Localizer(config.lang);
 
-        // Load config and perform related operations
-        that.getConfig(undefined, function (config) {
-            // Localizer
-            that.localizer = new Localizer(config.lang);
+                    // Dialogs
+                    var dirpath = that.path ? parsePath(that.path).dirname : null;
+                    that.dialogs = new Dialogs(that.localizer, remote.getCurrentWindow(), dirpath);
 
-            // Dialogs
-            var dirpath = that.path ? parsePath(that.path).dirname : null;
-            that.dialogs = new Dialogs(that.localizer, remote.getCurrentWindow(), dirpath);
+                    // Init pane
+                    that.pane = new AbrPane(that);
 
-            // Init pane
-            that.pane = new AbrPane(that);
-
-            // Check if there is a doc to load
-            ipcClient.trigger("getPathToLoad", undefined, function (path) {
-                if (path) {
-                    files.readFile(path, function (data, path) {
-                        that.clear(data, path);
-                        // Watch the file in case it is modified or deleted by another program
-                        that.startWatcher();
+                    // Check if there is a doc to load
+                    ipcClient.trigger("getPathToLoad", undefined, function (path) {
+                        if (path) {
+                            files.readFile(path, function (data, path) {
+                                that.clear(data, path);
+                                // Watch the file in case it is modified or deleted by another program
+                                that.startWatcher();
+                            });
+                        } else {
+                            that.clear();
+                        }
                     });
-                } else {
-                    that.clear();
-                }
-            });
 
-            // Autopreview init
-            that.cm.setOption("autopreviewAllowedDomains", config["autopreview-domains"]);
-            that.cm.setOption("autopreviewSecurity", config["autopreview-security"]);
-            that.autopreviewTypes = config.autopreview;
+                    // Autopreview init
+                    that.cm.setOption("autopreviewAllowedDomains", config["autopreview-domains"]);
+                    that.cm.setOption("autopreviewSecurity", config["autopreview-security"]);
+                    that.autopreviewTypes = config.autopreview;
 
-            // Spellchecker init
-            if (config.spellchecker.active) {
-                that.setDictionary(config.spellchecker.language, config.spellchecker.src);
-            }
-
-            // Editor font-size
-            var fontSize = config.editor["font-size"] || "16px";
-            that.setFontSize(fontSize);
-
-            // Events concerning AbrPane
-            that.cm.on("cursorActivity", function(cm) {
-              // Autopreview changed lines
-              that.runAutopreviewQueue();
-
-              // Trigger only if nothing changed
-              // (otherwise do it during the "changes" event)
-              if (that.pane.latestCursorUpdate == null ||
-                  that.getGeneration() === that.pane.latestCursorUpdate) {
-                  var cursorLine = cm.doc.getCursor().line;
-                  // Also dont trigger if cursor is still on the same line
-                  if (cursorLine === that.pane.currentCursorLine) return;
-                  that.pane.currentCursorLine = cursorLine;
-                  worker.send({
-                      cursorLine: cursorLine
-                  });
-              }
-            });
-
-            that.cm.on("changes", function(cm, changeObj) {
-              // Window title update
-              that.updateWindowTitle();
-              // Autopreview changed lines
-              that.runAutopreviewQueue();
-
-              var cursorLine = cm.doc.getCursor().line;
-              worker.send({
-                  text: cm.getValue(),
-                  cursorLine: cursorLine
-              });
-            });
-
-            // Refresh autopreview on scroll
-            that.cm.on("scroll", function(cm) {
-                // Wait until editor finished to scroll
-              	window.clearTimeout(window.isScrolling);
-              	window.isScrolling = window.setTimeout(function() {
-                  // Autopreview changed lines
-                  that.runAutopreviewQueue();
-              	}, 100);
-            });
-
-            worker.on("message", function(msg) {
-                if (msg.lineNumbers) {
-                    that.pane.setLineNumbers(msg.lineNumbers);
-                }
-                if (msg.toc) {
-                    that.toc = msg.toc;
-                    that.pane.setTocHtml(msg.toc);
-                }
-                if (msg.activeHeaderIndex != null) {
-                    that.pane.setActiveHeaderHtml(msg.activeHeaderIndex);
-                }
-            }, false);
-
-            // Syntax highlighting
-            var modes = config["highlight-modes"];
-            if (!modes) return;
-            if (typeof modes === "string") {
-                modes = modes.split(",");
-            }
-            modes.forEach( function (mode) {
-                mode = mode.trim();
-                if (mode === "") return;
-                $("<script src='../../node_modules/codemirror/mode/" + mode + "/" + mode + ".js'></script>").appendTo("head");
-            });
-        });
-
-        // Listener for context menu
-        document.addEventListener("contextmenu", function () {
-            ipcClient.trigger("openContextMenu");
-        }, false);
-
-        // Listeners for cm events
-        that.cm.on("renderLine", function (cm, lineHandle, el) {
-            // Line is not added to the DOM yet so use a queue which will be processed later
-            var lineNumber = that.cm.doc.getLineNumber(lineHandle);
-            that.addToAutopreviewQueue(lineNumber);
-        });
-
-        that.cm.on("beforeSelectionChange", function(cm, obj) {
-            var ranges = cm.doc.listSelections();
-            if (!ranges) return;
-            ranges.forEach(function(range) {
-                var firstLine = Math.min(range.anchor.line, range.head.line),
-                    lastLine = Math.max(range.anchor.line, range.head.line);
-                for (var line = firstLine; line <= lastLine; line++) {
-                    that.addToAutopreviewQueue(line);
-                }
-            });
-        });
-
-        that.cm.on("drop", function (cm, event) {
-            event.preventDefault();
-            var file = event.dataTransfer.files[0];
-            if (file && file.path) {
-                // If it's an image, insert it
-                var ext = parsePath(file.path).extname,
-                    allowedImages = [".jpg", ".jpeg", ".png", ".gif", ".svg"];
-                for (var i=0; i<allowedImages.length; i++) {
-                    if (ext === allowedImages[i]) {
-                        that.insertImage(file.path);
-                        return;
+                    // Spellchecker init
+                    if (config.spellchecker.active) {
+                        that.setDictionary(config.spellchecker.language, config.spellchecker.src);
                     }
-                }
-                // Otherwise try to open the file
-                that.open(file.path);
-            }
+
+                    // Editor font-size
+                    var fontSize = config.editor["font-size"] || "16px";
+                    that.setFontSize(fontSize);
+
+                    // Events concerning AbrPane
+                    that.cm.on("cursorActivity", function(cm) {
+                      // Autopreview changed lines
+                      that.runAutopreviewQueue();
+
+                      // Trigger only if nothing changed
+                      // (otherwise do it during the "changes" event)
+                      if (that.pane.latestCursorUpdate == null ||
+                          that.getGeneration() === that.pane.latestCursorUpdate) {
+                          var cursorLine = cm.doc.getCursor().line;
+                          // Also dont trigger if cursor is still on the same line
+                          if (cursorLine === that.pane.currentCursorLine) return;
+                          that.pane.currentCursorLine = cursorLine;
+                          worker.send({
+                              cursorLine: cursorLine
+                          });
+                      }
+                    });
+
+                    that.cm.on("changes", function(cm, changeObj) {
+                      // Window title update
+                      that.updateWindowTitle();
+                      // Autopreview changed lines
+                      that.runAutopreviewQueue();
+
+                      var cursorLine = cm.doc.getCursor().line;
+                      worker.send({
+                          text: cm.getValue(),
+                          cursorLine: cursorLine
+                      });
+                    });
+
+                    // Refresh autopreview on scroll
+                    that.cm.on("scroll", function(cm) {
+                        // Wait until editor finished to scroll
+                        window.clearTimeout(window.isScrolling);
+                        window.isScrolling = window.setTimeout(function() {
+                          // Autopreview changed lines
+                          that.runAutopreviewQueue();
+                        }, 100);
+                    });
+
+                    worker.on("message", function(msg) {
+                        if (msg.lineNumbers) {
+                            that.pane.setLineNumbers(msg.lineNumbers);
+                        }
+                        if (msg.toc) {
+                            that.toc = msg.toc;
+                            that.pane.setTocHtml(msg.toc);
+                        }
+                        if (msg.activeHeaderIndex != null) {
+                            that.pane.setActiveHeaderHtml(msg.activeHeaderIndex);
+                        }
+                    }, false);
+
+                    // Syntax highlighting
+                    var modes = config["highlight-modes"];
+                    if (!modes) return;
+                    if (typeof modes === "string") {
+                        modes = modes.split(",");
+                    }
+                    modes.forEach( function (mode) {
+                        mode = mode.trim();
+                        if (mode === "") return;
+                        $("<script src='../../node_modules/codemirror/mode/" + mode + "/" + mode + ".js'></script>").appendTo("head");
+                    });
+                });
+
+                // Listener for context menu
+                document.addEventListener("contextmenu", function () {
+                    ipcClient.trigger("openContextMenu");
+                }, false);
+
+                // Listeners for cm events
+                that.cm.on("renderLine", function (cm, lineHandle, el) {
+                    // Line is not added to the DOM yet so use a queue which will be processed later
+                    var lineNumber = that.cm.doc.getLineNumber(lineHandle);
+                    that.addToAutopreviewQueue(lineNumber);
+                });
+
+                that.cm.on("beforeSelectionChange", function(cm, obj) {
+                    var ranges = cm.doc.listSelections();
+                    if (!ranges) return;
+                    ranges.forEach(function(range) {
+                        var firstLine = Math.min(range.anchor.line, range.head.line),
+                            lastLine = Math.max(range.anchor.line, range.head.line);
+                        for (var line = firstLine; line <= lastLine; line++) {
+                            that.addToAutopreviewQueue(line);
+                        }
+                    });
+                });
+
+                that.cm.on("drop", function (cm, event) {
+                    event.preventDefault();
+                    var file = event.dataTransfer.files[0];
+                    if (file && file.path) {
+                        // If it's an image, insert it
+                        var ext = parsePath(file.path).extname,
+                            allowedImages = [".jpg", ".jpeg", ".png", ".gif", ".svg"];
+                        for (var i=0; i<allowedImages.length; i++) {
+                            if (ext === allowedImages[i]) {
+                                that.insertImage(file.path);
+                                return;
+                            }
+                        }
+                        // Otherwise try to open the file
+                        that.open(file.path);
+                    }
+                });
+
+                // Handle local keybindings that arent linked to a specific menu
+                document.onkeydown = function(evt) {
+                    evt = evt || window.event;
+                    if (evt.keyCode == 27) { // ESC
+                        // Exit Fullscreen
+                        var currentWindow = remote.getCurrentWindow();
+                        if (currentWindow.isFullScreen()) {
+                            that.execCommand("toggleFullscreen", false);
+                        }
+                        // Clear search
+                        that.execCommand("clearSearch");
+                    }
+                };
+
+                // Listeners for opening links on shift-click.
+
+                // Helper method to tell us if we should open a link from
+                // the target that has been clicked on. Check the global
+                // link-clickable class first to see if there's some reason
+                // that we shouldn't open a valid link (like selected text),
+                // then check for Markdown indicators.
+                var shouldOpenLink = function(event) {
+                    return document.body.classList.contains("link-clickable") &&
+                        !event.target.classList.contains("cm-formatting") &&
+                        (event.target.classList.contains("cm-link") ||
+                        event.target.classList.contains("cm-url"));
+                };
+
+                that.cm.on("mousedown", function(cm, event) { // prevent selection by shift-click
+                    if (shouldOpenLink(event)) {
+                        event.preventDefault();
+                    }
+                });
+
+                document.addEventListener("mouseup", function(event) { // actually open the browser on mouseup
+                    if (shouldOpenLink(event)) {
+                        event.preventDefault();
+                        OpenLinkHandler(event);
+                    }
+                });
+
+                // Handle ALT modifier key
+                var ShiftKeyHandler = function(e) {
+                    var linkIsClickable = !that.cm.somethingSelected() &&
+                        e.type === "keydown" &&
+                        e.shiftKey;
+                    document.body.classList.toggle("link-clickable", linkIsClickable);
+                };
+
+                window.addEventListener("keydown", ShiftKeyHandler, false);
+                window.addEventListener("keyup", ShiftKeyHandler, false);
+                // when leaving Abricotine to go the browser, the keyup event doesn't trigger
+                window.addEventListener("blur", ShiftKeyHandler, false);
+
+                var OpenLinkHandler = function(e) {
+                    if (!document.body.classList.contains("link-clickable")) return;
+
+                    var open = null;
+                    var url = null;
+                    if (e.target.classList.contains("cm-url")) { // link in standard MD format, url part was clicked on
+                        open = $(e.target).prevUntil(":not(.cm-url)").andSelf().first();
+                        url = open.nextUntil(".cm-formatting-link-string").text();
+                    } else if (e.target.classList.contains("cm-link")) {
+                        open = $(e.target).prevUntil(":not(.cm-link)");
+                        if (open.first().is(".cm-formatting-link")) { // link in standard MD format, link text was clicked on
+                            open = $(e.target).nextAll(".cm-formatting-link-string").first();
+                            url = open.nextUntil(".cm-formatting-link-string").text();
+                        } else { // link is a raw url
+                            open = open.andSelf().first();
+                            url = open.nextUntil(":not(.cm-link)").andSelf().text();
+                        }
+                    }
+
+                    if (url === "") return;
+                    var hasProtocol = /^[a-z]+:\/\//.test(url);
+                    if (!hasProtocol) {
+                      url = "http://" + url;
+                    }
+                    shell.openExternal(url);
+                };
+
+                // Handle CTRL+MouseWheel events
+                var MouseWheelHandler = function (e) {
+                    var delta = Math.max(-1, Math.min(1, (e.wheelDelta || -e.detail)));
+                    if (e.ctrlKey) {
+                        e.preventDefault();
+                        that.addFontSize(delta * 2);
+                    }
+                };
+                document.getElementById("editor").addEventListener("mousewheel", MouseWheelHandler, false);
+            });
         });
-
-        // Handle local keybindings that arent linked to a specific menu
-        document.onkeydown = function(evt) {
-            evt = evt || window.event;
-            if (evt.keyCode == 27) { // ESC
-                // Exit Fullscreen
-                var currentWindow = remote.getCurrentWindow();
-                if (currentWindow.isFullScreen()) {
-                    that.execCommand("toggleFullscreen", false);
-                }
-                // Clear search
-                that.execCommand("clearSearch");
-            }
-        };
-
-        // Listeners for opening links on shift-click.
-
-        // Helper method to tell us if we should open a link from
-        // the target that has been clicked on. Check the global
-        // link-clickable class first to see if there's some reason
-        // that we shouldn't open a valid link (like selected text),
-        // then check for Markdown indicators.
-        var shouldOpenLink = function(event) {
-            return document.body.classList.contains("link-clickable") &&
-                !event.target.classList.contains("cm-formatting") &&
-                (event.target.classList.contains("cm-link") ||
-                event.target.classList.contains("cm-url"));
-        };
-
-        that.cm.on("mousedown", function(cm, event) { // prevent selection by shift-click
-            if (shouldOpenLink(event)) {
-                event.preventDefault();
-            }
-        });
-
-        document.addEventListener("mouseup", function(event) { // actually open the browser on mouseup
-            if (shouldOpenLink(event)) {
-                event.preventDefault();
-                OpenLinkHandler(event);
-            }
-        });
-
-        // Handle ALT modifier key
-        var ShiftKeyHandler = function(e) {
-            var linkIsClickable = !that.cm.somethingSelected() &&
-                e.type === "keydown" &&
-                e.shiftKey;
-            document.body.classList.toggle("link-clickable", linkIsClickable);
-        };
-
-        window.addEventListener("keydown", ShiftKeyHandler, false);
-        window.addEventListener("keyup", ShiftKeyHandler, false);
-        // when leaving Abricotine to go the browser, the keyup event doesn't trigger
-        window.addEventListener("blur", ShiftKeyHandler, false);
-
-        var OpenLinkHandler = function(e) {
-            if (!document.body.classList.contains("link-clickable")) return;
-
-            var open = null;
-            var url = null;
-            if (e.target.classList.contains("cm-url")) { // link in standard MD format, url part was clicked on
-                open = $(e.target).prevUntil(":not(.cm-url)").andSelf().first();
-                url = open.nextUntil(".cm-formatting-link-string").text();
-            } else if (e.target.classList.contains("cm-link")) {
-                open = $(e.target).prevUntil(":not(.cm-link)");
-                if (open.first().is(".cm-formatting-link")) { // link in standard MD format, link text was clicked on
-                    open = $(e.target).nextAll(".cm-formatting-link-string").first();
-                    url = open.nextUntil(".cm-formatting-link-string").text();
-                } else { // link is a raw url
-                    open = open.andSelf().first();
-                    url = open.nextUntil(":not(.cm-link)").andSelf().text();
-                }
-            }
-
-            if (url === "") return;
-            var hasProtocol = /^[a-z]+:\/\//.test(url);
-            if (!hasProtocol) {
-              url = "http://" + url;
-            }
-            shell.openExternal(url);
-        };
-
-        // Handle CTRL+MouseWheel events
-        var MouseWheelHandler = function (e) {
-            var delta = Math.max(-1, Math.min(1, (e.wheelDelta || -e.detail)));
-            if (e.ctrlKey) {
-                e.preventDefault();
-                that.addFontSize(delta * 2);
-            }
-        };
-        document.getElementById("editor").addEventListener("mousewheel", MouseWheelHandler, false);
     });
 }
 
@@ -653,13 +653,25 @@ AbrDocument.prototype = {
         }
     },
 
-    loadTheme: function (themeName) {
+    loadTheme: function (themeName, callback) {
         this.theme = themeName;
-        loadTheme(themeName);
+        var cm = this.cm;
+        loadTheme(themeName, false, function () {
+            if (cm) cm.refresh();
+            if (typeof callback === "function") {
+              callback();
+            }
+        });
     },
 
-    reloadTheme: function () {
-        loadTheme(this.theme, true);
+    reloadTheme: function (callback) {
+        var cm = this.cm;
+        loadTheme(this.theme, true, function () {
+            if (cm) cm.refresh();
+            if (typeof callback === "function") {
+              callback();
+            }
+        });
     },
 
     // Images
