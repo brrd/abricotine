@@ -31,7 +31,16 @@ var commands = {
     },
 
     autosave: function(win, abrDoc, cm) {
-        abrDoc.autosave();
+        if (cm) {
+            abrDoc.autosave = !abrDoc.autosave;
+            abrDoc.setConfig("startup-commands:autosave", abrDoc.autosave);
+            if (abrDoc.autosave && abrDoc.path) {
+                abrDoc.save();
+            }
+        } else {
+            // If cm not loaded yet
+            abrDoc.commandsToTrigger.push("autosave");
+        }
     },
 
     exportHtml: function(win, abrDoc, cm, param) {
@@ -157,17 +166,6 @@ var commands = {
         } else {
             // If cm not loaded yet
             abrDoc.commandsToTrigger.push("autoCloseBrackets");
-        }
-    },
-
-    autoSaveOnFocusLost: function(win, abrDoc, cm) {
-        if (cm) {
-            var flag = cm.getOption("autoSaveOnFocusLost");
-            cm.setOption("autoSaveOnFocusLost", !flag);
-            abrDoc.setConfig("startup-commands:autoSaveOnFocusLost", !flag);
-        } else {
-            // If cm not loaded yet
-            abrDoc.commandsToTrigger.push("autoSaveOnFocusLost");
         }
     },
 

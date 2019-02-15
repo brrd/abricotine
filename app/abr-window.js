@@ -107,12 +107,6 @@ AbrWindow.prototype = {
         win.on("focus", function () {
             abrWin.menu.attach();
         });
-        win.on("blur", function () {
-            var startupCommands = abrWin.config.get("startup-commands");
-            if (startupCommands.autoSaveOnFocusLost) {
-                abrWin.execCommand("autosave");
-            }
-        });
         win.on("close", function (e) {
             e.preventDefault() // Prevents the window from closing
             abrWin.execCommand("closeWindow");

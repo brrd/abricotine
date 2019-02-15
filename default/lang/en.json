@@ -24,7 +24,7 @@
     "menu-open": "Open",
     "menu-save": "Save",
     "menu-save-as": "Save As…",
-    "menu-save-autosave": "Save on Focus Lost",
+    "menu-save-autosave": "Auto Saving",
     "menu-export-html": "Export as HTML",
     "menu-copy-images-on-html-export": "Copy Images when Exporting",
     "menu-tasks": "Run Task",

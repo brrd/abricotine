@@ -34,7 +34,7 @@
         "showTocPane": false,
         "showLastLineIndicator": true,
         "autoCloseBrackets": true,
-        "autoSaveOnFocusLost" : false
+        "autosave" : false
     },
     "spellchecker": {
         "active": false,

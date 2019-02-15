@@ -31,6 +31,9 @@ function AbrDocument () {
     // Start with an empty table of contents
     this.toc = [];
 
+    // Autosave flag
+    this.autosave = false;
+
     // Run this in a background thread
     var worker = cp.fork(__dirname + "/toc-worker.js");
 
@@ -199,6 +202,18 @@ function AbrDocument () {
                         // Otherwise try to open the file
                         that.open(file.path);
                     }
+                });
+
+                // Autosave
+                var autosaveDelay = 1000;
+                var autosaveTimeout;
+                that.cm.on("changes", function (cm, changes) {
+                    if (!that.autosave || !that.path) return;
+                    window.clearTimeout(autosaveTimeout);
+                    autosaveTimeout = window.setTimeout(function () {
+                        if (!that.autosave || !that.path) return;
+                        that.save();
+                    }, autosaveDelay);
                 });
 
                 // Handle local keybindings that arent linked to a specific menu
@@ -544,15 +559,6 @@ AbrDocument.prototype = {
         // Append extension if none
         if (parsePath(path).basename.indexOf(".") === -1) {
             path += ".md";
-        }
-        return this.save(path, callback);
-    },
-
-    autosave: function(path, callback) {
-        path = path || this.path;
-        // Only autosave if it's an existing file
-        if (!path) {
-            return false;
         }
         return this.save(path, callback);
     },
