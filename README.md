@@ -1,6 +1,6 @@
 # Abricotine
 
-> A markdown editor for desktop
+> Desktop markdown editor with inline preview
 
 ![Abricotine Screenshot](screenshot.jpg)
 
@@ -14,6 +14,7 @@ In **Abricotine**, you can preview your document directly in the text editor rat
 * Preview text elements (such as headers, images, math, embedded videos, todo lists...) while you type,
 * Use different themes to display your documents,
 * Use custom postprocessors to export your documents ("tasks"),
+* Auto save your document on change (optional),
 * Display document table of content in the side pane,
 * Display syntax highlighting for code,
 * Show helpers, anchors and hidden characters,
@@ -43,7 +44,7 @@ In order to keep the match between this documentation and the last release, plea
 ## License
 
 **Abricotine - Markdown Editor**  
-**Copyright (c) 2015 Thomas Brouard**
+**Copyright (c) 2019 Thomas Brouard**
 
 This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
 
