@@ -22,6 +22,8 @@ Download the provided .deb package from the [Releases page](https://github.com/b
 
 Download linux prebuilt binaries from the [Releases page](https://github.com/brrd/Abricotine/releases), extract the archive and run Abricotine.
 
+On Fedora you will also have to install the `libXScrnSaver` package: `yum install libXScrnSaver`
+
 ## Building and packaging
 
 ### Requirements
