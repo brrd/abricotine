@@ -84,12 +84,10 @@ function copyIconsAll (appPaths, callback) {
 }
 
 // Run packager
-packager(options, function (err, appPaths) {
-    if (err) {
-        console.error (err);
-    } else {
-        copyIconsAll(appPaths, function () {
-            console.log("Packages were built in " + prettyMs(new Date().getTime() - startTime));
-        });
-    }
-});
+packager(options)
+    .then((appPaths) => {
+      copyIconsAll(appPaths, function () {
+          console.log("Packages were built in " + prettyMs(new Date().getTime() - startTime));
+      });
+    })
+    .catch(console.error);

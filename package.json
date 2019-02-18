@@ -62,7 +62,7 @@
   },
   "devDependencies": {
     "commander": "2.9.0",
-    "electron-packager": "8.5.2",
+    "electron-packager": "13.0.1",
     "electron-rebuild": "1.7.3",
     "electron-winstaller": "2.5.2",
     "pretty-ms": "2.1.0",
