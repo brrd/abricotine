@@ -43,7 +43,7 @@
     "electron-window-state": "5.0.3",
     "font-awesome": "4.7.0",
     "glob": "5.0.15",
-    "is-url": "1.2.2",
+    "is-url": "1.2.4",
     "jquery": "3.3.1",
     "kramed": "0.5.6",
     "langmap": "0.0.13",
