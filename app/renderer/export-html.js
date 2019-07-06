@@ -44,7 +44,7 @@ function exportHtml (abrDoc, templateName, destPath, options = {}, callback) {
         abrDoc.imageImport(imgDirAbs, { copyRemote: options.copyImagesRemote });
 
         // Update images src attributes
-        var assetsPath = "./" + parsePath(destPath).basename + "_files"
+        var assetsPath = "./" + parsePath(destPath).basename + "_files";
         var re = /(<img[^>]+src=['"])([^">]+)(['"])/gmi;
         htmlContent = htmlContent.replace(re, function (str, p1, p2, p3) {
             if (options.copyImagesRemote === false && isUrl(p2)) {
