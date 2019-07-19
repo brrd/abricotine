@@ -143,7 +143,11 @@ AbrApplication.prototype = {
 
     emptyTmpHTML: function () {
         var path = constants.path.tmp + "/!(themes)";
-        files.rm(path);
+        files.rm(path, error => {
+            if (error) {
+                console.error(`Could not delete file at ${error.path}`, error);
+            }
+        });
     }
 };
 
