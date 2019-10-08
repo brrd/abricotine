@@ -170,13 +170,18 @@ var files = {
                 console.error(err);
                 callback(null);
             } else if (typeof callback === "function") {
+                // Final newline should not be displayed to user
+                if (data.slice(-1) === "\n") {
+                    data = data.slice(0, -1);
+                }
                 callback(data, path);
             }
         });
     },
 
     writeFile: function (data, path, callback) {
-        fs.writeFile(path, data, function (err) {
+        // Add final newline (removed in readFile)
+        fs.writeFile(path, data+"\n", function (err) {
             if (typeof callback === "function") {
                 callback(err);
             }
