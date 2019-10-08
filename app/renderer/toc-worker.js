@@ -13,6 +13,8 @@ function gettocAndLineNumbers (text) {
         lineNumbers = [],
         lines = text.split("\n"),
         isCode = false;
+        checkYaml = true;
+        isYaml = false;
     lines.forEach( function (line, index) {
         // Skip lines in code blocks
         var codeMatch = line.match(/^\s*```/);
@@ -20,6 +22,21 @@ function gettocAndLineNumbers (text) {
             isCode = !isCode;
         }
         if (isCode) return;
+        // Skip lines in YAML block
+        if (isYaml || checkYaml) {
+            if (isYaml) {
+                if(line.match(/^(---|\.\.\.)/)) {
+                    isYaml = false;
+                    return;     // Ignore terminating marker itself
+                }
+            } else if (checkYaml && line.match(/^---/)) {
+                isYaml = true;
+                checkYaml = false;
+            } else if (line) {
+                checkYaml = false;
+            }
+            if (isYaml) return;
+        }
         // # headers
         var headerMatch = line.match(/^(#+)(.*)#*$/);
         if (headerMatch) {
