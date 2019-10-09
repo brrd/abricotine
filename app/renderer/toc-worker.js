@@ -13,13 +13,35 @@ function gettocAndLineNumbers (text) {
         lineNumbers = [],
         lines = text.split("\n"),
         isCode = false;
+        checkYaml = true;
+        isYaml = false;
+        belowEmptyLine = true;
     lines.forEach( function (line, index) {
         // Skip lines in code blocks
         var codeMatch = line.match(/^\s*```/);
         if (codeMatch) {
             isCode = !isCode;
         }
-        if (isCode) return;
+        if (isCode || codeMatch) {
+            belowEmptyLine = true;  // This line can't be a heading
+            return;
+        }
+        // Skip lines in YAML block
+        if (isYaml || checkYaml) {
+            if (isYaml) {
+                if(line.match(/^(---|\.\.\.)/)) {
+                    isYaml = false;
+                    belowEmptyLine = true;  // This line can't be a heading
+                    return;     // Ignore terminating marker itself
+                }
+            } else if (checkYaml && line.match(/^---/)) {
+                isYaml = true;
+                checkYaml = false;
+            } else if (line) {
+                checkYaml = false;
+            }
+            if (isYaml) return;
+        }
         // # headers
         var headerMatch = line.match(/^(#+)(.*)#*$/);
         if (headerMatch) {
@@ -33,8 +55,8 @@ function gettocAndLineNumbers (text) {
         var underlineMatch = line.match(/^\s*(=|-)+$/);
         if (
             underlineMatch &&
-            // not first line
-            index !== 0 &&
+            // above line actually contains something (i. e. not <hr />)
+            !belowEmptyLine &&
             // header isnt already registered
             !(toc.length > 0 && lineNumbers[lineNumbers.length - 1] === index - 1)
         ) {
@@ -43,6 +65,12 @@ function gettocAndLineNumbers (text) {
                 level: underlineMatch[1] === "=" ? 1 : 2
             });
             lineNumbers.push(index - 1);
+        }
+        // Check if --- on the next line could possibly indicate a heading
+        if (line.trim()) {
+            belowEmptyLine = false;
+        } else {
+            belowEmptyLine = true;
         }
     });
     return {
