@@ -15,7 +15,7 @@ var abrApp = null,
     osxOpenFilePaths = [];
 
 // Check app is single instance
-app.requestSingleInstanceLock();
+app.requestSingleInstanceLock() || app.quit();
 app.on("second-instance", (event, argv, cwd) => {
     process.chdir(cwd);
     if (abrApp == null) {
