@@ -124,51 +124,6 @@ function initCodeMirror () {
                 return "line-not-blank";
             }
         });
-        // Code blocks
-        cm.addOverlay({
-            token: function(stream) {
-                if (stream.start > 0) {
-                  stream.match(/^\s*\S*/);
-                  return null;
-                }
-
-                stream.match(/^\s*/);
-                var baseToken = stream.baseToken();
-                if (!baseToken || !baseToken.type) return null;
-                var type = baseToken.type.split(" ");
-                stream.match(/^\s*\S*/);
-
-                var hasTypeFormattingCodeblock = type.includes("formatting-code-block");
-                var hasTypeFormattingCode = type.includes("formatting-code");
-                var hasTypeFormattingMath = type.includes("formatting-math");
-                var hasTypeMarkdown = type.includes("m-markdown");
-                var hasTypeComment = type.includes("comment");
-                var hasTypeNull = type.includes("m-null");
-
-                if (hasTypeFormattingCode || hasTypeFormattingMath || hasTypeNull) {
-                  return null;
-                }
-                if (hasTypeFormattingCodeblock) {
-                    return "line-background-codeblock-delimiter";
-                }
-                if (!hasTypeMarkdown || (hasTypeComment && hasTypeMarkdown)) {
-                    return "line-background-codeblock";
-                }
-                return null;
-            }
-        });
-        // Code blocks: empty lines workaround
-        cm.on("update", function (cm, arg) {
-          cm.eachLine(function (line) {
-            var lineNumber = cm.getLineNumber(line);
-            var mode = cm.getModeAt({line: lineNumber});
-            if (mode.name && mode.name === "markdown" || lineNumber === 0) {
-              cm.removeLineClass(line, "background", "codeblock");
-              return;
-            }
-            cm.addLineClass(line, "background", "codeblock");
-          });
-        });
 
         // Indented wrapped line hack
         // https://codemirror.net/demo/indentwrap.html
