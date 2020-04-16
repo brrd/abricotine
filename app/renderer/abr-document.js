@@ -276,7 +276,7 @@ function AbrDocument () {
                     var open = null;
                     var url = null;
                     if (e.target.classList.contains("cm-url")) { // link in standard MD format, url part was clicked on
-                        open = $(e.target).prevUntil(":not(.cm-url)").andSelf().first();
+                        open = $(e.target).prevUntil(":not(.cm-url)").addBack().first();
                         url = open.nextUntil(".cm-formatting-link-string").text();
                     } else if (e.target.classList.contains("cm-link")) {
                         open = $(e.target).prevUntil(":not(.cm-link)");
@@ -284,8 +284,8 @@ function AbrDocument () {
                             open = $(e.target).nextAll(".cm-formatting-link-string").first();
                             url = open.nextUntil(".cm-formatting-link-string").text();
                         } else { // link is a raw url
-                            open = open.andSelf().first();
-                            url = open.nextUntil(":not(.cm-link)").andSelf().text();
+                            open = open.addBack().first();
+                            url = open.nextUntil(":not(.cm-link)").addBack().text();
                         }
                     }
 
