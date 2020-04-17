@@ -56,19 +56,24 @@
 
     <script>
         window.MathJax = {
-            jax: ["input/TeX", "output/HTML-CSS"],
-            extensions: ["tex2jax.js", "CHTML-preview.js", "TeX/AMSmath.js", "TeX/AMSsymbols.js", "TeX/noErrors.js", "TeX/noUndefined.js"],
-            tex2jax: {
-                inlineMath: [ ['$$','$$'] ],
-                displayMath: [ ]
+            tex: {
+                inlineMath: [['$$', '$$']],
+                displayMath: []
             },
-            showProcessingMessages: false,
-            messageStyle: "none",
-            showMathMenu: false,
-            showMathMenuMSIE: false
+            options: {
+                renderActions: {
+                    addMenu: [],
+                    checkLoading: []
+                },
+                ignoreHtmlClass: 'tex2jax_ignore',
+                processHtmlClass: 'tex2jax_process'
+            },
+            startup: {
+                typeset: false
+            }
         };
     </script>
-    <script src="../../node_modules/mathjax/MathJax.js?config=TeX-AMS_HTML"></script>
+    <script src="../../node_modules/mathjax/es5/tex-chtml-full.js" id="MathJax-script"></script>
 
     <script src="main.js"></script>
 

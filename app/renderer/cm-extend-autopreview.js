@@ -239,10 +239,9 @@ function autopreview (cm, line, types) {
                     inclusiveRight: true
                 },
                 callback: function (textMarker, element) {
-                    var onMathLoaded = function () {
+                    window.MathJax.typesetPromise([element]).then(function(e) {
                         textMarker.changed();
-                    };
-                    window.MathJax.Hub.Queue(["Typeset", window.MathJax.Hub, element], [onMathLoaded, undefined]);
+                    });
                     textMarker.on("beforeCursorEnter", function () {
                         if (!doc.somethingSelected()) { // Fix blink on selection
                             textMarker.clear();
