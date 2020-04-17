@@ -7,9 +7,11 @@
 // Squirrel
 if (require("electron-squirrel-startup")) return;
 
-var app = require("electron").app,
+var electron = require("electron"),
+    app = electron.app,
     creator = require.main.require("./creator.js"),
-    dialog = require("electron").dialog;
+    dialog = electron.dialog,
+    session = electron.session;
 
 var abrApp = null,
     osxOpenFilePaths = [];
@@ -65,6 +67,20 @@ app.on("ready", function () {
             app.exit(0);
         }
     }
+
+    // Forbid unexpected Content-Types in received headers in default session (= editor) to protect against stegosploit (#254). Content types which don't start with "image/" will be deleted from header.
+    session.defaultSession.webRequest.onHeadersReceived((details, callback) => {
+        var responseHeaders = details.responseHeaders;
+        var key = Object.keys(responseHeaders).find(k => k.toLowerCase() === "content-type");
+        var contentType = responseHeaders[key] || [];
+
+        var newContentType = contentType.filter(function (type) {
+            return /^image\//.test(type);
+        });
+
+        responseHeaders[key] = newContentType;
+        callback({ cancel: false, responseHeaders: responseHeaders });
+    });
 
     // Load AbrApplication once app is ready
     var AbrApplication = require.main.require("./abr-application.js");

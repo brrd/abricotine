@@ -170,7 +170,7 @@ function autopreview (cm, line, types) {
                     aspectRatio = aspectRatio > 100 ? 100 : aspectRatio;
                     // Create element
                     var $parent = $("<div class='autopreview-iframe' style='padding-bottom: " + aspectRatio + "%;'></div>"),
-                        $webview = $("<webview frameborder='0' src='" + url + "'></webview>"),
+                        $webview = $("<webview frameborder='0' partition='autopreview-iframe' src='" + url + "'></webview>"),
                         errorFunc = function () {
                             $webview.remove();
                             $parent.addClass("iframe-error");
