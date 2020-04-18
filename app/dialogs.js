@@ -48,9 +48,9 @@ Dialogs.prototype = {
                 noLink: true
             };
         if (this.win) {
-            dialog.showMessageBox(this.win, options);
+            dialog.showMessageBoxSync(this.win, options);
         } else {
-            dialog.showMessageBox(options);
+            dialog.showMessageBoxSync(options);
         }
     },
 
@@ -59,7 +59,7 @@ Dialogs.prototype = {
             path = this.localizer.get('new-document');
         }
         var filename = parsePath(path).basename || path,
-            userChoice = dialog.showMessageBox(this.win, {
+            userChoice = dialog.showMessageBoxSync(this.win, {
                 title: this.localizer.get('confirm-close-title'),
                 message: this.localizer.get('confirm-close-message', [filename]),
                 buttons: [this.localizer.get('button-cancel'), this.localizer.get('confirm-close-without-saving'), this.localizer.get('confirm-save-and-close')],
@@ -78,7 +78,7 @@ Dialogs.prototype = {
     },
 
     askFileReload: function (path, callback) {
-        var userChoice = dialog.showMessageBox(this.win, {
+        var userChoice = dialog.showMessageBoxSync(this.win, {
             title: this.localizer.get("changed-file"),
             message: this.localizer.get("changed-file-message", [path]),
             buttons: [this.localizer.get("button-yes"), this.localizer.get("button-no")],
@@ -89,7 +89,7 @@ Dialogs.prototype = {
     },
 
     askOpenPath: function (title) {
-        var path = dialog.showOpenDialog(this.win, {
+        var path = dialog.showOpenDialogSync(this.win, {
             title: title || this.localizer.get('dialog-open'),
             properties: ['openFile'],
             defaultPath: this.dir
@@ -102,7 +102,7 @@ Dialogs.prototype = {
 
     askSavePath: function (title, docTitle) {
         docTitle = docTitle || "";
-        var path = dialog.showSaveDialog(this.win, {
+        var path = dialog.showSaveDialogSync(this.win, {
             title: title || this.localizer.get('dialog-save'),
             defaultPath: pathModule.join(this.dir, docTitle)
         });
@@ -113,7 +113,7 @@ Dialogs.prototype = {
     },
 
     askOpenImage: function (title) {
-        var path = dialog.showOpenDialog(this.win, {
+        var path = dialog.showOpenDialogSync(this.win, {
             title: title || this.localizer.get('insert-image'),
             properties: ['openFile'],
             filters: [{
@@ -129,7 +129,7 @@ Dialogs.prototype = {
     },
 
     askNeedSave: function (callback) {
-        var userChoice = dialog.showMessageBox(this.win, {
+        var userChoice = dialog.showMessageBoxSync(this.win, {
             title: this.localizer.get('dialog-save'),
             message: this.localizer.get('dialog-save-message'),
             buttons: [this.localizer.get('button-cancel'), this.localizer.get('button-save')],
@@ -150,7 +150,7 @@ Dialogs.prototype = {
             detail: stdout,
             noLink: true
         };
-        dialog.showMessageBox(this.win, options);
+        dialog.showMessageBoxSync(this.win, options);
     },
 
     taskError: function (cmd, errMsg) {
@@ -162,11 +162,11 @@ Dialogs.prototype = {
             buttons: [this.localizer.get('button-ok')],
             noLink: true
         };
-        dialog.showMessageBox(this.win, options);
+        dialog.showMessageBoxSync(this.win, options);
     },
 
     fileAccessDenied: function (path, callback) {
-        var userChoice = dialog.showMessageBox(this.win, {
+        var userChoice = dialog.showMessageBoxSync(this.win, {
             title: this.localizer.get("permission-denied"),
             message: this.localizer.get("permission-denied-message", [path]),
             buttons: [this.localizer.get('button-cancel'), this.localizer.get('button-ok')],
@@ -180,7 +180,7 @@ Dialogs.prototype = {
     },
 
     importImagesDone: function (path) {
-        dialog.showMessageBox(this.win, {
+        dialog.showMessageBoxSync(this.win, {
             title: this.localizer.get("images-copied"),
             message: this.localizer.get("images-copied-message", [path]),
             buttons: [this.localizer.get('button-ok')],
@@ -189,7 +189,7 @@ Dialogs.prototype = {
     },
 
     warnFileDeleted: function (path, callback) {
-        var userChoice = dialog.showMessageBox(this.win, {
+        var userChoice = dialog.showMessageBoxSync(this.win, {
             title: this.localizer.get("file-deleted"),
             message: this.localizer.get("file-deleted-message", [path]),
             buttons: [this.localizer.get("button-yes"), this.localizer.get("button-no")],

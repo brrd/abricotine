@@ -37,7 +37,7 @@
     "codemirror": "5.52.2",
     "deep-equal": "1.0.1",
     "deep-extend": "0.6.0",
-    "electron": "4.0.8",
+    "electron": "6.1.10",
     "electron-rebuild": "1.7.3",
     "electron-squirrel-startup": "1.0.0",
     "electron-window-state": "5.0.3",
