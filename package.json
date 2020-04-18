@@ -1,7 +1,8 @@
 {
   "main": "app/index.js",
-  "name": "Abricotine",
-  "description": "A markdown editor for desktop",
+  "name": "abricotine",
+  "productName": "Abricotine",
+  "description": "Abricotine Markdown Editor",
   "homepage": "http://abricotine.brrd.fr",
   "repository": {
     "type": "git",
