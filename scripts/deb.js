@@ -3,7 +3,7 @@ var installer = require("electron-installer-debian"),
     prettyMs = require("pretty-ms");
 
 var options = {
-        src: "dist/" + pkg.name + "-linux-" + process.arch + "/",
+        src: "dist/" + pkg.productName + "-linux-" + process.arch + "/",
         dest: "dist/installers/",
         arch: process.arch === "ia32" ? "i386" : "amd64",
         section: "text",
