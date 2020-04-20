@@ -56,7 +56,7 @@ app.on("will-quit", function() {
 app.on("ready", function () {
     // Install confirmation
     if (process.argv.indexOf("--squirrel-firstrun") !== -1) {
-        var userChoice = dialog.showMessageBox({
+        var userChoice = dialog.showMessageBoxSync({
             title: "Abricotine setup",
             message: "Abricotine has been successfully installed.",
             type: "info",

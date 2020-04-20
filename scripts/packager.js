@@ -27,7 +27,6 @@ if ((commander.platform && commander.platform !== process.platform) || (commande
 // Set options
 var options = {
         dir: inputPath,
-        name: pkg.name,
         platform: commander.platform || process.platform,
         arch: commander.arch || process.arch,
         electronVersion: semver.clean(pkg.dependencies.electron),
@@ -41,10 +40,7 @@ var options = {
             unpackDir: "default"
         },
         win32metadata: {
-            "CompanyName": pkg.name,
-            "FileDescription": pkg.description,
-            "ProductName": pkg.name,
-            "InternalName": pkg.name
+            "CompanyName": pkg.ProductName
         }
     },
     startTime = new Date().getTime();
