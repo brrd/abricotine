@@ -26,6 +26,7 @@ if ((commander.platform && commander.platform !== process.platform) || (commande
 
 // Set options
 var options = {
+        executableName: pkg.name,
         dir: inputPath,
         platform: commander.platform || process.platform,
         arch: commander.arch || process.arch,
