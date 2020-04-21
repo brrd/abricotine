@@ -25,8 +25,6 @@ In **Abricotine**, you can preview your document directly in the text editor rat
 * Ligatures support ([Fira Code](https://github.com/tonsky/FiraCode) must be installed on your computer),
 * And more features to come...
 
-Abricotine is still in beta development. If you find a bug please report it [in the dedicated bug tracker](https://github.com/brrd/Abricotine/issues).
-
 ## Documentation
 
 * [Installation and usage](https://github.com/brrd/Abricotine/tree/master/docs/installation-and-usage.md)
@@ -44,7 +42,7 @@ In order to keep the match between this documentation and the last release, plea
 ## License
 
 **Abricotine - Markdown Editor**  
-**Copyright (c) 2019 Thomas Brouard**
+**Copyright (c) 2020 Thomas Brouard**
 
 This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
 
