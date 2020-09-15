@@ -8,6 +8,12 @@ Abricotine is working on Windows (7 and later), Linux and OSX.
 
 Download the windows installer from the [Releases page](https://github.com/brrd/Abricotine/releases) and run it.
 
+Also, you can get Abricotine from [Scoop](https://scoop.sh):
+
+```powershell
+scoop install abricotine # in extras bucket
+```
+
 ### OSX
 
 Download OSX prebuilt binaries from the [Releases page](https://github.com/brrd/Abricotine/releases), extract the archive (if necessary) and run Abricotine.
