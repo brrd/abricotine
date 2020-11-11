@@ -69,7 +69,7 @@
                 "permanent": true
             },
             {
-                "label": "Recent",
+                "labelKey": "menu-recent",
                 "id": "recentDocs",
                 "submenu": []
             },

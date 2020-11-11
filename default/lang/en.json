@@ -25,6 +25,8 @@
     "menu-save": "Save",
     "menu-save-as": "Save As…",
     "menu-save-autosave": "Auto Saving",
+    "menu-recent": "Recent",
+    "menu-recent-clear": "Clear",
     "menu-export-html": "Export as HTML",
     "menu-copy-images-on-html-export": "Copy Images when Exporting",
     "menu-tasks": "Run Task",

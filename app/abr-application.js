@@ -53,13 +53,13 @@ AbrApplication.prototype = {
     },
 
     updateRecentPathsMenus: function(recentPaths) {
-        this.menu.setRecentDocsMenu(recentPaths);
+        this.menu.setRecentDocsMenu(this, recentPaths);
 
         for (var winId in this.windows) {
             if (!this.windows.hasOwnProperty(winId)) continue;
             var abrWin = this.windows[winId];
             if (abrWin) {
-                abrWin.menu.setRecentDocsMenu(recentPaths);
+                abrWin.menu.setRecentDocsMenu(this, recentPaths);
             }
         }
     },

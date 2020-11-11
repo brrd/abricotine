@@ -215,11 +215,10 @@ AbrMenu.prototype = {
         function doFindItem (menu, id) {
             var items = menu.items,
                 menuItem;
-            for (var i=0; i <items.length; i++) {
+            for (var i=0; i < items.length; i++) {
                 if (items[i].id === id) {
                     menuItem = items[i];
-                }
-                else if (items[i].submenu) {
+                } else if (items[i].submenu) {
                     menuItem = doFindItem(items[i].submenu, id);
                 }
                 if (menuItem) {
@@ -248,7 +247,7 @@ AbrMenu.prototype = {
         this.abrWin.abrApp.clearRecentDocs(this.abrWin);
     },
 
-    setRecentDocsMenu: function(recentPaths) {
+    setRecentDocsMenu: function(abrApp, recentPaths) {
         var submenu = this.findItem("recentDocs").submenu, i, itemData, that = this;
 
         // clear menu (this API is not public and may change between Electron releases)
@@ -261,7 +260,7 @@ AbrMenu.prototype = {
         }
 
         // create items for recent files
-        for (i=0; i <recentPaths.length; i++) {
+        for (i = 0; i < recentPaths.length; i++) {
             itemData = {
                 label: recentPaths[i],
                 click: createOpenRecentCallback(recentPaths[i])
@@ -275,7 +274,7 @@ AbrMenu.prototype = {
 
         // append "clear recent" item
         submenu.append(new MenuItem({
-            label: "Clear",
+            label: abrApp.localizer.get("menu-recent-clear"),
             enabled: (recentPaths.length > 0),
             click: function() {
                 that.clearRecentDocs();
