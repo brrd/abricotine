@@ -18,7 +18,7 @@ scoop install abricotine # in extras bucket
 
 Download OSX prebuilt binaries from the [Releases page](https://github.com/brrd/Abricotine/releases), extract the archive (if necessary) and run Abricotine.
 
-OSX users can also use Homebrew Cask to install Abricotine: `$ brew cask install abricotine`.
+OSX users can also use Homebrew Cask to install Abricotine: `$ brew install --cask abricotine`.
 
 ### Ubuntu, Debian and other Debian-based distributions
 
