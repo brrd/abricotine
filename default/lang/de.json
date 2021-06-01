@@ -24,7 +24,12 @@
     "menu-open": "Öffnen",
     "menu-save": "Speichern",
     "menu-save-as": "Speichern unter…",
+    "menu-save-autosave": "Automatisches speichern",
+    "menu-recent": "Zuletzt geöffnet",
+    "menu-recent-clear": "Liste leeren",
     "menu-export-html": "Als HTML exportieren",
+    "menu-copy-images-on-html-export": "Bilder beim Export kopieren",
+    "menu-tasks": "Aufgabe ausführen",
     "menu-close-document": "Dokument schließen",
     "menu-close-window": "Fenster schließen",
 

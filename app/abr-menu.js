@@ -9,6 +9,7 @@ var constants = require.main.require("./constants"),
     fs = require("fs"),
     langmap = require("langmap"),
     Menu = require("electron").Menu,
+    MenuItem = require("electron").MenuItem,
     pathModule = require("path"),
     spellchecker = require('spellchecker'),
     sysDictionaries = spellchecker.getAvailableDictionaries();
@@ -214,18 +215,18 @@ AbrMenu.prototype = {
         function doFindItem (menu, id) {
             var items = menu.items,
                 menuItem;
-            for (var i=0; i <items.length; i++) {
-                if (items[i].submenu) {
+            for (var i=0; i < items.length; i++) {
+                if (items[i].id === id) {
+                    menuItem = items[i];
+                } else if (items[i].submenu) {
                     menuItem = doFindItem(items[i].submenu, id);
-                } else {
-                    menuItem = items[i].id === id ? items[i] : undefined;
                 }
                 if (menuItem) {
                     return menuItem;
                 }
             }
         }
-        return doFindItem(this, id);
+        return doFindItem(this.menu, id);
     },
 
     popup: function () {
@@ -236,6 +237,49 @@ AbrMenu.prototype = {
     attach: function () {
         // FIXME: use win.setMenu(menu) for Linux and Windows instead
         Menu.setApplicationMenu(this.menu);
+    },
+
+    openRecentDoc: function (recentFile) {
+        this.abrWin.abrApp.open(recentFile);
+    },
+
+    clearRecentDocs: function () {
+        this.abrWin.abrApp.clearRecentDocs(this.abrWin);
+    },
+
+    setRecentDocsMenu: function(abrApp, recentPaths) {
+        var submenu = this.findItem("recentDocs").submenu, i, itemData, that = this;
+
+        // clear menu (this API is not public and may change between Electron releases)
+        submenu.clear();
+
+        function createOpenRecentCallback(recent) {
+            return function() {
+                that.openRecentDoc(recent);
+            };
+        }
+
+        // create items for recent files
+        for (i = 0; i < recentPaths.length; i++) {
+            itemData = {
+                label: recentPaths[i],
+                click: createOpenRecentCallback(recentPaths[i])
+            };
+            submenu.append(new MenuItem(itemData));
+        }
+
+        submenu.append(new MenuItem({
+            type: "separator"
+        }));
+
+        // append "clear recent" item
+        submenu.append(new MenuItem({
+            label: abrApp.localizer.get("menu-recent-clear"),
+            enabled: (recentPaths.length > 0),
+            click: function() {
+                that.clearRecentDocs();
+            }
+        }));
     }
 };
 

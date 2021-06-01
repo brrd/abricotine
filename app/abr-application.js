@@ -6,6 +6,7 @@
 
 var AbrMenu = require.main.require("./abr-menu.js"),
     AbrWindow = require.main.require("./abr-window.js"),
+    app = require.main.require("electron").app,
     BrowserWindow = require("electron").BrowserWindow,
     commands = require.main.require("./commands-main.js"),
     constants = require.main.require("./constants.js"),
@@ -39,6 +40,35 @@ AbrApplication.prototype = {
     // trigger
     setWinPath: function (path, winId) {
         this.windows[winId].path = path;
+    },
+
+    updateRecentPaths: function (recentPaths) {
+        if (recentPaths) {
+            if (recentPaths.length > 0) {
+                app.addRecentDocument(recentPaths[0]);
+            }
+
+            this.updateRecentPathsMenus(recentPaths);
+        }
+    },
+
+    updateRecentPathsMenus: function(recentPaths) {
+        this.menu.setRecentDocsMenu(this, recentPaths);
+
+        for (var winId in this.windows) {
+            if (!this.windows.hasOwnProperty(winId)) continue;
+            var abrWin = this.windows[winId];
+            if (abrWin) {
+                abrWin.menu.setRecentDocsMenu(this, recentPaths);
+            }
+        }
+    },
+
+    clearRecentDocs: function(abrWin) {
+        app.clearRecentDocuments();
+        // update storage
+        var webContents = abrWin.browserWindow.webContents;
+        webContents.send("command", "clearRecentDocs");
     },
 
     // trigger

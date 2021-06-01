@@ -25,6 +25,7 @@
     "editor": {
         "font-size": "16px"
     },
+    "max-recent": 5,
     "highlight-modes": "",
     "lang": "",
     "copy-images-on-html-export": true,

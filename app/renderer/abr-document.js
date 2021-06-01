@@ -323,6 +323,7 @@ AbrDocument.prototype = {
         this.setClean();
         this.updateWindowTitle();
         this.cm.refresh(); // CodeMirror scrollbar bug workaround
+        this.updateRecentPath(path);
     },
 
     close: function (force, destroyWindow) {
@@ -500,6 +501,7 @@ AbrDocument.prototype = {
         if (!path) {
             return false;
         }
+        this.updateRecentPath(path);
         var that = this;
         if (!this.path && this.isClean()) {
             files.readFile(path, function (data, path) {
@@ -522,6 +524,7 @@ AbrDocument.prototype = {
 
     save: function (path, callback) {
         path = path || this.path;
+        this.updateRecentPath(path);
         if (!path) {
             return this.saveAs(callback);
         }
@@ -903,7 +906,46 @@ AbrDocument.prototype = {
     // About
     about: function () {
         this.dialogs.about();
-    }
+    },
+
+    updateRecentPath: function (path) {
+        var thisDoc = this;
+
+        this.getConfig("max-recent", function(max) {
+
+            var recentPaths = localStorage.getItem("recent-docs");
+            if (recentPaths) {
+                try {
+                    recentPaths = JSON.parse(recentPaths);
+                }
+                catch (e) {
+                    recentPaths = [];
+                }
+            }
+            if (!recentPaths) recentPaths = [];
+
+            if (path) {
+                var indexOfPath = recentPaths.indexOf(path);
+                if (indexOfPath >= 0) {
+                    recentPaths.splice(indexOfPath, 1);
+                }
+                recentPaths.unshift(path);
+                if (recentPaths.length > max) {
+                    recentPaths = recentPaths.slice(0, max);
+                }
+            }
+
+            localStorage.setItem("recent-docs", JSON.stringify(recentPaths));
+
+            thisDoc.ipcClient.trigger("updateRecentPaths", recentPaths);
+        });
+    },
+
+    clearRecentDocs: function() {
+        var recentPaths = [];
+        localStorage.setItem("recent-docs", JSON.stringify(recentPaths));
+        this.ipcClient.trigger("updateRecentPaths", recentPaths);
+   }
 };
 
 module.exports = AbrDocument;

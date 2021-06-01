@@ -42,6 +42,9 @@ function AbrWindow (abrApp, path) {
     // Context
     this.contextMenu = new AbrMenu(abrApp, this, contextMenuTemplate, this.config);
     this.open();
+    
+    // FIXCC recent-docs: Recent doc list is not updated after re-opening a recent file (using the recent menu)
+    // need trigger abrDoc.updateRecentPath to IPC client
 }
 
 AbrWindow.prototype = {
@@ -127,6 +130,8 @@ AbrWindow.prototype = {
         if (this.config.get("debug")) {
             win.openDevTools();
         }
+        
+        win.send('updateRecentPath', {path: this.path});
     }
 };
 
