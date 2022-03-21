@@ -290,11 +290,8 @@ function AbrDocument () {
                     }
 
                     if (url === "") return;
-                    var hasProtocol = /^[a-z]+:\/\//.test(url);
-                    if (!hasProtocol) {
-                      url = "http://" + url;
-                    }
-                    shell.openExternal(url);
+                    const openLink = shell.openPath || shell.openItem;
+                    openLink(url);
                 };
 
                 // Handle CTRL+MouseWheel events
