@@ -16,6 +16,7 @@ var remote = require("electron").remote,
     files = remote.require("./files.js"),
     loadTheme = require.main.require("./load-theme.js"),
     Localizer = remote.require("./localize.js"),
+    fs = require("fs"),
     parsePath = require("parse-filepath"),
     pathModule = require("path"),
     shell = require("electron").shell,
@@ -290,11 +291,14 @@ function AbrDocument () {
                     }
 
                     if (url === "") return;
-                    var hasProtocol = /^[a-z]+:\/\//.test(url);
-                    if (!hasProtocol) {
-                      url = "http://" + url;
+                    if (!fs.existsSync(url)) {
+                        var hasProtocol = /^[a-z]+:\/\//.test(url);
+                        if (!hasProtocol) {
+                          url = "http://" + url;
+                        }
                     }
-                    shell.openExternal(url);
+                    const openLink = shell.openPath || shell.openItem;
+                    openLink(url);
                 };
 
                 // Handle CTRL+MouseWheel events
