@@ -20,7 +20,6 @@ var remote = require("electron").remote,
     parsePath = require("parse-filepath"),
     pathModule = require("path"),
     shell = require("electron").shell,
-    nspell = require("nspell"),
     cp = require("child_process");
 
 function AbrDocument () {
@@ -35,10 +34,17 @@ function AbrDocument () {
     // Autosave flag
     this.autosave = false;
 
-    this.spellchecker = null;
-
-    // Run this in a background thread
-    var worker = cp.fork(__dirname + "/toc-worker.js");
+    // Run toc building in a background thread
+    var tocWorker = cp.fork(__dirname + "/toc-worker.js");
+    
+    // Run nspell in a background thread
+    this.misspelledWords = [];
+    this.spellcheckerWorker = cp.fork(__dirname + "/spellchecker-worker.js");
+    this.spellcheckerWorker.on("message", function(msg) {
+        if (msg.misspelled) {
+            that.misspelledWords.push(msg.misspelled);
+        }
+    });
 
     // Listener for commands sent by the menu
     this.commandsToTrigger = [];
@@ -90,7 +96,7 @@ function AbrDocument () {
 
                     // Spellchecker init
                     if (config.spellchecker.active) {
-                        that.setDictionary(config.spellchecker.language, config.spellchecker.src);
+                        that.setDictionary(config.spellchecker.language);
                     }
 
                     // Editor font-size
@@ -110,7 +116,7 @@ function AbrDocument () {
                           // Also dont trigger if cursor is still on the same line
                           if (cursorLine === that.pane.currentCursorLine) return;
                           that.pane.currentCursorLine = cursorLine;
-                          worker.send({
+                          tocWorker.send({
                               cursorLine: cursorLine
                           });
                       }
@@ -123,7 +129,7 @@ function AbrDocument () {
                       that.runAutopreviewQueue();
 
                       var cursorLine = cm.doc.getCursor().line;
-                      worker.send({
+                      tocWorker.send({
                           text: cm.getValue(),
                           cursorLine: cursorLine
                       });
@@ -139,7 +145,7 @@ function AbrDocument () {
                         }, 100);
                     });
 
-                    worker.on("message", function(msg) {
+                    tocWorker.on("message", function(msg) {
                         if (msg.lineNumbers) {
                             that.pane.setLineNumbers(msg.lineNumbers);
                         }
@@ -848,25 +854,28 @@ AbrDocument.prototype = {
     // Spellchecker
     setDictionary: function (lang, path) {
         var that = this;
+        this.misspelledWords = [];
         if (lang) {
-            var dictionary = require(constants.path.dictionaries + "/" + lang);
-            dictionary(function(err, dict) {
-                if (err) {
-                    throw err
-                }
-                that.spellchecker = nspell(dict);
-            });
-
+            this.spellcheckerWorker.send({ dictionary: constants.path.dictionaries + "/" + lang });
             // Refresh CodeMirror highlight + enable spelling
             this.cm.setOption("mode", "abr-spellcheck-on");
             this.setConfig("spellchecker:active", true);
             this.setConfig("spellchecker:language", lang);
         } else {
             // Disable spelling
-            that.spellchecker = null;
             this.cm.setOption("mode", "abr-spellcheck-off");
             this.setConfig("spellchecker:active", false);
         }
+    },
+
+    // return true is misspelled
+    spellcheck: function(word) {
+        // Check if the word is in misspelled list...
+        if (this.misspelledWords.indexOf(word) > -1) {
+            return true;
+        }
+        // ...otherwise submit this word for the next check
+        this.spellcheckerWorker.send({ word });
     },
 
     // Scale text

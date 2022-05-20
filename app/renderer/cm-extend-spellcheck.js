@@ -16,11 +16,7 @@ function initSpellcheck (CodeMirror) {
 						overlay = {
 						token: function(stream, state) {
 							var ch = stream.peek(),
-									word = "",
-									spellchecker = window.abrDoc.spellchecker;
-							if (!spellchecker) {
-								return null;
-							}
+									word = "";
 							if (wordDelimiters.includes(ch)) {
 								stream.next();
 								return null;
@@ -30,7 +26,7 @@ function initSpellcheck (CodeMirror) {
 								stream.next();
 							}
 							word = word.replace(/[’ʼ]/g, "'"); // Alternative apostrophes
-							if (typeof spellchecker.correct === "function" && spellchecker.correct(word) === false) {
+							if (window.abrDoc.spellcheck(word) === true) {
 								return "spell-error"; // CSS class: cm-spell-error
 							}
 							return null;
