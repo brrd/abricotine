@@ -34,8 +34,7 @@ On Fedora you will also have to install the `libXScrnSaver` package: `yum instal
 
 ### Requirements
 
-* [Node.js](https://nodejs.org/en/) and `npm`,
-* Make sure you meet [node-gyp](https://github.com/nodejs/node-gyp) requirements (specific to your platform and architecture),
+[Node.js](https://nodejs.org/en/) and `npm` are required.
 
 ### Building
 
@@ -56,5 +55,3 @@ Once packages are built you can use the following commands:
 #### Packaging for another os
 
 If you need to target another platform or arch, your can use `$ npm run packager -- -p <platform> -a <arch>`. See `$ npm run packager -- --help` for more information about allowed parameters.
-
-Since Abricotine requires [native modules that need to be rebuild for each platform and arch](https://github.com/atom/electron/blob/master/docs/tutorial/using-native-node-modules.md), you should not try to target another operating system unless you provide a `node_module` directory which was built with `electron-rebuild` on an environment that matches the target.

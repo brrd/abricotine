@@ -83,9 +83,7 @@ For instance, this task is a very basic call to [Pandoc](https://pandoc.org/) wh
 
 ## Spell checker dictionaries
 
-Abricotine uses [hunspell](http://hunspell.sourceforge.net/) dictionaries for Linux and Windows 7. If you want to add dictionaries, simply drop the dictionary folder in the `dict` subdirectory of Abricotine configuration folder.
-
-Otherwise Abricotine uses the OS built in dictionaries when supported (you may need to check that dictionaries are installed in your system configuration).
+If you want to add a new dictionary for spell checking, download the related language folder from [nspell dictionaries repository](https://github.com/wooorm/dictionaries/tree/main/dictionaries) and drop it in the `dictionaries` subdirectory of Abricotine configuration folder.
 
 ## Reset configuration
 
