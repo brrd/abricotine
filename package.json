@@ -63,7 +63,6 @@
     "commander": "2.9.0",
     "electron-packager": "13.0.1",
     "electron-winstaller": "4.0.0",
-    "node-abi": "2.15.0",
     "pretty-ms": "2.1.0",
     "semver": "5.3.0"
   },
