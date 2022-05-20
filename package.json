@@ -70,6 +70,6 @@
     "electron-installer-debian": "3.0.0"
   },
   "abricotine": {
-    "schema": 5
+    "schema": 6
   }
 }

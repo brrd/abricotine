@@ -38,7 +38,7 @@ creator.create = function () {
         new Promise (function (resolve, reject) {
             // Copy default dicts
             if (!files.dirExists(constants.path.dictionaries)) {
-                files.copyLocalDir(pathModule.join(constants.path.defaultDir, "/dict"), constants.path.dictionaries, resolve);
+                files.copyLocalDir(pathModule.join(constants.path.defaultDir, "/dictionaries"), constants.path.dictionaries, resolve);
             } else {
                 resolve();
             }
