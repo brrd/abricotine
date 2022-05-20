@@ -41,6 +41,8 @@ function AbrDocument () {
     this.misspelledWords = {};
     this.spellcheckerWorker = cp.fork(__dirname + "/spellchecker-worker.js");
     this.spellcheckerWorker.on("message", function(msg) {
+        if (!that.cm.getOption("mode", "abr-spellcheck-on")) return;
+
         if (msg.misspelled) {
             var lang = that.spellcheckerLang;
             if (!lang) return;
@@ -49,6 +51,9 @@ function AbrDocument () {
             } else if (that.misspelledWords[lang].indexOf(msg.misspelled) === -1) {
                 that.misspelledWords[lang].push(msg.misspelled);
             }
+
+            // Refresh spellcheck mode
+            that.cm.setOption("mode", "abr-spellcheck-on");
         }
     });
 
