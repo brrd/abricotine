@@ -38,11 +38,17 @@ function AbrDocument () {
     var tocWorker = cp.fork(__dirname + "/toc-worker.js");
     
     // Run nspell in a background thread
-    this.misspelledWords = [];
+    this.misspelledWords = {};
     this.spellcheckerWorker = cp.fork(__dirname + "/spellchecker-worker.js");
     this.spellcheckerWorker.on("message", function(msg) {
         if (msg.misspelled) {
-            that.misspelledWords.push(msg.misspelled);
+            var lang = that.spellcheckerLang;
+            if (!lang) return;
+            if (!that.misspelledWords[lang]) {
+                that.misspelledWords[lang] = [msg.misspelled];
+            } else if (that.misspelledWords[lang].indexOf(msg.misspelled) === -1) {
+                that.misspelledWords[lang].push(msg.misspelled);
+            }
         }
     });
 
@@ -852,17 +858,17 @@ AbrDocument.prototype = {
     },
 
     // Spellchecker
-    setDictionary: function (lang, path) {
-        var that = this;
-        this.misspelledWords = [];
+    setDictionary: function (lang) {
         if (lang) {
-            this.spellcheckerWorker.send({ dictionary: constants.path.dictionaries + "/" + lang });
+            this.spellcheckerWorker.send({ dictionary: constants.path.dictionaries + "/" + lang, lang });
             // Refresh CodeMirror highlight + enable spelling
             this.cm.setOption("mode", "abr-spellcheck-on");
+            this.spellcheckerLang = lang;
             this.setConfig("spellchecker:active", true);
             this.setConfig("spellchecker:language", lang);
         } else {
             // Disable spelling
+            this.spellcheckerWorker.send({ dictionary: false });
             this.cm.setOption("mode", "abr-spellcheck-off");
             this.setConfig("spellchecker:active", false);
         }
@@ -870,8 +876,9 @@ AbrDocument.prototype = {
 
     // return true is misspelled
     spellcheck: function(word) {
+        var lang = this.spellcheckerLang;
         // Check if the word is in misspelled list...
-        if (this.misspelledWords.indexOf(word) > -1) {
+        if (this.misspelledWords[lang] && this.misspelledWords[lang].indexOf(word) > -1) {
             return true;
         }
         // ...otherwise submit this word for the next check
