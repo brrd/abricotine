@@ -20,7 +20,6 @@
   "scripts": {
     "deb": "node scripts/deb.js",
     "packager": "node scripts/packager.js",
-    "postinstall": "electron-rebuild",
     "start": "electron .",
     "test": "echo \"Error: no test specified\" && exit 1",
     "winsetup": "node scripts/winsetup.js"
@@ -39,7 +38,6 @@
     "deep-equal": "1.0.1",
     "deep-extend": "0.6.0",
     "electron": "6.1.10",
-    "electron-rebuild": "1.7.3",
     "electron-squirrel-startup": "1.0.0",
     "electron-window-state": "5.0.3",
     "font-awesome": "4.7.0",
@@ -54,17 +52,16 @@
     "mkdirp": "0.5.1",
     "nconf": "0.8.4",
     "ncp": "2.0.0",
+    "nspell": "2.1.5",
     "parse-filepath": "0.6.3",
     "request": "2.82.0",
     "rimraf": "2.6.1",
     "salvator": "0.2.0",
-    "simple-virtual-dom": "0.1.9",
-    "spellchecker": "3.7.0"
+    "simple-virtual-dom": "0.1.9"
   },
   "devDependencies": {
     "commander": "2.9.0",
     "electron-packager": "13.0.1",
-    "electron-rebuild": "1.7.3",
     "electron-winstaller": "4.0.0",
     "node-abi": "2.15.0",
     "pretty-ms": "2.1.0",

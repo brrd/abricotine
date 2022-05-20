@@ -1,0 +1,32 @@
+{
+  "name": "dictionary-nb",
+  "version": "2.2.0",
+  "description": "Norwegian Bokmål spelling dictionary",
+  "license": "GPL-2.0",
+  "keywords": [
+    "spelling",
+    "myspell",
+    "hunspell",
+    "dictionary",
+    "nb",
+    "norwegian",
+    "bokmål"
+  ],
+  "repository": "https://github.com/wooorm/dictionaries/tree/main/dictionaries/nb",
+  "bugs": "https://github.com/wooorm/dictionaries/issues",
+  "funding": {
+    "type": "github",
+    "url": "https://github.com/sponsors/wooorm"
+  },
+  "author": "Titus Wormer <tituswormer@gmail.com> (https://wooorm.com)",
+  "contributors": [
+    "Titus Wormer <tituswormer@gmail.com> (https://wooorm.com)",
+    "Thomas Beverley <tom.beverley101@gmail.com>"
+  ],
+  "files": [
+    "index.js",
+    "index.aff",
+    "index.dic",
+    "index.d.ts"
+  ]
+}

@@ -20,7 +20,7 @@ var remote = require("electron").remote,
     parsePath = require("parse-filepath"),
     pathModule = require("path"),
     shell = require("electron").shell,
-    spellchecker = require("spellchecker"),
+    nspell = require("nspell"),
     cp = require("child_process");
 
 function AbrDocument () {
@@ -34,6 +34,8 @@ function AbrDocument () {
 
     // Autosave flag
     this.autosave = false;
+
+    this.spellchecker = null;
 
     // Run this in a background thread
     var worker = cp.fork(__dirname + "/toc-worker.js");
@@ -845,22 +847,26 @@ AbrDocument.prototype = {
 
     // Spellchecker
     setDictionary: function (lang, path) {
+        var that = this;
         if (lang) {
-            spellchecker.setDictionary(lang, path);
+            var dictionary = require(constants.path.dictionaries + "/" + lang);
+            dictionary(function(err, dict) {
+                if (err) {
+                    throw err
+                }
+                that.spellchecker = nspell(dict);
+            });
+
             // Refresh CodeMirror highlight + enable spelling
             this.cm.setOption("mode", "abr-spellcheck-on");
             this.setConfig("spellchecker:active", true);
             this.setConfig("spellchecker:language", lang);
         } else {
             // Disable spelling
+            that.spellchecker = null;
             this.cm.setOption("mode", "abr-spellcheck-off");
             this.setConfig("spellchecker:active", false);
         }
-    },
-
-    // Returns the spellchecking function
-    getSpellcheckFunc: function () {
-        return spellchecker.isMisspelled;
     },
 
     // Scale text

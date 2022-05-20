@@ -1,0 +1,33 @@
+{
+  "name": "dictionary-de-ch",
+  "version": "2.1.0",
+  "description": "German (Switzerland) spelling dictionary",
+  "license": "(GPL-2.0 OR GPL-3.0)",
+  "keywords": [
+    "spelling",
+    "myspell",
+    "hunspell",
+    "dictionary",
+    "de",
+    "ch",
+    "german",
+    "switzerland"
+  ],
+  "repository": "https://github.com/wooorm/dictionaries/tree/main/dictionaries/de-CH",
+  "bugs": "https://github.com/wooorm/dictionaries/issues",
+  "funding": {
+    "type": "github",
+    "url": "https://github.com/sponsors/wooorm"
+  },
+  "author": "Titus Wormer <tituswormer@gmail.com> (https://wooorm.com)",
+  "contributors": [
+    "Titus Wormer <tituswormer@gmail.com> (https://wooorm.com)",
+    "Thomas Beverley <tom.beverley101@gmail.com>"
+  ],
+  "files": [
+    "index.js",
+    "index.aff",
+    "index.dic",
+    "index.d.ts"
+  ]
+}

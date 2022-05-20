@@ -9,9 +9,7 @@ var constants = require.main.require("./constants"),
     fs = require("fs"),
     langmap = require("langmap"),
     Menu = require("electron").Menu,
-    pathModule = require("path"),
-    spellchecker = require('spellchecker'),
-    sysDictionaries = spellchecker.getAvailableDictionaries();
+    pathModule = require("path");
 
 function getConfig (config, key) {
     if (config && typeof config.get === "function") {
@@ -126,22 +124,13 @@ function spellingMenuGenerator (submenu, config) {
     }
     var radioChecked = false,
         langMenu;
-    if (sysDictionaries.length !== 0) {
-        // System builtin dictionaries
-        for (var i=0; i<sysDictionaries.length; i++) {
-            langMenu = getLangMenu(sysDictionaries[i], null, config);
+    var hunspellDictionaries = getHunspellDictionaries();
+    if (hunspellDictionaries.length !== 0) {
+        for (var lang in hunspellDictionaries) {
+            langMenu = getLangMenu(lang, hunspellDictionaries[lang], config);
             if (langMenu) submenu.push(langMenu);
-        }
-    } else {
-        // Hunspell dictionaries
-        var hunspellDictionaries = getHunspellDictionaries();
-        if (hunspellDictionaries.length !== 0) {
-            for (var lang in hunspellDictionaries) {
-                langMenu = getLangMenu(lang, hunspellDictionaries[lang], config);
-                if (langMenu) submenu.push(langMenu);
-                if (getConfig(config, "spellchecker:language") === lang) {
-                    config.set("spellchecker:src", hunspellDictionaries[lang]); // This src config key is used for init the spellchecker in abrDoc (renderer)
-                }
+            if (getConfig(config, "spellchecker:language") === lang) {
+                config.set("spellchecker:src", hunspellDictionaries[lang]); // This src config key is used for init the spellchecker in abrDoc (renderer)
             }
         }
     }
