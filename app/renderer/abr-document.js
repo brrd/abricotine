@@ -37,9 +37,23 @@ function AbrDocument () {
     // Run toc building in a background thread
     var tocWorker = cp.fork(__dirname + "/toc-worker.js");
     
+    // Nspell
     // Run nspell in a background thread
     this.misspelledWords = {};
     this.spellcheckerWorker = cp.fork(__dirname + "/spellchecker-worker.js");
+    // Refresh only when the whole spellchecking job is done
+    var refreshSpellchecker = (function() {
+        var timeoutId;
+        return function() {
+            if (timeoutId) {
+                clearTimeout(timeoutId);
+            }
+            timeoutId = window.setTimeout(function() {
+                that.cm.setOption("mode", "abr-spellcheck-on");
+            }, 500);
+        }
+    })();
+    // Store misspelled words in an object
     this.spellcheckerWorker.on("message", function(msg) {
         if (!that.cm.getOption("mode", "abr-spellcheck-on")) return;
 
@@ -53,7 +67,7 @@ function AbrDocument () {
             }
 
             // Refresh spellcheck mode
-            that.cm.setOption("mode", "abr-spellcheck-on");
+            refreshSpellchecker();
         }
     });
 
