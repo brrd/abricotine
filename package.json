@@ -57,6 +57,7 @@
     "simple-virtual-dom": "0.1.9"
   },
   "devDependencies": {
+    "cli-truncate": "2.1.0",
     "commander": "2.9.0",
     "electron": "18.2.4",
     "electron-builder": "23.0.3",
