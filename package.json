@@ -18,11 +18,9 @@
     "editor"
   ],
   "scripts": {
-    "deb": "node scripts/deb.js",
-    "packager": "node scripts/packager.js",
     "start": "electron .",
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "winsetup": "node scripts/winsetup.js"
+    "pack": "electron-builder --dir",
+    "dist": "electron-builder"
   },
   "author": {
     "name": "Thomas Brouard",
@@ -38,8 +36,6 @@
     "codemirror": "5.65.4",
     "deep-equal": "1.0.1",
     "deep-extend": "0.6.0",
-    "electron": "18.2.4",
-    "electron-squirrel-startup": "1.0.0",
     "electron-window-state": "5.0.3",
     "font-awesome": "4.7.0",
     "glob": "5.0.15",
@@ -62,13 +58,33 @@
   },
   "devDependencies": {
     "commander": "2.9.0",
-    "electron-packager": "13.0.1",
-    "electron-winstaller": "4.0.0",
+    "electron": "18.2.4",
+    "electron-builder": "23.0.3",
     "pretty-ms": "2.1.0",
     "semver": "5.3.0"
   },
-  "optionalDependencies": {
-    "electron-installer-debian": "3.0.0"
+  "build": {
+    "appId": "com.electron.abricotine",
+    "productName": "Abricotine",
+    "linux": {
+      "category": "Office",
+      "icon": "icons/",
+      "mimeTypes": [
+        "text/x-markdown",
+        "text/markdown"
+      ],
+      "target": [
+        "rpm",
+        "deb"
+      ]
+    },
+    "mac": {
+      "category": "public.app-category.productivity",
+      "icon": "icons/abricotine.icns"
+    },
+    "win": {
+      "icon": "icons/abricotine.ico"
+    }
   },
   "abricotine": {
     "schema": 6

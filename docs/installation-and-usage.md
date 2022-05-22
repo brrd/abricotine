@@ -45,13 +45,9 @@ On Fedora you will also have to install the `libXScrnSaver` package: `yum instal
 
 ### Packaging
 
-Run `$ npm run packager` from the built project to package the app for your os. Packages are created in the `dist` directory.
+Run `$ npm run dist` from the built project to package the app for your os. Packages are created in the `dist` directory.
 
 Once packages are built you can use the following commands:
 
 * `$ npm run winsetup`: create Windows installer.
 * `$ npm run deb`: create a Debian package.
-
-#### Packaging for another os
-
-If you need to target another platform or arch, your can use `$ npm run packager -- -p <platform> -a <arch>`. See `$ npm run packager -- --help` for more information about allowed parameters.
