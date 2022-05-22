@@ -4,9 +4,6 @@ on:
   push:
     tags:
       - '*.*.*'
-    tags-ignore:
-      - '0.*.*'
-      - '1.0.*'
 
 jobs:
   release:
