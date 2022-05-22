@@ -93,7 +93,7 @@ function askForReset (callback) {
     //TODO use Localizer from AbrApplication
     var localizer = new Localizer();
 
-    var userChoice = dialog.showMessageBox({
+    var userChoice = dialog.showMessageBoxSync({
         title: localizer.get("reset-dialog"),
         message: localizer.get("reset-dialog-message"),
         type: "question",
