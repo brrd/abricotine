@@ -80,10 +80,14 @@ AbrWindow.prototype = {
             autoHideMenuBar: typeof showMenubar !== "undefined" ? !showMenubar : false,
             webPreferences: { 
                 nodeIntegration: true,
-                webviewTag: true
+                webviewTag: true,
+                contextIsolation: false
             }
         });
         mainWindowState.manage(win);
+
+        // Enable remote module
+        require("@electron/remote/main").enable(win.webContents);
 
         // Register window in abrWin
         this.browserWindow = win;

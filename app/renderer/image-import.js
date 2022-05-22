@@ -4,7 +4,7 @@
 *   Licensed under GNU-GPLv3 <http://www.gnu.org/licenses/gpl.html>
 */
 
-var remote = require("electron").remote,
+var remote = require("@electron/remote"),
     files = remote.require("./files.js"),
     isUrl = require("is-url"),
     pathModule = require("path"),

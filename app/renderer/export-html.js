@@ -4,11 +4,11 @@
 *   Licensed under GNU-GPLv3 <http://www.gnu.org/licenses/gpl.html>
 */
 
-var remote = require("electron").remote,
+var remote = require("@electron/remote"),
     constants = remote.require("./constants"),
     files = remote.require("./files.js"),
     isUrl = require("is-url"),
-    md2html = require.main.require("./md2html.js"),
+    md2html = require("./md2html.js"),
     parsePath = require("parse-filepath"),
     pathModule = require("path");
 

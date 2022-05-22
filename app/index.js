@@ -13,6 +13,9 @@ var electron = require("electron"),
     dialog = electron.dialog,
     session = electron.session;
 
+// Remote module
+require('@electron/remote/main').initialize();
+
 var abrApp = null,
     osxOpenFilePaths = [];
 
@@ -69,7 +72,11 @@ app.on("ready", function () {
     }
 
     // Forbid unexpected Content-Types in received headers in default session (= editor) to protect against stegosploit (#254). Content types which don't start with "image/" will be deleted from header.
-    session.defaultSession.webRequest.onHeadersReceived((details, callback) => {
+    var filter = {
+        // Allow devtool:// protocol
+        urls: ["http://*/*", "https://*/*", "ws://*/*", "wss://*/*", "ftp://*/*"]
+    }
+    session.defaultSession.webRequest.onHeadersReceived(filter, (details, callback) => {
         var responseHeaders = details.responseHeaders;
         var key = Object.keys(responseHeaders).find(k => k.toLowerCase() === "content-type");
         var contentType = responseHeaders[key] || [];

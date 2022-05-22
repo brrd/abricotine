@@ -7,7 +7,7 @@
 /* jshint esversion: 6 */
 // TODO: support multiple selections
 
-const styles = require.main.require("./cm-markdown-styles.js");
+const styles = require("./cm-markdown-styles.js");
 
 module.exports = function (CodeMirror) {
   CodeMirror.prototype.format = function (name, param) {

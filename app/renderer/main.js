@@ -4,7 +4,7 @@
 *   Licensed under GNU-GPLv3 <http://www.gnu.org/licenses/gpl.html>
 */
 
-var AbrDocument = require.main.require("./abr-document.js");
+var AbrDocument = require("./abr-document.js");
 
 $( function () {
     var abrDoc = new AbrDocument();

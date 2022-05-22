@@ -4,7 +4,7 @@
 *   Licensed under GNU-GPLv3 <http://www.gnu.org/licenses/gpl.html>
 */
 
-var remote = require("electron").remote,
+var remote = require("@electron/remote"),
     baseMode = require("./cm-base-mode.js"),
     constants = remote.require("./constants.js"),
     glob = require("glob"),
@@ -24,7 +24,7 @@ function batchRequire (cwd, pattern, cbSingle, cbAll) {
             promises = [],
             getAPromise = function (modPath, callback) {
                 return new Promise (function (resolve, reject) {
-                    var mod = require.main.require(modPath);
+                    var mod = require(modPath);
                     if (typeof callback === "function") {
                         callback(mod, modPath);
                     }
