@@ -180,7 +180,7 @@ var commands = {
 
     editConfigFile: function(win, abrDoc, cm) {
         var dirPath = constants.path.userConfig;
-        shell.openItem(dirPath);
+        shell.openPath(dirPath);
     },
 
     /* Format */
@@ -331,17 +331,17 @@ var commands = {
 
     openConfigDir: function(win, abrDoc, cm) {
         var dirPath = constants.path.userData;
-        shell.openItem(dirPath);
+        shell.openPath(dirPath);
     },
 
     openTempDir: function(win, abrDoc, cm) {
         var dirPath = constants.path.tmp;
-        shell.openItem(dirPath);
+        shell.openPath(dirPath);
     },
 
     openAppDir: function(win, abrDoc, cm) {
         var dirPath = constants.path.app;
-        shell.openItem(dirPath);
+        shell.openPath(dirPath);
     },
 
     execCommand: function(win, abrDoc, cm) {

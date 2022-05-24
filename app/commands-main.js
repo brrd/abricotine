@@ -28,12 +28,12 @@ var commands = {
 
     editConfigFile: function (abrApp) {
         var dirPath = constants.path.userConfig;
-        shell.openItem(dirPath);
+        shell.openPath(dirPath);
     },
 
     openConfigDir: function (abrApp) {
         var dirPath = constants.path.userData;
-        shell.openItem(dirPath);
+        shell.openPath(dirPath);
     },
 
     about: function (abrApp) {

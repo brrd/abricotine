@@ -330,7 +330,7 @@ function AbrDocument () {
                           url = "http://" + url;
                         }
                     }
-                    const openLink = shell.openPath || shell.openItem;
+                    const openLink = shell.openPath;
                     openLink(url);
                 };
 
