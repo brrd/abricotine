@@ -10,8 +10,7 @@ var app = require("electron").app,
     appPath = app.getAppPath(),
     documentsPath = app.getPath("documents"),
     userDataPath = pathModule.join(app.getPath("userData"), "/app"),
-    tmpPath = pathModule.join(app.getPath("temp"), "/Abricotine"),
-    isAsar = appPath.match(/\.asar$/) !== null;
+    tmpPath = pathModule.join(app.getPath("temp"), "/Abricotine");
 
 module.exports = {
     appName: "Abricotine",
@@ -21,7 +20,7 @@ module.exports = {
     path: {
         app: appPath,
         icon: pathModule.join(appPath, "/icons/abricotine.png"),
-        defaultDir: isAsar ? appPath + ".unpacked/default" :  appPath + "/default",
+        defaultDir:  appPath + "/default",
         dictionaries: pathModule.join(userDataPath, "/dictionaries"),
         documents: documentsPath,
         languages: pathModule.join(userDataPath, "/lang"),
