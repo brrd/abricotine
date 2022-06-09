@@ -20,7 +20,7 @@ module.exports = {
     path: {
         app: appPath,
         icon: pathModule.join(appPath, "/icons/abricotine.png"),
-        defaultDir:  appPath + "/default",
+        defaultDir: (app.isPackaged ? process.resourcesPath : appPath) + "/default",
         dictionaries: pathModule.join(userDataPath, "/dictionaries"),
         documents: documentsPath,
         languages: pathModule.join(userDataPath, "/lang"),

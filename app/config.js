@@ -5,7 +5,7 @@
 */
 
 var constants = require.main.require("./constants.js"),
-    defaultConfig = require.main.require("../default/config.json"),
+    defaultConfig = require.main.require(constants.path.defaultDir + "/config.json"),
     nconf = require('nconf');
 
 // Config creation
