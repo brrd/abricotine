@@ -1,4 +1,6 @@
-**:warning: Abricotine is discontinued.** Please switch to another editor. [Read more](https://github.com/brrd/abricotine/issues/347).
+# **:warning: Abricotine is discontinued.**
+
+Please switch to another editor. [Read more](https://github.com/brrd/abricotine/issues/347).
 
 ***
 
